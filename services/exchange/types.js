@@ -1,0 +1,14 @@
+export const GET_RATES_INIT = "exchange/GET_RATES_INIT";
+export const GET_RATES_SUCCESS = "exchange/GET_RATES_SUCCESS";
+
+export const CREATE_ORDER_INIT = "exchange/CREATE_ORDER_INIT";
+export const CREATE_ORDER_SUCCESS = "exchange/CREATE_ORDER_SUCCESS";
+
+export const COMPLETE_ORDER_INIT = "exchange/COMPLETE_ORDER_INIT";
+export const COMPLETE_ORDER_SUCCESS = "exchange/COMPLETE_ORDER_SUCCESS";
+
+export const CANCEL_ORDER_INIT = "CANCEL_ORDER_INIT";
+export const CANCEL_ORDER_SUCCESS = "CANCEL_ORDER_SUCCESS";
+
+export const CLEAR_ERROR = "exchange/CLEAR_ERROR";
+export const API_ERROR = "exchange/EXCHANGE_ERROR";
