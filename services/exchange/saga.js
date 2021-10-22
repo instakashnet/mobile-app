@@ -33,6 +33,22 @@ function* createOrder({ values }) {
   }
 }
 
+function* watchCompleteOrder() {
+  yield takeLatest(types.COMPLETE_ORDER_INIT, completeOrder);
+}
+
+function* completeOrder({ values, orderId }) {
+  try {
+    const res = yield exchangeInstance.put(`/order/step-3/${orderId}`, values);
+    if (res.status === 200) {
+      yield put(actions.completeOrderSuccess(res.data));
+      yield call([RootNavigation, "push"], "TransferCode");
+    }
+  } catch (error) {
+    yield put(actions.exchangeError(error.message));
+  }
+}
+
 function* watchCancelOrder() {
   yield takeLatest(types.CANCEL_ORDER_INIT, cancelOrder);
 }
@@ -51,6 +67,21 @@ function* cancelOrder({ orderType, orderId }) {
   }
 }
 
+function* watchProcessCode() {
+  yield takeLatest(types.PROCESS_CODE_INIT, processCode);
+}
+
+function* processCode({ values, orderId, showModal }) {
+  console.log(values, orderId);
+
+  try {
+    const res = yield exchangeInstance.put(`order/step-4/${orderId}`, values);
+    console.log(res);
+  } catch (error) {
+    yield put(actions.exchangeError(error.message));
+  }
+}
+
 export function* exchangeSaga() {
-  yield all([fork(watchGetRates), fork(watchCreateOrder), fork(watchCancelOrder)]);
+  yield all([fork(watchGetRates), fork(watchCreateOrder), fork(watchCancelOrder), fork(watchCompleteOrder), fork(watchProcessCode)]);
 }

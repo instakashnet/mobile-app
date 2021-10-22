@@ -16,3 +16,10 @@ export const bankIcons = [
     uri: require("../../../assets/banks/scotiabank-icon.png"),
   },
 ];
+
+export const bankLogos = [
+  {
+    bankName: "bcp",
+    uri: require("../../../assets/banks/bcp-logo.png"),
+  },
+];

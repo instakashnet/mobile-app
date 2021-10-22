@@ -1,8 +1,9 @@
-import { put, fork, all, takeEvery } from "redux-saga/effects";
+import { put, fork, all, call, takeEvery, takeLatest } from "redux-saga/effects";
 import camelize from "camelize";
 import * as types from "./types";
 import * as actions from "./actions";
 import { accountsInstance } from "../accounts.service";
+import * as RootNavigator from "../../navigation/root.navigation";
 
 function* watchGetBanks() {
   yield takeEvery(types.GET_BANKS_INIT, getBanks);
@@ -44,6 +45,22 @@ function* getAccounts({ accType }) {
   }
 }
 
+function* watchAddAccount() {
+  yield takeLatest(types.ADD_ACCOUNT_INIT, addAccount);
+}
+
+function* addAccount({ values }) {
+  try {
+    const res = yield accountsInstance.post("/accounts", values);
+    if (res.status === 201) {
+      yield put(actions.addAccountSuccess());
+      yield call([RootNavigator, "goBack"]);
+    }
+  } catch (error) {
+    yield put(actions.accountsError(error.message));
+  }
+}
+
 export function* accountsSaga() {
-  yield all([fork(watchGetBanks), fork(watchGetCurrencies), fork(watchGetAccounts)]);
+  yield all([fork(watchGetBanks), fork(watchGetCurrencies), fork(watchGetAccounts), fork(watchAddAccount)]);
 }

@@ -28,6 +28,15 @@ export const getAccountsSuccess = (accounts) => ({
   accounts,
 });
 
+export const addAccount = (values) => ({
+  type: types.ADD_ACCOUNT_INIT,
+  values,
+});
+
+export const addAccountSuccess = () => ({
+  type: types.ADD_ACCOUNT_SUCCESS,
+});
+
 export const clearError = () => ({
   type: types.CLEAR_ERROR,
 });

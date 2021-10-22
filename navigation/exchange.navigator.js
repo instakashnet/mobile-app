@@ -11,6 +11,7 @@ import { AddAccountTabs } from "./tabs/add-account-tabs.navigatior";
 import { CalculatorScreen } from "../features/exchange/screens/calculator.screen";
 import { AccountsScreen } from "../features/exchange/screens/accounts.screen";
 import { AccountSelectScreen } from "../features/exchange/screens/account-select.screen";
+import { TransferCodeScreen } from "../features/exchange/screens/transfer-code.screen";
 
 const ExchangeStack = createStackNavigator();
 
@@ -21,6 +22,7 @@ export const ExchangeNavigator = () => {
       <ExchangeStack.Screen name="Accounts" options={{ headerLeft: null }} component={AccountsScreen} />
       <ExchangeStack.Screen name="AccountSelect" component={AccountSelectScreen} />
       <ExchangeStack.Screen name="AddAccount" options={{ headerTitle: "Agregar cuenta" }} component={AddAccountTabs} />
+      <ExchangeStack.Screen name="TransferCode" options={{ headerTitle: "Completar operación", headerLeft: null }} component={TransferCodeScreen} />
     </ExchangeStack.Navigator>
   );
 };

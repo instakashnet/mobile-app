@@ -1,9 +1,10 @@
 import axios from "axios";
+import { ACCOUNTS_DEV_API } from "@env";
 import { reqInterceptor, resInterceptor } from "./interceptors";
 
 export const accountsInstance = axios.create({
-  baseURL: "https://accounts-service-43nnl.ondigitalocean.app/accounts-service/api/v1/client",
-  timeout: 30000,
+  baseURL: `${ACCOUNTS_DEV_API}/client`,
+  timeout: 45000,
 });
 
 reqInterceptor(accountsInstance);

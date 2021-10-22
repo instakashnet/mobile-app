@@ -1,5 +1,4 @@
 import { all, call, put, fork, takeLatest, takeEvery } from "redux-saga/effects";
-import { AUTH_API_DEV } from "@env";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import camelize from "camelize";
@@ -69,7 +68,7 @@ function* registerUser({ values }) {
   };
 
   try {
-    const res = yield authInstance.post(`${AUTH_API_DEV}/auth/signup`, registerValues);
+    const res = yield authInstance.post(`/auth/signup`, registerValues);
     if (res.status === 201) {
       yield call(setAuthToken, res.data);
       yield put(actions.registerUserSuccess());
@@ -86,7 +85,7 @@ function* watchLoginUser() {
 
 function* loginUser({ values }) {
   try {
-    const res = yield authInstance.post(`${AUTH_API_DEV}/auth/signin`, values);
+    const res = yield authInstance.post(`/auth/signin`, values);
     if (res.status === 200) {
       yield call(setAuthToken, res.data);
       yield put(actions.loadUser());

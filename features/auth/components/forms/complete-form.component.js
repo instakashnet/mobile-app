@@ -35,7 +35,7 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
   });
 
   // HANDLERS
-  const onSelectChange = (value, name) => formik.setFieldValue(name, value);
+  const onSelectChange = (name, value) => formik.setFieldValue(name, value);
 
   return (
     <>

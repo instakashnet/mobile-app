@@ -7,11 +7,13 @@ import { AddThirdAccountScreen } from "../../features/accounts/screens/third-acc
 
 const TopTabsNavigator = createMaterialTopTabNavigator();
 
-export const AddAccountTabs = () => {
+export const AddAccountTabs = ({ route }) => {
+  const currencyId = route.params ? route.params.currencyToReceive : null;
+
   return (
     <TopTabsNavigator.Navigator>
-      <TopTabsNavigator.Screen name="AddPersonalAccount" options={{ tabBarLabel: "Personal" }} component={AddPersonalAccountScreen} />
-      <TopTabsNavigator.Screen name="AddThirdAccount" options={{ tabBarLabel: "De tercero" }} component={AddThirdAccountScreen} />
+      <TopTabsNavigator.Screen name="AddPersonalAccount" options={{ tabBarLabel: "Personal" }} initialParams={{ currencyId }} component={AddPersonalAccountScreen} />
+      <TopTabsNavigator.Screen name="AddThirdAccount" options={{ tabBarLabel: "De tercero" }} initialParams={{ currencyId }} component={AddThirdAccountScreen} />
     </TopTabsNavigator.Navigator>
   );
 };

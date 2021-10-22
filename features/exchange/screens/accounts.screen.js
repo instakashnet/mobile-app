@@ -6,7 +6,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { cancelOrder } from "../../../store/actions";
+import { cancelOrder, completeOrder } from "../../../store/actions";
 
 // ASSETS
 import { bankIcons } from "../relative-paths/images";
@@ -15,7 +15,6 @@ import { bankIcons } from "../relative-paths/images";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
-import { Input } from "../../../components/forms/input.component";
 import { SelectAccount } from "../components/forms/select-account.component";
 import { Button } from "../../../components/UI/button.component";
 import { ExchangeWrapper } from "../components/exchange.styles";
@@ -28,9 +27,16 @@ export const AccountsScreen = ({ navigation }) => {
     [bankSelected, setBankSelected] = useState(null),
     [accountSelected, setAccountSelected] = useState(null),
     formik = useFormik({
-      initialValues: { bank_id: bankSelected ? bankSelected.id : "", account_to_id: accountSelected ? accountSelected.id : "", funds_origin: "" },
+      initialValues: {
+        bank_id: bankSelected ? bankSelected.id : "",
+        account_to_id: accountSelected ? accountSelected.id : "",
+        funds_origin: "",
+        couponName: null,
+        kashApplied: "no",
+        kashUsed: "",
+      },
       enableReinitialize: true,
-      onSubmit: (values) => console.log(values),
+      onSubmit: (values) => dispatch(completeOrder(values, order.id)),
     });
 
   // EFFECTS
@@ -65,7 +71,7 @@ export const AccountsScreen = ({ navigation }) => {
       <ExchangeWrapper>
         <Text variant="title">Completa la información</Text>
         <Text style={{ textAlign: "center" }}>Debes seleccionar el banco donde envias y la cuando donde vas a recibir.</Text>
-        <Spacer vartian="top" size={6} />
+        <Spacer vartian="top" size={3} />
         <SelectAccount label="¿Desde que banco nos envias tu dinero?" selected={!!bankSelected} onSelect={onSelect.bind(null, "bank")}>
           {bankSelected ? (
             <BankDescription>
@@ -78,7 +84,7 @@ export const AccountsScreen = ({ navigation }) => {
             <Text variant="body">Selecciona un banco</Text>
           )}
         </SelectAccount>
-        <Spacer vartian="top" size={5} />
+        <Spacer vartian="top" size={3} />
         <SelectAccount label="¿En que cuenta recibirás tu cambio?" selected={!!accountSelected} onSelect={onSelect.bind(null, "account")}>
           {accountSelected ? (
             <BankDescription>
@@ -92,9 +98,7 @@ export const AccountsScreen = ({ navigation }) => {
             <Text variant="body">Selecciona una cuenta</Text>
           )}
         </SelectAccount>
-        <Spacer vartian="top" size={3} />
-        {order.amountSent >= 5000 && order.currencyReceivedId === 1}
-        <Spacer vartian="top" size={4} />
+        <Spacer vartian="top" size={2} />
         <Button onPress={formik.handleSubmit} loading={isProcessing} disabled={!formik.isValid || isProcessing}>
           Continuar
         </Button>

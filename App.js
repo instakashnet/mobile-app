@@ -11,10 +11,10 @@ import { store } from "./store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    "Lato-Regular": require("./fonts/lato/Lato-Regular.ttf"),
-    "Lato-Bold": require("./fonts/lato/Lato-Bold.ttf"),
-    "Lato-Black": require("./fonts/lato/Lato-Black.ttf"),
-    "Roboto-Regular": require("./fonts/roboto/Roboto-Regular.ttf"),
+    "lato-regular": require("./fonts/lato/lato-regular.ttf"),
+    "lato-bold": require("./fonts/lato/lato-bold.ttf"),
+    "lato-black": require("./fonts/lato/lato-black.ttf"),
+    "roboto-regular": require("./fonts/roboto/roboto-regular.ttf"),
   });
 
   if (!fontsLoaded) {

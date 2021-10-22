@@ -22,7 +22,7 @@ export const AccountWrapper = styled.TouchableOpacity.attrs({
 
 export const AccountSelect = styled.View`
   width: 100%;
-  height: 53px;
+  height: 50px;
   background-color: #fff;
   padding-horizontal: ${({ theme }) => theme.space[4]};
   border-radius: 3px;
@@ -38,7 +38,7 @@ export const AccountSelect = styled.View`
 
 export const AccountsFlatList = styled(FlatList).attrs({
   contentContainerStyle: {
-    minHeight: 325,
+    minHeight: 200,
   },
 })`
   flex-grow: 0;

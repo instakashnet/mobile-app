@@ -7,5 +7,8 @@ export const GET_CURRENCIES_SUCCESS = "accounts/GET_CURRENCIES_SUCCESS";
 export const GET_ACCOUNTS_INIT = "GET_ACCOUNTS_INIT";
 export const GET_ACCOUNTS_SUCCESS = "GET_ACCOUNTS_SUCCESS";
 
+export const ADD_ACCOUNT_INIT = "ADD_ACCOUNT_INIT";
+export const ADD_ACCOUNT_SUCCESS = "ADD_ACCOUNT_SUCCESS";
+
 export const CLEAR_ERROR = "accounts/CLEAR_ERROR";
 export const API_ERROR = "accounts/ACCOUNTS_ERROR";

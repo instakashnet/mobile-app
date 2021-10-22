@@ -6,7 +6,7 @@ import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../store/actions";
 
-const StyledModal = styled(ModalComponent).attrs(({ theme }) => ({
+const StyledModal = styled(ModalComponent).attrs({
   contentContainerStyle: {
     width: "80%",
     backgroundColor: "#fff",
@@ -17,9 +17,9 @@ const StyledModal = styled(ModalComponent).attrs(({ theme }) => ({
     alignSelf: "center",
     minHeight: 150,
   },
-}))``;
+})``;
 
-export const Modal = ({ children }) => {
+export const Modal = ({ children, onClose }) => {
   const dispatch = useDispatch();
   const { showModal } = useSelector((state) => state.utilsReducer);
 
@@ -27,7 +27,7 @@ export const Modal = ({ children }) => {
   const onDismiss = () => dispatch(closeModal());
 
   return (
-    <StyledModal visible={showModal} onDismiss={onDismiss}>
+    <StyledModal visible={showModal} onDismiss={onClose ? onClose : onDismiss}>
       {children}
     </StyledModal>
   );

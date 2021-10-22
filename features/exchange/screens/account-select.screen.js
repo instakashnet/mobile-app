@@ -52,15 +52,15 @@ export const AccountSelectScreen = ({ route, navigation }) => {
       <ExchangeWrapper>
         <Text variant="title">{type === "bank" ? "Selecciona un banco" : "Selecciona una cuenta"}</Text>
         <Text>Debes seleccionar {type === "bank" ? "el banco donde nos enviarás los fondos" : "la cuenta donde recibirás "}</Text>
-        <Spacer variant="top" size={3} />
+        <Spacer variant="top" />
         {type === "bank" ? (
           <BanksList banks={banks} bankSelected={bankSelected} onSelect={onBankSelect} />
         ) : (
           <AccountsList accounts={accounts} accountSelected={accountSelected} onSelect={onAccountSelect} />
         )}
-        <Spacer variant="top" size={3} />
-        <AddAccountButton onPress={() => navigation.navigate("AddAccount", { currencyToReceive })} />
-        <Spacer variant="top" size={2} />
+        <Spacer variant="top" />
+        {type === "account" && <AddAccountButton onPress={() => navigation.navigate("AddAccount", { currencyToReceive })} />}
+        <Spacer variant="top" />
         <Button onPress={onConfirm} disabled={(type === "bank" && !bankSelected) || (type === "account" && !accountSelected)}>
           Confirmar
         </Button>

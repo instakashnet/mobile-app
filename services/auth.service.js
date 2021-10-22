@@ -1,9 +1,10 @@
 import axios from "axios";
+import { AUTH_DEV_API } from "@env";
 import { reqInterceptor, resInterceptor } from "./interceptors";
 
 export const authInstance = axios.create({
-  baseURL: "https://authentication-service-mznec.ondigitalocean.app/auth-service/api/v1/client",
-  timeout: 30000,
+  baseURL: `${AUTH_DEV_API}/client`,
+  timeout: 45000,
 });
 
 reqInterceptor(authInstance);

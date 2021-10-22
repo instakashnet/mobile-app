@@ -1,4 +1,4 @@
-import { createNavigationContainerRef, StackActions } from "@react-navigation/native";
+import { createNavigationContainerRef, StackActions, CommonActions } from "@react-navigation/native";
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -12,4 +12,8 @@ export function push(...args) {
 
 export function popToTop() {
   if (navigationRef.isReady()) navigationRef.dispatch(StackActions.popToTop());
+}
+
+export function goBack() {
+  if (navigationRef.isReady()) navigationRef.dispatch(CommonActions.goBack());
 }

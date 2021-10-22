@@ -44,12 +44,13 @@ export const TabsNavigator = () => {
         tabBarIcon: setBarIcon(route),
         tabBarStyle: {
           height: 80,
-          paddingTop: 10,
-          paddingBottom: 20,
+          paddingTop: 8,
+          paddingBottom: 18,
         },
         tabBarActiveTintColor: "#0D8284",
         tabBarInactiveTintColor: "#AFAFAF",
-      })}>
+      })}
+    >
       <Tabs.Screen
         name="Home"
         options={{ tabBarLabel: "Inicio", headerShown: true, ...headerOptions, headerLeft, headerTitle: (props) => <Logo width={100} {...props} /> }}

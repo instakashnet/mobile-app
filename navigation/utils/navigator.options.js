@@ -10,7 +10,7 @@ export const headerOptions = {
   headerTintColor: theme.colors.text.title,
   headerBackTitleStyle: { fontSize: 12 },
   headerStyle: {
-    height: Platform.OS === "ios" ? 100 : 85,
+    height: 90,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.brand.primary,
   },

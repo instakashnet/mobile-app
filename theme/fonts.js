@@ -1,9 +1,9 @@
 export const fonts = {
-  body: "Lato-Regular",
-  button: "Lato-Bold",
-  title: "Lato-Black",
-  subtitle: "Lato-Bold",
-  caption: "Roboto-Regular",
+  body: "lato-regular",
+  button: "lato-bold",
+  title: "lato-black",
+  subtitle: "lato-bold",
+  caption: "roboto-regular",
 };
 
 export const fontWeights = {

@@ -35,7 +35,6 @@ export const LoginScreen = ({ navigation }) => {
           <Spacer variant="top">
             <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
           </Spacer>
-          <Spacer variant="top" size={3} />
           <Button icon={() => <GoogleIcon />} variant="secondary" onPress={() => {}}>
             Ingresar con Google
           </Button>
