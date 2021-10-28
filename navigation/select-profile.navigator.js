@@ -20,8 +20,9 @@ export const SelectProfileNavigator = () => {
       screenOptions={{
         ...headerOptions,
         headerLeft,
-      }}>
-      <SelectStack.Screen options={{ headerTitle: (props) => <Logo {...props} width={100} /> }} name="SelectProfile" component={SelectProfileScreen} />
+      }}
+    >
+      <SelectStack.Screen options={{ headerTitle: (props) => <Logo width={100} /> }} name="SelectProfile" component={SelectProfileScreen} />
       <SelectStack.Screen name="AddProfile" options={{ headerTitle: "Agregar empresa", headerBackTitleVisible: false }} component={AddProfileScreen} />
     </SelectStack.Navigator>
   );

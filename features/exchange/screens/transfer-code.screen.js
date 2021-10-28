@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { View } from "react-native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { cancelOrder, processCode, processCodeSuccess, openModal, closeModal } from "../../../store/actions";
+import { cancelOrder, processCode, openModal, clearExchangeError } from "../../../store/actions";
 
 // HELPERS
 import { formatAmount } from "../../../shared/helpers/funcitons";
@@ -11,35 +12,37 @@ import { formatAmount } from "../../../shared/helpers/funcitons";
 // ASSETS
 import { ExchangeImage } from "../../../assets/illustrations/exchange";
 import { bankLogos } from "../relative-paths/images";
-import { TransactionSuccess } from "../../../assets/illustrations/transaction-success";
 
 // COMPONENTS
-import { Modal } from "../../../components/UI/modal.component";
+import { Alert } from "../../../components/UI/alert.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { CopyButton } from "../../../components/UI/copy-button.component";
 import { TransferCodeForm } from "../components/forms/transfer-code-form.component";
+import { Loader } from "../../../components/UI/loader.component";
 import { ExchangeScroll } from "../components/exchange.styles";
-import { Button } from "../../../components/UI/button.component";
 import { Price, ShadowCard, TransferCard, BankImage, InfoWrapper, InfoBox, Info } from "../components/transfer-code.styles";
 
 export const TransferCodeScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
-    { order, isProcessing } = useSelector((state) => state.exchangeReducer);
+    { order, isProcessing, isLoading, exchangeError } = useSelector((state) => state.exchangeReducer);
+
+  // EFFECTS
+  useFocusEffect(
+    useCallback(() => {
+      if (!order) navigation.popToTop();
+    }, [order])
+  );
 
   // HANDLERS
   const onCancelOrder = () => dispatch(cancelOrder("created", order.id)),
     onOpenModal = () => dispatch(openModal()),
-    onCloseModal = () => {
-      dispatch(closeModal());
-      navigation.navigate("Home");
-      dispatch(processCodeSuccess());
-    },
     onSubmit = (values) => dispatch(processCode(values, order.id, onOpenModal));
 
   return (
     <SafeArea>
+      {isLoading && <Loader />}
       <ExchangeScroll>
         <Text variant="title">¡Último paso!</Text>
         <Spacer variant="vertical">
@@ -52,7 +55,7 @@ export const TransferCodeScreen = ({ navigation }) => {
         <Spacer variant="top" />
         <ShadowCard>
           <TransferCard>
-            <BankImage source={bankLogos.find((b) => b.bankName.toLowerCase() === order.bankToName.toLowerCase()).uri} resizeMode="contain" />
+            <BankImage source={bankLogos.find((b) => b.bankName.toLowerCase() === order.bankFromName.toLowerCase()).uri} resizeMode="contain" />
             <View>
               <Text variant="button">Cuenta corriente {order.currencySent === "PEN" ? "soles" : "dólares"}</Text>
               <InfoWrapper>
@@ -87,16 +90,9 @@ export const TransferCodeScreen = ({ navigation }) => {
         </Text>
         <TransferCodeForm isProcessing={isProcessing} onCancel={onCancelOrder} onSubmit={onSubmit} />
       </ExchangeScroll>
-      <Modal>
-        <TransactionSuccess />
-        <Text variant="title">¡Exitoso!</Text>
-        <Spacer variant="top" />
-        <Text>Tu solicitud de cambio fue recibida y será procesada en breve. Puedes ver el detalle en tu pantalla de actividad.</Text>
-        <Spacer variant="top" size={2} />
-        <Button onPress={onCloseModal} variant="primary">
-          Aceptar
-        </Button>
-      </Modal>
+      <Alert type="error" onClose={clearExchangeError} visible={!!exchangeError}>
+        {exchangeError}
+      </Alert>
     </SafeArea>
   );
 };

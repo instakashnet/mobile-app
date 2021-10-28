@@ -14,19 +14,34 @@ export const createOrder = (values) => ({
   values,
 });
 
+export const validateCoupon = (couponName, profileType) => ({
+  type: types.VALIDATE_COUPON_INIT,
+  couponName,
+  profileType,
+});
+
+export const validateCouponSuccess = (coupon) => ({
+  type: types.VALIDATE_COUPON_SUCCESS,
+  coupon,
+});
+
+export const removeCoupon = () => ({
+  type: types.REMOVE_COUPON,
+});
+
 export const createOrderSuccess = (order) => ({
   type: types.CREATE_ORDER_SUCCESS,
   order,
 });
 
-export const completeOrder = (values, orderId) => ({
-  type: types.COMPLETE_ORDER_INIT,
+export const continueOrder = (values, orderId) => ({
+  type: types.CONTINUE_ORDER_INIT,
   values,
   orderId,
 });
 
-export const completeOrderSuccess = (order) => ({
-  type: types.COMPLETE_ORDER_SUCCESS,
+export const continueOrderSuccess = (order) => ({
+  type: types.CONTINUE_ORDER_SUCCESS,
   order,
 });
 
@@ -40,15 +55,23 @@ export const cancelOrderSuccess = () => ({
   type: types.CANCEL_ORDER_SUCCESS,
 });
 
-export const processCode = (values, orderId, showModal) => ({
+export const processCode = (values, orderId) => ({
   type: types.PROCESS_CODE_INIT,
   values,
   orderId,
-  showModal,
 });
 
 export const processCodeSuccess = () => ({
   type: types.PROCESS_CODE_SUCCESS,
+});
+
+export const completeOrder = (closeModal) => ({
+  type: types.COMPLETE_ORDER_INIT,
+  closeModal,
+});
+
+export const completeOrderSuccess = () => ({
+  type: types.COMPLETE_ORDER_SUCCESS,
 });
 
 export const clearExchangeError = () => ({

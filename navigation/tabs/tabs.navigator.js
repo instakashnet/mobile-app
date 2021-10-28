@@ -1,6 +1,5 @@
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { Platform } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // UTILS
@@ -11,6 +10,7 @@ import { Logo } from "../../assets/illustrations/logo";
 
 // NAVIGATORS
 import { ExchangeNavigator } from "../exchange.navigator";
+import { AccountsNavigator } from "../accounts.navigator";
 
 // SCREENS
 import { HomeScreen } from "../../features/home/screens/home.screen";
@@ -24,16 +24,19 @@ const setBarIcon =
 
     switch (route.name) {
       case "Home":
-        iconName = "home-outline";
+        iconName = "home";
         break;
       case "Exchange":
-        iconName = "swap-horizontal-outline";
+        iconName = "swap-horizontal";
+        break;
+      case "Accounts":
+        iconName = "bank";
         break;
       default:
         break;
     }
 
-    return <Ionicons name={iconName} size={25} color={focused ? "#0D8284" : "#AFAFAF"} />;
+    return <MaterialCommunityIcons name={iconName} size={25} color={focused ? "#0D8284" : "#AFAFAF"} />;
   };
 
 export const TabsNavigator = () => {
@@ -44,8 +47,8 @@ export const TabsNavigator = () => {
         tabBarIcon: setBarIcon(route),
         tabBarStyle: {
           height: 80,
-          paddingTop: 8,
-          paddingBottom: 18,
+          paddingTop: 13,
+          paddingBottom: 20,
         },
         tabBarActiveTintColor: "#0D8284",
         tabBarInactiveTintColor: "#AFAFAF",
@@ -53,10 +56,11 @@ export const TabsNavigator = () => {
     >
       <Tabs.Screen
         name="Home"
-        options={{ tabBarLabel: "Inicio", headerShown: true, ...headerOptions, headerLeft, headerTitle: (props) => <Logo width={100} {...props} /> }}
+        options={{ tabBarLabel: "Inicio", headerShown: true, ...headerOptions, headerLeft, headerTitle: (props) => <Logo width={100} /> }}
         component={HomeScreen}
       />
       <Tabs.Screen name="Exchange" options={{ tabBarLabel: "Cambiar" }} component={ExchangeNavigator} />
+      <Tabs.Screen name="Accounts" options={{ tabBarLabel: "Mis cuentas" }} component={AccountsNavigator} />
     </Tabs.Navigator>
   );
 };

@@ -19,12 +19,12 @@ import { AccountsList } from "../components/accounts/accounts-list.component";
 import { AddAccountButton } from "../components/accounts/add-account-button.component";
 
 export const AccountSelectScreen = ({ route, navigation }) => {
-  const dispatch = useDispatch();
-  const { type, currencyToReceive } = route.params;
-  const { isLoading, banks } = useSelector((state) => state.accountsReducer);
-  const accounts = useSelector((state) => state.accountsReducer.accounts.filter((acc) => acc.currency.id === currencyToReceive));
-  const [bankSelected, setBankSelected] = useState(null);
-  const [accountSelected, setAccountSelected] = useState(null);
+  const dispatch = useDispatch(),
+    { type, currencyToReceive } = route.params,
+    { isLoading, banks } = useSelector((state) => state.accountsReducer),
+    accounts = useSelector((state) => state.accountsReducer.accounts.filter((acc) => acc.currency.id === currencyToReceive)),
+    [bankSelected, setBankSelected] = useState(null),
+    [accountSelected, setAccountSelected] = useState(null);
 
   // EFFECT
   useFocusEffect(

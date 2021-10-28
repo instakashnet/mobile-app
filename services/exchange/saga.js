@@ -3,6 +3,7 @@ import * as types from "./types";
 import * as actions from "./actions";
 import { exchangeInstance } from "../exchange.service";
 import * as RootNavigation from "../../navigation/root.navigation";
+import { removeData } from "../../hooks/use-storage.hook";
 
 function* watchGetRates() {
   yield takeEvery(types.GET_RATES_INIT, getRates);
@@ -25,25 +26,42 @@ function* createOrder({ values }) {
   try {
     const res = yield exchangeInstance.post("/order/step-2", values);
     if (res.status === 201) {
+      yield call(removeData, "@selectedBank");
+      yield call(removeData, "@selectedAcc");
       yield put(actions.createOrderSuccess(res.data));
-      yield call([RootNavigation, "push"], "Accounts");
+      yield call([RootNavigation, "replace"], "Accounts");
     }
   } catch (error) {
     yield put(actions.exchangeError(error.message));
   }
 }
 
-function* watchCompleteOrder() {
-  yield takeLatest(types.COMPLETE_ORDER_INIT, completeOrder);
+function* watchContinueOrder() {
+  yield takeLatest(types.CONTINUE_ORDER_INIT, continueOrder);
 }
 
-function* completeOrder({ values, orderId }) {
+function* continueOrder({ values, orderId }) {
   try {
     const res = yield exchangeInstance.put(`/order/step-3/${orderId}`, values);
     if (res.status === 200) {
-      yield put(actions.completeOrderSuccess(res.data));
-      yield call([RootNavigation, "push"], "TransferCode");
+      yield put(actions.continueOrderSuccess(res.data));
+      yield call([RootNavigation, "replace"], "TransferCode");
+      yield call(removeData, "@selectedBank");
+      yield call(removeData, "@selectedAcc");
     }
+  } catch (error) {
+    yield put(actions.exchangeError(error.message));
+  }
+}
+
+function* watchValidateCoupon() {
+  yield takeEvery(types.VALIDATE_COUPON_INIT, validateCoupon);
+}
+
+function* validateCoupon({ couponName, profileType }) {
+  try {
+    const res = yield exchangeInstance.get(`coupons/${couponName.toUpperCase()}/${profileType}`);
+    if (res.status === 200) yield put(actions.validateCouponSuccess({ ...res.data, name: couponName.toUpperCase() }));
   } catch (error) {
     yield put(actions.exchangeError(error.message));
   }
@@ -59,8 +77,10 @@ function* cancelOrder({ orderType, orderId }) {
   try {
     const res = yield exchangeInstance.delete(URL);
     if (res.status === 202) {
+      yield call([RootNavigation, "replace"], "Calculator");
+      yield call(removeData, "@selectedBank");
+      yield call(removeData, "@selectedAcc");
       yield put(actions.cancelOrderSuccess());
-      yield call([RootNavigation, "popToTop"]);
     }
   } catch (error) {
     yield put(actions.exchangeError(error.message));
@@ -71,17 +91,39 @@ function* watchProcessCode() {
   yield takeLatest(types.PROCESS_CODE_INIT, processCode);
 }
 
-function* processCode({ values, orderId, showModal }) {
-  console.log(values, orderId);
-
+function* processCode({ values, orderId }) {
   try {
     const res = yield exchangeInstance.put(`order/step-4/${orderId}`, values);
-    console.log(res);
+    if (res.status === 200) {
+      yield call([RootNavigation, "replace"], "Completed");
+      yield put(actions.processCodeSuccess());
+    }
   } catch (error) {
     yield put(actions.exchangeError(error.message));
   }
 }
 
+function* watchCompleteOrder() {
+  yield takeEvery(types.COMPLETE_ORDER_INIT, completeOrder);
+}
+
+function* completeOrder() {
+  try {
+    yield call([RootNavigation, "navigate"], "Home");
+    yield put(actions.completeOrderSuccess());
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* exchangeSaga() {
-  yield all([fork(watchGetRates), fork(watchCreateOrder), fork(watchCancelOrder), fork(watchCompleteOrder), fork(watchProcessCode)]);
+  yield all([
+    fork(watchGetRates),
+    fork(watchCreateOrder),
+    fork(watchCancelOrder),
+    fork(watchContinueOrder),
+    fork(watchProcessCode),
+    fork(watchCompleteOrder),
+    fork(watchValidateCoupon),
+  ]);
 }

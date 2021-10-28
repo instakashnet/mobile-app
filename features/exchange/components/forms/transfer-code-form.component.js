@@ -22,11 +22,11 @@ export const TransferCodeForm = ({ isProcessing, onCancel, onSubmit }) => {
         onBlur={formik.handleBlur("transaction_code")}
       />
       <Spacer variant="top" />
-      <Snack visible>
+      {/* <Snack visible>
         <Text variant="bold" style={{ color: "#FFF" }}>
           Solo dispones de 15 minutos para completar el cambio.
         </Text>
-      </Snack>
+      </Snack> */}
       <Spacer variant="top" />
       <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing}>
         Completar cambio

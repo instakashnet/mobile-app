@@ -8,10 +8,10 @@ export const SelectProfileCover = styled.ImageBackground.attrs({
   source: require("../../../assets/bg/profile-select-bg.png"),
   resizeMode: "cover",
 })`
-  height: ${Dimensions.get("window").height / 2.1}px;
+  height: ${Dimensions.get("window").height / (Dimensions.get("window").height < 812 ? 1.9 : 2.2)}px;
   align-items: center;
   width: ${Dimensions.get("window").width}px;
-  padding-top: ${({ theme }) => theme.space[6]};
+  padding-top: ${({ theme }) => (Dimensions.get("window").height < 812 ? theme.space[4] : theme.space[6])};
 `;
 
 export const Title = styled(Text)`
@@ -35,7 +35,7 @@ export const SubTitle = styled(Text)`
 export const CompanyProfileView = styled.View`
   flex: 1;
   align-items: center;
-  padding-top: ${({ theme }) => theme.space[2]};
+  justify-content: center;
 `;
 
 export const CompanyWrapper = styled.View`

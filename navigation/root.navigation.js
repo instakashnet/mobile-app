@@ -17,3 +17,7 @@ export function popToTop() {
 export function goBack() {
   if (navigationRef.isReady()) navigationRef.dispatch(CommonActions.goBack());
 }
+
+export function replace(...args) {
+  if (navigationRef.isReady()) navigationRef.dispatch(StackActions.replace(...args));
+}

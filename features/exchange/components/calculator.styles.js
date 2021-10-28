@@ -67,7 +67,7 @@ export const InputLabel = styled.Text`
   font-family: ${({ theme }) => theme.fonts.body};
 `;
 
-export const CouponWrapper = styled.View`
+export const CouponInputWrapper = styled.View`
   flex-direction: row;
   align-items: flex-end;
   width: 100%;
@@ -97,6 +97,31 @@ export const CouponButton = styled(Button).attrs(({ theme }) => ({
   border-bottom-left-radius: 0px;
   flex: 0.15;
   margin-bottom: 0px;
+`;
+
+export const CouponWrapper = styled.View`
+  background-color: #fff;
+  width: 100%;
+  flex-direction: row;
+  border-radius: 4px;
+  border-width: 1px;
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.1;
+  shadow-radius: 10px;
+  elevation: 7;
+  border-style: dashed;
+  border-color: ${({ theme }) => theme.colors.brand.primary};
+  padding: ${({ theme }) => theme.space[2]};
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const CouponText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.subtitle};
+  font-size: ${({ theme }) => theme.fontSizes.title};
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.brand.primary};
 `;
 
 export const TimerWrapper = styled.View`

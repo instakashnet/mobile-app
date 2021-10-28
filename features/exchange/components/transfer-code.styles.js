@@ -8,8 +8,9 @@ export const Price = styled.Text`
 `;
 
 export const BankImage = styled.Image`
-  width: 80px;
+  width: 70px;
   height: 30px;
+  margin-right: ${({ theme }) => theme.space[2]};
 `;
 
 export const InfoWrapper = styled.View`

@@ -7,7 +7,6 @@ import { getProfiles, logoutUser, selectProfile } from "../../../store/actions";
 
 // ASSETS
 import { Male } from "../../../assets/icons/male";
-import { Whatsapp } from "../../../assets/icons/whatsapp";
 import { LogoutIcon } from "../../../assets/icons/logout";
 
 // COMPONENTS

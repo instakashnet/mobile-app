@@ -1,18 +1,19 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import { useFormik } from "formik";
-import { View, Alert } from "react-native";
+import { View } from "react-native";
 import { getData } from "../../../hooks/use-storage.hook";
 import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { cancelOrder, completeOrder } from "../../../store/actions";
+import { cancelOrder, continueOrder, clearExchangeError } from "../../../store/actions";
 
 // ASSETS
 import { bankIcons } from "../relative-paths/images";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
+import { Alert } from "../../../components/UI/alert.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { SelectAccount } from "../components/forms/select-account.component";
@@ -23,7 +24,7 @@ import { BankDescription, BankIcon } from "../components/accounts.styles";
 export const AccountsScreen = ({ navigation }) => {
   // CUSTOM HOOKS && VARIABLES
   const dispatch = useDispatch(),
-    { order, isProcessing } = useSelector((state) => state.exchangeReducer),
+    { order, isProcessing, exchangeError } = useSelector((state) => state.exchangeReducer),
     [bankSelected, setBankSelected] = useState(null),
     [accountSelected, setAccountSelected] = useState(null),
     formik = useFormik({
@@ -36,13 +37,15 @@ export const AccountsScreen = ({ navigation }) => {
         kashUsed: "",
       },
       enableReinitialize: true,
-      onSubmit: (values) => dispatch(completeOrder(values, order.id)),
+      onSubmit: (values) => dispatch(continueOrder(values, order.id)),
     });
 
   // EFFECTS
-  useEffect(() => {
-    if (!order) navigation.popToTop();
-  }, [order]);
+  useFocusEffect(
+    useCallback(() => {
+      if (!order) navigation.popToTop();
+    }, [order])
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -75,7 +78,7 @@ export const AccountsScreen = ({ navigation }) => {
         <SelectAccount label="¿Desde que banco nos envias tu dinero?" selected={!!bankSelected} onSelect={onSelect.bind(null, "bank")}>
           {bankSelected ? (
             <BankDescription>
-              <BankIcon source={bankIcons.find((icon) => icon.bankName === bankSelected.name.toLowerCase()).uri} />
+              <BankIcon bankName={bankSelected.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === bankSelected.name.toLowerCase()).uri} />
               <Text variant="bold" style={{ textTransform: "uppercase" }}>
                 {bankSelected.name}
               </Text>
@@ -88,9 +91,9 @@ export const AccountsScreen = ({ navigation }) => {
         <SelectAccount label="¿En que cuenta recibirás tu cambio?" selected={!!accountSelected} onSelect={onSelect.bind(null, "account")}>
           {accountSelected ? (
             <BankDescription>
-              <BankIcon source={bankIcons.find((icon) => icon.bankName === accountSelected.bank.name.toLowerCase()).uri} />
+              <BankIcon bankName={accountSelected.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === accountSelected.bank.name.toLowerCase()).uri} />
               <View>
-                <Text variant="button">{accountSelected.alias}</Text>
+                <Text variant="bold">{accountSelected.alias}</Text>
                 <Text variant="button">{accountSelected.accountNumber}</Text>
               </View>
             </BankDescription>
@@ -106,6 +109,9 @@ export const AccountsScreen = ({ navigation }) => {
           Regresar
         </Button>
       </ExchangeWrapper>
+      <Alert type="error" onClose={clearExchangeError} visible={!!exchangeError}>
+        {exchangeError}
+      </Alert>
     </SafeArea>
   );
 };

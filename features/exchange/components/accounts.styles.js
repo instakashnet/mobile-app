@@ -75,9 +75,11 @@ export const BankDescription = styled.View`
   align-items: center;
 `;
 
-export const BankIcon = styled.Image`
-  width: 23px;
-  height: 23px;
+export const BankIcon = styled.Image.attrs({
+  resizeMode: "contain",
+})`
+  width: ${({ bankName }) => (bankName === "bbva" ? "46px" : "22px")};
+  height: 22px;
   margin-right: ${({ theme }) => theme.space[2]};
 `;
 

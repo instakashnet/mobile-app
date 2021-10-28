@@ -73,7 +73,7 @@ export const AddPersonalForm = ({ currencies, currencyId, onAddAccount, isProces
         infoText="Ej. nombre + banco + moneda."
       />
       {selectedBank && selectedBank.name.toLowerCase() === "interbank" && (
-        <Spacer variant="left" size={6}>
+        <Spacer variant="left">
           <Checkbox status={formik.values.interbank} onPress={() => formik.setFieldValue("interbank", !formik.values.interbank)}>
             <Text variant="caption">¿Esta es una cuenta de provincia?.</Text>
           </Checkbox>
