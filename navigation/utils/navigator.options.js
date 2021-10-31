@@ -1,5 +1,6 @@
 import React from "react";
-import { TouchableOpacity, Alert, Linking, Platform, View } from "react-native";
+import { TouchableOpacity, TouchableWithoutFeedback, Alert, Linking, Platform, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../theme";
 
 // ASSETS
@@ -37,5 +38,21 @@ export const headerLeft = () => (
     <TouchableOpacity onPress={onOpenWhatsapp}>
       <Whatsapp />
     </TouchableOpacity>
+  </View>
+);
+
+export const headerBackLeft = (navigation) => (
+  <View style={{ paddingBottom: Platform.OS === "ios" ? 0 : 20, marginLeft: 10 }}>
+    <TouchableOpacity onPress={navigation.goBack}>
+      <Ionicons name="arrow-back-outline" color="#0D8284" size={30} />
+    </TouchableOpacity>
+  </View>
+);
+
+export const headerRight = (navigation) => (
+  <View style={{ paddingBottom: Platform.OS === "ios" ? 0 : 20, marginRight: 10 }}>
+    <TouchableWithoutFeedback onPress={navigation.toggleDrawer}>
+      <Ionicons name="menu-outline" color="#0D8284" size={30} />
+    </TouchableWithoutFeedback>
   </View>
 );

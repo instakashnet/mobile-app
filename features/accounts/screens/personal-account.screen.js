@@ -9,7 +9,7 @@ import { getBanks, getCurrencies, addAccount } from "../../../store/actions";
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { AddPersonalForm } from "../components/forms/add-personal-form.component";
-import { Accountscroll } from "../components/accounts.styles";
+import { AccountsWrapper } from "../components/accounts.styles";
 import { Loader } from "../../../components/UI/loader.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 
@@ -32,11 +32,11 @@ export const AddPersonalAccountScreen = ({ route }) => {
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <Accountscroll>
+      <AccountsWrapper>
         <Text>Agrega una cuenta donde recibirás tu cambio.</Text>
         <Spacer variant="top" />
         <AddPersonalForm banks={banks} currencyId={currencyId} isProcessing={isProcessing} onAddAccount={onAddAccount} currencies={currencies} />
-      </Accountscroll>
+      </AccountsWrapper>
     </SafeArea>
   );
 };

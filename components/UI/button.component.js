@@ -35,6 +35,7 @@ const secondary = (theme) => ({
 const variants = {
   primary,
   secondary,
+  error,
 };
 
 export const Button = styled(PaperButton).attrs(({ theme, variant }) => ({

@@ -13,6 +13,7 @@ export const InputWrapper = styled.View`
   shadow-offset: 0px 2px;
   shadow-opacity: 0.1;
   shadow-radius: 10px;
+  elevation: 7;
   flex-direction: row;
   align-items: center;
   position: relative;

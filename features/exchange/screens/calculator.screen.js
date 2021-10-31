@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -17,10 +17,12 @@ import { Timer, TimerWrapper } from "../components/calculator.styles";
 
 export const CalculatorScreen = () => {
   const dispatch = useDispatch(),
+    isFocused = useIsFocused(),
     { isLoading, isProcessing, rates, coupon, exchangeError } = useSelector((state) => state.exchangeReducer),
     profile = useSelector((state) => state.profileReducer.profile),
     [countdown, setCountdown] = useState(1),
-    [couponRates, setCouponRates] = useState(null);
+    [couponRates, setCouponRates] = useState(null),
+    [countRunnig, setCountRunning] = useState(false);
 
   // EFFECTS
   useFocusEffect(
@@ -28,6 +30,12 @@ export const CalculatorScreen = () => {
       dispatch(getRates());
     }, [dispatch])
   );
+
+  useEffect(() => {
+    setCountRunning(isFocused);
+
+    () => setCountRunning(false);
+  }, []);
 
   useEffect(() => {
     if (coupon) {
@@ -66,7 +74,7 @@ export const CalculatorScreen = () => {
         <Spacer variant="top" size={4} />
         <TimerWrapper>
           <Text variant="bold">El tipo de cambio se actualizará en:</Text>
-          <Timer id={countdown.toString()} running until={300} size={15} showSeparator onFinish={onGetRates} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
+          <Timer id={countdown.toString()} running={countRunnig} until={300} size={15} showSeparator onFinish={onGetRates} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
         </TimerWrapper>
         <CalculatorForm
           isProcessing={isProcessing}

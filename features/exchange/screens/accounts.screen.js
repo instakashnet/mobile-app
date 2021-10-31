@@ -91,7 +91,7 @@ export const AccountsScreen = ({ navigation }) => {
         <SelectAccount label="¿En que cuenta recibirás tu cambio?" selected={!!accountSelected} onSelect={onSelect.bind(null, "account")}>
           {accountSelected ? (
             <BankDescription>
-              <BankIcon bankName={accountSelected.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === accountSelected.bank.name.toLowerCase()).uri} />
+              <BankIcon bankName={accountSelected.bank.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === accountSelected.bank.name.toLowerCase()).uri} />
               <View>
                 <Text variant="bold">{accountSelected.alias}</Text>
                 <Text variant="button">{accountSelected.accountNumber}</Text>

@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import AppLoading from "expo-app-loading";
+import "react-native-gesture-handler";
 import { Provider as PaperProvider } from "react-native-paper";
 import { ThemeProvider } from "styled-components/native";
 import { Navigator } from "./navigation";

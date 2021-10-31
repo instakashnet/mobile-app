@@ -6,10 +6,12 @@ import { navigationRef } from "./root.navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../store/actions";
 
-// NAVIGATORS & SCREENS
-import { TabsNavigator } from "./tabs/tabs.navigator";
-import { AuthNavigator } from "./auth.navigator";
+// NAVIGATORS
+import { AuthNavigator } from "./stacks/auth.navigator";
 import { SelectProfileNavigator } from "./select-profile.navigator";
+import { DrawerNavigator } from "./drawer.navigator";
+
+// SCREENS
 import { SplashScreen } from "../features/auth/screens/splash.screen";
 
 export const Navigator = () => {
@@ -23,5 +25,5 @@ export const Navigator = () => {
 
   if (isLoading) return <SplashScreen />;
 
-  return <NavigationContainer ref={navigationRef}>{!user ? <AuthNavigator /> : !profile ? <SelectProfileNavigator /> : <TabsNavigator />}</NavigationContainer>;
+  return <NavigationContainer ref={navigationRef}>{!user ? <AuthNavigator /> : !profile ? <SelectProfileNavigator /> : <DrawerNavigator />}</NavigationContainer>;
 };

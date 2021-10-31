@@ -12,5 +12,7 @@ import { profileReducer } from "../services/profile/reducer";
 import { exchangeReducer } from "../services/exchange/reducer";
 // ACCOUNTS
 import { accountsReducer } from "../services/accounts/reducer";
+// ACTIVITY
+import { activityReducer } from "../services/activity/reducer";
 
-export const rootReducer = combineReducers({ authReducer, utilsReducer, profileReducer, exchangeReducer, accountsReducer });
+export const rootReducer = combineReducers({ authReducer, utilsReducer, profileReducer, exchangeReducer, accountsReducer, activityReducer });
