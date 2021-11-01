@@ -27,7 +27,7 @@ export const AddPersonalAccountScreen = ({ route }) => {
   );
 
   // HANDLERS
-  const onAddAccount = (values) => dispatch(addAccount(values));
+  const onAddAccount = (values) => dispatch(addAccount(values, "accounts"));
 
   return (
     <SafeArea>

@@ -10,6 +10,7 @@ import { Spacer } from "../../../../components/utils/spacer.component";
 import { Select } from "../../../../components/forms/select.component";
 import { Input } from "../../../../components/forms/input.component";
 import { Button } from "../../../../components/UI/button.component";
+import { BankIcon } from "../accounts.styles";
 
 export const AddPersonalForm = ({ currencies, currencyId, onAddAccount, isProcessing, banks }) => {
   const [selectedBank, setSelectedBank] = useState(false);
@@ -24,12 +25,7 @@ export const AddPersonalForm = ({ currencies, currencyId, onAddAccount, isProces
   const banksOptions = banks.map((bank) => ({
       label: bank.name.toUpperCase(),
       value: bank.id,
-      icon: () => (
-        <Image
-          style={{ width: bank.name.toLowerCase() === "bbva" ? "100%" : 17, aspectRatio: bank.name.toLowerCase() === "bbva" ? 20 / 6 : null, height: 17 }}
-          source={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri}
-        />
-      ),
+      icon: () => <BankIcon bankName={bank.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri} />,
     })),
     currencyOptions = currencies
       .filter((c) => (currencyId ? c.id === currencyId : true))

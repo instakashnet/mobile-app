@@ -16,7 +16,10 @@ export const AccountItem = ({ account, onPress }) => {
         <Text variant="bold">Ver cuenta</Text>
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "auto" }}>
-        <Text>{account.alias}</Text>
+        <View>
+          <Text variant="bold">{account.thirdParty ? "De terceros" : ""}</Text>
+          <Text>{account.alias}</Text>
+        </View>
         <View style={{ flexDirection: "row" }}>
           <Text variant="subtitle">***{account.accountNumber.substring(account.accountNumber.length - 4, account.accountNumber.length)}</Text>
           <Text variant="title" style={{ marginLeft: 7 }}>

@@ -49,12 +49,44 @@ function* watchAddAccount() {
   yield takeLatest(types.ADD_ACCOUNT_INIT, addAccount);
 }
 
-function* addAccount({ values }) {
+function* addAccount({ values, addType }) {
   try {
     const res = yield accountsInstance.post("/accounts", values);
     if (res.status === 201) {
       yield put(actions.addAccountSuccess());
-      yield call([RootNavigator, "goBack"]);
+      yield call([RootNavigator, "navigate"], addType === "accounts" ? "MyAccounts" : "AccountSelect");
+    }
+  } catch (error) {
+    yield put(actions.accountsError(error.message));
+  }
+}
+
+function* watchEditAccount() {
+  yield takeLatest(types.EDIT_ACCOUNT_INIT, editAccount);
+}
+
+function* editAccount({ values, accId }) {
+  try {
+    const res = yield accountsInstance.put(`/accounts/${accId}`, values);
+    if (res.status === 200) {
+      yield put(actions.editAccountSuccess());
+      yield call([RootNavigator, "replace"], "MyAccounts");
+    }
+  } catch (error) {
+    yield put(actions.accountsError(error.message));
+  }
+}
+
+function* watchDeleteAccount() {
+  yield takeLatest(types.DELETE_ACCOUNT_INIT, deleteAccount);
+}
+
+function* deleteAccount({ accId }) {
+  try {
+    const res = yield accountsInstance.delete(`/accounts/${accId}`);
+    if (res.status === 200) {
+      yield put(actions.deleteAccountSuccess());
+      yield call([RootNavigator, "popToTop"]);
     }
   } catch (error) {
     yield put(actions.accountsError(error.message));
@@ -62,5 +94,5 @@ function* addAccount({ values }) {
 }
 
 export function* accountsSaga() {
-  yield all([fork(watchGetBanks), fork(watchGetCurrencies), fork(watchGetAccounts), fork(watchAddAccount)]);
+  yield all([fork(watchGetBanks), fork(watchGetCurrencies), fork(watchGetAccounts), fork(watchAddAccount), fork(watchEditAccount), fork(watchDeleteAccount)]);
 }

@@ -32,14 +32,17 @@ export const AccountsScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      {isLoading && <Loader />}
-      <AccountsWrapper>
-        {groupedAccounts.map((accounts, key) => (
-          <AccountsSection key={key} accounts={accounts} onDetails={onDetailsAccount} />
-        ))}
-        <Button onPress={onAddAccount}>Agregar cuenta</Button>
-        <Spacer variant="top" />
-      </AccountsWrapper>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <AccountsWrapper>
+          {groupedAccounts.map((accounts, key) => (
+            <AccountsSection key={key} accounts={accounts} onDetails={onDetailsAccount} />
+          ))}
+          <Button onPress={onAddAccount}>Agregar cuenta</Button>
+          <Spacer variant="top" />
+        </AccountsWrapper>
+      )}
     </SafeArea>
   );
 };

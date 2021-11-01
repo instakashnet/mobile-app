@@ -9,7 +9,8 @@ import { getBanks, getCurrencies, addAccount } from "../../../store/actions";
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Loader } from "../../../components/UI/loader.component";
-import { AccountsWrapper } from "../components/accounts.styles";
+import { AddThirdForm } from "../components/forms/add-third-form.component";
+import { AccountsScroll } from "../components/accounts.styles";
 
 export const AddThirdAccountScreen = ({ route }) => {
   const dispatch = useDispatch(),
@@ -25,14 +26,15 @@ export const AddThirdAccountScreen = ({ route }) => {
   );
 
   // HANDLERS
-  const onAddAccount = (values) => dispatch(addAccount(values));
+  const onAddAccount = (values) => dispatch(addAccount(values, "accounts"));
 
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <AccountsWrapper>
+      <AccountsScroll>
         <Text>Agrega la cuenta de un tercero para recibir tu cambio. Recuerda que debes tener pleno consentimiento del tercero para usar sus datos.</Text>
-      </AccountsWrapper>
+        <AddThirdForm banks={banks} currencies={currencies} currencyId={currencyId} isProcessing={isProcessing} onAddAccount={onAddAccount} />
+      </AccountsScroll>
     </SafeArea>
   );
 };

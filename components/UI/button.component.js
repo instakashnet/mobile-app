@@ -10,6 +10,7 @@ const defaultStyles = (theme) => `
   shadow-offset: 5px 10px;
   shadow-radius: 17px;
   elevation: 5;
+
 `;
 
 const defaultAttrs = (theme) => ({
@@ -30,6 +31,16 @@ const primary = (theme) => ({
 
 const secondary = (theme) => ({
   color: theme.colors.buttons.secondary,
+});
+
+const error = (theme) => ({
+  color: theme.colors.bg.light,
+  labelStyle: {
+    color: theme.colors.ui.error,
+    fontSize: 14,
+    fontFamily: theme.fonts.button,
+    letterSpacing: 0,
+  },
 });
 
 const variants = {

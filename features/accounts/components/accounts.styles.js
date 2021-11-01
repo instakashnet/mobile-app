@@ -1,6 +1,17 @@
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 
+export const AccountsScroll = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    flexGrow: 1,
+    paddingTop: 20,
+    paddingBottom: 20,
+    alignItems: "center",
+    width: Dimensions.get("window").width,
+    paddingHorizontal: 20,
+  },
+})``;
+
 export const AccountsWrapper = styled.View`
   padding: ${({ theme }) => theme.space[5]};
   width: ${Dimensions.get("window").width}px;
@@ -46,6 +57,13 @@ export const BankLogo = styled.Image.attrs({
   height: 27px;
 `;
 
+export const BankIcon = styled.Image.attrs({
+  resizeMode: "contain",
+})`
+  width: ${({ bankName }) => (bankName === "bbva" ? "46px" : "22px")};
+  height: 22px;
+`;
+
 export const DetailsCard = styled.View`
   border-radius: 10px;
   background-color: #fff;
@@ -58,6 +76,17 @@ export const DetailsCard = styled.View`
   padding: ${({ theme }) => theme.space[4]};
   margin-horizontal: ${({ theme }) => theme.space[3]};
   margin-vertical: ${({ theme }) => theme.space[2]};
+`;
+
+export const DetailsInfo = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const DetailsWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const Title = styled.Text`

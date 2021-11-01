@@ -6,7 +6,8 @@ import { headerOptions, headerLeft, headerBackLeft, headerRight } from "../utils
 import { AddAccountTabs } from "../tabs/add-account-tabs.navigatior";
 // SCREENS
 import { AccountsScreen } from "../../features/accounts/screens/accounts.screen";
-import { AccountDetails } from "../../features/accounts/screens/account-details.screen";
+import { AccountDetailsScreen } from "../../features/accounts/screens/account-details.screen";
+import { EditAccountScreen } from "../../features/accounts/screens/edit-account.screen";
 
 const AccountsStack = createStackNavigator();
 
@@ -22,7 +23,12 @@ export const AccountsNavigator = () => {
       <AccountsStack.Screen
         name="AccountDetails"
         options={({ navigation }) => ({ headerTitle: "Detalles de la cuenta", headerLeft: () => headerBackLeft(navigation) })}
-        component={AccountDetails}
+        component={AccountDetailsScreen}
+      />
+      <AccountsStack.Screen
+        name="EditAccount"
+        options={({ navigation }) => ({ headerTitle: "Editar cuenta", headerLeft: () => headerBackLeft(navigation) })}
+        component={EditAccountScreen}
       />
     </AccountsStack.Navigator>
   );
