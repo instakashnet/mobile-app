@@ -60,11 +60,11 @@ export const LoginScreen = ({ navigation }) => {
               <Text variant="bold">Registrate</Text>
             </Link>
           </AuthLinkWrapper>
-          <Alert type="error" onClose={clearAuthError} visible={!!authError}>
-            {authError}
-          </Alert>
         </AuthWrapper>
       </DismissKeyboard>
+      <Alert type="error" onClose={clearAuthError} visible={!!authError}>
+        {authError}
+      </Alert>
     </SafeArea>
   );
 };

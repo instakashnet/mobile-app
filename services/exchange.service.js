@@ -1,9 +1,9 @@
 import axios from "axios";
-import { EXCHANGE_DEV_API } from "@env";
+import { DEV_API_URL } from "@env";
 import { reqInterceptor, resInterceptor } from "./interceptors";
 
 export const exchangeInstance = axios.create({
-  baseURL: `${EXCHANGE_DEV_API}/client`,
+  baseURL: `${DEV_API_URL}/exchange-service/api/v1/client`,
   timeout: 45000,
 });
 

@@ -4,7 +4,7 @@ import React from "react";
 import { CompanyIcon } from "../../../assets/icons/company";
 
 // COMPONENTS
-import { CompanyBox, CompanyWrapper } from "./profile.styles";
+import { CompanyBox, CompanyWrapper } from "./select-profile.styles";
 import { Text } from "../../../components/typography/text.component";
 
 export const CompanyProfile = ({ onSelect, companyName }) => {

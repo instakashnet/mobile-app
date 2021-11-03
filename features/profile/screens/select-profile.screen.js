@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { TouchableOpacity, Platform, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -10,7 +11,7 @@ import { Male } from "../../../assets/icons/male";
 import { LogoutIcon } from "../../../assets/icons/logout";
 
 // COMPONENTS
-import { SelectProfileCover, Title, SubTitle, CompanyProfileView, AddCompanyList, CompanyList } from "../components/profile.styles";
+import { SelectProfileCover, Title, SubTitle, CompanyProfileView, AddCompanyList, CompanyList } from "../components/select-profile.styles";
 import { CompanyProfile } from "../components/company-profile.component";
 import { AddCompany } from "../components/add-company.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -30,12 +31,18 @@ export const SelectProfileScreen = ({ navigation }) => {
   // HANDLERS
   const onLogout = () => dispatch(logoutUser());
   const onAddProfile = () => navigation.navigate("AddProfile");
-  const onSelectProfile = (type, id = null) => {
+  const onSelectProfile = async (type, id = null) => {
     let profile;
 
     if (type === "juridica") {
       profile = companyProfiles.find((c) => c.id === id);
     } else profile = userProfile;
+
+    try {
+      await AsyncStorage.setItem("profileSelected", JSON.stringify(profile));
+    } catch (error) {
+      console.log(error);
+    }
 
     return dispatch(selectProfile(profile));
   };
@@ -62,7 +69,7 @@ export const SelectProfileScreen = ({ navigation }) => {
       {isLoading && <Loader />}
       <SelectProfileCover>
         <Title>Bienvenido</Title>
-        <Male />
+        <Male width={90} />
         <Spacer variant="top" />
         <SubTitle>Hola, ¿Que perfil usarás hoy?</SubTitle>
         <Spacer variant="top" size={2} />

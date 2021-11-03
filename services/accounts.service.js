@@ -1,9 +1,9 @@
 import axios from "axios";
-import { ACCOUNTS_DEV_API } from "@env";
+import { DEV_API_URL } from "@env";
 import { reqInterceptor, resInterceptor } from "./interceptors";
 
 export const accountsInstance = axios.create({
-  baseURL: `${ACCOUNTS_DEV_API}/client`,
+  baseURL: `${DEV_API_URL}/accounts-service/api/v1/client`,
   timeout: 45000,
 });
 

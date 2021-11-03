@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 import { addProfileSchema } from "../validations/schemas";
 
 // COMPONENTS
-import { AddProfileForm, BorderLine } from "../components/profile.styles";
+import { AddProfileForm, BorderLine } from "../components/select-profile.styles";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Text } from "../../../components/typography/text.component";
 import { Input } from "../../../components/forms/input.component";

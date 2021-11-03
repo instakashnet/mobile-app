@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Dimensions } from "react-native";
+import { View } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
 export const Logo = (props) => {

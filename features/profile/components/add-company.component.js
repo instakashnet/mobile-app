@@ -4,7 +4,7 @@ import React from "react";
 import { Add } from "../../../assets/icons/add";
 
 // COMPONENTS
-import { AddCompanyBox } from "./profile.styles";
+import { AddCompanyBox } from "./select-profile.styles";
 
 export const AddCompany = ({ onAdd }) => {
   return (
