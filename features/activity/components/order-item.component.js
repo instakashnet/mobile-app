@@ -11,9 +11,9 @@ import { formatAmount } from "../../../shared/helpers/funcitons";
 import { Text } from "../../../components/typography/text.component";
 import { OrderCard, Badge, Status } from "./activity.styles";
 
-export const OrderItem = ({ order }) => {
+export const OrderItem = ({ order, onOpen }) => {
   return (
-    <OrderCard>
+    <OrderCard onPress={onOpen}>
       <Badge color={order.stateColor}>
         <Status color={order.stateColor}>{order.estateName}</Status>
       </Badge>

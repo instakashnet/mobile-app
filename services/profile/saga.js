@@ -1,4 +1,5 @@
-import { put, all, fork, call, takeEvery, takeLatest } from "redux-saga/effects";
+import { put, all, fork, call, takeEvery, takeLatest, select } from "redux-saga/effects";
+import camelize from "camelize";
 import * as types from "./types";
 import * as actions from "./actions";
 import { authInstance } from "../auth.service";
@@ -35,6 +36,34 @@ function* addProfile({ values }) {
   }
 }
 
+function* watchUpdateprofile() {
+  yield takeLatest(types.UPDATE_PROFILE_INIT, updateProfile);
+}
+
+function* updateProfile({ values }) {
+  try {
+    const res = yield authInstance.put("/users/profiles", values);
+    if (res.status === 200) {
+      yield call([RootNavigation, "goBack"]);
+      yield put(actions.updateProfileSuccess());
+    }
+  } catch (error) {
+    yield put(actions.profileError(error.message));
+  }
+}
+
+function* watchSelectProfile() {
+  yield takeEvery(types.SELECT_PROFILE_INIT, selectProfile);
+}
+
+function* selectProfile({ profile }) {
+  const user = yield select((state) => state.authReducer.user);
+  const camelProfile = camelize(profile);
+
+  const profileData = { ...camelProfile, ...user };
+  yield put(actions.selectProfileSuccess(profileData));
+}
+
 export function* profileSaga() {
-  yield all([fork(watchGetProfiles), fork(watchAddProfiles)]);
+  yield all([fork(watchGetProfiles), fork(watchAddProfiles), fork(watchSelectProfile), fork(watchUpdateprofile)]);
 }

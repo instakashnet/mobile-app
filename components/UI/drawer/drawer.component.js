@@ -37,7 +37,7 @@ export const CustomDrawer = (props) => {
         </TouchableOpacity>
       </Header>
       <Drawer.Section style={styles.section}>
-        <NavItem onPress={onSelectPage} label="Mi perfil" icon="user-alt" active={active === "MyProfile"} />
+        <NavItem onPress={() => onSelectPage("MyProfile")} label="Mi perfil" icon="user-alt" active={active === "MyProfile"} />
         <NavItem onPress={() => {}} labelStyle={{ marginLeft: -18 }} label="Cambiar perfil" icon="user-friends" active={active === "change-profile"} />
         <NavItem onPress={() => {}} label="Mis cuentas" icon="university" active={active === "my-accountd"} />
       </Drawer.Section>

@@ -18,8 +18,22 @@ export const addProfileSuccess = () => ({
   type: types.ADD_PROFILE_SUCCESS,
 });
 
+export const updateProfile = (values) => ({
+  type: types.UPDATE_PROFILE_INIT,
+  values,
+});
+
+export const updateProfileSuccess = () => ({
+  type: types.UPDATE_PROFILE_SUCCESS,
+});
+
 export const selectProfile = (profile) => ({
-  type: types.SELECT_PROFILE,
+  type: types.SELECT_PROFILE_INIT,
+  profile,
+});
+
+export const selectProfileSuccess = (profile) => ({
+  type: types.SELECT_PROFILE_SUCCESS,
   profile,
 });
 

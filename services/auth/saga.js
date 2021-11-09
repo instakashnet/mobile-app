@@ -5,7 +5,7 @@ import camelize from "camelize";
 import * as types from "./types";
 import * as actions from "./actions";
 import { openModal } from "../../store/actions";
-import { selectProfile } from "../profile/actions";
+import { clearProfile, selectProfile } from "../profile/actions";
 import { authInstance } from "../auth.service";
 import * as RootNavigation from "../../navigation/root.navigation";
 
@@ -20,6 +20,7 @@ function* setAuthToken(data) {
 function* clearUserData() {
   yield call([SecureStore, "deleteItemAsync"], "authData");
   yield call([AsyncStorage, "removeItem"], "profileSelected");
+  yield put(clearProfile());
 }
 
 // SAGAS
@@ -29,7 +30,10 @@ function* watchLoadUser() {
 
 function* loadUser() {
   const authData = yield call([SecureStore, "getItemAsync"], "authData");
-  if (!authData) return yield put(actions.logoutUserSuccess());
+  if (!authData) {
+    yield call([AsyncStorage, "removeItem"], "profileSelected");
+    return yield put(actions.logoutUserSuccess());
+  }
 
   const { expires } = JSON.parse(authData);
   if (new Date(expires) <= new Date()) {
@@ -54,7 +58,12 @@ function* loadUser() {
 
     const profileSelected = yield call([AsyncStorage, "getItem"], "profileSelected");
 
-    yield put(selectProfile(profileSelected));
+    if (profileSelected) {
+      const profile = { ...JSON.parse(profileSelected), ...resData.user };
+      yield put(selectProfile(profile));
+    }
+
+    yield put(actions.loginUserSuccess());
     yield put(actions.loadUserSuccess(resData.user));
   } catch (error) {
     console.log(error);
@@ -173,7 +182,6 @@ function* logoutUser() {
   }
 
   yield call(clearUserData);
-
   yield put(actions.logoutUserSuccess());
 }
 

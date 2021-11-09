@@ -9,6 +9,17 @@ import { ThemeProvider } from "styled-components/native";
 import { Navigator } from "./navigation";
 import { theme } from "./theme";
 import { store } from "./store";
+import { registerTranslation } from "react-native-paper-dates";
+
+registerTranslation("es", {
+  save: "Guardar",
+  selectSingle: "Seleccionar fecha",
+  notAccordingToDateFormat: (inputFormat) => `Date format must be ${inputFormat}`,
+  mustBeHigherThan: "Debe ser mayor a",
+  mustBeLowerThan: "Debe ser menor que",
+  mustBeBetween: "Debe ser entre",
+  dateIsDisabled: "El dia está deshabilitado",
+});
 
 export default function App() {
   const [fontsLoaded] = useFonts({

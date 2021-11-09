@@ -12,6 +12,12 @@ export const ActivityScroll = styled.ScrollView.attrs({
   },
 })``;
 
+export const ActivityWrapper = styled.View`
+  flex: 1;
+  padding: ${({ theme }) => theme.space[3]};
+  width: ${Dimensions.get("window").width};
+`;
+
 export const EmptyWrapper = styled.View`
   flex: 1;
   justify-content: center;
@@ -48,7 +54,6 @@ export const Card = styled.View`
   border-radius: 10px;
   background-color: #fff;
   width: 100%;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
 `;
@@ -73,4 +78,25 @@ export const ShowButton = styled.Text`
   font-size: ${({ theme }) => theme.fontSizes.body};
   color: ${({ theme }) => theme.colors.brand.primary};
   padding-bottom: ${({ theme }) => theme.space[1]};
+`;
+
+export const InfoWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-vertical: ${({ theme }) => theme.space[3]};
+`;
+
+export const Subtitle = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.subtitle};
+  font-size: ${({ theme }) => theme.fontSizes.body};
+  color: ${({ theme }) => theme.colors.brand.primary};
+`;
+
+export const BankLogo = styled.Image.attrs({
+  resizeMode: "contain",
+})`
+  width: 85px;
+  height: 27px;
 `;

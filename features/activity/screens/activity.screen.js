@@ -7,7 +7,7 @@ import { formatAmount } from "../../../shared/helpers/funcitons";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getOrders, getWithdrawals } from "../../../store/actions";
+import { getOrders } from "../../../store/actions";
 
 // COMPONENTS
 import { EmptyActivity } from "../components/empty-activity.component";
@@ -19,7 +19,7 @@ import { OrderItem } from "../components/order-item.component";
 import { Loader } from "../../../components/UI/loader.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 
-export const ActivityScreen = () => {
+export const ActivityScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     { orders, withdrawals, isLoading, transfered } = useSelector((state) => state.activityReducer),
     [savings, setSavings] = useState(0);
@@ -28,7 +28,6 @@ export const ActivityScreen = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getOrders(true, 3));
-      dispatch(getWithdrawals(3));
     }, [dispatch])
   );
 
@@ -42,17 +41,17 @@ export const ActivityScreen = () => {
         <Loader />
       ) : (
         <ActivityScroll>
-          {/* <EmptyActivity /> */}
+          {orders.length <= 0 && withdrawals.length <= 0 && <EmptyActivity />}
           {orders.length > 0 && (
             <>
               <Spacer variant="top" />
               <OrdersWrapper>
                 <Title>
-                  <Ionicons name="swap-horizontal-outline" color="#0D8284" size={25} />
                   <Text variant="subtitle">Últimos cambios</Text>
+                  <Ionicons name="swap-horizontal-outline" color="#0D8284" size={25} />
                 </Title>
                 {orders.map((order) => (
-                  <OrderItem key={order.id} order={order} />
+                  <OrderItem key={order.id} order={order} onOpen={() => navigation.navigate("OrderDetails", { order })} />
                 ))}
                 <Spacer variant="top" />
                 <Link>
@@ -60,32 +59,14 @@ export const ActivityScreen = () => {
                 </Link>
               </OrdersWrapper>
               <Spacer variant="top" size={4} />
-              <OrdersWrapper>
-                <Text variant="subtitle">Soles cambiados</Text>
-                <Card>
-                  <Text variant="title">S/. {formatAmount(transfered)}</Text>
-                </Card>
-              </OrdersWrapper>
-              <OrdersWrapper>
-                <Text variant="subtitle">Ahorro aproximado</Text>
-                <Card>
-                  <Text variant="title">S/. {formatAmount(savings)}</Text>
-                </Card>
-              </OrdersWrapper>
-            </>
-          )}
-          {withdrawals.length > 0 && (
-            <>
-              <Spacer variant="top" size={2} />
-              <OrdersWrapper>
-                <Title>
-                  <Ionicons name="ios-cash" color="#0D8284" size={25} />
-                  <Text variant="subtitle">Últimos retiros</Text>
-                </Title>
-                {withdrawals.map((withdrawals) => (
-                  <OrderItem key={withdrawals.id} order={withdrawals} />
-                ))}
-              </OrdersWrapper>
+              <Card>
+                <Text variant="title">S/. {formatAmount(transfered)}</Text>
+                <Text variant="bold">Soles cambiados</Text>
+              </Card>
+              <Card>
+                <Text variant="title">S/. {formatAmount(savings)}</Text>
+                <Text variant="bold">Ahorro aproximado</Text>
+              </Card>
             </>
           )}
         </ActivityScroll>

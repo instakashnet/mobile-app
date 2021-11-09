@@ -13,7 +13,6 @@ export const headerOptions = {
   headerStyle: {
     height: 90,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.brand.primary,
   },
   headerLeftContainerStyle: {
     paddingBottom: Platform.OS === "ios" ? 0 : 25,

@@ -8,6 +8,8 @@ import { Spacer } from "../../../../components/utils/spacer.component";
 import { HeaderProfile, InfoItem, NavItem, ItemWrapper, RightArrow } from "../../components/profile.styles";
 
 export const BasicInfoScreen = ({ route, navigation }) => {
+  const { profile } = route.params;
+
   return (
     <SafeArea>
       <HeaderProfile>
@@ -18,14 +20,14 @@ export const BasicInfoScreen = ({ route, navigation }) => {
       <Spacer variant="top" size={6} />
       <InfoItem>
         <Text variant="caption">Nombre y apellido</Text>
-        <Text>Roger Rengifo</Text>
+        <Text>{`${profile.firstName} ${profile.lastName}`}</Text>
       </InfoItem>
       <InfoItem>
         <Text variant="caption">Documento de identidad</Text>
-        <Text>DNI 12345678</Text>
+        <Text>{`${profile.documentType} ${profile.documentIdentification}`}</Text>
       </InfoItem>
       <Spacer variant="top" size={2} />
-      <NavItem onPress={() => navigation.navigate("EditInfo")}>
+      <NavItem onPress={() => navigation.navigate("EditInfo", { profile, editType: "phone" })}>
         <ItemWrapper>
           <View>
             <Text variant="caption">Teléfono</Text>
@@ -35,7 +37,7 @@ export const BasicInfoScreen = ({ route, navigation }) => {
         </ItemWrapper>
       </NavItem>
       <Spacer variant="top" size={2} />
-      <NavItem>
+      <NavItem onPress={() => navigation.navigate("EditInfo", { profile, editType: "email" })}>
         <ItemWrapper>
           <View>
             <Text variant="caption">Correo electrónico</Text>

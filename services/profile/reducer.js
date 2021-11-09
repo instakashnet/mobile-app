@@ -1,4 +1,5 @@
 import * as types from "./types";
+
 const initialState = {
   profiles: [],
   profile: null,
@@ -15,11 +16,13 @@ export const profileReducer = (state = initialState, action = {}) => {
       return { ...state, isLoading: false, profiles: action.profiles };
 
     case types.ADD_PROFILE_INIT:
+    case types.UPDATE_PROFILE_INIT:
       return { ...state, isProcessing: true, profileError: null };
     case types.ADD_PROFILE_SUCCESS:
+    case types.UPDATE_PROFILE_SUCCESS:
       return { ...state, isProcessing: false };
 
-    case types.SELECT_PROFILE:
+    case types.SELECT_PROFILE_SUCCESS:
       return { ...state, profile: action.profile };
     case types.CLEAR_PROFILE:
       return { ...state, profile: null };
