@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, TouchableWithoutFeedback, Alert, Linking, Platform, View } from "react-native";
+import { TouchableOpacity, TouchableWithoutFeedback, Alert, Linking, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../theme";
 
@@ -15,10 +15,10 @@ export const headerOptions = {
     borderBottomWidth: 1,
   },
   headerLeftContainerStyle: {
-    paddingBottom: Platform.OS === "ios" ? 0 : 25,
+    paddingBottom: 0,
   },
   headerTitleContainerStyle: {
-    paddingBottom: Platform.OS === "ios" ? 0 : 25,
+    paddingBottom: 0,
   },
 };
 
@@ -33,7 +33,7 @@ const onOpenWhatsapp = async () => {
 };
 
 export const headerLeft = () => (
-  <View style={{ paddingBottom: Platform.OS === "ios" ? 0 : 20, marginLeft: 10 }}>
+  <View style={{ paddingBottom: 0, marginLeft: 10 }}>
     <TouchableOpacity onPress={onOpenWhatsapp}>
       <Whatsapp />
     </TouchableOpacity>
@@ -41,7 +41,7 @@ export const headerLeft = () => (
 );
 
 export const headerBackLeft = (navigation) => (
-  <View style={{ paddingBottom: Platform.OS === "ios" ? 0 : 20, marginLeft: 10 }}>
+  <View style={{ paddingBottom: 0, marginLeft: 10 }}>
     <TouchableOpacity onPress={navigation.goBack}>
       <Ionicons name="arrow-back-outline" color="#0D8284" size={30} />
     </TouchableOpacity>
@@ -49,9 +49,17 @@ export const headerBackLeft = (navigation) => (
 );
 
 export const headerRight = (navigation) => (
-  <View style={{ paddingBottom: Platform.OS === "ios" ? 0 : 20, marginRight: 10 }}>
+  <View style={{ paddingBottom: 0, marginRight: 10 }}>
     <TouchableWithoutFeedback onPress={navigation.toggleDrawer}>
       <Ionicons name="menu-outline" color="#0D8284" size={30} />
+    </TouchableWithoutFeedback>
+  </View>
+);
+
+export const headerCameraFlash = (onPress, iconType) => (
+  <View style={{ paddingBottom: 0, marginRight: 10 }}>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <Ionicons name={iconType === 2 ? "ios-flash-outline" : iconType === 1 ? "ios-flash" : "ios-flash-off-outline"} color="#0D8284" size={30} />
     </TouchableWithoutFeedback>
   </View>
 );

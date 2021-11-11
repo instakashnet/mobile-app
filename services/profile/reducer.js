@@ -17,9 +17,11 @@ export const profileReducer = (state = initialState, action = {}) => {
 
     case types.ADD_PROFILE_INIT:
     case types.UPDATE_PROFILE_INIT:
+    case types.UPLOAD_DOCUMENT_INIT:
       return { ...state, isProcessing: true, profileError: null };
     case types.ADD_PROFILE_SUCCESS:
     case types.UPDATE_PROFILE_SUCCESS:
+    case types.UPLOAD_DOCUMENT_SUCCESS:
       return { ...state, isProcessing: false };
 
     case types.SELECT_PROFILE_SUCCESS:

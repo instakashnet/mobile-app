@@ -2,6 +2,7 @@ export const colors = {
   brand: {
     primary: "#0D8284",
     secondary: "#20A2A5",
+    tertiary: "#13AAAC",
   },
   ui: {
     primary: "#69BEA0",

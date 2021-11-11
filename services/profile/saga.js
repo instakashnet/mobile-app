@@ -41,8 +41,13 @@ function* watchUpdateprofile() {
 }
 
 function* updateProfile({ values }) {
+  const profileValues = {
+    ...values,
+    address: `${values.address}, ${values.district}, ${values.state}`,
+  };
+
   try {
-    const res = yield authInstance.put("/users/profiles", values);
+    const res = yield authInstance.put("/users/profiles", profileValues);
     if (res.status === 200) {
       yield call([RootNavigation, "goBack"]);
       yield put(actions.updateProfileSuccess());
@@ -50,6 +55,14 @@ function* updateProfile({ values }) {
   } catch (error) {
     yield put(actions.profileError(error.message));
   }
+}
+
+function* watchUploadDocument() {
+  yield takeLatest(types.UPLOAD_DOCUMENT_INIT, uploadDocument);
+}
+
+function* uploadDocument({ values }) {
+  console.log(values);
 }
 
 function* watchSelectProfile() {
@@ -65,5 +78,5 @@ function* selectProfile({ profile }) {
 }
 
 export function* profileSaga() {
-  yield all([fork(watchGetProfiles), fork(watchAddProfiles), fork(watchSelectProfile), fork(watchUpdateprofile)]);
+  yield all([fork(watchGetProfiles), fork(watchAddProfiles), fork(watchSelectProfile), fork(watchUpdateprofile), fork(watchUploadDocument)]);
 }

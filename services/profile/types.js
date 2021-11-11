@@ -12,5 +12,8 @@ export const SELECT_PROFILE_SUCCESS = "profile/SELECT_PROFILE_SUCCESS";
 
 export const CLEAR_PROFILE = "profile/CLEAR_PROFILE";
 
+export const UPLOAD_DOCUMENT_INIT = "profile/UPLOAD_DOCUMENT_INIT";
+export const UPLOAD_DOCUMENT_SUCCESS = "profile/UPLOAD_DOCUMENT_SUCCESS";
+
 export const CLEAR_ERROR = "profile/CLEAR_ERROR";
 export const API_ERROR = "profile/API_ERROR";

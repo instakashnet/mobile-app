@@ -10,18 +10,18 @@ const defaultStyles = (theme) => `
   shadow-offset: 5px 10px;
   shadow-radius: 17px;
   elevation: 5;
-
 `;
 
-const defaultAttrs = (theme) => ({
+const defaultAttrs = (theme, labelStyle = {}) => ({
   labelStyle: {
     color: theme.colors.text.body,
     fontSize: 14,
     fontFamily: theme.fonts.button,
     letterSpacing: 0,
+    ...labelStyle,
   },
   contentStyle: {
-    height: 45,
+    height: 50,
   },
 });
 
@@ -49,10 +49,12 @@ const variants = {
   error,
 };
 
-export const Button = styled(PaperButton).attrs(({ theme, variant }) => ({
-  ...defaultAttrs(theme),
-  ...variants[variant](theme),
-}))`
+export const Button = styled(PaperButton).attrs(({ theme, variant, labelStyle }) => {
+  return {
+    ...defaultAttrs(theme, labelStyle),
+    ...variants[variant](theme),
+  };
+})`
   ${({ theme }) => defaultStyles(theme)}
 `;
 

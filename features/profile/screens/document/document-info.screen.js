@@ -18,13 +18,13 @@ export const DocumentInfoScreen = ({ route, navigation }) => {
         </Text>
       </HeaderProfile>
       <Spacer variant="top" size={6} />
-      <NavItem onPress={() => navigation.navigate("UploadDocument", { profile, uploadType: "front" })}>
+      <NavItem onPress={() => navigation.navigate("DocumentUpload", { profile, uploadType: "frontal" })}>
         <ItemWrapper>
           <Text>Subir parte frontal</Text>
           <RightArrow />
         </ItemWrapper>
       </NavItem>
-      <NavItem onPress={() => navigation.navigate("UploadDocument", { profile, uploadType: "back" })}>
+      <NavItem onPress={() => navigation.navigate("DocumentUpload", { profile, uploadType: "trasera" })}>
         <ItemWrapper>
           <Text>Subir parte trasera</Text>
           <RightArrow />

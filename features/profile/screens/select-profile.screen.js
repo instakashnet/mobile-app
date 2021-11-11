@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { TouchableOpacity, Platform, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -11,7 +12,6 @@ import { Male } from "../../../assets/icons/male";
 import { LogoutIcon } from "../../../assets/icons/logout";
 
 // COMPONENTS
-import { SelectProfileCover, Title, SubTitle, CompanyProfileView, AddCompanyList, CompanyList } from "../components/select-profile.styles";
 import { CompanyProfile } from "../components/company-profile.component";
 import { AddCompany } from "../components/add-company.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -19,6 +19,8 @@ import { Loader } from "../../../components/UI/loader.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Link } from "../../../components/typography/link.component";
+import { AddCompanyList, CompanyList } from "../components/select-profile.styles";
+import { CoverBackground, ProfileWrapper, Title, SubTitle, Info } from "../components/profile.styles";
 
 export const SelectProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -48,9 +50,11 @@ export const SelectProfileScreen = ({ navigation }) => {
   };
 
   // EFFECTS
-  useEffect(() => {
-    dispatch(getProfiles());
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getProfiles());
+    }, [])
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -67,19 +71,21 @@ export const SelectProfileScreen = ({ navigation }) => {
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <SelectProfileCover>
-        <Title>Bienvenido</Title>
+      <CoverBackground>
+        <Title>Hola, bienvenido</Title>
         <Male width={90} />
         <Spacer variant="top" />
-        <SubTitle>Hola, ¿Que perfil usarás hoy?</SubTitle>
+        <SubTitle>Elige tu perfil</SubTitle>
+        <Spacer variant="top" />
+        <Info>Selecciona una de las opciones dependiendo de si desea recibir una boleta o factura.</Info>
         <Spacer variant="top" size={2} />
         <Link style={{ borderBottomColor: "#FFF" }} onPress={onSelectProfile.bind(this, "natural")}>
           <Text variant="bold" style={{ color: "#FFF" }}>
             Continuar como {user.name}
           </Text>
         </Link>
-      </SelectProfileCover>
-      <CompanyProfileView>
+      </CoverBackground>
+      <ProfileWrapper>
         <Text variant="subtitle">Usar un perfil de empresa</Text>
         {companyProfiles.length > 0 && (
           <CompanyList>
@@ -101,7 +107,7 @@ export const SelectProfileScreen = ({ navigation }) => {
             <Text variant="bold">Agregar perfil empresa</Text>
           </Link>
         )}
-      </CompanyProfileView>
+      </ProfileWrapper>
     </SafeArea>
   );
 };

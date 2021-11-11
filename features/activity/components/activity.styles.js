@@ -15,7 +15,7 @@ export const ActivityScroll = styled.ScrollView.attrs({
 export const ActivityWrapper = styled.View`
   flex: 1;
   padding: ${({ theme }) => theme.space[3]};
-  width: ${Dimensions.get("window").width};
+  width: ${Dimensions.get("window").width}px;
 `;
 
 export const EmptyWrapper = styled.View`

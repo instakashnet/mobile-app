@@ -37,6 +37,15 @@ export const selectProfileSuccess = (profile) => ({
   profile,
 });
 
+export const uploadDocument = (values) => ({
+  type: types.UPLOAD_DOCUMENT_INIT,
+  values,
+});
+
+export const uploadDocumentSuccess = () => ({
+  type: types.UPLOAD_DOCUMENT_SUCCESS,
+});
+
 export const clearProfile = () => ({
   type: types.CLEAR_PROFILE,
 });

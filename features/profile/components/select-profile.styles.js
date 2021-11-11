@@ -1,39 +1,13 @@
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 
-// COMPONENTS
-import { Text } from "../../../components/typography/text.component";
-
-export const SelectProfileCover = styled.ImageBackground.attrs({
-  source: require("../../../assets/bg/profile-select-bg.png"),
-  resizeMode: "cover",
-})`
-  height: ${Dimensions.get("window").height / (Dimensions.get("window").height < 812 ? 1.9 : 2.2)}px;
-  align-items: center;
-  width: ${Dimensions.get("window").width}px;
-  padding-top: ${({ theme }) => (Dimensions.get("window").height < 812 ? theme.space[4] : theme.space[6])};
-`;
-
-export const Title = styled(Text)`
-  font-family: ${({ theme }) => theme.fonts.button};
-  color: #fff;
-  font-size: ${({ theme }) => theme.fontSizes.large};
-  line-height: 40px;
-  margin-vertical: ${({ theme }) => theme.space[3]};
-`;
-
 export const HeaderIconsWrapper = styled.View`
   flex-direction: row;
   align-items: center;
 `;
 
-export const SubTitle = styled(Text)`
-  font-family: ${({ theme }) => theme.fonts.button};
-  color: #fff;
-`;
-
 export const CompanyProfileView = styled.View`
-  flex: 1;
+  flex: 0.55;
   align-items: center;
   justify-content: center;
 `;
