@@ -56,13 +56,6 @@ function* loadUser() {
       return yield call([RootNavigation, "navigate"], "CompleteProfile");
     }
 
-    const profileSelected = yield call([AsyncStorage, "getItem"], "profileSelected");
-
-    if (profileSelected) {
-      const profile = { ...JSON.parse(profileSelected), ...resData.user };
-      yield put(selectProfile(profile));
-    }
-
     yield put(actions.loginUserSuccess());
     yield put(actions.loadUserSuccess(resData.user));
   } catch (error) {

@@ -10,12 +10,12 @@ import { Spacer } from "../../../../components/utils/spacer.component";
 import { HeaderProfile, FormWrapper } from "../../components/profile.styles";
 
 export const EditInfoScreen = ({ route }) => {
-  const { profile, editType } = route.params;
+  const { user, editType } = route.params;
 
   // FORMIK
   let values = {};
-  if (editType === "phone") values = { phone: profile.phone };
-  if (editType === "email") values = { email: profile.email };
+  if (editType === "phone") values = { phone: user.phone };
+  if (editType === "email") values = { email: user.email };
   const formik = useFormik({ initialValues: values, enableReinitialize: true, onSubmit: (values) => console.log(values) });
 
   return (

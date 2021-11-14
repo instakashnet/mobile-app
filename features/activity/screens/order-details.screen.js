@@ -1,4 +1,6 @@
 import React from "react";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 // FUNCTIONS
 import { formatAmount } from "../../../shared/helpers/funcitons";
@@ -19,7 +21,8 @@ export const OrderDetailsScreen = ({ route }) => {
           <Spacer variant="top" />
           <Text variant="subtitle">Detalles de mi cambio</Text>
           <InfoWrapper>
-            <Badge color={order.stateColor} style={{ marginLeft: "auto" }}>
+            <Text variant="bold">{format(new Date(order.completedAt || order.created), "MMM. dd hh:mm aaaa", { locale: es })}</Text>
+            <Badge color={order.stateColor}>
               <Status color={order.stateColor}>{order.estateName}</Status>
             </Badge>
           </InfoWrapper>

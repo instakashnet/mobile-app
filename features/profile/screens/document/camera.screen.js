@@ -44,7 +44,7 @@ export const CameraScreen = ({ navigation }) => {
     try {
       if (cameraRef.current) {
         const photo = await cameraRef.current.takePictureAsync({ quality: 0.8 });
-        const image = await manipulateAsync(photo.uri, [{ resize: { height: 1160 } }], { compress: 1, format: SaveFormat.JPEG });
+        const image = await manipulateAsync(photo.uri, [{ resize: { height: 500 } }], { compress: 0.8, format: SaveFormat.JPEG });
 
         navigation.navigate("DocumentUpload", { photo: image });
       }

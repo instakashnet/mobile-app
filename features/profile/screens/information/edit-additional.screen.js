@@ -6,29 +6,29 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateProfile } from "../../../../store/actions";
 
 // COMPONENTS
-import { FormWrapper, HeaderProfile } from "../../components/profile.styles";
 import { SafeArea } from "../../../../components/utils/safe-area.component";
 import { Text } from "../../../../components/typography/text.component";
 import { DateInput } from "../../../../components/forms/date-input.component";
 import { Input } from "../../../../components/forms/input.component";
 import { Button } from "../../../../components/UI/button.component";
+import { FormWrapper, HeaderProfile } from "../../components/profile.styles";
 
 export const EditAdditionalScreen = ({ route }) => {
   const dispatch = useDispatch(),
     isProcessing = useSelector((state) => state.profileReducer.isProcessing),
-    { profile } = route.params;
+    { user } = route.params;
 
   // FORMIK
   const formik = useFormik({
     initialValues: {
-      profileId: profile.id,
+      profileId: user.profileId,
       type: "natural",
-      date_birth: new Date(profile.dateBirth) || "",
-      address: profile.address || "",
+      date_birth: new Date(user.dateBirth) || "",
+      address: user.address || "",
       district: "",
       state: "",
-      job: profile.job || "",
-      profession: profile.profession || "",
+      job: user.job || "",
+      profession: user.profession || "",
     },
     enableReinitialize: true,
     onSubmit: (values) => dispatch(updateProfile(values)),

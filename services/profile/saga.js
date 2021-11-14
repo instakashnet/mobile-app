@@ -1,9 +1,10 @@
 import { put, all, fork, call, takeEvery, takeLatest, select } from "redux-saga/effects";
 import camelize from "camelize";
 import * as types from "./types";
-import * as actions from "./actions";
 import { authInstance } from "../auth.service";
 import * as RootNavigation from "../../navigation/root.navigation";
+import * as actions from "./actions";
+import { loadUserSuccess } from "../auth/actions";
 
 // SAGAS
 function* watchGetProfiles() {
@@ -49,6 +50,10 @@ function* updateProfile({ values }) {
   try {
     const res = yield authInstance.put("/users/profiles", profileValues);
     if (res.status === 200) {
+      const res = yield authInstance.get("/users/session");
+      const user = camelize(res.data.user);
+      yield put(loadUserSuccess(user));
+
       yield call([RootNavigation, "goBack"]);
       yield put(actions.updateProfileSuccess());
     }
@@ -61,8 +66,35 @@ function* watchUploadDocument() {
   yield takeLatest(types.UPLOAD_DOCUMENT_INIT, uploadDocument);
 }
 
-function* uploadDocument({ values }) {
-  console.log(values);
+function* uploadDocument({ values, uploadType }) {
+  let URL;
+  const formData = new FormData();
+
+  if (uploadType === "frontal") {
+    URL = "/users/upload-identity-photo";
+    formData.append("file-one", {
+      name: "front-document",
+      uri: values.identityPhoto.uri,
+      type: "image/jpg",
+    });
+  } else {
+    URL = "/users/upload-identity-photo-two";
+    formData.append("file-two", {
+      name: "back-document",
+      uri: values.identityPhotoTwo.uri,
+      type: "image/jpg",
+    });
+  }
+
+  try {
+    const res = yield authInstance.post(URL, formData, { headers: { "Content-Type": "multipart/form-data" } });
+    if (res.status === 200) {
+      yield call([RootNavigation, "goBack"]);
+      yield put(actions.uploadDocumentSuccess());
+    }
+  } catch (error) {
+    yield put(actions.profileError(error.message));
+  }
 }
 
 function* watchSelectProfile() {
@@ -75,6 +107,7 @@ function* selectProfile({ profile }) {
 
   const profileData = { ...camelProfile, ...user };
   yield put(actions.selectProfileSuccess(profileData));
+  yield call([RootNavigation, "navigate"], "Calculator");
 }
 
 export function* profileSaga() {

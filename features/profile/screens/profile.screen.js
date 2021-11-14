@@ -13,7 +13,7 @@ import { InfoWrapper, NavItem, RightArrow, ItemWrapper } from "../components/pro
 import { Text } from "../../../components/typography/text.component";
 
 export const ProfileScreen = ({ navigation }) => {
-  const profile = useSelector((state) => state.profileReducer.profile);
+  const user = useSelector((state) => state.authReducer.user);
 
   return (
     <SafeArea>
@@ -21,24 +21,24 @@ export const ProfileScreen = ({ navigation }) => {
         <Male width={90} />
         <Spacer variant="top" />
         <Text variant="subtitle" style={{ color: "#FFF" }}>
-          {profile.razonSocial || `${profile.firstName} ${profile.lastName}`}
+          {user.name}
         </Text>
-        <Text style={{ color: "#FFF" }}>Perfil {profile.razonSocial ? "jurídico" : "natural"}</Text>
+        <Text style={{ color: "#FFF" }}>{user.username}</Text>
       </InfoWrapper>
       <Spacer variant="top" size={6} />
-      <NavItem onPress={() => navigation.navigate("BasicInfo", { profile })}>
+      <NavItem onPress={() => navigation.navigate("BasicInfo", { user })}>
         <ItemWrapper>
           <Text>Datos personales</Text>
           <RightArrow />
         </ItemWrapper>
       </NavItem>
-      <NavItem onPress={() => navigation.navigate("DocumentInfo", { profile })}>
+      <NavItem onPress={() => navigation.navigate("DocumentInfo", { user })}>
         <ItemWrapper>
           <Text>Documento</Text>
           <RightArrow />
         </ItemWrapper>
       </NavItem>
-      <NavItem onPress={() => navigation.navigate("AdditionalInfo", { profile })}>
+      <NavItem onPress={() => navigation.navigate("AdditionalInfo", { user })}>
         <ItemWrapper>
           <Text>Datos adicionales</Text>
           <RightArrow />

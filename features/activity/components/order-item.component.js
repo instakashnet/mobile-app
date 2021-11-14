@@ -20,7 +20,7 @@ export const OrderItem = ({ order, onOpen }) => {
       <View>
         <Text>{order.uuid}</Text>
         <Text variant="bold">{`${order.currencyReceivedSymbol} ${formatAmount(order.amountReceived)}`}</Text>
-        <Text variant="caption">{format(new Date(order.completedAt || order.created), "MMM. dd HH:mm aaaa", { locale: es })}</Text>
+        <Text variant="caption">{format(new Date(order.completedAt || order.created), "MMM. dd hh:mm aaaa", { locale: es })}</Text>
       </View>
       <Ionicons name="arrow-forward" color="#0D8284" size={25} />
     </OrderCard>

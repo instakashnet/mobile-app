@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
@@ -21,7 +22,7 @@ import { CoverBackground, ProfileWrapper, Title, Info, ListItem, ListWrapper } f
 export const DocumentUploadScreen = ({ route, navigation }) => {
   const dispatch = useDispatch(),
     isProcessing = useSelector((state) => state.profileReducer.isProcessing),
-    { photo, uploadType } = route.params,
+    { photo, uploadType, user } = route.params,
     [image, setImage] = useState(null);
 
   // EFFECTS
@@ -44,24 +45,26 @@ export const DocumentUploadScreen = ({ route, navigation }) => {
 
   // HANDLERS
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.8,
-    });
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [16, 9],
+        quality: 0.8,
+      });
 
-    if (!result.cancelled) setImage(result);
-  };
-
-  const onUploadDocument = (values) => dispatch(uploadDocument(values, uploadType));
+      if (!result.cancelled) {
+        const image = await manipulateAsync(result.uri, [{ resize: { height: 500 } }], { compress: 0.8, format: SaveFormat.JPEG });
+        setImage(image);
+      }
+    },
+    onUploadDocument = (values) => dispatch(uploadDocument(values, uploadType));
 
   return (
     <SafeArea>
       <CoverBackground>
         <Title>Parte {uploadType}</Title>
         {image ? (
-          <UploadForm image={image} type={uploadType} onSubmit={onUploadDocument} isProcessing={isProcessing} />
+          <UploadForm image={image} type={uploadType} user={user} onSubmit={onUploadDocument} isProcessing={isProcessing} />
         ) : (
           <>
             <DocumentFront />

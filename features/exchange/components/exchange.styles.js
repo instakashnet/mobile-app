@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const ExchangeScroll = styled.ScrollView.attrs({
   contentContainerStyle: {
@@ -18,6 +19,29 @@ export const ExchangeWrapper = styled.View`
   align-items: center;
   padding-horizontal: ${({ theme }) => theme.space[5]};
   width: ${Dimensions.get("window").width}px;
+`;
+
+export const ExchangeHeader = styled(LinearGradient).attrs(({ theme }) => ({
+  colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
+}))`
+  width: 100%;
+  height: 85px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-vertical: ${({ theme }) => theme.space[2]};
+  padding-horizontal: ${({ theme }) => theme.space[5]};
+`;
+
+export const ProfileInfo = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const Type = styled.Text`
+  color: ${({ theme }) => theme.colors.ui.secondary};
+  font-family: ${({ theme }) => theme.fonts.title};
+  font-size: ${({ theme }) => theme.fontSizes.body};
 `;
 
 export const RatesWrapper = styled.View`

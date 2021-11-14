@@ -11,7 +11,7 @@ export const CompanyProfile = ({ onSelect, companyName }) => {
   return (
     <CompanyWrapper>
       <CompanyBox onPress={onSelect}>
-        <CompanyIcon />
+        <CompanyIcon width={50} />
       </CompanyBox>
       <Text variant="caption">
         <Text variant="bold">{companyName.length > 20 ? companyName.substring(0, 15) + "..." : companyName}</Text>

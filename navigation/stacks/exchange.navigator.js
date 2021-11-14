@@ -13,12 +13,14 @@ import { AccountsScreen } from "../../features/exchange/screens/accounts.screen"
 import { AccountSelectScreen } from "../../features/exchange/screens/account-select.screen";
 import { TransferCodeScreen } from "../../features/exchange/screens/transfer-code.screen";
 import { CompletedScreen } from "../../features/exchange/screens/completed.screen";
+import { SelectProfileScreen } from "../../features/profile/screens/select-profile.screen";
 
 const ExchangeStack = createStackNavigator();
 
 export const ExchangeNavigator = () => {
   return (
     <ExchangeStack.Navigator
+      initialRouteName="Calculator"
       screenOptions={({ navigation }) => ({
         ...headerOptions,
         headerLeft,
@@ -28,6 +30,7 @@ export const ExchangeNavigator = () => {
         gestureEnabled: false,
       })}
     >
+      <ExchangeStack.Screen name="SelectProfile" options={{ animationEnabled: false }} component={SelectProfileScreen} />
       <ExchangeStack.Screen name="Calculator" options={{ animationEnabled: false }} component={CalculatorScreen} />
       <ExchangeStack.Screen name="Accounts" component={AccountsScreen} />
       <ExchangeStack.Screen
