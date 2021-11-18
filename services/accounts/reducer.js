@@ -33,7 +33,7 @@ export const accountsReducer = (state = initialState, action = {}) => {
     case types.CLEAR_ERROR:
       return { ...state, accountsError: null };
     case types.API_ERROR:
-      return { ...state, isLoading: false, accountsError: action.error };
+      return { ...state, isLoading: false, isProcessing: false, accountsError: action.error };
     default:
       return state;
   }

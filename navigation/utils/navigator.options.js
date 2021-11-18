@@ -22,6 +22,12 @@ export const headerOptions = {
   },
 };
 
+export const topBarOptions = {
+  tabBarInactiveTintColor: "#676767",
+  tabBarActiveTintColor: "#FFF",
+  tabBarIndicatorStyle: { backgroundColor: "#20A2A5", height: "100%" },
+};
+
 const onOpenWhatsapp = async () => {
   const URL = `whatsapp://send?text=Hola Instakash, deseo información&phone=51930463531`;
 

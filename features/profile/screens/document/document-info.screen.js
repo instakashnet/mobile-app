@@ -7,11 +7,10 @@ import { useSelector } from "react-redux";
 import { SafeArea } from "../../../../components/utils/safe-area.component";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
-import { HeaderProfile, NavItem, ItemWrapper, RightArrow } from "../../components/profile.styles";
+import { HeaderProfile, NavItem, ItemWrapper, InfoItem, RightArrow, Check } from "../../components/profile.styles";
 
 export const DocumentInfoScreen = ({ route, navigation }) => {
   const user = useSelector((state) => state.authReducer.user);
-  console.log(user);
 
   return (
     <SafeArea>
@@ -22,18 +21,36 @@ export const DocumentInfoScreen = ({ route, navigation }) => {
         </Text>
       </HeaderProfile>
       <Spacer variant="top" size={6} />
-      <NavItem onPress={() => navigation.navigate("DocumentUpload", { user, uploadType: "frontal" })}>
-        <ItemWrapper>
-          <Text>Subir parte frontal</Text>
-          <RightArrow />
-        </ItemWrapper>
-      </NavItem>
-      <NavItem onPress={() => navigation.navigate("DocumentUpload", { user, uploadType: "trasera" })}>
-        <ItemWrapper>
-          <Text>Subir parte trasera</Text>
-          <RightArrow />
-        </ItemWrapper>
-      </NavItem>
+      {user.identityPhotoFront ? (
+        <InfoItem>
+          <ItemWrapper>
+            <Text>Parte frontal cargada</Text>
+            <Check />
+          </ItemWrapper>
+        </InfoItem>
+      ) : (
+        <NavItem onPress={() => navigation.navigate("DocumentUpload", { user, uploadType: "frontal" })}>
+          <ItemWrapper>
+            <Text>Subir parte frontal</Text>
+            <RightArrow />
+          </ItemWrapper>
+        </NavItem>
+      )}
+      {user.identityPhotoBack ? (
+        <InfoItem>
+          <ItemWrapper>
+            <Text>Parte trasera cargada</Text>
+            <Check />
+          </ItemWrapper>
+        </InfoItem>
+      ) : (
+        <NavItem onPress={() => navigation.navigate("DocumentUpload", { user, uploadType: "trasera" })}>
+          <ItemWrapper>
+            <Text>Subir parte trasera</Text>
+            <RightArrow />
+          </ItemWrapper>
+        </NavItem>
+      )}
     </SafeArea>
   );
 };

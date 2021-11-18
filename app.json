@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "instakash",
     "name": "instakash-app",
     "slug": "instakash-app",
     "version": "1.0.0",
@@ -13,11 +14,10 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "associatedDomains": ["applinks:dev-client.instakash.net", "applinks:app.instakash.net"]
     },
     "android": {
       "adaptiveIcon": {

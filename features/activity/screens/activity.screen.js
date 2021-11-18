@@ -3,7 +3,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 // HELPERS
-import { formatAmount } from "../../../shared/helpers/funcitons";
+import { formatAmount } from "../../../shared/helpers/functions";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";

@@ -7,7 +7,7 @@ import { Spacer } from "../utils/spacer.component";
 
 const StyledInput = styled(Input).attrs(({ theme, focused, error }) => {
   return {
-    containerStyle: { width: 340, alignSelf: "center", marginTop: 10 },
+    containerStyle: { width: "100%", alignSelf: "center", marginTop: 10 },
     codeTextStyle: { fontSize: 14, color: theme.colors.text.body },
     textContainerStyle: {
       borderWidth: focused || error ? 2 : 1,

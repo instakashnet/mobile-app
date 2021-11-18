@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
 // HELPERS
-import { formatAmount } from "../../../shared/helpers/funcitons";
+import { formatAmount } from "../../../shared/helpers/functions";
 
 // COMPONENTS
 import { Text } from "../../../components/typography/text.component";

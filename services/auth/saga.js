@@ -5,7 +5,7 @@ import camelize from "camelize";
 import * as types from "./types";
 import * as actions from "./actions";
 import { openModal } from "../../store/actions";
-import { clearProfile, selectProfile } from "../profile/actions";
+import { clearProfile } from "../profile/actions";
 import { authInstance } from "../auth.service";
 import * as RootNavigation from "../../navigation/root.navigation";
 
@@ -96,6 +96,24 @@ function* loginUser({ values }) {
     if (res.status === 200) {
       yield call(setAuthToken, res.data);
       yield put(actions.loadUser());
+      yield put(actions.loginUserSuccess());
+    }
+  } catch (error) {
+    yield put(actions.apiError(error.message));
+  }
+}
+
+function* watchLoginGoogle() {
+  yield takeLatest(types.LOGIN_GOOGLE_INIT, loginGoogle);
+}
+
+function* loginGoogle({ token }) {
+  try {
+    const res = yield authInstance.post("/auth/google", { token });
+    if (res.status === 201) {
+      yield call(setAuthToken, res.data);
+      yield put(actions.loadUser());
+      yield put(actions.loginGoogleSuccess());
     }
   } catch (error) {
     yield put(actions.apiError(error.message));
@@ -106,12 +124,12 @@ function* watchRecoverPassword() {
   yield takeLatest(types.RECOVER_PASSWORD_INIT, recoverPassword);
 }
 
-function* recoverPassword({ values, show }) {
+function* recoverPassword({ values }) {
   try {
     const res = yield authInstance.post("/users/recover-password", values);
     if (res.status === 201) {
       yield put(actions.recoverPasswordSuccess());
-      yield call(show);
+      yield put(openModal());
     }
   } catch (error) {
     yield put(actions.apiError(error.message));
@@ -163,6 +181,20 @@ function* completeProfile({ values }) {
   }
 }
 
+function* watchGetAffiliates() {
+  yield takeEvery(types.GET_AFFILIATES_INIT, getAffiliates);
+}
+
+function* getAffiliates() {
+  try {
+    const res = yield authInstance.get("/users/affiliates");
+    const affiliates = camelize(res.data.affiliates);
+    if (res.status === 200) yield put(actions.getAffiliatesSuccess(affiliates));
+  } catch (error) {
+    yield put(actions.apiError(error.message));
+  }
+}
+
 function* watchLogoutUser() {
   yield takeLatest(types.LOGOUT_INIT, logoutUser);
 }
@@ -176,6 +208,7 @@ function* logoutUser() {
 
   yield call(clearUserData);
   yield put(actions.logoutUserSuccess());
+  yield call([RootNavigation, "push"], "Auth", { screen: "Login" });
 }
 
 export function* authSaga() {
@@ -188,5 +221,7 @@ export function* authSaga() {
     fork(watchRefreshCode),
     fork(watchCompleteProfile),
     fork(watchLogoutUser),
+    fork(watchGetAffiliates),
+    fork(watchLoginGoogle),
   ]);
 }

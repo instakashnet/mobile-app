@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
+import * as Google from "expo-auth-session/providers/google";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser, clearAuthError } from "../../../store/actions";
+import { loginUser, loginGoogle, clearAuthError } from "../../../store/actions";
 
 // ASSETS
 import { GoogleIcon } from "../../../assets/icons/google";
@@ -21,8 +22,19 @@ import { LoginForm } from "../components/forms/login-form.component";
 import { DismissKeyboard } from "../../../components/utils/dismiss-keyobard.component";
 
 export const LoginScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const { isProcessing, authError } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch(),
+    { isProcessing, authError } = useSelector((state) => state.authReducer),
+    [request, response, promptAsync] = Google.useAuthRequest({
+      expoClientId: "202060127908-l925rk28ljirtgiea26h043vc8uqfnt5.apps.googleusercontent.com",
+    });
+
+  // EFFECTS
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { authentication } = response;
+      dispatch(loginGoogle(authentication.accessToken));
+    }
+  }, [response]);
 
   // HANDLERS
   const onSubmit = (values) => dispatch(loginUser(values));
@@ -35,7 +47,7 @@ export const LoginScreen = ({ navigation }) => {
           <Spacer variant="top">
             <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
           </Spacer>
-          <Button icon={() => <GoogleIcon />} variant="secondary" onPress={() => {}}>
+          <Button icon={() => <GoogleIcon />} disabled={!request} variant="secondary" onPress={promptAsync}>
             Ingresar con Google
           </Button>
           <Spacer variant="top" />

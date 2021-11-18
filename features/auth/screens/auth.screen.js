@@ -3,9 +3,10 @@ import Carousel from "react-native-snap-carousel";
 
 // Components
 import { AuthWrapper } from "../components/auth.styles";
-import { SlideItem } from "../components/slide.component";
+import { SlideItem } from "../../../components/UI/slide-item.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Button } from "../../../components/UI/button.component";
+import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 
 export const AuthScreen = ({ navigation }) => {
@@ -17,7 +18,7 @@ export const AuthScreen = ({ navigation }) => {
       {
         title: "Bienvenido a Instakash",
         image: require("../../../assets/illustrations/coin-3d.png"),
-        text: (
+        component: (
           <Text>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, <Text variant="bold">a cursus vel magna hendrerit.</Text>
           </Text>
@@ -36,7 +37,7 @@ export const AuthScreen = ({ navigation }) => {
           renderItem={SlideItem}
           sliderWidth={300}
           itemWidth={300}
-          containerCustomStyle={{ flexGrow: 0, padding: 0 }}
+          contentContainerCustomStyle={{ display: "flex", alignItems: "center" }}
         />
         <Button variant="secondary" onPress={() => navigation.navigate("Login")}>
           Acceder
@@ -44,6 +45,7 @@ export const AuthScreen = ({ navigation }) => {
         <Button variant="primary" onPress={() => navigation.navigate("Register")}>
           Registrarse
         </Button>
+        <Spacer variant="top" size={6} />
       </AuthWrapper>
     </SafeArea>
   );

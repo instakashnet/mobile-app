@@ -39,9 +39,6 @@ export const CompleteProfileScreen = () => {
         <Link onPress={onOpenModal}>
           <Text variant="bold">¿Porqué me piden estos datos?</Text>
         </Link>
-        <Alert type="error" onClose={clearAuthError} visible={!!authError}>
-          {authError}
-        </Alert>
       </AuthWrapper>
       <Modal>
         <Text variant="title">Todo por tu seguridad</Text>
@@ -55,6 +52,9 @@ export const CompleteProfileScreen = () => {
           Aceptar
         </Button>
       </Modal>
+      <Alert type="error" onClose={clearAuthError} visible={!!authError}>
+        {authError}
+      </Alert>
     </SafeArea>
   );
 };

@@ -22,7 +22,7 @@ export const completeProfileSchema = Yup.object().shape({
   document_type: Yup.string().required("Debes seleccionar tu tipo de documento."),
   document_identification: Yup.string()
     .required("Debes colocar tu nro. de documento.")
-    .matches(/^[0-9]{9,12}$/, "El nro. de documento colocado es incorrecto."),
+    .matches(/^[0-9]{8,11}$/, "El nro. de documento colocado es incorrecto."),
   first_name: Yup.string().required("Debes escribir tus nombres."),
   last_name: Yup.string().required("Debes escribir tus apellidos."),
   identity_sex: Yup.string().required("Debes seleccionar una opción."),

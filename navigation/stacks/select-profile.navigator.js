@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // UTILS
-import { headerOptions, headerLeft } from "../utils/navigator.options";
+import { headerOptions, headerLeft, headerBackLeft, headerRight } from "../utils/navigator.options";
 
 // ASSETS
 import { Logo } from "../../assets/illustrations/logo";
@@ -16,14 +16,19 @@ const SelectStack = createStackNavigator();
 export const SelectProfileNavigator = () => {
   return (
     <SelectStack.Navigator
-      initialRouteName="SelectProfile"
-      screenOptions={{
+      initialRouteName="Select"
+      screenOptions={({ navigation }) => ({
         ...headerOptions,
         headerLeft,
-      }}
+        headerRight: () => headerRight(navigation),
+      })}
     >
-      <SelectStack.Screen options={{ headerTitle: (props) => <Logo width={100} /> }} name="SelectProfile" component={SelectProfileScreen} />
-      <SelectStack.Screen name="AddProfile" options={{ headerTitle: "Agregar empresa", headerBackTitleVisible: false }} component={AddProfileScreen} />
+      <SelectStack.Screen options={{ headerTitle: (props) => <Logo width={100} /> }} name="Select" component={SelectProfileScreen} />
+      <SelectStack.Screen
+        name="AddProfile"
+        options={({ navigation }) => ({ headerTitle: "Agregar empresa", headerLeft: () => headerBackLeft(navigation), headerBackTitleVisible: false })}
+        component={AddProfileScreen}
+      />
     </SelectStack.Navigator>
   );
 };

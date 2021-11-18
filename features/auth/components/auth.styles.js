@@ -19,19 +19,6 @@ export const SplashWrapper = styled.View`
   width: 100%;
 `;
 
-export const SlideImage = styled.Image`
-  height: 170px;
-  resize-mode: contain;
-`;
-
-export const SlideView = styled.View`
-  padding: ${({ theme }) => theme.space[2]};
-  height: ${(Dimensions.get("window").width * 3) / 4}px;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-
 export const Slider = styled(Carousel).attrs(({ theme }) => ({
   containerCustomStyle: {
     width: theme.sizes[3],

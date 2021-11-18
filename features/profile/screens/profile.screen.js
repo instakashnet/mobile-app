@@ -1,5 +1,8 @@
 import React from "react";
 
+// HELPERS
+import { openURL } from "../../../shared/helpers/functions";
+
 // REDUX
 import { useSelector } from "react-redux";
 
@@ -44,7 +47,7 @@ export const ProfileScreen = ({ navigation }) => {
           <RightArrow />
         </ItemWrapper>
       </NavItem>
-      <NavItem>
+      <NavItem onPress={() => openURL("https://instakash.net/faq/")}>
         <ItemWrapper>
           <Text>Centro de ayuda</Text>
           <RightArrow />

@@ -6,6 +6,13 @@ import * as RootNavigation from "../../navigation/root.navigation";
 import * as actions from "./actions";
 import { loadUserSuccess } from "../auth/actions";
 
+// UTILS
+function* getUserData() {
+  const res = yield authInstance.get("/users/session");
+  const user = camelize(res.data.user);
+  yield put(loadUserSuccess(user));
+}
+
 // SAGAS
 function* watchGetProfiles() {
   yield takeEvery(types.GET_PROFILES_INIT, getProfiles);
@@ -30,7 +37,7 @@ function* addProfile({ values }) {
     const res = yield authInstance.post("/users/profiles", values);
     if (res.status === 200) {
       yield put(actions.addProfileSuccess());
-      yield call([RootNavigation, "navigate"], "SelectProfile");
+      yield call([RootNavigation, "popToTop"]);
     }
   } catch (error) {
     yield put(actions.profileError(error.message));
@@ -50,9 +57,7 @@ function* updateProfile({ values }) {
   try {
     const res = yield authInstance.put("/users/profiles", profileValues);
     if (res.status === 200) {
-      const res = yield authInstance.get("/users/session");
-      const user = camelize(res.data.user);
-      yield put(loadUserSuccess(user));
+      yield getUserData();
 
       yield call([RootNavigation, "goBack"]);
       yield put(actions.updateProfileSuccess());
@@ -89,6 +94,8 @@ function* uploadDocument({ values, uploadType }) {
   try {
     const res = yield authInstance.post(URL, formData, { headers: { "Content-Type": "multipart/form-data" } });
     if (res.status === 200) {
+      yield getUserData();
+
       yield call([RootNavigation, "goBack"]);
       yield put(actions.uploadDocumentSuccess());
     }

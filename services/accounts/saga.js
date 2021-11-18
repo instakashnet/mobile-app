@@ -49,12 +49,14 @@ function* watchAddAccount() {
   yield takeLatest(types.ADD_ACCOUNT_INIT, addAccount);
 }
 
-function* addAccount({ values, addType }) {
+function* addAccount({ values, accType }) {
   try {
     const res = yield accountsInstance.post("/accounts", values);
     if (res.status === 201) {
       yield put(actions.addAccountSuccess());
-      yield call([RootNavigator, "navigate"], addType === "accounts" ? "MyAccounts" : "AccountSelect");
+      if (accType === "personal") {
+        yield call([RootNavigator, "goBack"]);
+      } else yield call([RootNavigator, "pop"], 1);
     }
   } catch (error) {
     yield put(actions.accountsError(error.message));

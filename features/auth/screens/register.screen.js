@@ -7,6 +7,7 @@ import { registerUser, clearAuthError } from "../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
+import { KeyboardView } from "../../../components/utils/keyboard-view.component";
 import { AuthWrapper } from "../components/auth.styles";
 import { Alert } from "../../../components/UI/alert.component";
 import { Text } from "../../../components/typography/text.component";
@@ -22,17 +23,19 @@ export const RegisterScreen = () => {
 
   return (
     <SafeArea>
-      <ScrollView contentContainerStyle={styles.registerContainer}>
-        <AuthWrapper>
-          <Text variant="title">¡Bienvenido a Instakash!</Text>
-          <Text>Regístrate y realiza tus operaciones de forma segura desde nuetra plataforma digital.</Text>
-          <Spacer variant="top" size={2} />
-          <RegisterForm isProcessing={isProcessing} onSubmit={onSubmit} />
-        </AuthWrapper>
-        <Alert type="error" onClose={clearAuthError} visible={!!authError}>
-          {authError}
-        </Alert>
-      </ScrollView>
+      <KeyboardView>
+        <ScrollView contentContainerStyle={styles.registerContainer}>
+          <AuthWrapper>
+            <Text variant="title">¡Bienvenido a Instakash!</Text>
+            <Text>Regístrate y realiza tus operaciones de forma segura desde nuetra plataforma digital.</Text>
+            <Spacer variant="top" size={2} />
+            <RegisterForm isProcessing={isProcessing} onSubmit={onSubmit} />
+          </AuthWrapper>
+        </ScrollView>
+      </KeyboardView>
+      <Alert type="error" onClose={clearAuthError} visible={!!authError}>
+        {authError}
+      </Alert>
     </SafeArea>
   );
 };

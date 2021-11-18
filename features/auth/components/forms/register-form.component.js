@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { Linking, Alert } from "react-native";
 
 // HELPERS
 import { registerSchema } from "../../validations/schemas";
+import { openURL } from "../../../../shared/helpers/functions";
 
 // COMPONENTS
 import { Input } from "../../../../components/forms/input.component";
@@ -22,14 +22,6 @@ export const RegisterForm = ({ onSubmit, isProcessing }) => {
     validationSchema: registerSchema,
     onSubmit,
   });
-
-  // HANDLERS
-  const openURL = async (url) => {
-    const supported = await Linking.canOpenURL(url);
-    if (!supported) return Alert.alert("Error", `Hay un error al intentar abrir la ruta: ${url}`);
-
-    await Linking.openURL(url);
-  };
 
   return (
     <>

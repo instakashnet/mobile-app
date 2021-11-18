@@ -12,6 +12,7 @@ import { Logo } from "../../assets/illustrations/logo";
 import { ExchangeNavigator } from "../stacks/exchange.navigator";
 import { AccountsNavigator } from "../stacks/accounts.navigator";
 import { ActivityNavigator } from "../stacks/activity.navigator";
+import { AffiliatesTabs } from "../tabs/affiliates-tabs.navigator";
 
 // SCREENS
 import { HomeScreen } from "../../features/home/screens/home.screen";
@@ -71,8 +72,20 @@ export const TabsNavigator = () => {
         component={HomeScreen}
       />
       <Tabs.Screen name="Exchange" options={{ tabBarLabel: "Cambiar" }} component={ExchangeNavigator} />
-      <Tabs.Screen name="Activity" options={{ tabBarLabel: "Mi actividad" }} component={ActivityNavigator} />
+      <Tabs.Screen name="Activity" options={{ tabBarLabel: "Mis cambios" }} component={ActivityNavigator} />
       <Tabs.Screen name="Accounts" options={{ tabBarLabel: "Mis cuentas" }} component={AccountsNavigator} />
+      <Tabs.Screen
+        name="Affiliates"
+        options={({ navigation }) => ({
+          tabBarButton: () => null,
+          headerShown: true,
+          ...headerOptions,
+          headerLeft,
+          headerTitle: "Mis afiliados",
+          headerRight: () => headerRight(navigation),
+        })}
+        component={AffiliatesTabs}
+      />
     </Tabs.Navigator>
   );
 };

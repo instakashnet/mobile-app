@@ -27,8 +27,8 @@ export const AuthNavigator = () => {
       <AuthStack.Screen options={{ headerShown: false }} name="CompleteProfile" component={CompleteProfileScreen} />
       <AuthStack.Screen options={{ headerTitle: "Acceder", headerBackTitleVisible: false }} name="Login" component={LoginScreen} />
       <AuthStack.Screen options={{ headerTitle: "Registrarse", headerBackTitleVisible: false }} name="Register" component={RegisterScreen} />
-      <AuthStack.Screen options={{ headerTitle: "Olvidé mi contraseña" }} name="RecoverPassword" component={RecoverPasswordScreen} />
-      <AuthStack.Screen options={{ headerTitle: "Nueva contraseña" }} name="ResetPassword" component={ResetPasswordScreen} />
+      <AuthStack.Screen options={{ headerTitle: "Olvidé mi contraseña", headerBackTitleVisible: false }} name="RecoverPassword" component={RecoverPasswordScreen} />
+      <AuthStack.Screen options={{ headerTitle: "Nueva contraseña", headerBackTitleVisible: false }} name="ResetPassword" component={ResetPasswordScreen} />
     </AuthStack.Navigator>
   );
 };

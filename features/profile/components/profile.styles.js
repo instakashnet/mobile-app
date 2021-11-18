@@ -13,6 +13,14 @@ export const ProfileWrapper = styled.View`
   width: ${Dimensions.get("window").width}px;
 `;
 
+export const ProfileScroll = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    flexGrow: 1,
+    alignItems: "center",
+    width: Dimensions.get("window").width,
+  },
+})``;
+
 export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
@@ -86,9 +94,7 @@ export const InfoItem = styled.View`
   background-color: #fff;
   border-color: ${({ theme }) => theme.colors.text.inactive};
   border-bottom-width: 1px;
-  padding-vertical: ${({ theme }) => theme.space[3]};
-  padding-left: ${({ theme }) => theme.space[6]};
-  padding-right: ${({ theme }) => theme.space[4]};
+  padding: ${({ theme }) => theme.space[4]};
   width: 100%;
 `;
 
@@ -102,6 +108,12 @@ export const RightArrow = styled(MaterialIcons).attrs(({ theme }) => ({
   size: 18,
   color: theme.colors.brand.primary,
   name: "arrow-forward-ios",
+}))``;
+
+export const Check = styled(MaterialIcons).attrs(({ theme }) => ({
+  size: 25,
+  color: theme.colors.brand.primary,
+  name: "check",
 }))``;
 
 export const FormWrapper = styled.View`

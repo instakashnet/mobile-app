@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
+import * as Linking from "expo-linking";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -17,11 +18,11 @@ import { Alert } from "../../../components/UI/alert.component";
 import { Modal } from "../../../components/UI/modal.component";
 
 export const RecoverPasswordScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const { isProcessing, authError } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch(),
+    { isProcessing, authError } = useSelector((state) => state.authReducer);
 
-  // FORM
-  const formik = useFormik({ initialValues: { email: "" }, onSubmit: (values) => dispatch(recoverPassword(values, showModal)) });
+  // FORMIK
+  const formik = useFormik({ initialValues: { email: "", linkingUrl: Linking.createURL("/") }, onSubmit: (values) => dispatch(recoverPassword(values)) });
 
   return (
     <SafeArea>

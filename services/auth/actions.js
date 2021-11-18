@@ -27,6 +27,15 @@ export const loginUserSuccess = () => ({
   type: types.LOGIN_SUCCESS,
 });
 
+export const loginGoogle = (token) => ({
+  type: types.LOGIN_GOOGLE_INIT,
+  token,
+});
+
+export const loginGoogleSuccess = () => ({
+  type: types.LOGIN_GOOGLE_SUCCESS,
+});
+
 export const recoverPassword = (values, show) => ({
   type: types.RECOVER_PASSWORD_INIT,
   values,
@@ -69,6 +78,15 @@ export const completeProfile = (values) => ({
 
 export const completeProfileSuccess = () => ({
   type: types.COMPLETE_PROFILE_SUCCESS,
+});
+
+export const getAffiliates = () => ({
+  type: types.GET_AFFILIATES_INIT,
+});
+
+export const getAffiliatesSuccess = (affiliates) => ({
+  type: types.GET_AFFILIATES_SUCCESS,
+  affiliates,
 });
 
 export const clearAuthError = () => ({

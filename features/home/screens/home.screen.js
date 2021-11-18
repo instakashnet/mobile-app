@@ -45,7 +45,7 @@ export const HomeScreen = ({ navigation }) => {
             <Text variant="subtitle">¡Gana con nosotros!</Text>
             <Text>Comparte tu código de afiliado y gana KASH y más beneficios.</Text>
             <Spacer variant="top" size={2} />
-            <Button style={styles.button} onPress={() => console.log("props...")}>
+            <Button style={styles.button} onPress={() => navigation.navigate("Affiliates")}>
               Saber más
             </Button>
           </InfoCard>

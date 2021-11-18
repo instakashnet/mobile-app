@@ -28,10 +28,10 @@ export const getAccountsSuccess = (accounts) => ({
   accounts,
 });
 
-export const addAccount = (values, addType) => ({
+export const addAccount = (values, accType) => ({
   type: types.ADD_ACCOUNT_INIT,
   values,
-  addType,
+  accType,
 });
 
 export const addAccountSuccess = () => ({
@@ -57,7 +57,7 @@ export const deleteAccountSuccess = () => ({
   type: types.DELETE_ACCOUNT_SUCCESS,
 });
 
-export const clearError = () => ({
+export const clearAccountsError = () => ({
   type: types.CLEAR_ERROR,
 });
 

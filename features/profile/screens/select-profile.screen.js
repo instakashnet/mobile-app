@@ -1,5 +1,4 @@
-import React, { useEffect, useCallback } from "react";
-import { TouchableOpacity, Platform, View } from "react-native";
+import React, { useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -9,7 +8,6 @@ import { getProfiles, logoutUser, selectProfile } from "../../../store/actions";
 
 // ASSETS
 import { Male } from "../../../assets/icons/male";
-import { LogoutIcon } from "../../../assets/icons/logout";
 
 // COMPONENTS
 import { CompanyProfile } from "../components/company-profile.component";
@@ -55,18 +53,6 @@ export const SelectProfileScreen = ({ navigation }) => {
       dispatch(getProfiles());
     }, [])
   );
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View style={{ marginRight: 10, paddingBottom: Platform.OS === "ios" ? 0 : 20 }}>
-          <TouchableOpacity onPress={onLogout}>
-            <LogoutIcon />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, []);
 
   return (
     <SafeArea>

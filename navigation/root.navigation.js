@@ -3,11 +3,15 @@ import { createNavigationContainerRef, StackActions, CommonActions } from "@reac
 export const navigationRef = createNavigationContainerRef();
 
 export function navigate(...args) {
-  if (navigationRef.isReady()) navigationRef.navigate(...args);
+  if (navigationRef.isReady()) navigationRef.dispatch(CommonActions.navigate(...args));
 }
 
 export function push(...args) {
   if (navigationRef.isReady()) navigationRef.dispatch(StackActions.push(...args));
+}
+
+export function pop(number) {
+  if (navigationRef.isReady()) navigationRef.dispatch(StackActions.pop(number));
 }
 
 export function popToTop() {

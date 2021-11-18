@@ -1,3 +1,6 @@
+import { Linking, Alert } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+
 // NUMBER FUNCTIONS
 export const formatAmount = (amount) => Number(amount).toFixed(2);
 
@@ -13,4 +16,11 @@ const addLight = (color, amount) => {
   let c = cc > 255 ? 255 : cc;
   c = c.toString(16).length > 1 ? c.toString(16) : `0${c.toString(16)}`;
   return c;
+};
+
+export const openURL = async (url) => {
+  const supported = await Linking.canOpenURL(url);
+  if (!supported) return Alert.alert("Error", `Hay un error al intentar abrir la ruta: ${url}`);
+
+  await WebBrowser.openBrowserAsync(url);
 };

@@ -18,13 +18,7 @@ import { Spacer } from "../../utils/spacer.component";
 
 export const CustomDrawer = (props) => {
   const dispatch = useDispatch(),
-    [active, setActive] = useState(""),
     { isProcessing, user } = useSelector((state) => state.authReducer);
-
-  const onSelectPage = (stack, page) => {
-    setActive(page);
-    props.navigation.navigate(stack, { screen: page });
-  };
 
   return (
     <DrawerContentScrollView {...props}>
@@ -38,10 +32,14 @@ export const CustomDrawer = (props) => {
         </TouchableOpacity>
       </Header>
       <Drawer.Section style={styles.section}>
-        <NavItem onPress={() => onSelectPage("Profile", "MyProfile")} label="Mis datos" icon="user-alt" active={active === "MyProfile"} />
-        <NavItem onPress={() => onSelectPage("Accounts", "MyAccounts")} label="Mis cuentas" icon="university" active={active === "my-accountd"} />
+        <NavItem onPress={() => props.navigation.navigate("Profile", { screen: "MyProfile" })} label="Mis datos" icon="user-alt" />
+        <NavItem onPress={() => props.navigation.navigate("Accounts", { screen: "MyAccounts" })} label="Mis cuentas" icon="university" />
       </Drawer.Section>
-      <Spacer variant="top" size={2} />
+      <Drawer.Section style={styles.section}>
+        <NavItem onPress={() => props.navigation.navigate("Exchange")} label="Cambiar divisas" icon="exchange-alt" />
+        <NavItem onPress={() => props.navigation.navigate("Activity")} label="Mis cambios" icon="chart-bar" />
+        <NavItem onPress={() => props.navigation.navigate("Affiliates")} label="Recomienda y gana" icon="trophy" />
+      </Drawer.Section>
       <Spacer variant="horizontal" size={6}>
         <Button variant="secondary" onPress={() => dispatch(logoutUser())} loading={isProcessing}>
           Cerrar sesión

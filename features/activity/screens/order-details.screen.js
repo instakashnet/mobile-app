@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
 // FUNCTIONS
-import { formatAmount } from "../../../shared/helpers/funcitons";
+import { formatAmount } from "../../../shared/helpers/functions";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
