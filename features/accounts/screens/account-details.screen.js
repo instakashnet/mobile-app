@@ -51,6 +51,7 @@ export const AccountDetailsScreen = ({ route, navigation }) => {
               <Title>{account.alias}</Title>
               <Text variant="bold">{account.accountNumber || account.cci}</Text>
               <Text>{account.thirdParty ? "Cuenta de terceros" : "Cuenta personal"}</Text>
+              {account.cci ? <Text variant="bold">interbancaria</Text> : null}
             </View>
             <View style={{ marginLeft: "auto" }}>
               <Text variant="title">{account.currency.Symbol}</Text>

@@ -27,6 +27,15 @@ export const updateProfileSuccess = () => ({
   type: types.UPDATE_PROFILE_SUCCESS,
 });
 
+export const updateUsername = (values) => ({
+  type: types.UPDATE_USERNAME_INIT,
+  values,
+});
+
+export const updateUsernameSuccess = () => ({
+  type: types.UPDATE_USERNAME_SUCCESS,
+});
+
 export const selectProfile = (profile) => ({
   type: types.SELECT_PROFILE_INIT,
   profile,
@@ -45,6 +54,24 @@ export const uploadDocument = (values, uploadType) => ({
 
 export const uploadDocumentSuccess = () => ({
   type: types.UPLOAD_DOCUMENT_SUCCESS,
+});
+
+export const changePhone = (values) => ({
+  type: types.CHANGE_PHONE_INIT,
+  values,
+});
+
+export const changePhoneSuccess = () => ({
+  type: types.CHANGE_PHONE_SUCCESS,
+});
+
+export const changeEmail = (values) => ({
+  type: types.CHANGE_EMAIL_INIT,
+  values,
+});
+
+export const changeEmailSuccess = () => ({
+  type: types.CHANGE_EMAIL_SUCCESS,
 });
 
 export const clearProfile = () => ({

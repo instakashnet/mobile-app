@@ -18,6 +18,21 @@ export const AffiliatesScroll = styled.ScrollView.attrs({
   },
 })``;
 
+export const AffiliateHeader = styled.View`
+  padding-vertical: ${({ theme }) => theme.space[4]};
+  padding-horizontal: ${({ theme }) => theme.space[6]};
+  min-height: 100px;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.brand.primary};
+  width: 100%;
+`;
+
+export const FormWrapper = styled.View`
+  padding-horizontal: ${({ theme }) => theme.space[6]};
+  width: 100%;
+  margin-top: ${({ theme }) => theme.space[6]};
+`;
+
 export const CodeWrapper = styled.View`
   width: 100%;
   align-items: center;

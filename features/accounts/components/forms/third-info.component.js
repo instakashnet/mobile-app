@@ -22,7 +22,7 @@ export const ThirdInfo = ({ formik, onSelect }) => {
           <Select
             onChange={onSelect}
             label="Tipo doc."
-            error={!formik.values.documentType && formik.errors.documentType}
+            error={formik.touched.documentType && formik.errors.documentType}
             style={{ width: Platform.OS === "ios" ? 136 : 110 }}
             options={documentTypes}
             value={formik.values.documentType}

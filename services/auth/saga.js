@@ -6,6 +6,7 @@ import * as types from "./types";
 import * as actions from "./actions";
 import { openModal } from "../../store/actions";
 import { clearProfile } from "../profile/actions";
+import { getCurrencies, getBanks } from "../accounts/actions";
 import { authInstance } from "../auth.service";
 import * as RootNavigation from "../../navigation/root.navigation";
 
@@ -15,6 +16,11 @@ function* setAuthToken(data) {
   const expDate = new Date(date.setSeconds(date.getSeconds() + data.expiresIn));
 
   yield call([SecureStore, "setItemAsync"], "authData", JSON.stringify({ token: data.accessToken, expires: expDate }));
+}
+
+function* getData() {
+  yield put(getCurrencies());
+  yield put(getBanks());
 }
 
 function* clearUserData() {
@@ -56,6 +62,7 @@ function* loadUser() {
       return yield call([RootNavigation, "navigate"], "CompleteProfile");
     }
 
+    yield call(getData);
     yield put(actions.loginUserSuccess());
     yield put(actions.loadUserSuccess(resData.user));
   } catch (error) {

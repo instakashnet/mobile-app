@@ -22,6 +22,8 @@ import { Text } from "../../../components/typography/text.component";
 import { CopyButton } from "../../../components/UI/copy-button.component";
 import { TransferCodeForm } from "../components/forms/transfer-code-form.component";
 import { Loader } from "../../../components/UI/loader.component";
+
+// STYLED COMPONENTS
 import { ExchangeScroll } from "../components/exchange.styles";
 import { Price, ShadowCard, TransferCard, BankImage, InfoWrapper, InfoBox, Info } from "../components/transfer-code.styles";
 

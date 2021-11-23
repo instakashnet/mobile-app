@@ -12,11 +12,13 @@ import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Button } from "../../../components/UI/button.component";
-import { ExchangeWrapper } from "../components/exchange.styles";
 import { Loader } from "../../../components/UI/loader.component";
 import { BanksList } from "../components/accounts/banks-list.component";
 import { AccountsList } from "../components/accounts/accounts-list.component";
 import { AddAccountButton } from "../components/accounts/add-account-button.component";
+
+// STYLED COMPONENTS
+import { ExchangeWrapper } from "../components/exchange.styles";
 
 export const AccountSelectScreen = ({ route, navigation }) => {
   const dispatch = useDispatch(),

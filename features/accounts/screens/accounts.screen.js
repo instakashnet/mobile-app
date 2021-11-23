@@ -4,7 +4,7 @@ import _ from "lodash";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getAccounts } from "../../../store/actions";
+import { getAccounts, getBanks, getCurrencies } from "../../../store/actions";
 
 // COMPONENTS
 import { Button } from "../../../components/UI/button.component";

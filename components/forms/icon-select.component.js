@@ -1,42 +1,104 @@
-import React, { useState } from "react";
-import DropDownPicker from "react-native-dropdown-picker";
+import React, { useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import RNPickerSelect from "react-native-picker-select";
+import { HelperText } from "react-native-paper";
 import styled from "styled-components/native";
-
-DropDownPicker.setListMode("SCROLLVIEW");
-
-const Select = styled(DropDownPicker).attrs(({ theme }) => ({
-  dropDownContainerStyle: {
-    borderColor: theme.colors.ui.border,
-    borderRadius: 4,
-    zIndex: 1,
-  },
-}))`
-  border-color: ${({ theme }) => theme.colors.ui.border};
-  border-radius: 4px;
-`;
+import { theme } from "../../theme";
 
 const FormGroup = styled.View`
   width: 100%;
-  margin-vertical: ${({ theme }) => theme.space[3]};
-  z-index: 2;
+  margin-top: ${({ theme }) => theme.space[2]};
+  margin-bottom: ${({ theme, error }) => (error ? theme.space[0] : theme.space[3])};
+  position: relative;
 `;
 
-export const IconSelect = ({ options, value, error, name, onSelect, placeholder }) => {
-  const [open, setOpen] = useState(false);
+const PickerIcon = styled(Ionicons).attrs({
+  name: "ios-caret-down-sharp",
+  size: 13,
+  color: "black",
+})`
+  position: absolute;
+  right: 17px;
+  top: 22px;
+  z-index: 10;
+`;
+
+export const IconSelect = ({ label, value, onChange, name, options, hasIcon, style, error, isFlex, ...rest }) => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    setItems(
+      options.map((o) => ({
+        label: o.label,
+        value: o.value,
+      }))
+    );
+  }, [options]);
+
+  const getIcon = (options) => {
+    if (value) {
+      let Icon = options.find((o) => o.value === value).icon;
+      return <Icon />;
+    } else return null;
+  };
 
   return (
-    <FormGroup>
-      <Select
-        open={open}
-        ArrowUpIconComponent={({ style }) => <Ionicons size={13} style={style} name="ios-caret-up-sharp" />}
-        ArrowDownIconComponent={({ style }) => <Ionicons size={13} style={style} name="ios-caret-down-sharp" />}
+    <FormGroup error={!!error}>
+      <PickerIcon />
+      <RNPickerSelect
+        placeholder={{ label }}
+        style={{
+          placeholder: pickerStyles.placeholder,
+          inputIOS: {
+            ...pickerStyles.inputIOS,
+            ...style,
+            paddingLeft: 35,
+            paddingRight: 10,
+            borderColor: error ? theme.colors.ui.error : theme.colors.ui.border,
+            borderWidth: error ? 2 : 1,
+          },
+          inputAndroid: { ...pickerStyles.inputAndroid, ...style, borderColor: error ? theme.colors.ui.error : theme.colors.ui.border, borderWidth: error ? 2 : 1 },
+          iconContainer: { left: 9, top: "33%" },
+        }}
+        useNativeAndroidPickerStyle={false}
         value={value}
-        items={options}
-        setOpen={setOpen}
-        setValue={(getValue) => onSelect(name, getValue())}
-        placeholder={placeholder}
+        items={items}
+        onValueChange={(value) => onChange(name, value)}
+        Icon={() => getIcon(options)}
+        {...rest}
       />
+      {!!error && !isFlex && (
+        <HelperText style={{ textAlign: "left" }} type="error" visible={!!error}>
+          {error}
+        </HelperText>
+      )}
     </FormGroup>
   );
 };
+
+const pickerStyles = StyleSheet.create({
+  placeholder: {
+    color: theme.colors.text.body,
+    paddingLeft: 10,
+  },
+  inputIOS: {
+    fontSize: 14,
+    paddingVertical: 14,
+    borderRadius: 4,
+    color: "black",
+    paddingRight: 30,
+    marginTop: 5,
+    backgroundColor: "#FFF",
+  },
+  inputAndroid: {
+    fontSize: 14,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+    color: "black",
+    paddingRight: 30,
+    marginTop: 5,
+    backgroundColor: "#FFF",
+  },
+});

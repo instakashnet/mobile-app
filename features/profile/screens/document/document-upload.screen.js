@@ -6,7 +6,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { uploadDocument } from "../../../../store/actions";
+import { uploadDocument, clearProfileError } from "../../../../store/actions";
 
 // ASSETS
 import { DocumentFront } from "../../../../assets/illustrations/document-front";
@@ -17,11 +17,14 @@ import { Button } from "../../../../components/UI/button.component";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
 import { UploadForm } from "../../components/upload-form.component";
+import { Alert } from "../../../../components/UI/alert.component";
+
+// STYLED COMPONENTS
 import { CoverBackground, ProfileWrapper, Title, Info, ListItem, ListWrapper } from "../../components/profile.styles";
 
 export const DocumentUploadScreen = ({ route, navigation }) => {
   const dispatch = useDispatch(),
-    isProcessing = useSelector((state) => state.profileReducer.isProcessing),
+    { isProcessing, profileError } = useSelector((state) => state.profileReducer),
     { photo, uploadType, user } = route.params,
     [image, setImage] = useState(null);
 
@@ -97,6 +100,10 @@ export const DocumentUploadScreen = ({ route, navigation }) => {
           <Text style={{ fontFamily: "lato-bold" }}>Seleccionar desde galeria</Text>
         </Button>
       </ProfileWrapper>
+
+      <Alert type="error" onClose={clearProfileError} visible={!!profileError}>
+        {profileError}
+      </Alert>
     </SafeArea>
   );
 };

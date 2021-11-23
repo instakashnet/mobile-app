@@ -21,7 +21,12 @@ export const AccountItem = ({ account, onPress }) => {
           <Text>{account.alias}</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <Text variant="subtitle">***{account.accountNumber.substring(account.accountNumber.length - 4, account.accountNumber.length)}</Text>
+          <Text variant="subtitle">
+            ***
+            {account.accountNumer
+              ? account.accountNumber.substring(account.accountNumber.length - 4, account.accountNumber.length)
+              : account.cci.substring(account.cci.length - 4, account.cci.length)}
+          </Text>
           <Text variant="title" style={{ marginLeft: 7 }}>
             {account.currency.Symbol}
           </Text>

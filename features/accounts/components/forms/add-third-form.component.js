@@ -3,6 +3,7 @@ import { View } from "react-native";
 
 // FORMIK
 import { useFormik } from "formik";
+import { addTPAccountSchema } from "../../validations/schemas";
 
 // COMPONENTS
 import { Text } from "../../../../components/typography/text.component";
@@ -10,38 +11,41 @@ import { Radio } from "../../../../components/forms/radio.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
 import { Input } from "../../../../components/forms/input.component";
 import { Select } from "../../../../components/forms/select.component";
-import { IconSelect } from "../../../../components/forms/icon-select.component";
 import { Button } from "../../../../components/UI/button.component";
 import { ThirdInfo } from "./third-info.component";
 import { Checkbox } from "../../../../components/forms/checkbox.component";
-import { BankIcon } from "../accounts.styles";
+
+// STYLED COMPONENTS
+import { BankIcon, DocumentWrapper } from "../accounts.styles";
 
 export const AddThirdForm = ({ banks, currencies, currencyId, onAddAccount, isProcessing }) => {
   const [selectedBank, setSelectedBank] = useState(null);
 
   // FORMIK
   const formik = useFormik({
-    initialValues: {
-      account_number: "",
-      cci: "",
-      isDirect: true,
-      bankId: "",
-      currencyId: "",
-      alias: "",
-      acc_type: "",
-      isThird: true,
-      thirdPartyAccType: "natural",
-      documentType: "",
-      documentIdentity: "",
-      job: "",
-      name: "",
-      razonSocial: "",
-      email: "",
-      accept: false,
-      accept2: false,
-    },
-    onSubmit: (values) => onAddAccount(values),
-  });
+      initialValues: {
+        account_number: "",
+        cci: "",
+        isDirect: true,
+        bankId: "",
+        currencyId: "",
+        alias: "",
+        acc_type: "",
+        isThird: true,
+        thirdPartyAccType: "natural",
+        documentType: "",
+        documentIdentity: "",
+        job: "",
+        name: "",
+        razonSocial: "",
+        email: "",
+        accept: false,
+        accept2: false,
+      },
+      validationSchema: addTPAccountSchema,
+      onSubmit: (values) => onAddAccount(values),
+    }),
+    { isDirect } = formik.values;
 
   // SELECT OPTIONS
   const banksOptions = banks.map((bank) => ({
@@ -61,10 +65,12 @@ export const AddThirdForm = ({ banks, currencies, currencyId, onAddAccount, isPr
       }));
 
   // HANDLERS
-  const onSelectChange = (name, value) => {
-      formik.setFieldValue(name, value);
+  const onSelectChange = async (name, value) => {
+      await formik.setFieldValue(name, value);
+      formik.setFieldTouched(name, true);
       if (name === "bankId" && value) {
         let bank = banks.find((b) => b.id === value);
+        formik.setFieldValue("isDirect", bank.active);
         setSelectedBank(bank);
       }
     },
@@ -79,26 +85,62 @@ export const AddThirdForm = ({ banks, currencies, currencyId, onAddAccount, isPr
     <>
       <Spacer variant="top" size={4} />
       <Text variant="subtitle">¿A quien le pertenece esta cuenta?</Text>
-      <View style={{ flexDirection: "row", justifyContent: "space-around", width: "100%" }}>
+      <DocumentWrapper>
         <Radio value={formik.values.thirdPartyAccType} onPress={() => onTypePress("natural")} status={formik.values.thirdPartyAccType === "natural" ? "checked" : "unchecked"}>
           <Text>Persona</Text>
         </Radio>
         <Radio value={formik.values.thirdPartyAccType} onPress={() => onTypePress("juridica")} status={formik.values.thirdPartyAccType === "juridica" ? "checked" : "unchecked"}>
           <Text>Empresa</Text>
         </Radio>
-      </View>
+      </DocumentWrapper>
       <ThirdInfo onSelect={onSelectChange} formik={formik} />
-      <IconSelect name="bankId" options={banksOptions} value={formik.values.bankId} onSelect={onSelectChange} placeholder="Banco" />
-      <Input
-        name="account_number"
-        label="Nro. de cuenta"
-        value={formik.values.account_number}
-        onChange={formik.handleChange("account_number")}
-        onBlur={formik.handleBlur("account_number")}
-        infoText="Debe ser entre 13 y 14 caracteres."
+      <Select
+        name="bankId"
+        options={banksOptions}
+        value={formik.values.bankId}
+        error={formik.touched.bankId && formik.errors.bankId}
+        hasIcon
+        onChange={onSelectChange}
+        label="Banco"
       />
-      <Select name="acc_type" label="Tipo de cuenta" value={formik.values.acc_type} onChange={onSelectChange} options={accounTypeOptions} />
-      <Select name="currencyId" label="Moneda" value={formik.values.currencyId} onChange={onSelectChange} options={currencyOptions} />
+      {isDirect ? (
+        <Input
+          name="account_number"
+          label="Nro. de cuenta"
+          value={formik.values.account_number}
+          error={formik.touched.account_number && formik.errors.account_number}
+          onChange={formik.handleChange("account_number")}
+          onBlur={formik.handleBlur("account_number")}
+          infoText="Debe ser entre 13 y 14 caracteres."
+        />
+      ) : (
+        <Input
+          name="cci"
+          label="Nro. de cuenta interbancario"
+          value={formik.values.cci}
+          onChange={formik.handleChange("cci")}
+          error={formik.touched.cci && formik.errors.cci}
+          onBlur={formik.handleBlur("cci")}
+          infoText="Debe ser de 20 caracteres."
+        />
+      )}
+
+      <Select
+        name="acc_type"
+        error={formik.touched.acc_type && formik.errors.acc_type}
+        label="Tipo de cuenta"
+        value={formik.values.acc_type}
+        onChange={onSelectChange}
+        options={accounTypeOptions}
+      />
+      <Select
+        name="currencyId"
+        error={formik.touched.currencyId && formik.errors.currencyId}
+        label="Moneda"
+        value={formik.values.currencyId}
+        onChange={onSelectChange}
+        options={currencyOptions}
+      />
       <Input
         name="alias"
         label="Alias de la cuenta"

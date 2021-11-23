@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { updateProfile } from "../../../../store/actions";
+import { updateProfile, clearProfileError } from "../../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../../components/utils/safe-area.component";
@@ -13,12 +13,14 @@ import { Text } from "../../../../components/typography/text.component";
 import { DateInput } from "../../../../components/forms/date-input.component";
 import { Input } from "../../../../components/forms/input.component";
 import { Button } from "../../../../components/UI/button.component";
-import { DismissKeyboard } from "../../../../components/utils/dismiss-keyobard.component";
+import { Alert } from "../../../../components/UI/alert.component";
+
+// STYLED COMPONENTS
 import { FormWrapper, HeaderProfile, ProfileScroll } from "../../components/profile.styles";
 
 export const EditAdditionalScreen = ({ route }) => {
   const dispatch = useDispatch(),
-    isProcessing = useSelector((state) => state.profileReducer.isProcessing),
+    { isProcessing, profileError } = useSelector((state) => state.profileReducer),
     { user } = route.params;
 
   // FORMIK
@@ -61,6 +63,10 @@ export const EditAdditionalScreen = ({ route }) => {
           </FormWrapper>
         </ProfileScroll>
       </KeyboardView>
+
+      <Alert type="error" onClose={clearProfileError} visible={!!profileError}>
+        {profileError}
+      </Alert>
     </SafeArea>
   );
 };

@@ -24,7 +24,7 @@ export const ProfileScroll = styled.ScrollView.attrs({
 export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
-  flex: 0.45;
+  flex: 0.5;
   align-items: center;
   width: ${Dimensions.get("window").width}px;
   padding-horizontal: ${({ theme }) => theme.space[4]};
@@ -33,7 +33,7 @@ export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
 
 export const InfoWrapper = styled.View`
   padding: ${({ theme }) => theme.space[3]};
-  flex: 0.4;
+  flex: 0.5;
   border-bottom-left-radius: 45px;
   border-bottom-right-radius: 45px;
   background-color: ${({ theme }) => theme.colors.brand.primary};

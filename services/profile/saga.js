@@ -67,6 +67,24 @@ function* updateProfile({ values }) {
   }
 }
 
+function* watchUpdateUsername() {
+  yield takeLatest(types.UPDATE_USERNAME_INIT, updateUsername);
+}
+
+function* updateUsername({ values }) {
+  try {
+    const res = yield authInstance.put("/users/username", values);
+    if (res.status === 200) {
+      yield getUserData();
+
+      yield call([RootNavigation, "goBack"]);
+      yield put(actions.updateUsernameSuccess());
+    }
+  } catch (error) {
+    yield put(actions.profileError(error.message));
+  }
+}
+
 function* watchUploadDocument() {
   yield takeLatest(types.UPLOAD_DOCUMENT_INIT, uploadDocument);
 }
@@ -104,6 +122,42 @@ function* uploadDocument({ values, uploadType }) {
   }
 }
 
+function* watchChangePhone() {
+  yield takeLatest(types.CHANGE_PHONE_INIT, changePhone);
+}
+
+function* changePhone({ values }) {
+  try {
+    const res = yield authInstance.put("/users/change-phone", values);
+    if (res.status === 200) {
+      yield getUserData();
+
+      yield call([RootNavigation, "goBack"]);
+      yield put(actions.changePhoneSuccess());
+    }
+  } catch (error) {
+    yield put(actions.profileError(error.message));
+  }
+}
+
+function* watchChangeEmail() {
+  yield takeLatest(types.CHANGE_EMAIL_INIT, changeEmail);
+}
+
+function* changeEmail({ values }) {
+  try {
+    const res = yield authInstance.put("/users/change-email", values);
+    if (res.status === 200) {
+      yield getUserData();
+
+      yield call([RootNavigation, "goBack"]);
+      yield put(actions.changeEmailSuccess());
+    }
+  } catch (error) {
+    yield put(actions.profileError(error.message));
+  }
+}
+
 function* watchSelectProfile() {
   yield takeEvery(types.SELECT_PROFILE_INIT, selectProfile);
 }
@@ -118,5 +172,14 @@ function* selectProfile({ profile }) {
 }
 
 export function* profileSaga() {
-  yield all([fork(watchGetProfiles), fork(watchAddProfiles), fork(watchSelectProfile), fork(watchUpdateprofile), fork(watchUploadDocument)]);
+  yield all([
+    fork(watchGetProfiles),
+    fork(watchAddProfiles),
+    fork(watchChangePhone),
+    fork(watchChangeEmail),
+    fork(watchSelectProfile),
+    fork(watchUpdateprofile),
+    fork(watchUploadDocument),
+    fork(watchUpdateUsername),
+  ]);
 }

@@ -14,7 +14,7 @@ import { Spacer } from "../../../components/utils/spacer.component";
 import { SlideItem } from "../../../components/UI/slide-item.component";
 import { AffiliatesWrapper, CodeWrapper, ButtonsWrapper } from "../components/affiliates.styles";
 
-export const AffiliateStepsScreen = () => {
+export const AffiliateCodeScreen = ({ navigation }) => {
   const carousel = useRef(),
     user = useSelector((state) => state.authReducer.user),
     [slider] = useState({
@@ -73,7 +73,7 @@ export const AffiliateStepsScreen = () => {
             compartir código
           </Button>
           <Spacer variant="left" />
-          <Button variant="secondary" style={{ width: "20%" }}>
+          <Button variant="secondary" onPress={() => navigation.navigate("EditCode", { username: user.username })} style={{ width: "20%" }}>
             <FontAwesome name="edit" size={25} color="#20A2A5" />
           </Button>
         </ButtonsWrapper>

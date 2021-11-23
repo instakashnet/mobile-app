@@ -2,12 +2,9 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-// UTILS
-import { headerOptions, headerLeft, headerRight } from "./utils/navigator.options";
-
 // NAVIGATORS
 import { TabsNavigator } from "./tabs/tabs.navigator";
-import { AffiliatesTabs } from "./tabs/affiliates-tabs.navigator";
+import { AffiliateCodeNavigator } from "./stacks/affiliate-code.navigator";
 import { ProfileNavigator } from "./stacks/profile.navigator";
 
 // COMPONENTS
@@ -23,6 +20,7 @@ export const DrawerNavigator = () => {
     >
       <AppDrawerNavigator.Screen name="App" component={TabsNavigator} />
       <AppDrawerNavigator.Screen name="Profile" component={ProfileNavigator} />
+      <AppDrawerNavigator.Screen name="Affiliates" component={AffiliateCodeNavigator} />
     </AppDrawerNavigator.Navigator>
   );
 };

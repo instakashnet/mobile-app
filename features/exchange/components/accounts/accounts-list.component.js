@@ -25,7 +25,7 @@ export const AccountsList = ({ accounts, accountSelected, onSelect }) => {
             <BankIcon source={bankIcons.find((icon) => icon.bankName === account.bank.name.toLowerCase()).uri} />
             <View>
               <Text variant="button">{account.alias}</Text>
-              <Text variant="button">{account.accountNumber}</Text>
+              <Text variant="button">{account.accountNumber || account.cci}</Text>
             </View>
             <Text variant="subtitle" style={styles.flag}>
               {account.currency.Symbol.toUpperCase()}

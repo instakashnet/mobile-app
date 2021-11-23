@@ -17,6 +17,8 @@ import { Loader } from "../../../components/UI/loader.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Link } from "../../../components/typography/link.component";
+
+// STYLED COMPONENTS
 import { AddCompanyList, CompanyList } from "../components/select-profile.styles";
 import { CoverBackground, ProfileWrapper, Title, SubTitle, Info } from "../components/profile.styles";
 
@@ -58,7 +60,7 @@ export const SelectProfileScreen = ({ navigation }) => {
     <SafeArea>
       {isLoading && <Loader />}
       <CoverBackground>
-        <Title>Hola, bienvenido</Title>
+        <Title>¿Como deseas cambiar?</Title>
         <Male width={90} />
         <Spacer variant="top" />
         <SubTitle>Elige tu perfil</SubTitle>

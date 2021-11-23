@@ -1,5 +1,5 @@
-import React from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Image, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import RNPickerSelect from "react-native-picker-select";
 import { HelperText } from "react-native-paper";
@@ -8,7 +8,8 @@ import { theme } from "../../theme";
 
 const FormGroup = styled.View`
   width: 100%;
-  margin-vertical: ${({ theme }) => theme.space[2]};
+  margin-top: ${({ theme }) => theme.space[2]};
+  margin-bottom: ${({ theme, error }) => (error ? theme.space[0] : theme.space[3])};
   position: relative;
 `;
 
@@ -19,11 +20,11 @@ const PickerIcon = styled(Ionicons).attrs({
 })`
   position: absolute;
   right: 17px;
-  top: 18px;
+  top: 22px;
   z-index: 10;
 `;
 
-export const Select = ({ label, value, onChange, name, options, style, error, isFlex, ...rest }) => {
+export const Select = ({ label, value, onChange, name, options, hasIcon, style, error, isFlex, ...rest }) => {
   return (
     <FormGroup error={!!error}>
       <PickerIcon />
@@ -31,8 +32,16 @@ export const Select = ({ label, value, onChange, name, options, style, error, is
         placeholder={{ label }}
         style={{
           placeholder: pickerStyles.placeholder,
-          inputIOS: { ...pickerStyles.inputIOS, ...style, borderColor: error ? theme.colors.ui.error : theme.colors.ui.border, borderWidth: error ? 2 : 1 },
+          inputIOS: {
+            ...pickerStyles.inputIOS,
+            ...style,
+            paddingLeft: 10,
+            paddingRight: 10,
+            borderColor: error ? theme.colors.ui.error : theme.colors.ui.border,
+            borderWidth: error ? 2 : 1,
+          },
           inputAndroid: { ...pickerStyles.inputAndroid, ...style, borderColor: error ? theme.colors.ui.error : theme.colors.ui.border, borderWidth: error ? 2 : 1 },
+          iconContainer: { left: 9, top: "33%" },
         }}
         useNativeAndroidPickerStyle={false}
         value={value}
@@ -52,11 +61,11 @@ export const Select = ({ label, value, onChange, name, options, style, error, is
 const pickerStyles = StyleSheet.create({
   placeholder: {
     color: theme.colors.text.body,
+    paddingLeft: 10,
   },
   inputIOS: {
     fontSize: 14,
-    paddingVertical: 13,
-    paddingHorizontal: 10,
+    paddingVertical: 14,
     borderRadius: 4,
     color: "black",
     paddingRight: 30,

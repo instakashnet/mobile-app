@@ -26,6 +26,8 @@ export const LoginScreen = ({ navigation }) => {
     { isProcessing, authError } = useSelector((state) => state.authReducer),
     [request, response, promptAsync] = Google.useAuthRequest({
       expoClientId: "202060127908-l925rk28ljirtgiea26h043vc8uqfnt5.apps.googleusercontent.com",
+      iosClientId: "202060127908-osr2qas34eeiufdugp705lrrusvh9snl.apps.googleusercontent.com",
+      androidClientId: "202060127908-33q5gm7r7bpghd7b60udnlgjj50qmuv0.apps.googleusercontent.com",
     });
 
   // EFFECTS

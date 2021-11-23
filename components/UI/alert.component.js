@@ -15,6 +15,7 @@ const StyledSnackBar = styled(Snackbar).attrs(({ theme, action }) => ({
   },
 }))`
   background-color: ${({ theme, type }) => theme.colors.ui[type]};
+  margin: ${({ theme }) => theme.space[4]};
   font-size: ${({ theme }) => theme.fontSizes.body};
 `;
 

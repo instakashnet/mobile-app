@@ -3,7 +3,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 // REDUx
 import { useSelector, useDispatch } from "react-redux";
-import { editAccount, getCurrencies } from "../../../store/actions";
+import { editAccount, getCurrencies, clearAccountsError } from "../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -11,12 +11,15 @@ import { Text } from "../../../components/typography/text.component";
 import { EditAccount } from "../components/forms/edit-account.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Loader } from "../../../components/UI/loader.component";
+import { Alert } from "../../../components/UI/alert.component";
+
+// STYLED COMPONENTS
 import { AccountsWrapper } from "../components/accounts.styles";
 
 export const EditAccountScreen = ({ route }) => {
   const dispatch = useDispatch(),
     { account } = route.params,
-    { isProcessing, isLoading, currencies } = useSelector((state) => state.accountsReducer);
+    { isProcessing, isLoading, currencies, accountsError } = useSelector((state) => state.accountsReducer);
 
   // EFFECTS
   useFocusEffect(
@@ -36,6 +39,10 @@ export const EditAccountScreen = ({ route }) => {
         <Spacer variant="top" />
         <EditAccount currencies={currencies} isProcessing={isProcessing} account={account} onEdit={onEdit} />
       </AccountsWrapper>
+
+      <Alert type="error" onClose={clearAccountsError} visible={!!accountsError}>
+        {accountsError}
+      </Alert>
     </SafeArea>
   );
 };

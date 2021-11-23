@@ -1,9 +1,9 @@
 {
   "expo": {
     "scheme": "instakash",
-    "name": "instakash-app",
+    "name": "Instakash",
     "slug": "instakash-app",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -16,14 +16,29 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "associatedDomains": ["applinks:dev-client.instakash.net", "applinks:app.instakash.net"]
+      "supportsTablet": false,
+      "associatedDomains": ["applinks:app.instakash.net"],
+      "bundleIdentifier": "net.instakash.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "app.instakash.net",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "package": "com.rogerrc12.instakashapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -110,7 +110,7 @@ export const AccountsScreen = ({ navigation }) => {
               <BankIcon bankName={accountSelected.bank.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === accountSelected.bank.name.toLowerCase()).uri} />
               <View>
                 <Text variant="bold">{accountSelected.alias}</Text>
-                <Text variant="button">{accountSelected.accountNumber}</Text>
+                <Text variant="button">{accountSelected.accountNumber || accountSelected.cci}</Text>
               </View>
             </BankDescription>
           ) : (

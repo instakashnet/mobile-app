@@ -60,8 +60,14 @@ export const BankLogo = styled.Image.attrs({
 export const BankIcon = styled.Image.attrs({
   resizeMode: "contain",
 })`
-  width: ${({ bankName }) => (bankName === "bbva" ? "46px" : "22px")};
-  height: 22px;
+  width: 20px;
+  height: 20px;
+`;
+
+export const DocumentWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
 `;
 
 export const DetailsCard = styled.View`

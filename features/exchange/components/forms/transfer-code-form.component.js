@@ -1,16 +1,17 @@
 import React from "react";
+
+// FORMIK
 import { useFormik } from "formik";
+import { transferCodeSchema } from "../../validations/schemas";
 
 // COMPONENTS
-import { Snack } from "../transfer-code.styles";
 import { Spacer } from "../../../../components/utils/spacer.component";
-import { Text } from "../../../../components/typography/text.component";
 import { Input } from "../../../../components/forms/input.component";
 import { Button } from "../../../../components/UI/button.component";
 
 export const TransferCodeForm = ({ isProcessing, onCancel, onSubmit }) => {
   // FORMIK
-  const formik = useFormik({ initialValues: { transaction_code: "" }, onSubmit });
+  const formik = useFormik({ initialValues: { transaction_code: "" }, validationSchema: transferCodeSchema, onSubmit });
 
   return (
     <>
@@ -18,6 +19,7 @@ export const TransferCodeForm = ({ isProcessing, onCancel, onSubmit }) => {
         name="transaction_code"
         label="Nro. de operación"
         value={formik.values.transaction_code}
+        error={formik.touched.transaction_code && formik.errors.transaction_code}
         onChange={formik.handleChange("transaction_code")}
         onBlur={formik.handleBlur("transaction_code")}
       />

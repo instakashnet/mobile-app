@@ -1,9 +1,12 @@
 import axios from "axios";
-import { DEV_API_URL } from "@env";
 import { reqInterceptor, resInterceptor } from "./interceptors";
 
+// VARIABLES
+import { getVariables } from "../variables";
+const { apiUrl } = getVariables();
+
 export const authInstance = axios.create({
-  baseURL: `${DEV_API_URL}/auth-service/api/v1/client`,
+  baseURL: `${apiUrl}/auth-service/api/v1/client`,
   timeout: 45000,
 });
 
