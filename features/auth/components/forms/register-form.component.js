@@ -37,6 +37,7 @@ export const RegisterForm = ({ onSubmit, isProcessing }) => {
         onChange={formik.handleChange("email")}
         onBlur={formik.handleBlur("email")}
         autoCapitalize="none"
+        autoCorrect={false}
       />
       <PhoneInput
         defaultCode="PE"

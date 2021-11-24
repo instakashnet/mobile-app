@@ -9,6 +9,8 @@ npm-debug.*
 *.orig.*
 web-build/
 .env
+apple-app-site-association
+google-certificate-fingerprint
 
 # macOS
 .DS_Store

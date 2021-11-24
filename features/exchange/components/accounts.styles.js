@@ -44,6 +44,10 @@ export const AccountsFlatList = styled(FlatList).attrs({
   flex-grow: 0;
 `;
 
+export const AccountButton = styled.TouchableOpacity`
+  margin-vertical: ${({ theme }) => theme.space[2]};
+`;
+
 export const AddWrapper = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7,
 })`
@@ -54,6 +58,7 @@ export const AddWrapper = styled.TouchableOpacity.attrs({
   shadow-opacity: 0.1;
   shadow-offset: 2px 6px;
   shadow-radius: 5px;
+  elevation: 6;
   padding-horizontal: ${({ theme }) => theme.space[4]};
   padding-vertical: ${({ theme }) => theme.space[2]};
   flex-direction: row;

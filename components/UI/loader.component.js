@@ -8,8 +8,9 @@ const LoaderWrapper = styled.View`
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: rgba(13, 130, 132, 0.6);
+  background-color: rgba(13, 130, 132, 0.8);
   z-index: 100;
+  elevation: 8;
 `;
 
 export const Loader = () => {

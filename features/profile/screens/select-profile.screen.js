@@ -20,7 +20,7 @@ import { Link } from "../../../components/typography/link.component";
 
 // STYLED COMPONENTS
 import { AddCompanyList, CompanyList } from "../components/select-profile.styles";
-import { CoverBackground, ProfileWrapper, Title, SubTitle, Info } from "../components/profile.styles";
+import { CoverBackground, ProfileWrapper, ProfileScroll, Title, SubTitle, Info } from "../components/profile.styles";
 
 export const SelectProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -31,7 +31,6 @@ export const SelectProfileScreen = ({ navigation }) => {
   const companyProfiles = useSelector((state) => state.profileReducer.profiles.filter((p) => p.type === "juridica"));
 
   // HANDLERS
-  const onLogout = () => dispatch(logoutUser());
   const onAddProfile = () => navigation.navigate("AddProfile");
   const onSelectProfile = async (type, id = null) => {
     let profile;
@@ -59,43 +58,44 @@ export const SelectProfileScreen = ({ navigation }) => {
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <CoverBackground>
-        <Title>¿Como deseas cambiar?</Title>
-        <Male width={90} />
-        <Spacer variant="top" />
-        <SubTitle>Elige tu perfil</SubTitle>
-        <Spacer variant="top" />
-        <Info>Selecciona una de las opciones dependiendo de si desea recibir una boleta o factura.</Info>
-        <Spacer variant="top" size={2} />
-        <Link style={{ borderBottomColor: "#FFF" }} onPress={onSelectProfile.bind(this, "natural")}>
-          <Text variant="bold" style={{ color: "#FFF" }}>
-            Continuar como {user.name}
-          </Text>
-        </Link>
-      </CoverBackground>
-      <ProfileWrapper>
-        <Text variant="subtitle">Usar un perfil de empresa</Text>
-        {companyProfiles.length > 0 && (
-          <CompanyList>
-            {companyProfiles.map((c) => (
-              <CompanyProfile key={c.id} companyName={c.razon_social} onSelect={onSelectProfile.bind(this, "juridica", c.id)} />
-            ))}
-            <Spacer variant="top" size={3} />
-          </CompanyList>
-        )}
-        <Spacer variant="vertical" size={2}>
+      <ProfileScroll>
+        <CoverBackground>
+          <Male width={90} />
+          <Spacer variant="top" />
+          <SubTitle>¿Como deseas cambiar?</SubTitle>
+          <Spacer variant="top" />
+          <Info>Selecciona tu perfil para hacer el cambio.</Info>
+          <Spacer variant="top" />
+          <Link style={{ borderBottomColor: "#FFF" }} onPress={onSelectProfile.bind(this, "natural")}>
+            <Text variant="bold" style={{ color: "#FFF" }}>
+              Continuar como {user.name}
+            </Text>
+          </Link>
+        </CoverBackground>
+        <ProfileWrapper>
+          <Text variant="subtitle">Usar un perfil de empresa</Text>
+          {companyProfiles.length > 0 && (
+            <CompanyList>
+              {companyProfiles.map((c) => (
+                <CompanyProfile key={c.id} companyName={c.razon_social} onSelect={onSelectProfile.bind(this, "juridica", c.id)} />
+              ))}
+              <Spacer variant="top" size={3} />
+            </CompanyList>
+          )}
+          <Spacer variant="top" size={3} />
           <AddCompanyList>
             {Array.from({ length: 3 - companyProfiles.length }).map((_, index) => (
               <AddCompany key={index} onAdd={onAddProfile} />
             ))}
           </AddCompanyList>
-        </Spacer>
-        {companyProfiles.length < 3 && (
-          <Link onPress={onAddProfile}>
-            <Text variant="bold">Agregar perfil empresa</Text>
-          </Link>
-        )}
-      </ProfileWrapper>
+          <Spacer variant="top" />
+          {companyProfiles.length < 3 && (
+            <Link onPress={onAddProfile}>
+              <Text variant="bold">Agregar perfil empresa</Text>
+            </Link>
+          )}
+        </ProfileWrapper>
+      </ProfileScroll>
     </SafeArea>
   );
 };

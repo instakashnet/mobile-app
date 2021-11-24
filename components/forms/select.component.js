@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Image, StyleSheet } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import RNPickerSelect from "react-native-picker-select";
 import { HelperText } from "react-native-paper";
@@ -25,6 +25,14 @@ const PickerIcon = styled(Ionicons).attrs({
 `;
 
 export const Select = ({ label, value, onChange, name, options, hasIcon, style, error, isFlex, ...rest }) => {
+  // HANDLERS
+  const getIcon = (options) => {
+    if (value && hasIcon) {
+      const Icon = options.find((o) => o.value === value).icon;
+      return <Icon />;
+    } else return null;
+  };
+
   return (
     <FormGroup error={!!error}>
       <PickerIcon />
@@ -35,18 +43,29 @@ export const Select = ({ label, value, onChange, name, options, hasIcon, style, 
           inputIOS: {
             ...pickerStyles.inputIOS,
             ...style,
-            paddingLeft: 10,
+            paddingLeft: hasIcon ? 35 : 10,
             paddingRight: 10,
             borderColor: error ? theme.colors.ui.error : theme.colors.ui.border,
             borderWidth: error ? 2 : 1,
           },
-          inputAndroid: { ...pickerStyles.inputAndroid, ...style, borderColor: error ? theme.colors.ui.error : theme.colors.ui.border, borderWidth: error ? 2 : 1 },
+          inputAndroid: {
+            ...pickerStyles.inputAndroid,
+            ...style,
+            paddingLeft: hasIcon ? 35 : 10,
+            paddingRight: 10,
+            borderColor: error ? theme.colors.ui.error : theme.colors.ui.border,
+            borderWidth: error ? 2 : 1,
+          },
           iconContainer: { left: 9, top: "33%" },
         }}
         useNativeAndroidPickerStyle={false}
         value={value}
-        items={options}
+        items={options.map((o) => ({
+          label: o.label,
+          value: o.value,
+        }))}
         onValueChange={(value) => onChange(name, value)}
+        Icon={() => getIcon(options)}
         {...rest}
       />
       {!!error && !isFlex && (
@@ -75,7 +94,6 @@ const pickerStyles = StyleSheet.create({
   inputAndroid: {
     fontSize: 14,
     paddingVertical: 8,
-    paddingHorizontal: 10,
     borderRadius: 4,
     color: "black",
     paddingRight: 30,

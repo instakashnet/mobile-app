@@ -1,15 +1,18 @@
 import * as Updates from "expo-updates";
-import { DEV_API, PROD_API } from "@env";
+import { DEV_API, PROD_API, GOOGLE_PLACES_API } from "@env";
 
 const ENV = {
   dev: {
     apiUrl: DEV_API,
+    googlePlacesKey: GOOGLE_PLACES_API,
   },
   staging: {
     apiUrl: PROD_API,
+    googlePlacesKey: GOOGLE_PLACES_API,
   },
   prod: {
     apiUrl: PROD_API,
+    googlePlacesKey: GOOGLE_PLACES_API,
   },
 };
 

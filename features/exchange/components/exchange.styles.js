@@ -25,7 +25,7 @@ export const ExchangeHeader = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
   width: 100%;
-  height: 85px;
+  height: 65px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

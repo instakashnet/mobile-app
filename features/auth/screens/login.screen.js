@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert as RNAlert } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 
 // REDUX
@@ -41,15 +41,23 @@ export const LoginScreen = ({ navigation }) => {
   // HANDLERS
   const onSubmit = (values) => dispatch(loginUser(values));
 
+  const onGoogleLogin = async () => {
+    try {
+      await promptAsync();
+    } catch (error) {
+      RNAlert.alert("Error", "Ha ocurrido un error con el servicio de google.");
+    }
+  };
+
   return (
     <SafeArea>
       <DismissKeyboard>
         <AuthWrapper>
-          <Logo width={300} />
+          <Logo width={280} />
           <Spacer variant="top">
             <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
           </Spacer>
-          <Button icon={() => <GoogleIcon />} disabled={!request} variant="secondary" onPress={promptAsync}>
+          <Button icon={() => <GoogleIcon />} disabled={!request} variant="secondary" onPress={onGoogleLogin}>
             Ingresar con Google
           </Button>
           <Spacer variant="top" />

@@ -51,7 +51,13 @@ export const AddThirdForm = ({ banks, currencies, currencyId, onAddAccount, isPr
   const banksOptions = banks.map((bank) => ({
       label: bank.name.toUpperCase(),
       value: bank.id,
-      icon: () => <BankIcon bankName={bank.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri} />,
+      icon: () => (
+        <BankIcon
+          bankName={bank.name.toLowerCase()}
+          defaultSource={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri}
+          source={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri}
+        />
+      ),
     })),
     accounTypeOptions = [
       { label: "Corriente", value: "checking" },

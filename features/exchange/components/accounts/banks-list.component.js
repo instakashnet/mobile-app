@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 // ASSETS
@@ -11,14 +11,12 @@ import { Spacer } from "../../../../components/utils/spacer.component";
 import { AccountSelect, Radio, BankIcon, BankDescription, AccountsFlatList } from "../../components/accounts.styles";
 
 export const BanksList = ({ banks, bankSelected, onSelect }) => {
-  const TouchabledButton = Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
-
   return (
     <AccountsFlatList
       data={banks}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item: bank }) => (
-        <TouchabledButton style={styles.bankButton} onPress={() => onSelect(bank)}>
+        <TouchableOpacity style={styles.bankButton} onPress={() => onSelect(bank)}>
           <AccountSelect style={bankSelected && bankSelected.id === bank.id ? styles.selected : {}}>
             {bankSelected && bankSelected.id === bank.id ? <Ionicons name="checkmark-circle" color="#0D8284" size={25} style={styles.icon} /> : <Radio />}
             <Spacer variant="left" />
@@ -32,7 +30,7 @@ export const BanksList = ({ banks, bankSelected, onSelect }) => {
               Corriente
             </Text>
           </AccountSelect>
-        </TouchabledButton>
+        </TouchableOpacity>
       )}
     />
   );

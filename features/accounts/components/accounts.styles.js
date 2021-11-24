@@ -5,7 +5,7 @@ export const AccountsScroll = styled.ScrollView.attrs({
   contentContainerStyle: {
     flexGrow: 1,
     paddingTop: 20,
-    paddingBottom: 20,
+    paddingBottom: 40,
     alignItems: "center",
     width: Dimensions.get("window").width,
     paddingHorizontal: 20,

@@ -2,6 +2,15 @@ import styled from "styled-components/native";
 import Carousel from "react-native-snap-carousel";
 import { Dimensions } from "react-native";
 
+export const AuthScroll = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexGrow: 1,
+    paddingVertical: 25,
+  },
+})``;
+
 export const AuthWrapper = styled.View`
   flex: 1;
   justify-content: center;

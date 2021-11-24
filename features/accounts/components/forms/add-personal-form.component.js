@@ -9,7 +9,6 @@ import { Checkbox } from "../../../../components/forms/checkbox.component";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
 import { Select } from "../../../../components/forms/select.component";
-import { IconSelect } from "../../../../components/forms/icon-select.component";
 import { Input } from "../../../../components/forms/input.component";
 import { Button } from "../../../../components/UI/button.component";
 
@@ -44,33 +43,26 @@ export const AddPersonalForm = ({ currencies, currencyId, onAddAccount, isProces
       .map((currency) => ({
         label: `${currency.Symbol} ${currency.name}`,
         value: currency.id,
-      }));
-  const accounTypeOptions = [
-    { label: "Corriente", value: "checking" },
-    { label: "Ahorros", value: "savings" },
-  ];
+      })),
+    accounTypeOptions = [
+      { label: "Corriente", value: "checking" },
+      { label: "Ahorros", value: "savings" },
+    ];
 
   // HANDLERS
   const onSelect = async (name, value) => {
     await formik.setFieldValue(name, value);
+    formik.setFieldTouched(name, true);
     if (name === "bankId" && value) {
       let bank = banks.find((b) => b.id === value);
       formik.setFieldValue("isDirect", bank.active);
       setSelectedBank(bank);
-    } else formik.setFieldTouched(name, true);
+    }
   };
 
   return (
     <>
-      <IconSelect
-        name="bankId"
-        label="Banco"
-        error={formik.touched.bankId && formik.errors.bankId}
-        value={formik.values.bankId}
-        onChange={onSelect}
-        options={banksOptions}
-        hasIcon
-      />
+      <Select name="bankId" label="Banco" error={formik.touched.bankId && formik.errors.bankId} value={formik.values.bankId} onChange={onSelect} options={banksOptions} hasIcon />
       {isDirect ? (
         <Input
           name="account_number"

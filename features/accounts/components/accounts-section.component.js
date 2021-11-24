@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 
 // COMPONENTS
 import { Text } from "../../../components/typography/text.component";
@@ -8,10 +8,10 @@ import { Spacer } from "../../../components/utils/spacer.component";
 
 export const AccountsSection = ({ accounts, onDetails }) => {
   return (
-    <>
+    <View style={{ height: "43%", marginVertical: 5 }}>
       <Spacer variant="top" />
       <Text variant="title">{`Cuentas en ${accounts[0].currency.name} ${accounts[0].currency.Symbol}`}</Text>
-      <FlatList horizontal contentContainerStyle={{ marginTop: 10 }} data={accounts} renderItem={({ item }) => <AccountItem account={item} onPress={() => onDetails(item)} />} />
-    </>
+      <FlatList horizontal data={accounts} renderItem={({ item }) => <AccountItem account={item} onPress={() => onDetails(item)} />} />
+    </View>
   );
 };

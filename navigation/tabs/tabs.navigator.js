@@ -56,6 +56,7 @@ export const TabsNavigator = () => {
         tabBarActiveTintColor: "#0D8284",
         tabBarInactiveTintColor: "#AFAFAF",
         headerShown: false,
+        tabBarHideOnKeyboard: true,
       })}
     >
       <Tabs.Screen

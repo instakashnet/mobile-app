@@ -35,7 +35,10 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
   });
 
   // HANDLERS
-  const onSelectChange = (name, value) => formik.setFieldValue(name, value);
+  const onSelectChange = async (name, value) => {
+    await formik.setFieldValue(name, value);
+    formik.setFieldTouched(name, true);
+  };
 
   return (
     <>
@@ -52,7 +55,7 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
             isFlex
           />
         </View>
-        <View style={{ flexGrow: 0.7, width: "60%" }}>
+        <View style={{ flexGrow: 0.7, width: "50%" }}>
           <Input
             value={formik.values.document_identification}
             label="Nro. de docucmento"
@@ -89,7 +92,7 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
         value={formik.values.identity_sex}
         label="Género"
         options={genderOptions}
-        error={!formik.values.identity_sex && formik.errors.identity_sex}
+        error={formik.touched.identity_sex && formik.errors.identity_sex}
         onChange={onSelectChange}
       />
       <Spacer variant="top" size={3} />

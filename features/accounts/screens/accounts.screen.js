@@ -4,7 +4,7 @@ import _ from "lodash";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getAccounts, getBanks, getCurrencies } from "../../../store/actions";
+import { getAccounts } from "../../../store/actions";
 
 // COMPONENTS
 import { Button } from "../../../components/UI/button.component";
@@ -12,7 +12,7 @@ import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Loader } from "../../../components/UI/loader.component";
 import { AccountsSection } from "../components/accounts-section.component";
-import { AccountsWrapper } from "../components/accounts.styles";
+import { AccountsScroll } from "../components/accounts.styles";
 
 export const AccountsScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
@@ -35,13 +35,13 @@ export const AccountsScreen = ({ navigation }) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <AccountsWrapper>
+        <AccountsScroll>
           {groupedAccounts.map((accounts, key) => (
             <AccountsSection key={key} accounts={accounts} onDetails={onDetailsAccount} />
           ))}
           <Button onPress={onAddAccount}>Agregar cuenta</Button>
           <Spacer variant="top" />
-        </AccountsWrapper>
+        </AccountsScroll>
       )}
     </SafeArea>
   );

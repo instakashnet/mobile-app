@@ -26,6 +26,7 @@ export const LoginForm = ({ onSubmit, isProcessing }) => {
         onChange={formik.handleChange("email")}
         onBlur={formik.handleBlur("email")}
         autoCapitalize="none"
+        autoCorrect={false}
       />
       <Input
         name="password"

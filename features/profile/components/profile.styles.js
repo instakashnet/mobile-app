@@ -3,12 +3,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { Dimensions } from "react-native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 export const ProfileWrapper = styled.View`
   flex: 0.55;
   align-items: center;
   justify-content: center;
-  padding-vertical: ${({ theme }) => theme.space[2]};
+  padding-vertical: ${({ theme }) => theme.space[5]};
   padding-horizontal: ${({ theme }) => theme.space[4]};
   width: ${Dimensions.get("window").width}px;
 `;
@@ -21,19 +22,26 @@ export const ProfileScroll = styled.ScrollView.attrs({
   },
 })``;
 
+export const NoCameraWrapper = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: ${({ theme }) => theme.space[3]};
+`;
+
 export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
-  flex: 0.5;
+  flex: 0.45;
   align-items: center;
+  justify-content: center;
   width: ${Dimensions.get("window").width}px;
   padding-horizontal: ${({ theme }) => theme.space[4]};
-  padding-vertical: ${({ theme }) => theme.space[4]};
 `;
 
 export const InfoWrapper = styled.View`
-  padding: ${({ theme }) => theme.space[3]};
-  flex: 0.5;
+  padding-horizontal: ${({ theme }) => theme.space[3]};
+  flex: 0.55;
   border-bottom-left-radius: 45px;
   border-bottom-right-radius: 45px;
   background-color: ${({ theme }) => theme.colors.brand.primary};
@@ -121,3 +129,30 @@ export const FormWrapper = styled.View`
   width: 100%;
   margin-top: ${({ theme }) => theme.space[6]};
 `;
+
+export const GooglePlacesInput = styled(GooglePlacesAutocomplete).attrs(({ theme }) => ({
+  styles: {
+    container: {
+      flex: 0,
+      marginTop: 10,
+      zIndex: 10,
+      elevation: 3,
+    },
+    textInput: {
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: theme.colors.ui.border,
+      fontSize: 14,
+    },
+    listView: {
+      position: "absolute",
+      zIndex: 10,
+      elevation: 3,
+      top: 47,
+      borderRadius: 5,
+    },
+  },
+  textInputProps: {
+    placeholderTextColor: theme.colors.text.body,
+  },
+}))``;

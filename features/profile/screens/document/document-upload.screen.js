@@ -65,19 +65,18 @@ export const DocumentUploadScreen = ({ route, navigation }) => {
   return (
     <SafeArea>
       <CoverBackground>
-        <Title>Parte {uploadType}</Title>
         {image ? (
           <UploadForm image={image} type={uploadType} user={user} onSubmit={onUploadDocument} isProcessing={isProcessing} />
         ) : (
           <>
-            <DocumentFront />
+            <Title>Parte {uploadType}</Title>
+            <DocumentFront width={140} />
             <Info>Sube la parte {uploadType} de tu documento. la imagen debe cumplir con los requisitos listados debajo.</Info>
           </>
         )}
       </CoverBackground>
       <ProfileWrapper>
         <Text variant="subtitle">A tomar en cuenta:</Text>
-        <Spacer variant="top" />
         <ListWrapper>
           <ListItem>
             <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
@@ -92,11 +91,11 @@ export const DocumentUploadScreen = ({ route, navigation }) => {
             <Text>Solo se permiten formatos PNG, JPG y JPEG.</Text>
           </ListItem>
         </ListWrapper>
-        <Spacer variant="top" size={3} />
-        <Button icon="camera" labelStyle={{ fontSize: 25, color: "#13AAAC" }} onPress={() => navigation.navigate("Camera")}>
+        <Spacer variant="top" />
+        <Button icon="camera" labelStyle={{ fontSize: 20, color: "#13AAAC" }} onPress={() => navigation.navigate("Camera")}>
           <Text style={{ fontFamily: "lato-bold" }}>Abrir cámara</Text>
         </Button>
-        <Button variant="secondary" icon="image" onPress={pickImage} labelStyle={{ fontSize: 25, color: "#13AAAC" }}>
+        <Button variant="secondary" icon="image" onPress={pickImage} labelStyle={{ fontSize: 20, color: "#13AAAC" }}>
           <Text style={{ fontFamily: "lato-bold" }}>Seleccionar desde galeria</Text>
         </Button>
       </ProfileWrapper>

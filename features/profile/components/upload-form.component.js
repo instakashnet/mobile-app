@@ -17,8 +17,7 @@ export const UploadForm = ({ type, image, user, onSubmit, isProcessing }) => {
 
   return (
     <>
-      <Image source={{ uri: image.uri }} style={{ width: "100%", height: 150 }} resizeMode="contain" />
-      <Spacer variant="top" />
+      <Image source={{ uri: image.uri }} style={{ width: "100%", height: 120 }} resizeMode="contain" />
       <Button
         icon="file-upload"
         labelStyle={{ color: isProcessing ? "#FFF" : "#676767" }}

@@ -1,9 +1,8 @@
-import React, { useCallback } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
 
 // REDUx
 import { useSelector, useDispatch } from "react-redux";
-import { editAccount, getCurrencies, clearAccountsError } from "../../../store/actions";
+import { editAccount, clearAccountsError } from "../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -20,13 +19,6 @@ export const EditAccountScreen = ({ route }) => {
   const dispatch = useDispatch(),
     { account } = route.params,
     { isProcessing, isLoading, currencies, accountsError } = useSelector((state) => state.accountsReducer);
-
-  // EFFECTS
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(getCurrencies());
-    }, [dispatch])
-  );
 
   // HANDLERS
   const onEdit = (values, accId) => dispatch(editAccount(values, accId));

@@ -17,6 +17,7 @@ const Button = styled.TouchableOpacity.attrs({
   top: 55px;
   left: 7%;
   z-index: 10;
+  elevation: 10;
 `;
 
 const ViewIcon = styled.View`

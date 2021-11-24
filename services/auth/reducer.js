@@ -18,17 +18,18 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.COMPLETE_PROFILE_INIT:
       return { ...state, isProcessing: true, error: null };
     case types.REGISTER_SUCCESS:
-    case types.LOGIN_SUCCESS:
     case types.LOGIN_GOOGLE_SUCCESS:
     case types.RECOVER_PASSWORD_SUCCESS:
     case types.VALIDATE_EMAIL_SUCCESS:
     case types.REFRESH_CODE_SUCCESS:
     case types.COMPLETE_PROFILE_SUCCESS:
       return { ...state, isProcessing: false };
+    case types.LOGIN_SUCCESS:
+      return { ...state, isProcessing: false, isLoading: false };
     case types.LOAD_USER_INIT:
       return { ...state, isLoading: true };
     case types.LOAD_USER_SUCCESS:
-      return { ...state, isLoading: false, user: action.user };
+      return { ...state, user: action.user };
     case types.GET_AFFILIATES_INIT:
       return { ...state, affiliates: [] };
     case types.GET_AFFILIATES_SUCCESS:

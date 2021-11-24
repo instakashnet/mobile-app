@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { Camera } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { View, Text } from "react-native";
+import { View, Linking } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 // UTILS
 import { headerCameraFlash } from "../../../../navigation/utils/navigator.options";
+
+// COMPONENTS
+import { Link } from "../../../../components/typography/link.component";
+import { Text } from "../../../../components/typography/text.component";
+import { Spacer } from "../../../../components/utils/spacer.component";
+
+// STYLED COMPONENTS
+import { NoCameraWrapper } from "../../components/profile.styles";
 
 export const CameraScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null),
@@ -24,9 +32,9 @@ export const CameraScreen = ({ navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => headerCameraFlash(onFlashType, flash),
+      headerRight: () => (hasPermission ? headerCameraFlash(onFlashType, flash) : null),
     });
-  }, [onFlashType, flash]);
+  }, [onFlashType, hasPermission, flash]);
 
   // HANDLERS
   const onFlashType = useCallback(() => {
@@ -58,7 +66,19 @@ export const CameraScreen = ({ navigation }) => {
     return <View />;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <NoCameraWrapper>
+        <Text>
+          Debes <Text variant="bold">aceptar los permisos</Text> del uso de la camara para poder tomar la foto de tu documento.
+        </Text>
+        <Spacer variant="top" />
+        <Link onPress={() => Linking.openURL("app-settings:")}>
+          <Text>
+            <Text variant="bold">Ir a configuración</Text>
+          </Text>
+        </Link>
+      </NoCameraWrapper>
+    );
   }
 
   return (

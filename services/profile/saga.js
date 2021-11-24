@@ -49,13 +49,8 @@ function* watchUpdateprofile() {
 }
 
 function* updateProfile({ values }) {
-  const profileValues = {
-    ...values,
-    address: `${values.address}, ${values.district}, ${values.state}`,
-  };
-
   try {
-    const res = yield authInstance.put("/users/profiles", profileValues);
+    const res = yield authInstance.put("/users/profiles", values);
     if (res.status === 200) {
       yield getUserData();
 

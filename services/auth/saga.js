@@ -53,18 +53,18 @@ function* loadUser() {
     yield call([AsyncStorage, "setItem"], "@userVerification", JSON.stringify({ verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
 
     if (!resData.verified) {
-      yield put(actions.logoutUserSuccess());
-      return yield call([RootNavigation, "navigate"], "EmailVerification");
+      yield call([RootNavigation, "navigate"], "EmailVerification");
+      return yield put(actions.loginUserSuccess());
     }
 
     if (!resData.completed) {
-      yield put(actions.logoutUserSuccess());
-      return yield call([RootNavigation, "navigate"], "CompleteProfile");
+      yield call([RootNavigation, "navigate"], "CompleteProfile");
+      return yield put(actions.loginUserSuccess());
     }
 
     yield call(getData);
-    yield put(actions.loginUserSuccess());
     yield put(actions.loadUserSuccess(resData.user));
+    yield put(actions.loginUserSuccess());
   } catch (error) {
     console.log(error);
     yield put(actions.logoutUser());
@@ -103,7 +103,6 @@ function* loginUser({ values }) {
     if (res.status === 200) {
       yield call(setAuthToken, res.data);
       yield put(actions.loadUser());
-      yield put(actions.loginUserSuccess());
     }
   } catch (error) {
     yield put(actions.apiError(error.message));
@@ -213,9 +212,9 @@ function* logoutUser() {
     yield put(actions.apiError());
   }
 
-  yield call(clearUserData);
   yield put(actions.logoutUserSuccess());
-  yield call([RootNavigation, "push"], "Auth", { screen: "Login" });
+  yield call([RootNavigation, "replace"], "Auth", { screen: "Login" });
+  yield call(clearUserData);
 }
 
 export function* authSaga() {
