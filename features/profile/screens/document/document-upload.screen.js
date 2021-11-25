@@ -20,7 +20,7 @@ import { UploadForm } from "../../components/upload-form.component";
 import { Alert } from "../../../../components/UI/alert.component";
 
 // STYLED COMPONENTS
-import { CoverBackground, ProfileWrapper, Title, Info, ListItem, ListWrapper } from "../../components/profile.styles";
+import { CoverBackground, ProfileWrapper, ProfileScroll, Title, Info, ListItem, ListWrapper } from "../../components/profile.styles";
 
 export const DocumentUploadScreen = ({ route, navigation }) => {
   const dispatch = useDispatch(),
@@ -33,7 +33,7 @@ export const DocumentUploadScreen = ({ route, navigation }) => {
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        alert("Debes aceptar los permisos a fotos para poder cargar el documento desde tu galeria.");
       }
     })();
   }, []);
@@ -64,42 +64,47 @@ export const DocumentUploadScreen = ({ route, navigation }) => {
 
   return (
     <SafeArea>
-      <CoverBackground>
-        {image ? (
-          <UploadForm image={image} type={uploadType} user={user} onSubmit={onUploadDocument} isProcessing={isProcessing} />
-        ) : (
-          <>
-            <Title>Parte {uploadType}</Title>
-            <DocumentFront width={140} />
-            <Info>Sube la parte {uploadType} de tu documento. la imagen debe cumplir con los requisitos listados debajo.</Info>
-          </>
-        )}
-      </CoverBackground>
-      <ProfileWrapper>
-        <Text variant="subtitle">A tomar en cuenta:</Text>
-        <ListWrapper>
-          <ListItem>
-            <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
-            <Text>El documento debe ser perfectamente legible.</Text>
-          </ListItem>
-          <ListItem>
-            <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
-            <Text>La imagen no debe pesar más de 5MB.</Text>
-          </ListItem>
-          <ListItem>
-            <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
-            <Text>Solo se permiten formatos PNG, JPG y JPEG.</Text>
-          </ListItem>
-        </ListWrapper>
-        <Spacer variant="top" />
-        <Button icon="camera" labelStyle={{ fontSize: 20, color: "#13AAAC" }} onPress={() => navigation.navigate("Camera")}>
-          <Text style={{ fontFamily: "lato-bold" }}>Abrir cámara</Text>
-        </Button>
-        <Button variant="secondary" icon="image" onPress={pickImage} labelStyle={{ fontSize: 20, color: "#13AAAC" }}>
-          <Text style={{ fontFamily: "lato-bold" }}>Seleccionar desde galeria</Text>
-        </Button>
-      </ProfileWrapper>
-
+      <ProfileScroll>
+        <CoverBackground>
+          {image ? (
+            <UploadForm image={image} type={uploadType} user={user} onSubmit={onUploadDocument} isProcessing={isProcessing} />
+          ) : (
+            <>
+              <Title>Parte {uploadType}</Title>
+              <DocumentFront width={140} />
+              <Info>Sube la parte {uploadType} de tu documento. la imagen debe cumplir con los requisitos listados debajo.</Info>
+            </>
+          )}
+        </CoverBackground>
+        <ProfileWrapper>
+          <Text variant="subtitle">A tomar en cuenta:</Text>
+          <ListWrapper>
+            <ListItem>
+              <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
+              <Text>El documento debe ser perfectamente legible.</Text>
+            </ListItem>
+            <ListItem>
+              <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
+              <Text>La imagen no debe pesar más de 5MB.</Text>
+            </ListItem>
+            <ListItem>
+              <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
+              <Text>Solo se permiten formatos PNG, JPG y JPEG.</Text>
+            </ListItem>
+          </ListWrapper>
+          <Spacer variant="top" />
+          <Button icon="camera" labelStyle={{ fontSize: 20, color: "#13AAAC" }} onPress={() => navigation.navigate("Camera")}>
+            <Text variant="button" style={{ fontSize: 12 }}>
+              Abrir cámara
+            </Text>
+          </Button>
+          <Button variant="secondary" icon="image" onPress={pickImage} labelStyle={{ fontSize: 20, color: "#13AAAC" }}>
+            <Text variant="button" style={{ fontSize: 12 }}>
+              Seleccionar desde galeria
+            </Text>
+          </Button>
+        </ProfileWrapper>
+      </ProfileScroll>
       <Alert type="error" onClose={clearProfileError} visible={!!profileError}>
         {profileError}
       </Alert>

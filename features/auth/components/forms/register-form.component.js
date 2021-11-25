@@ -85,7 +85,7 @@ export const RegisterForm = ({ onSubmit, isProcessing }) => {
           Declaro que he leído y acepto sus{" "}
           <Text variant="underline" onPress={() => openURL("https://instakash.net/terminos-y-condiciones")}>
             Términos y condiciones
-          </Text>
+          </Text>{" "}
           y las{" "}
           <Text variant="underline" onPress={() => openURL("https://instakash.net/politicas-de-privacidad")}>
             Políticas de privacidad

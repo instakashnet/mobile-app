@@ -38,7 +38,9 @@ export const ProfileInfo = styled.View`
   align-items: center;
 `;
 
-export const Type = styled.Text`
+export const Type = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   color: ${({ theme }) => theme.colors.ui.secondary};
   font-family: ${({ theme }) => theme.fonts.title};
   font-size: ${({ theme }) => theme.fontSizes.body};
@@ -60,7 +62,9 @@ export const RateBox = styled.View`
   align-items: center;
 `;
 
-export const Caption = styled.Text`
+export const Caption = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   font-family: ${({ theme }) => theme.fonts.body};
   color: ${({ theme }) => theme.colors.text.title};
   font-size: ${({ theme }) => theme.fontSizes.body};
@@ -73,7 +77,9 @@ export const BorderLine = styled.View`
   background-color: ${({ theme }) => theme.colors.ui.primary};
 `;
 
-export const Price = styled.Text`
+export const Price = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   font-family: ${({ theme }) => theme.fonts.button};
   margin-top: ${({ theme }) => theme.space[1]};
   color: ${({ theme }) => theme.colors.text.title};

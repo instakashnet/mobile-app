@@ -6,7 +6,7 @@ import { Dimensions } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 export const ProfileWrapper = styled.View`
-  flex: 0.55;
+  min-height: 50%;
   align-items: center;
   justify-content: center;
   padding-vertical: ${({ theme }) => theme.space[5]};
@@ -19,6 +19,7 @@ export const ProfileScroll = styled.ScrollView.attrs({
     flexGrow: 1,
     alignItems: "center",
     width: Dimensions.get("window").width,
+    paddingBottom: 65,
   },
 })``;
 
@@ -32,7 +33,7 @@ export const NoCameraWrapper = styled.View`
 export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
-  flex: 0.45;
+  min-height: 50%;
   align-items: center;
   justify-content: center;
   width: ${Dimensions.get("window").width}px;
@@ -59,7 +60,9 @@ export const HeaderProfile = styled.View`
   width: 100%;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   font-family: ${({ theme }) => theme.fonts.title};
   color: #fff;
   font-size: ${({ theme }) => theme.fontSizes.large};
@@ -67,13 +70,17 @@ export const Title = styled.Text`
   margin-vertical: ${({ theme }) => theme.space[3]};
 `;
 
-export const SubTitle = styled.Text`
+export const SubTitle = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   font-family: ${({ theme }) => theme.fonts.button};
   font-size: ${({ theme }) => theme.fontSizes.title};
   color: #fff;
 `;
 
-export const Info = styled.Text`
+export const Info = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: ${({ theme }) => theme.fontSizes.body};
   text-align: center;

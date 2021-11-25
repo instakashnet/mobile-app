@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Drawer } from "react-native-paper";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -14,14 +14,13 @@ import { Female } from "../../../assets/icons/female";
 import { NavItem } from "./nav-item.component";
 import { Header, Name, HeaderInfo } from "./drawer.styles";
 import { Button } from "../button.component";
-import { Spacer } from "../../utils/spacer.component";
 
 export const CustomDrawer = (props) => {
   const dispatch = useDispatch(),
     { isProcessing, user } = useSelector((state) => state.authReducer);
 
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} contentContainerStyle={{ alignItems: "center" }}>
       <Header>
         <HeaderInfo>
           {user.identitySex === "male" ? <Male width={45} /> : <Female />}
@@ -40,11 +39,9 @@ export const CustomDrawer = (props) => {
         <NavItem onPress={() => props.navigation.navigate("Activity")} label="Mis cambios" icon="chart-bar" />
         <NavItem onPress={() => props.navigation.navigate("Affiliates")} label="Recomienda y gana" icon="trophy" />
       </Drawer.Section>
-      <Spacer variant="horizontal" size={6}>
-        <Button variant="secondary" onPress={() => dispatch(logoutUser())} loading={isProcessing}>
-          Cerrar sesión
-        </Button>
-      </Spacer>
+      <Button variant="secondary" onPress={() => dispatch(logoutUser())} loading={isProcessing}>
+        Cerrar sesión
+      </Button>
     </DrawerContentScrollView>
   );
 };
@@ -53,5 +50,6 @@ const styles = StyleSheet.create({
   section: {
     marginHorizontal: 4,
     marginTop: 20,
+    width: Dimensions.get("window").width,
   },
 });

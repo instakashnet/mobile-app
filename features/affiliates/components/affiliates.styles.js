@@ -11,10 +11,11 @@ export const AffiliatesWrapper = styled.View`
 
 export const AffiliatesScroll = styled.ScrollView.attrs({
   contentContainerStyle: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: 20,
     paddingVertical: 20,
     alignItems: "center",
+    width: Dimensions.get("window").width,
   },
 })``;
 
@@ -50,7 +51,9 @@ export const ButtonsWrapper = styled.View`
   justify-content: space-between;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   color: ${({ theme }) => theme.colors.text.body};
   font-size: ${({ theme }) => theme.fontSizes.body};
   font-family: ${({ theme }) => theme.fonts.subtitle};
@@ -67,13 +70,17 @@ export const Card = styled.View`
   justify-content: center;
 `;
 
-export const Number = styled.Text`
+export const Number = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   color: ${({ theme }) => theme.colors.text.body};
   font-size: ${({ theme }) => theme.fontSizes.xxl};
   font-family: ${({ theme }) => theme.fonts.subtitle};
 `;
 
-export const Subtitle = styled.Text`
+export const Subtitle = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   color: ${({ theme }) => theme.colors.text.body};
   font-size: ${({ theme }) => theme.fontSizes.body};
   font-family: ${({ theme }) => theme.fonts.subtitle};

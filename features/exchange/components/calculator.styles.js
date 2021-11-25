@@ -31,10 +31,12 @@ export const CurrencyLabel = styled.View`
   flex: 0.35;
 `;
 
-export const Label = styled.Text`
+export const Label = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   color: #fff;
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 export const CurrencyInput = styled(InputCurrency)`
@@ -47,11 +49,13 @@ export const CurrencyInput = styled(InputCurrency)`
   border-bottom-right-radius: 4px;
   color: ${({ theme }) => theme.colors.text.title};
   font-family: ${({ theme }) => theme.fonts.title};
-  font-size: ${({ theme }) => theme.fontSizes.large};
+  font-size: ${({ theme }) => theme.fontSizes.title};
   text-align: right;
 `;
 
-export const Symbol = styled.Text`
+export const Symbol = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   color: ${({ theme }) => theme.colors.text.title};
   font-family: ${({ theme }) => theme.fonts.title};
   font-size: ${({ theme }) => theme.fontSizes.large};
@@ -60,12 +64,15 @@ export const Symbol = styled.Text`
   top: 30%;
 `;
 
-export const InputLabel = styled.Text`
+export const InputLabel = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   position: absolute;
   right: 25px;
   top: 7px;
   color: ${({ theme }) => theme.colors.text.title};
   font-family: ${({ theme }) => theme.fonts.body};
+  font-size: ${({ theme }) => theme.fontSizes.caption};
 `;
 
 export const CouponInputWrapper = styled.View`
@@ -79,9 +86,12 @@ export const CouponInput = styled(TextInput).attrs(({ theme }) => ({
   theme: { ...theme, colors: { primary: theme.colors.brand.primary, error: theme.colors.ui.error } },
   mode: "outlined",
   outlineColor: theme.colors.ui.border,
+  dense: true,
 }))`
   height: 53px;
   flex: 0.85;
+  justify-content: center;
+  padding: 0px;
   font-size: ${({ theme }) => theme.fontSizes.button};
   background-color: #fff;
 `;
@@ -118,7 +128,9 @@ export const CouponWrapper = styled.View`
   align-items: center;
 `;
 
-export const CouponText = styled.Text`
+export const CouponText = styled.Text.attrs({
+  allowFontScaling: false,
+})`
   font-family: ${({ theme }) => theme.fonts.subtitle};
   font-size: ${({ theme }) => theme.fontSizes.title};
   text-transform: uppercase;
@@ -134,6 +146,6 @@ export const TimerWrapper = styled.View`
 `;
 
 export const Timer = styled(CountDown).attrs(({ theme }) => ({
-  digitStyle: { backgroundColor: "transparent", width: 20 },
+  digitStyle: { backgroundColor: "transparent", width: 35 },
   digitTxtStyle: { color: theme.colors.text.body, fontFamily: theme.fonts.button, color: theme.colors.brand.primary },
 }))``;

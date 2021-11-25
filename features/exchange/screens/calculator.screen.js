@@ -101,7 +101,7 @@ export const CalculatorScreen = ({ navigation }) => {
               id={countdown.toString()}
               running={countRunnig}
               until={300}
-              size={15}
+              size={14}
               showSeparator
               onFinish={onGetRates}
               timeToShow={["M", "S"]}

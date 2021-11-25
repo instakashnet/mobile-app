@@ -7,7 +7,7 @@ const ENV = {
     googlePlacesKey: GOOGLE_PLACES_API,
   },
   staging: {
-    apiUrl: PROD_API,
+    apiUrl: DEV_API,
     googlePlacesKey: GOOGLE_PLACES_API,
   },
   prod: {

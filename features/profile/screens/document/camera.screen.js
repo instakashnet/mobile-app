@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Camera } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { View, Linking } from "react-native";
+import { View, Linking, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -38,28 +38,28 @@ export const CameraScreen = ({ navigation }) => {
 
   // HANDLERS
   const onFlashType = useCallback(() => {
-    let flashType;
+      let flashType;
 
-    if (flash === Camera.Constants.FlashMode.auto) flashType = Camera.Constants.FlashMode.on;
-    if (flash === Camera.Constants.FlashMode.on) flashType = Camera.Constants.FlashMode.off;
-    if (flash === Camera.Constants.FlashMode.off) flashType = Camera.Constants.FlashMode.auto;
+      if (flash === Camera.Constants.FlashMode.auto) flashType = Camera.Constants.FlashMode.on;
+      if (flash === Camera.Constants.FlashMode.on) flashType = Camera.Constants.FlashMode.off;
+      if (flash === Camera.Constants.FlashMode.off) flashType = Camera.Constants.FlashMode.auto;
 
-    console.log("inside flash", flash);
-    setFlash(flashType);
-  }, [flash]);
+      console.log("inside flash", flash);
+      setFlash(flashType);
+    }, [flash]),
+    onSnap = async () => {
+      try {
+        if (cameraRef.current) {
+          const photo = await cameraRef.current.takePictureAsync({ quality: 0.8 });
+          const image = await manipulateAsync(photo.uri, [{ resize: { height: 500 } }], { compress: 0.8, format: SaveFormat.JPEG });
 
-  const onSnap = async () => {
-    try {
-      if (cameraRef.current) {
-        const photo = await cameraRef.current.takePictureAsync({ quality: 0.8 });
-        const image = await manipulateAsync(photo.uri, [{ resize: { height: 500 } }], { compress: 0.8, format: SaveFormat.JPEG });
-
-        navigation.navigate("DocumentUpload", { photo: image });
+          navigation.navigate("DocumentUpload", { photo: image });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    onOpenConfig = () => Linking.openSettings();
 
   // CONDITIONAL RETURNS
   if (hasPermission === null) {
@@ -72,7 +72,7 @@ export const CameraScreen = ({ navigation }) => {
           Debes <Text variant="bold">aceptar los permisos</Text> del uso de la camara para poder tomar la foto de tu documento.
         </Text>
         <Spacer variant="top" />
-        <Link onPress={() => Linking.openURL("app-settings:")}>
+        <Link onPress={onOpenConfig}>
           <Text>
             <Text variant="bold">Ir a configuración</Text>
           </Text>

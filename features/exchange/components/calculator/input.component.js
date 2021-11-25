@@ -9,7 +9,7 @@ export const Input = ({ label, currency, name, symbol, value, onChange }) => {
       <CurrencyLabel>
         <Label>{currency}</Label>
       </CurrencyLabel>
-      <CurrencyInput value={value} keyboardType="number-pad" delimiter="," separator="." onChangeValue={(value) => onChange(name, value)} />
+      <CurrencyInput value={value} keyboardType="number-pad" ignoreNegative={true} delimiter="," minValue={0} separator="." onChangeValue={(value) => onChange(name, value)} />
       <InputLabel>{label}</InputLabel>
       <Symbol>{symbol}</Symbol>
     </InputWrapper>

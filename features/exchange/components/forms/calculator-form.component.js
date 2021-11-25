@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+
+// FORMIK
 import { useFormik } from "formik";
 
 // COMPONENTS
@@ -9,6 +11,7 @@ import { CouponApplied } from "../calculator/coupon.component";
 import { Input } from "../calculator/input.component";
 import { SwapButton } from "../calculator/swap-button.component";
 import { Button } from "../../../../components/UI/button.component";
+import { Text } from "../../../../components/typography/text.component";
 
 export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, profile, onSubmit, rates, coupon, couponRates }) => {
   const [toSendCurrency, setToSendCurrency] = useState("Soles"),
@@ -33,7 +36,7 @@ export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, prof
       onSubmit,
     }),
     { setFieldValue } = formik,
-    { type: calculatorType } = formik.values;
+    { type: calculatorType, amount_sent, amount_received } = formik.values;
 
   // EFFECTS
   useEffect(() => {
@@ -129,13 +132,13 @@ export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, prof
         <CouponInputWrapper>
           <CouponInput autoCorrect={false} autoComplete="off" value={couponName} label="Agregar cupón" onChangeText={setCouponName} />
           <CouponButton onPress={() => onAddCoupon(couponName)} disabled={!couponName} loading={isProcessing}>
-            Agregar
+            <Text variant="button">Agregar</Text>
           </CouponButton>
         </CouponInputWrapper>
       )}
 
       <Spacer variant="top" />
-      <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing}>
+      <Button onPress={formik.handleSubmit} disabled={amount_sent <= 0 || amount_received <= 0 || isProcessing} loading={isProcessing}>
         Comenzar cambio
       </Button>
     </FormWrapper>

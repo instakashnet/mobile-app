@@ -84,7 +84,7 @@ const pickerStyles = StyleSheet.create({
   },
   inputIOS: {
     fontSize: 14,
-    paddingVertical: 14,
+    paddingVertical: 15,
     borderRadius: 4,
     color: "black",
     paddingRight: 30,
@@ -93,7 +93,7 @@ const pickerStyles = StyleSheet.create({
   },
   inputAndroid: {
     fontSize: 14,
-    paddingVertical: 8,
+    paddingVertical: 9,
     borderRadius: 4,
     color: "black",
     paddingRight: 30,

@@ -1,8 +1,9 @@
 import styled from "styled-components/native";
 import { Button as PaperButton } from "react-native-paper";
+import { Dimensions } from "react-native";
 
 const defaultStyles = (theme) => `
-  width: 100%;
+width: ${Dimensions.get("window").width / 1.2}px;
   margin-top: ${theme.space[3]};
   margin-bottom: ${theme.space[2]};
   shadow-color: #000;

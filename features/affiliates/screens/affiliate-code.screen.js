@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Carousel from "react-native-snap-carousel";
-import { Share } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { Share, Dimensions } from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 // REDUX
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import { Button } from "../../../components/UI/button.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { SlideItem } from "../../../components/UI/slide-item.component";
-import { AffiliatesWrapper, CodeWrapper, ButtonsWrapper } from "../components/affiliates.styles";
+import { AffiliatesScroll, CodeWrapper, ButtonsWrapper } from "../components/affiliates.styles";
 
 export const AffiliateCodeScreen = ({ navigation }) => {
   const carousel = useRef(),
@@ -45,16 +45,18 @@ export const AffiliateCodeScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <AffiliatesWrapper>
+      <AffiliatesScroll>
         <Spacer variant="top" size={3} />
         <Text variant="title">¡Recomieda y gana!</Text>
         <Text>Comparte el côdigo con tus amigos</Text>
+        <Spacer variant="top" size={2} />
         <Carousel
           layout="default"
           ref={(ref) => (carousel.current = ref)}
           data={slider.items}
           renderItem={SlideItem}
           sliderWidth={350}
+          slideStyle={{ height: Dimensions.get("window").height / 2, alignItems: "center", justifyContent: "center" }}
           itemWidth={350}
           contentContainerCustomStyle={{ display: "flex", alignItems: "center" }}
           loop
@@ -62,6 +64,7 @@ export const AffiliateCodeScreen = ({ navigation }) => {
           autoplayDelay={2000}
           autoplayInterval={5000}
         />
+        <Spacer variant="top" size={2} />
         <CodeWrapper>
           <Text variant="subtitle" style={{ textTransform: "uppercase" }}>
             {user.username}
@@ -74,14 +77,14 @@ export const AffiliateCodeScreen = ({ navigation }) => {
           </Button>
           <Spacer variant="left" />
           <Button variant="secondary" onPress={() => navigation.navigate("EditCode", { username: user.username })} style={{ width: "20%" }}>
-            <FontAwesome name="edit" size={25} color="#20A2A5" />
+            <FontAwesome5 name="edit" size={25} color="#20A2A5" />
           </Button>
         </ButtonsWrapper>
         <Spacer variant="top" />
         <Text>
           Comparte tu código a tus amigos y <Text variant="bold">gana KASH</Text>.
         </Text>
-      </AffiliatesWrapper>
+      </AffiliatesScroll>
     </SafeArea>
   );
 };

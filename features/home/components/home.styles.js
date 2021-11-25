@@ -75,7 +75,7 @@ export const Button = styled(PaperButton).attrs({
     letterSpacing: 0,
   },
   contentStyle: {
-    height: 40,
+    height: 50,
   },
   color: theme.colors.buttons.active,
   mode: "contained",

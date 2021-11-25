@@ -66,7 +66,11 @@ export const Badge = styled.View`
   padding: 6px;
 `;
 
-export const Status = styled.Text`
+export const Status = styled.Text.attrs({
+  allowFontScaling: false,
+  adjustsFontSizeToFit: true,
+  numberOfLines: 1,
+})`
   font-family: ${({ theme }) => theme.fonts.subtitle};
   font-size: ${({ theme }) => theme.fontSizes.button};
   text-transform: lowercase;

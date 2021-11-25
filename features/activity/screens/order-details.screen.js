@@ -27,31 +27,31 @@ export const OrderDetailsScreen = ({ route }) => {
             </Badge>
           </InfoWrapper>
           <InfoWrapper>
-            <Subtitle>Pedido:</Subtitle>
+            <Text variant="subtitle">Pedido:</Text>
             <Text>{order.uuid}</Text>
           </InfoWrapper>
           <InfoWrapper>
-            <Subtitle>A enviar:</Subtitle>
+            <Text variant="subtitle">A enviar:</Text>
             <Text>
               {order.currencySentSymbol} {formatAmount(order.amountSent)}
             </Text>
           </InfoWrapper>
           <InfoWrapper>
-            <Subtitle>A recibir:</Subtitle>
+            <Text variant="subtitle">A recibir:</Text>
             <Text>
               {order.currencyReceivedSymbol} {formatAmount(order.amountReceived)}
             </Text>
           </InfoWrapper>
           <InfoWrapper>
-            <Subtitle>Tipo de cambio:</Subtitle>
+            <Text variant="subtitle">Tipo de cambio:</Text>
             <Text>{order.rate}</Text>
           </InfoWrapper>
           <InfoWrapper>
-            <Subtitle>Banco que recibe:</Subtitle>
+            <Text variant="subtitle">Banco que recibe:</Text>
             <BankLogo source={bankLogos.find((b) => b.bankName === order.bankReceive.toLowerCase()).uri} />
           </InfoWrapper>
           <InfoWrapper>
-            <Subtitle>Cuenta que recibe:</Subtitle>
+            <Text variant="subtitle">Cuenta que recibe:</Text>
             <Text>******{order.accountToRaw.substring(order.accountToRaw.length - 5, order.accountToRaw)}</Text>
           </InfoWrapper>
         </Card>

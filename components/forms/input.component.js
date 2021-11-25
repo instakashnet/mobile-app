@@ -10,8 +10,7 @@ const StyledInput = styled(TextInput).attrs(({ theme }) => ({
   outlineColor: theme.colors.ui.border,
 }))`
   width: 100%;
-  padding-vertical: 0px;
-  height: 45px;
+  height: 50px;
   font-size: ${({ theme }) => theme.fontSizes.button};
   background-color: #fff;
 `;

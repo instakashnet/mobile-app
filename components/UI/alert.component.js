@@ -5,6 +5,8 @@ import styled from "styled-components/native";
 // REDUX
 import { useDispatch } from "react-redux";
 
+import { Text } from "../typography/text.component";
+
 const StyledSnackBar = styled(Snackbar).attrs(({ theme, action }) => ({
   action: {
     ...action,
@@ -35,7 +37,9 @@ export const Alert = ({ children, type, visible, onClose }) => {
 
   return (
     <StyledSnackBar visible={isVisible} action={{ label: "Cerrar" }} type={type} onDismiss={onDismiss}>
-      {children}
+      <Text variant="caption" style={{ color: "#FFF" }}>
+        {children}
+      </Text>
     </StyledSnackBar>
   );
 };

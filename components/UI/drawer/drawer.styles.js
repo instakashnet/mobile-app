@@ -7,7 +7,7 @@ export const Header = styled.View`
   padding-horizontal: ${({ theme }) => theme.space[4]};
   padding-vertical: ${({ theme }) => theme.space[4]};
   background-color: ${({ theme }) => theme.colors.brand.primary};
-  width: 100%;
+  width: ${Dimensions.get("window").width}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -18,7 +18,11 @@ export const HeaderInfo = styled.View`
   align-items: center;
 `;
 
-export const Name = styled.Text`
+export const Name = styled.Text.attrs({
+  adjustsFontSizeToFit: true,
+  allowFontScaling: false,
+  numberOflines: 1,
+})`
   color: #fff;
   font-family: ${({ theme }) => theme.fonts.subtitle};
   font-size: ${({ theme }) => theme.fontSizes.body};

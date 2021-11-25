@@ -4,7 +4,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getProfiles, logoutUser, selectProfile } from "../../../store/actions";
+import { getProfiles, selectProfile } from "../../../store/actions";
 
 // ASSETS
 import { Male } from "../../../assets/icons/male";
@@ -20,7 +20,7 @@ import { Link } from "../../../components/typography/link.component";
 
 // STYLED COMPONENTS
 import { AddCompanyList, CompanyList } from "../components/select-profile.styles";
-import { CoverBackground, ProfileWrapper, ProfileScroll, Title, SubTitle, Info } from "../components/profile.styles";
+import { CoverBackground, ProfileWrapper, ProfileScroll, SubTitle, Info } from "../components/profile.styles";
 
 export const SelectProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
