@@ -19,8 +19,8 @@ export const SelectProfileNavigator = () => {
       initialRouteName="Select"
       screenOptions={({ navigation }) => ({
         ...headerOptions,
-        headerLeft,
-        headerRight: () => headerRight(navigation),
+        headerLeft: () => headerLeft(navigation),
+        headerRight,
       })}
     >
       <SelectStack.Screen options={{ headerTitle: (props) => <Logo width={100} /> }} name="Select" component={SelectProfileScreen} />

@@ -18,7 +18,7 @@ const ProfileStack = createStackNavigator();
 
 export const ProfileNavigator = () => {
   return (
-    <ProfileStack.Navigator screenOptions={({ navigation }) => ({ ...headerOptions, headerLeft: () => headerBackLeft(navigation), headerRight: () => headerRight(navigation) })}>
+    <ProfileStack.Navigator screenOptions={({ navigation }) => ({ ...headerOptions, headerLeft: () => headerBackLeft(navigation), headerRight })}>
       <ProfileStack.Screen name="MyProfile" options={{ headerTitle: "Mi perfil" }} component={ProfileScreen} />
       <ProfileStack.Screen name="BasicInfo" options={{ headerTitle: "Datos básicos" }} component={BasicInfoScreen} />
       <ProfileStack.Screen name="EditInfo" options={{ headerTitle: "Editar información" }} component={EditInfoScreen} />

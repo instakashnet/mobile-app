@@ -10,7 +10,6 @@ import { Input } from "../../../components/forms/input.component";
 import { Button } from "../../../components/UI/button.component";
 
 export const ResetPasswordScreen = ({ route }) => {
-  console.log(route);
   const [hidePassword, setHidePassword] = useState(true);
   const formik = useFormik({ initialValues: { password: "", confirmPassword: "" }, onSubmit: (values) => console.log(values) });
 

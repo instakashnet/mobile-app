@@ -64,7 +64,7 @@ export const SelectProfileScreen = ({ navigation }) => {
           <Spacer variant="top" />
           <SubTitle>¿Como deseas cambiar?</SubTitle>
           <Spacer variant="top" />
-          <Info>Selecciona tu perfil para hacer el cambio.</Info>
+          <Info numberOfLines={2}>Selecciona tu perfil para hacer el cambio.</Info>
           <Spacer variant="top" />
           <Link style={{ borderBottomColor: "#FFF" }} onPress={onSelectProfile.bind(this, "natural")}>
             <Text variant="bold" style={{ color: "#FFF" }}>

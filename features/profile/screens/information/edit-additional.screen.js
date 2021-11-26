@@ -54,7 +54,7 @@ export const EditAdditionalScreen = ({ route }) => {
   return (
     <SafeArea>
       <HeaderProfile>
-        <Text variant="button" style={{ color: "#FFF" }}>
+        <Text numberOfLines={2} variant="button" style={{ color: "#FFF" }}>
           Toddos los datos ingresados deben ser reales y serán validados.
         </Text>
       </HeaderProfile>

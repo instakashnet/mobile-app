@@ -16,7 +16,7 @@ export const DrawerNavigator = () => {
   return (
     <AppDrawerNavigator.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
-      screenOptions={{ headerShown: false, drawerStyle: { width: Dimensions.get("screen").width }, drawerPosition: "right", drawerType: "front" }}
+      screenOptions={{ headerShown: false, drawerStyle: { width: Dimensions.get("screen").width }, drawerPosition: "left", drawerType: "front" }}
     >
       <AppDrawerNavigator.Screen name="App" component={TabsNavigator} />
       <AppDrawerNavigator.Screen name="Profile" component={ProfileNavigator} />

@@ -18,7 +18,7 @@ export const HomeScreen = ({ navigation }) => {
           <WelcomeCard>
             <Text variant="subtitle">¡Bienvenido!</Text>
             <CardContent>
-              <Text>Con nosotros todo es más fácil, ahora puedes cambiar dólares desde cualquier lugar.</Text>
+              <Text numberOfLines={3}>Con nosotros todo es más fácil, ahora puedes cambiar dólares desde cualquier lugar.</Text>
             </CardContent>
             <Shape1Bg />
             <ImgWrapper>
@@ -31,7 +31,7 @@ export const HomeScreen = ({ navigation }) => {
           <InfoCard>
             <Text variant="subtitle">¡Cambia con Instakash!</Text>
             <CardContent>
-              <Text>¿Qué esperas para hacer tu cambio?</Text>
+              <Text numberOfLines={2}>¿Qué esperas para hacer tu cambio?</Text>
             </CardContent>
             <Spacer variant="top" size={2} />
             <Button style={styles.button} onPress={() => navigation.navigate("Exchange")}>
@@ -43,7 +43,7 @@ export const HomeScreen = ({ navigation }) => {
         <ShadowCard>
           <InfoCard>
             <Text variant="subtitle">¡Gana con nosotros!</Text>
-            <Text>Comparte tu código de afiliado y gana KASH y más beneficios.</Text>
+            <Text numberOfLines={2}>Comparte tu código de afiliado y gana KASH y más beneficios.</Text>
             <Spacer variant="top" size={2} />
             <Button style={styles.button} onPress={() => navigation.navigate("Affiliates")}>
               Saber más

@@ -30,7 +30,7 @@ export const EditInfoScreen = ({ route }) => {
   return (
     <SafeArea>
       <HeaderProfile>
-        <Text variant="button" style={{ color: "#FFF" }}>
+        <Text numberOfLines={3} variant="button" style={{ color: "#FFF" }}>
           El {editType === "email" ? "correo electrónico" : "número de teléfono"} esta conectado a tu usuario y debe ser único.
         </Text>
       </HeaderProfile>

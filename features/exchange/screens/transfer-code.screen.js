@@ -35,6 +35,8 @@ export const TransferCodeScreen = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       if (!order) navigation.popToTop();
+
+      return () => dispatch(clearExchangeError());
     }, [order])
   );
 

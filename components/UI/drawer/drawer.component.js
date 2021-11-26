@@ -27,7 +27,7 @@ export const CustomDrawer = (props) => {
           <Name>{user.name}</Name>
         </HeaderInfo>
         <TouchableOpacity onPress={() => props.navigation.closeDrawer()}>
-          <MaterialIcons name="arrow-forward" size={30} color="#FFF" />
+          <MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </TouchableOpacity>
       </Header>
       <Drawer.Section style={styles.section}>

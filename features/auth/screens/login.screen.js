@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { View, StyleSheet, Alert as RNAlert } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
+import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -37,6 +38,12 @@ export const LoginScreen = ({ navigation }) => {
       dispatch(loginGoogle(authentication.accessToken));
     }
   }, [response]);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(clearAuthError());
+    }, [dispatch])
+  );
 
   // HANDLERS
   const onSubmit = (values) => dispatch(loginUser(values));

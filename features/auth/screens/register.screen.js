@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,14 @@ import { AuthWrapper, AuthScroll } from "../components/auth.styles";
 export const RegisterScreen = () => {
   const dispatch = useDispatch();
   const { isProcessing, authError } = useSelector((state) => state.authReducer);
+
+  // EFFECTS
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(clearAuthError());
+    }, [dispatch])
+  );
 
   // HANDLERS
   const onSubmit = (values) => dispatch(registerUser(values));

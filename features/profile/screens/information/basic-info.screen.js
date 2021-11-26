@@ -16,7 +16,7 @@ export const BasicInfoScreen = ({ route, navigation }) => {
   return (
     <SafeArea>
       <HeaderProfile>
-        <Text variant="button" style={{ color: "#FFF" }}>
+        <Text numberOfLines={3} variant="button" style={{ color: "#FFF" }}>
           Si deseas modificar tu nombre y/o documento debes escribirnos a nuestro whatsapp o a contacto@instakash.net
         </Text>
       </HeaderProfile>

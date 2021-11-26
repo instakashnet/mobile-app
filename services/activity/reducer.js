@@ -15,7 +15,7 @@ export const activityReducer = (state = initialState, action = {}) => {
     case types.GET_WITHDRAWALS_INIT:
       return { ...state, isLoading: true, withdrawals: [] };
     case types.GET_ORDERS_SUCCESS:
-      return { ...state, isLoading: false, orders: action.data.ordersByUser, transfered: action.data.dataOfUser || 0 };
+      return { ...state, isLoading: false, orders: action.data.ordersByUser.reverse(), transfered: action.data.dataOfUser || 0 };
     case types.GET_WITHDRAWALS_SUCCESS:
       return { ...state, isLoading: false, withdrawals: action.withdrawals };
     case types.CLEAR_ERROR:

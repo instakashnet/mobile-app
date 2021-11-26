@@ -13,7 +13,7 @@ const AccountsStack = createStackNavigator();
 
 export const AccountsNavigator = () => {
   return (
-    <AccountsStack.Navigator screenOptions={({ navigation }) => ({ ...headerOptions, headerLeft, headerRight: () => headerRight(navigation) })}>
+    <AccountsStack.Navigator screenOptions={({ navigation }) => ({ ...headerOptions, headerLeft: () => headerLeft(navigation), headerRight })}>
       <AccountsStack.Screen name="MyAccounts" options={{ headerTitle: "Mis cuentas" }} component={AccountsScreen} />
       <AccountsStack.Screen
         name="AddAccount"

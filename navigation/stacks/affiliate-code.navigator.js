@@ -17,8 +17,8 @@ export const AffiliateCodeNavigator = () => {
     <AffiliateStack.Navigator
       screenOptions={({ navigation }) => ({
         ...headerOptions,
-        headerLeft,
-        headerRight: () => headerRight(navigation),
+        headerLeft: () => headerLeft(navigation),
+        headerRight,
         headerTitle: "Comparte tu código",
       })}
     >

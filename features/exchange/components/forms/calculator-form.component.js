@@ -132,7 +132,9 @@ export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, prof
         <CouponInputWrapper>
           <CouponInput autoCorrect={false} autoComplete="off" value={couponName} label="Agregar cupón" onChangeText={setCouponName} />
           <CouponButton onPress={() => onAddCoupon(couponName)} disabled={!couponName} loading={isProcessing}>
-            <Text variant="button">Agregar</Text>
+            <Text variant="button" style={{ color: !couponName ? "#676767" : "#FFF" }}>
+              Agregar
+            </Text>
           </CouponButton>
         </CouponInputWrapper>
       )}

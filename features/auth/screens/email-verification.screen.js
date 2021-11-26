@@ -1,4 +1,5 @@
 import React from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -18,14 +19,21 @@ import { Alert } from "../../../components/UI/alert.component";
 import { Modal } from "../../../components/UI/modal.component";
 
 export const EmailVerificationScreen = () => {
-  const dispatch = useDispatch();
-  const { isProcessing, authError } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch(),
+    { isProcessing, authError } = useSelector((state) => state.authReducer);
+
+  // EFFECTS
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(clearAuthError());
+    }, [dispatch])
+  );
 
   // HANDLRES
-  const onSubmit = (values) => dispatch(validateEmail(values));
-  const onRefreshCode = () => dispatch(refreshCode());
-  const onCloseModal = () => dispatch(closeModal());
-  const onLogout = () => dispatch(logoutUser());
+  const onSubmit = (values) => dispatch(validateEmail(values)),
+    onRefreshCode = () => dispatch(refreshCode()),
+    onCloseModal = () => dispatch(closeModal()),
+    onLogout = () => dispatch(logoutUser());
 
   return (
     <SafeArea>
@@ -38,9 +46,6 @@ export const EmailVerificationScreen = () => {
         <Button variant="secondary" onPress={onLogout}>
           Regresar
         </Button>
-        <Alert type="error" onClose={clearAuthError} visible={!!authError}>
-          {authError}
-        </Alert>
       </AuthWrapper>
       <Modal>
         <Text variant="title">¡Enviado!</Text>
@@ -51,6 +56,9 @@ export const EmailVerificationScreen = () => {
           Aceptar
         </Button>
       </Modal>
+      <Alert type="error" onClose={clearAuthError} visible={!!authError}>
+        {authError}
+      </Alert>
     </SafeArea>
   );
 };

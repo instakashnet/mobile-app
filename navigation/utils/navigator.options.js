@@ -38,8 +38,8 @@ const onOpenWhatsapp = async () => {
   }
 };
 
-export const headerLeft = () => (
-  <View style={{ paddingBottom: 0, marginLeft: 10 }}>
+export const headerRight = () => (
+  <View style={{ paddingBottom: 0, marginRight: 10 }}>
     <TouchableOpacity onPress={onOpenWhatsapp}>
       <Whatsapp />
     </TouchableOpacity>
@@ -54,8 +54,8 @@ export const headerBackLeft = (navigation) => (
   </View>
 );
 
-export const headerRight = (navigation) => (
-  <View style={{ paddingBottom: 0, marginRight: 10 }}>
+export const headerLeft = (navigation) => (
+  <View style={{ paddingBottom: 0, marginLeft: 10 }}>
     <TouchableWithoutFeedback onPress={navigation.toggleDrawer}>
       <Ionicons name="menu-outline" color="#0D8284" size={30} />
     </TouchableWithoutFeedback>

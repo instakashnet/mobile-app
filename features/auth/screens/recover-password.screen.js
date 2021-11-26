@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useFormik } from "formik";
 import * as Linking from "expo-linking";
+import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -23,6 +24,13 @@ export const RecoverPasswordScreen = ({ navigation }) => {
 
   // FORMIK
   const formik = useFormik({ initialValues: { email: "", linkingUrl: Linking.createURL("/") }, onSubmit: (values) => dispatch(recoverPassword(values)) });
+
+  // EFFECTS
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(clearAuthError());
+    }, [dispatch])
+  );
 
   return (
     <SafeArea>
@@ -53,9 +61,6 @@ export const RecoverPasswordScreen = ({ navigation }) => {
             <Text variant="bold">Ingresa aquí</Text>
           </Link>
         </AuthLinkWrapper>
-        <Alert type="error" onClose={clearAuthError} visible={!!authError}>
-          {authError}
-        </Alert>
       </AuthWrapper>
       <Modal>
         <Text variant="title">¡Correo enviado!</Text>
@@ -66,6 +71,9 @@ export const RecoverPasswordScreen = ({ navigation }) => {
           Aceptar
         </Button>
       </Modal>
+      <Alert type="error" onClose={clearAuthError} visible={!!authError}>
+        {authError}
+      </Alert>
     </SafeArea>
   );
 };

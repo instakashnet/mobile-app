@@ -12,7 +12,7 @@ const ActivityStack = createStackNavigator();
 
 export const ActivityNavigator = () => {
   return (
-    <ActivityStack.Navigator screenOptions={({ navigation }) => ({ ...headerOptions, headerLeft, headerRight: () => headerRight(navigation) })}>
+    <ActivityStack.Navigator screenOptions={({ navigation }) => ({ ...headerOptions, headerLeft: () => headerLeft(navigation), headerRight })}>
       <ActivityStack.Screen name="Dashboard" options={{ headerTitle: "Mis cambios" }} component={ActivityScreen} />
       <ActivityStack.Screen
         name="OrderDetails"

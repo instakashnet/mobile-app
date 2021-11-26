@@ -7,7 +7,7 @@ import { Text } from "../../components/typography/text.component";
 import { Spacer } from "../../components/utils/spacer.component";
 
 const SlideImage = styled.Image`
-  height: 200px;
+  height: 140px;
   resize-mode: contain;
 `;
 

@@ -17,7 +17,7 @@ export const AdditionalInfoScreen = ({ navigation }) => {
   return (
     <SafeArea>
       <HeaderProfile>
-        <Text variant="button" style={{ color: "#FFF" }}>
+        <Text numberOfLines={3} variant="button" style={{ color: "#FFF" }}>
           Gestiona toda tu información adicional para poder generar ordenes mayores a 5mil USD.
         </Text>
       </HeaderProfile>

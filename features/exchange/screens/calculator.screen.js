@@ -36,6 +36,8 @@ export const CalculatorScreen = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getRates());
+
+      return () => dispatch(clearExchangeError());
     }, [dispatch])
   );
 

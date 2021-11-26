@@ -67,8 +67,6 @@ const variants = {
 
 export const Text = styled.Text.attrs({
   allowFontScaling: false,
-  adjustsFontSizeToFit: true,
-  numberOfLines: 4,
 })`
   ${({ theme }) => defaultStyles(theme)}
   ${({ variant, theme }) => variants[variant](theme)}

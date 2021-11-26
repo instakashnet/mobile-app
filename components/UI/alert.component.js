@@ -37,7 +37,7 @@ export const Alert = ({ children, type, visible, onClose }) => {
 
   return (
     <StyledSnackBar visible={isVisible} action={{ label: "Cerrar" }} type={type} onDismiss={onDismiss}>
-      <Text variant="caption" style={{ color: "#FFF" }}>
+      <Text variant="button" numberOfLines={3} style={{ color: "#FFF" }}>
         {children}
       </Text>
     </StyledSnackBar>

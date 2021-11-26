@@ -29,8 +29,8 @@ export const ExchangeNavigator = () => {
       initialRouteName="Calculator"
       screenOptions={({ navigation }) => ({
         ...headerOptions,
-        headerLeft,
-        headerRight: () => headerRight(navigation),
+        headerLeft: () => headerLeft(navigation),
+        headerRight,
         headerTitle: "Cambia tus divisas",
         headerBackTitle: "Volver",
         gestureEnabled: false,

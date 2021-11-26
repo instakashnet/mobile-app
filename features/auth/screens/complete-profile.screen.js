@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -16,14 +17,21 @@ import { Button } from "../../../components/UI/button.component";
 import { CompleteProfileForm } from "../components/forms/complete-form.component";
 
 export const CompleteProfileScreen = () => {
-  const dispatch = useDispatch();
-  const { isProcessing, authError } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch(),
+    { isProcessing, authError } = useSelector((state) => state.authReducer);
+
+  // EFFECTS
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(clearAuthError());
+    }, [dispatch])
+  );
 
   // HANDLERS
-  const onSubmit = (values) => dispatch(completeProfile(values));
-  const onOpenModal = () => dispatch(openModal());
-  const onCloseModal = () => dispatch(closeModal());
-  const onLogout = () => dispatch(logoutUser());
+  const onSubmit = (values) => dispatch(completeProfile(values)),
+    onOpenModal = () => dispatch(openModal()),
+    onCloseModal = () => dispatch(closeModal()),
+    onLogout = () => dispatch(logoutUser());
 
   return (
     <SafeArea>

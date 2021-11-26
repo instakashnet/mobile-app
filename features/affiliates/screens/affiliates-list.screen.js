@@ -60,7 +60,9 @@ export const AffiliatesListScreen = () => {
       <AffiliatesScroll>
         <Spacer variant="top" size={3} />
         <Text variant="title">Mis referidos</Text>
-        <Text style={{ paddingHorizontal: 20 }}>Recuerda que ganas Kash cada vez que tus amigos se registran con tu código y completan su primer cambio.</Text>
+        <Text numberOfLines={3} style={{ paddingHorizontal: 20 }}>
+          Recuerda que ganas Kash cada vez que tus amigos se registran con tu código y completan su primer cambio.
+        </Text>
         <Spacer variant="top" size={3} />
         <AffiliatesTable columns={columns} rows={rows} />
         <Spacer variant="top" size={5} />
