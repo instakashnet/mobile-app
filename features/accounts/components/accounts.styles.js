@@ -5,7 +5,7 @@ export const AccountsScroll = styled.ScrollView.attrs({
   contentContainerStyle: {
     flexGrow: 1,
     paddingTop: 20,
-    paddingBottom: 40,
+    paddingBottom: 20,
     alignItems: "center",
     width: Dimensions.get("window").width,
     paddingHorizontal: 20,
@@ -13,10 +13,9 @@ export const AccountsScroll = styled.ScrollView.attrs({
 })``;
 
 export const AccountsWrapper = styled.View`
-  padding: ${({ theme }) => theme.space[5]};
+  padding-horizontal: ${({ theme }) => theme.space[4]};
   width: ${Dimensions.get("window").width}px;
-  margin-top: ${({ theme }) => theme.space[3]};
-  flex: 0.9;
+  flex: 1;
   justify-content: center;
   align-items: center;
 `;

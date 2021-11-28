@@ -88,4 +88,5 @@ export const Price = styled.Text.attrs({
 
 export const FormWrapper = styled.View`
   width: 100%;
+  align-items: center;
 `;

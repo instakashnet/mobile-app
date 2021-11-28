@@ -11,9 +11,11 @@ import { EditAccount } from "../components/forms/edit-account.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Loader } from "../../../components/UI/loader.component";
 import { Alert } from "../../../components/UI/alert.component";
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 
 // STYLED COMPONENTS
 import { AccountsWrapper } from "../components/accounts.styles";
+import { Dimensions } from "react-native";
 
 export const EditAccountScreen = ({ route }) => {
   const dispatch = useDispatch(),
@@ -26,11 +28,13 @@ export const EditAccountScreen = ({ route }) => {
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <AccountsWrapper>
-        <Text>Edita los datos de cuenta bancaria.</Text>
-        <Spacer variant="top" />
-        <EditAccount currencies={currencies} isProcessing={isProcessing} account={account} onEdit={onEdit} />
-      </AccountsWrapper>
+      <KeyboardScrollAware>
+        <AccountsWrapper>
+          <Text>Edita los datos de cuenta bancaria.</Text>
+          <Spacer variant="top" />
+          <EditAccount currencies={currencies} isProcessing={isProcessing} account={account} onEdit={onEdit} />
+        </AccountsWrapper>
+      </KeyboardScrollAware>
 
       <Alert type="error" onClose={clearAccountsError} visible={!!accountsError}>
         {accountsError}

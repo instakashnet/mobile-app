@@ -75,11 +75,10 @@ export const RegisterForm = ({ onSubmit, isProcessing }) => {
       <Spacer variant="top" />
       <Text variant="title">¿Te ha referido un amigo?</Text>
       <Input name="affiliate" label="Ingresa el código acá" value={formik.values.affiliate} onChange={formik.handleChange("affiliate")} />
-      <Spacer variant="vertical">
-        <Checkbox status={formik.values.allowPromotionalEmail} onPress={() => formik.setFieldValue("allowPromotionalEmail", !formik.values.allowPromotionalEmail)}>
-          <Text variant="caption">Autorizo recibir notícias y promociones de parte de Instakash.</Text>
-        </Checkbox>
-      </Spacer>
+      <Checkbox status={formik.values.allowPromotionalEmail} onPress={() => formik.setFieldValue("allowPromotionalEmail", !formik.values.allowPromotionalEmail)}>
+        <Text variant="caption">Autorizo recibir notícias y promociones de parte de Instakash.</Text>
+      </Checkbox>
+      <Spacer variant="top" />
       <Checkbox status={formik.values.acceptTerms} onPress={() => formik.setFieldValue("acceptTerms", !formik.values.acceptTerms)}>
         <Text variant="caption">
           Declaro que he leído y acepto sus{" "}

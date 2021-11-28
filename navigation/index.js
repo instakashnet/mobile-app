@@ -27,7 +27,7 @@ const linking = {
 
 export const Navigator = () => {
   const dispatch = useDispatch();
-  const { isLoading, user } = useSelector((state) => state.authReducer);
+  const { isLoading, isSignedIn } = useSelector((state) => state.authReducer);
 
   useEffect(() => {
     dispatch(loadUser());
@@ -37,7 +37,7 @@ export const Navigator = () => {
 
   return (
     <NavigationContainer linking={linking} ref={navigationRef}>
-      {!user ? <AuthNavigator /> : <DrawerNavigator />}
+      {!isSignedIn ? <AuthNavigator /> : <DrawerNavigator />}
     </NavigationContainer>
   );
 };

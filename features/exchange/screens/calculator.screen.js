@@ -13,7 +13,7 @@ import { Female } from "../../../assets/icons/female";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
-import { KeyboardView } from "../../../components/utils/keyboard-view.component";
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { Alert } from "../../../components/UI/alert.component";
@@ -81,47 +81,36 @@ export const CalculatorScreen = ({ navigation }) => {
           <Text style={{ color: "#FFF" }}>Cambiar perfil</Text>
         </Link>
       </ExchangeHeader>
-      <KeyboardView>
-        <ExchangeScroll>
-          <Text variant="title">Las mejores tasas del perú</Text>
-          <Spacer varaint="top" size={5} />
-          <RatesWrapper>
-            <RateBox>
-              <Caption>Compramos</Caption>
-              <Price>S/. {couponRates ? couponRates.buy : rates.buy}</Price>
-            </RateBox>
-            <BorderLine />
-            <RateBox>
-              <Caption>Vendemos</Caption>
-              <Price>S/. {couponRates ? couponRates.sell : rates.sell}</Price>
-            </RateBox>
-          </RatesWrapper>
-          <Spacer variant="top" size={4} />
-          <TimerWrapper>
-            <Text variant="bold">El tipo de cambio se actualizará en:</Text>
-            <Timer
-              id={countdown.toString()}
-              running={countRunnig}
-              until={300}
-              size={14}
-              showSeparator
-              onFinish={onGetRates}
-              timeToShow={["M", "S"]}
-              timeLabels={{ m: "", s: "" }}
-            />
-          </TimerWrapper>
-          <CalculatorForm
-            isProcessing={isProcessing}
-            couponRates={couponRates}
-            coupon={coupon}
-            onAddCoupon={onAddCoupon}
-            onRemoveCoupon={onRemoveCoupon}
-            profile={profile}
-            rates={rates}
-            onSubmit={onSubmit}
-          />
-        </ExchangeScroll>
-      </KeyboardView>
+      <KeyboardScrollAware>
+        <Text variant="title">Las mejores tasas del perú</Text>
+        <Spacer varaint="top" size={5} />
+        <RatesWrapper>
+          <RateBox>
+            <Caption>Compramos</Caption>
+            <Price>S/. {couponRates ? couponRates.buy : rates.buy}</Price>
+          </RateBox>
+          <BorderLine />
+          <RateBox>
+            <Caption>Vendemos</Caption>
+            <Price>S/. {couponRates ? couponRates.sell : rates.sell}</Price>
+          </RateBox>
+        </RatesWrapper>
+        <Spacer variant="top" size={4} />
+        <TimerWrapper>
+          <Text variant="bold">El tipo de cambio se actualizará en:</Text>
+          <Timer id={countdown.toString()} running={countRunnig} until={300} size={14} showSeparator onFinish={onGetRates} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
+        </TimerWrapper>
+        <CalculatorForm
+          isProcessing={isProcessing}
+          couponRates={couponRates}
+          coupon={coupon}
+          onAddCoupon={onAddCoupon}
+          onRemoveCoupon={onRemoveCoupon}
+          profile={profile}
+          rates={rates}
+          onSubmit={onSubmit}
+        />
+      </KeyboardScrollAware>
       <Alert type="error" onClose={clearExchangeError} visible={!!exchangeError}>
         {exchangeError}
       </Alert>

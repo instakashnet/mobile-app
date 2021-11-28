@@ -52,21 +52,13 @@ function* loadUser() {
     const resData = camelize(res.data);
     yield call([AsyncStorage, "setItem"], "@userVerification", JSON.stringify({ verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
 
-    if (!resData.verified) {
-      yield call([RootNavigation, "navigate"], "EmailVerification");
-      return yield put(actions.loginUserSuccess());
-    }
+    yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed }));
 
-    if (!resData.completed) {
-      yield call([RootNavigation, "navigate"], "CompleteProfile");
-      return yield put(actions.loginUserSuccess());
+    if (resData.verified && resData.completed) {
+      yield call(getData);
+      yield put(actions.loginUserSuccess());
     }
-
-    yield call(getData);
-    yield put(actions.loadUserSuccess(resData.user));
-    yield put(actions.loginUserSuccess());
   } catch (error) {
-    console.log(error);
     yield put(actions.logoutUser());
   }
 }
@@ -102,6 +94,7 @@ function* loginUser({ values }) {
     const res = yield authInstance.post(`/auth/signin`, values);
     if (res.status === 200) {
       yield call(setAuthToken, res.data);
+
       yield put(actions.loadUser());
     }
   } catch (error) {
@@ -213,7 +206,6 @@ function* logoutUser() {
   }
 
   yield put(actions.logoutUserSuccess());
-  yield call([RootNavigation, "replace"], "Auth", { screen: "Login" });
   yield call(clearUserData);
 }
 

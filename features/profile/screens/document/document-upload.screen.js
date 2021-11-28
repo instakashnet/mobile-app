@@ -80,16 +80,16 @@ export const DocumentUploadScreen = ({ route, navigation }) => {
           <Text variant="subtitle">A tomar en cuenta:</Text>
           <ListWrapper>
             <ListItem>
-              <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
-              <Text>El documento debe ser perfectamente legible.</Text>
+              <Ionicons name="checkmark-sharp" size={20} color="#13AAAC" />
+              <Text variant="button">El documento debe ser perfectamente legible.</Text>
             </ListItem>
             <ListItem>
-              <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
-              <Text>La imagen no debe pesar más de 5MB.</Text>
+              <Ionicons name="checkmark-sharp" size={20} color="#13AAAC" />
+              <Text variant="button">La imagen no debe pesar más de 5MB.</Text>
             </ListItem>
             <ListItem>
-              <Ionicons name="checkmark-sharp" size={25} color="#13AAAC" />
-              <Text>Solo se permiten formatos PNG, JPG y JPEG.</Text>
+              <Ionicons name="checkmark-sharp" size={20} color="#13AAAC" />
+              <Text variant="button">Solo se permiten formatos PNG, JPG y JPEG.</Text>
             </ListItem>
           </ListWrapper>
           <Spacer variant="top" />
@@ -103,6 +103,7 @@ export const DocumentUploadScreen = ({ route, navigation }) => {
               Seleccionar desde galeria
             </Text>
           </Button>
+          <Spacer variant="bottom" />
         </ProfileWrapper>
       </ProfileScroll>
       <Alert type="error" onClose={clearProfileError} visible={!!profileError}>

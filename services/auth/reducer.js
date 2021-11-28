@@ -3,6 +3,8 @@ const initialState = {
   isProcessing: false,
   isLoading: true,
   user: null,
+  isSignedIn: false,
+  isSignOut: false,
   authError: null,
   affiliates: [],
 };
@@ -25,17 +27,19 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.COMPLETE_PROFILE_SUCCESS:
       return { ...state, isProcessing: false };
     case types.LOGIN_SUCCESS:
-      return { ...state, isProcessing: false, isLoading: false };
+      return { ...state, isProcessing: false, isSignedIn: true };
     case types.LOAD_USER_INIT:
       return { ...state, isLoading: true };
     case types.LOAD_USER_SUCCESS:
-      return { ...state, user: action.user };
+      return { ...state, user: action.user, isLoading: false, isProcessing: false };
     case types.GET_AFFILIATES_INIT:
       return { ...state, affiliates: [] };
     case types.GET_AFFILIATES_SUCCESS:
       return { ...state, affiliates: action.affiliates, isLoading: false };
+    case types.LOGOUT_INIT:
+      return { ...state, isSignOut: true };
     case types.LOGOUT_SUCCESS:
-      return { ...state, isLoading: false, isProcessing: false, user: null };
+      return { ...state, isLoading: false, isProcessing: false, isSignedIn: false, isSignOut: false, user: null };
     case types.CLEAR_ERROR:
       return { ...state, authError: null };
     case types.API_ERROR:

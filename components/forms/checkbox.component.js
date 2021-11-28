@@ -11,7 +11,8 @@ const CheckboxGroup = styled.View`
 `;
 
 const TouchableCheckbox = styled(TouchableOpacity)`
-  width: ${Dimensions.get("window").width / 1.25}px;
+  width: ${Dimensions.get("window").width / 1.26}px;
+  align-self: flex-start;
 `;
 
 export const Checkbox = ({ onPress, children, status }) => {

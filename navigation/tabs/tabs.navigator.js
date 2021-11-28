@@ -65,8 +65,8 @@ export const TabsNavigator = () => {
           tabBarLabel: "Inicio",
           headerShown: true,
           ...headerOptions,
-          headerLeft,
-          headerRight: () => headerRight(navigation),
+          headerLeft: () => headerLeft(navigation),
+          headerRight,
           headerTitle: () => <Logo width={100} />,
         })}
         component={HomeScreen}

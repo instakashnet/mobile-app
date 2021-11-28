@@ -1,6 +1,4 @@
 import React from "react";
-import { Dimensions } from "react-native";
-import { GOOGLE_PLACES_API } from "@env";
 
 // FORMIK
 import { useFormik } from "formik";
@@ -12,7 +10,7 @@ import { updateProfile, clearProfileError } from "../../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../../components/utils/safe-area.component";
-import { KeyboardView } from "../../../../components/utils/keyboard-view.component";
+import { KeyboardScrollAware } from "../../../../components/utils/keyboard-scroll.component";
 import { Text } from "../../../../components/typography/text.component";
 import { DateInput } from "../../../../components/forms/date-input.component";
 import { Input } from "../../../../components/forms/input.component";
@@ -58,7 +56,7 @@ export const EditAdditionalScreen = ({ route }) => {
           Toddos los datos ingresados deben ser reales y serán validados.
         </Text>
       </HeaderProfile>
-      <KeyboardView offset={Dimensions.get("screen").height / 9}>
+      <KeyboardScrollAware>
         <FormWrapper>
           <DateInput
             error={formik.touched.date_birth && formik.errors.date_birth}
@@ -76,14 +74,6 @@ export const EditAdditionalScreen = ({ route }) => {
             onFail={(error) => console.log(error)}
             onPress={(data) => formik.setFieldValue("address", data.description)}
           />
-          {/* <Input
-            name="address"
-            error={formik.touched.address && formik.errors.address}
-            value={formik.values.address}
-            label="Dirección corta"
-            onChange={formik.handleChange("address")}
-            onBlur={formik.handleBlur("address")}
-          /> */}
           <Input
             name="job"
             error={formik.touched.job && formik.errors.job}
@@ -104,7 +94,7 @@ export const EditAdditionalScreen = ({ route }) => {
             Completar información
           </Button>
         </FormWrapper>
-      </KeyboardView>
+      </KeyboardScrollAware>
 
       <Alert type="error" onClose={clearProfileError} visible={!!profileError}>
         {profileError}

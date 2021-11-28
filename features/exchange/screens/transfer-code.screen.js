@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { Dimensions, View } from "react-native";
+import { View } from "react-native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -16,7 +16,7 @@ import { bankLogos } from "../relative-paths/images";
 // COMPONENTS
 import { Alert } from "../../../components/UI/alert.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
-import { KeyboardView } from "../../../components/utils/keyboard-view.component";
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { CopyButton } from "../../../components/UI/copy-button.component";
@@ -48,55 +48,53 @@ export const TransferCodeScreen = ({ navigation }) => {
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <KeyboardView offset={Dimensions.get("screen").height / 9}>
-        <ExchangeScroll>
-          <Text variant="title">¡Último paso!</Text>
-          <Spacer variant="vertical">
-            <ExchangeImage />
-          </Spacer>
-          <Text>Transfiere desde tu banco el importe de:</Text>
-          <Price>{order.currencySentSymbol + " " + formatAmount(order.amountSent)}</Price>
-          <Spacer variant="top" size={2} />
-          <Text>banco a transferir:</Text>
-          <Spacer variant="top" />
-          <ShadowCard>
-            <TransferCard>
-              <BankImage source={bankLogos.find((b) => b.bankName.toLowerCase() === order.bankFromName.toLowerCase()).uri} resizeMode="contain" />
-              <View>
-                <Text variant="button">Cuenta corriente {order.currencySent === "PEN" ? "soles" : "dólares"}</Text>
-                <InfoWrapper>
-                  <Info>{order.accountFromRaw}</Info>
-                  <CopyButton text={order.accountFromRaw} />
-                </InfoWrapper>
-              </View>
-            </TransferCard>
-          </ShadowCard>
-          <Spacer variant="top" />
-          <ShadowCard>
-            <TransferCard>
-              <Info>Instakash SAC - 20605285105</Info>
-            </TransferCard>
-          </ShadowCard>
-          <Spacer variant="top" size={3} />
-          <InfoWrapper>
-            <InfoBox>
-              <Text variant="button">Tipo de cambio</Text>
-              <Info>{order.rate}</Info>
-            </InfoBox>
-            <Spacer variant="right" size={4} />
-            <InfoBox>
-              <Text variant="button">Monto a recibir</Text>
-              <Info>{order.currencyReceivedSymbol + " " + formatAmount(order.amountReceived)}</Info>
-            </InfoBox>
-          </InfoWrapper>
-          <Spacer variant="top" size={3} />
-          <Text>
-            Una vez realizado coloque el <Text variant="bold">número de operación emitido por su banco</Text> dentro del casillero mostrado debajo y debe darle al botón de
-            "completar cambio".
-          </Text>
-          <TransferCodeForm isProcessing={isProcessing} onCancel={onCancelOrder} onSubmit={onSubmit} />
-        </ExchangeScroll>
-      </KeyboardView>
+      <KeyboardScrollAware>
+        <Text variant="title">¡Último paso!</Text>
+        <Spacer variant="vertical">
+          <ExchangeImage />
+        </Spacer>
+        <Text>Transfiere desde tu banco el importe de:</Text>
+        <Price>{order.currencySentSymbol + " " + formatAmount(order.amountSent)}</Price>
+        <Spacer variant="top" size={2} />
+        <Text>banco a transferir:</Text>
+        <Spacer variant="top" />
+        <ShadowCard>
+          <TransferCard>
+            <BankImage source={bankLogos.find((b) => b.bankName.toLowerCase() === order.bankFromName.toLowerCase()).uri} resizeMode="contain" />
+            <View>
+              <Text variant="button">Cuenta corriente {order.currencySent === "PEN" ? "soles" : "dólares"}</Text>
+              <InfoWrapper>
+                <Info>{order.accountFromRaw}</Info>
+                <CopyButton text={order.accountFromRaw} />
+              </InfoWrapper>
+            </View>
+          </TransferCard>
+        </ShadowCard>
+        <Spacer variant="top" />
+        <ShadowCard>
+          <TransferCard>
+            <Info>Instakash SAC - 20605285105</Info>
+          </TransferCard>
+        </ShadowCard>
+        <Spacer variant="top" size={3} />
+        <InfoWrapper>
+          <InfoBox>
+            <Text variant="button">Tipo de cambio</Text>
+            <Info>{order.rate}</Info>
+          </InfoBox>
+          <Spacer variant="right" size={4} />
+          <InfoBox>
+            <Text variant="button">Monto a recibir</Text>
+            <Info>{order.currencyReceivedSymbol + " " + formatAmount(order.amountReceived)}</Info>
+          </InfoBox>
+        </InfoWrapper>
+        <Spacer variant="top" size={3} />
+        <Text>
+          Una vez realizado coloque el <Text variant="bold">número de operación emitido por su banco</Text> dentro del casillero mostrado debajo y debe darle al botón de "completar
+          cambio".
+        </Text>
+        <TransferCodeForm isProcessing={isProcessing} onCancel={onCancelOrder} onSubmit={onSubmit} />
+      </KeyboardScrollAware>
       <Alert type="error" onClose={clearExchangeError} visible={!!exchangeError}>
         {exchangeError}
       </Alert>

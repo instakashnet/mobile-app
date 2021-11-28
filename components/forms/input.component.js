@@ -18,14 +18,12 @@ const StyledInput = styled(TextInput).attrs(({ theme }) => ({
 const FormGroup = styled.View`
   width: 100%;
   margin-top: ${({ theme }) => theme.space[2]};
-  margin-bottom: ${({ theme, error }) => (error ? theme.space[0] : theme.space[3])};
+  margin-bottom: ${({ theme, error, isFlex }) => (error && !isFlex ? theme.space[0] : theme.space[3])};
 `;
 
 export const Input = ({ name, onChange, right, infoText, iconName, onPress, error, isFlex, ...rest }) => {
   const inputProps = {
     name,
-    onChangeText: onChange,
-    ...rest,
     error: !!error,
   };
 
@@ -38,8 +36,8 @@ export const Input = ({ name, onChange, right, infoText, iconName, onPress, erro
   if (right) inputProps.right = Icon;
 
   return (
-    <FormGroup error={!!error || infoText}>
-      <StyledInput {...inputProps} {...rest} />
+    <FormGroup error={!!error || infoText} isFlex={isFlex}>
+      <StyledInput {...inputProps} onChangeText={onChange} {...rest} />
       {(!!error || infoText) && !isFlex && (
         <HelperText style={{ textAlign: "left" }} type={!!error ? "error" : "info"} visible>
           {error ? error : infoText}

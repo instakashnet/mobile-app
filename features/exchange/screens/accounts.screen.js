@@ -21,7 +21,7 @@ import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { SelectAccount } from "../components/forms/select-account.component";
 import { Button } from "../../../components/UI/button.component";
-import { ExchangeWrapper, ExchangeHeader, ProfileInfo, Type } from "../components/exchange.styles";
+import { ExchangeScroll, ExchangeHeader, ProfileInfo, Type } from "../components/exchange.styles";
 import { BankDescription, BankIcon } from "../components/accounts.styles";
 
 export const AccountsScreen = ({ navigation }) => {
@@ -89,7 +89,7 @@ export const AccountsScreen = ({ navigation }) => {
           </View>
         </ProfileInfo>
       </ExchangeHeader>
-      <ExchangeWrapper>
+      <ExchangeScroll>
         <Text variant="title">Completa la información</Text>
         <Text style={{ textAlign: "center" }}>Debes seleccionar el banco donde envias y la cuando donde vas a recibir.</Text>
         <Spacer vartian="top" size={3} />
@@ -126,7 +126,7 @@ export const AccountsScreen = ({ navigation }) => {
         <Button variant="secondary" onPress={onCancelOrder}>
           Regresar
         </Button>
-      </ExchangeWrapper>
+      </ExchangeScroll>
       <Alert type="error" onClose={clearExchangeError} visible={!!exchangeError}>
         {exchangeError}
       </Alert>

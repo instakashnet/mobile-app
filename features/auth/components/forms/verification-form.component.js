@@ -16,15 +16,20 @@ export const VerificationForm = ({ onSubmit, isProcessing, onRefreshCode }) => {
   const otpRef3 = useRef(null);
   const otpRef4 = useRef(null);
 
+  // FORMIK
+  const formik = useFormik({ initialValues: { otp1: "", otp2: "", otp3: "", otp4: "" }, onSubmit });
+
   // HANDLERS
-  const refCallback = (textInputRef) => (node) => {
-    textInputRef.current = node;
+
+  // HANDLERS
+  const refCallback = (ref, textInputRef) => {
+    textInputRef.current = ref;
   };
 
   const focusPrevious = (key, index) => {
     if (key === "Backspace" && index !== 0) {
-      if (index === 1) otpRef1.current.focus();
-      if (index === 2) otpRef2.current.focus();
+      if (index === 1 && !formik.values.otp3) otpRef1.current.focus();
+      if (index === 2 && !formik.values.otp4) otpRef2.current.focus();
       if (index === 3) otpRef3.current.focus();
     }
   };
@@ -39,19 +44,18 @@ export const VerificationForm = ({ onSubmit, isProcessing, onRefreshCode }) => {
     }
   };
 
-  const formik = useFormik({ initialValues: { otp1: "", otp2: "", otp3: "", otp4: "" }, onSubmit });
-
   return (
     <>
       <OtpWrapper>
         {[otpRef1, otpRef2, otpRef3, otpRef4].map((textInputRef, i) => (
           <OtpInput
             value={formik.values[`otp${i + 1}`]}
-            refCallback={refCallback(textInputRef)}
+            refCallback={(ref) => refCallback(ref, textInputRef)}
             onCode={(value) => onChange(i, value)}
             onKeyPress={(e) => focusPrevious(e.nativeEvent.key, i)}
             key={i}
             autoFocus={i === 0 || false}
+            selectionColor={formik.values[`otp${i + 1}`] ? "white" : "blue"}
           />
         ))}
       </OtpWrapper>

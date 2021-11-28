@@ -1,21 +1,45 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FlatList } from "react-native";
+
+// REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders } from "../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
-import { Title } from "../components/activity.styles";
+import { OrderItem } from "../components/order-item.component";
 
-export const AllActivityScreen = () => {
+// STYLED COMPONENTS
+import { Title, ActivityWrapper } from "../components/activity.styles";
+
+export const AllActivityScreen = ({ navigation }) => {
+  const dispatch = useDispatch(),
+    { orders, isLoading } = useSelector((state) => state.activityReducer);
+
+  // EFFECTS
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getOrders(false, 100000));
+    }, [dispatch])
+  );
+
+  console.log(orders);
+
   return (
     <SafeArea>
-      <Spacer variant="top" size={6} />
-      <Title>
-        <Text variant="subtitle">Cambios realizados</Text>
-        <Ionicons name="swap-horizontal-outline" color="#0D8284" size={25} />
-      </Title>
+      <ActivityWrapper>
+        <Spacer variant="top" />
+        <Title>
+          <Text variant="subtitle">Cambios realizados</Text>
+          <Ionicons name="swap-horizontal-outline" color="#0D8284" size={25} />
+        </Title>
+        <Spacer variant="top" />
+        <FlatList data={orders} renderItem={({ item }) => <OrderItem order={item} onOpen={() => navigation.navigate("OrderDetails", { order: item })} />} />
+      </ActivityWrapper>
     </SafeArea>
   );
 };

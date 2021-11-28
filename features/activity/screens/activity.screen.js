@@ -21,7 +21,7 @@ import { Spacer } from "../../../components/utils/spacer.component";
 
 export const ActivityScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
-    { orders, withdrawals, isLoading, transfered } = useSelector((state) => state.activityReducer),
+    { orders, isLoading, transfered } = useSelector((state) => state.activityReducer),
     [savings, setSavings] = useState(0);
 
   // EFFECTS
@@ -35,14 +35,17 @@ export const ActivityScreen = ({ navigation }) => {
     if (transfered > 0) setSavings(transfered * 0.03);
   }, [transfered]);
 
+  const onNavigate = () => navigation.navigate("Exchange");
+
   return (
     <SafeArea>
       {isLoading ? (
         <Loader />
       ) : (
         <ActivityScroll>
-          {orders.length <= 0 && withdrawals.length <= 0 && <EmptyActivity />}
-          {orders.length > 0 && (
+          {orders.length <= 0 ? (
+            <EmptyActivity onNavigate={onNavigate} />
+          ) : (
             <>
               <Spacer variant="top" />
               <OrdersWrapper>
@@ -54,7 +57,7 @@ export const ActivityScreen = ({ navigation }) => {
                   <OrderItem key={order.id} order={order} onOpen={() => navigation.navigate("OrderDetails", { order })} />
                 ))}
                 <Spacer variant="top" />
-                <Link>
+                <Link onPress={() => navigation.navigate("AllOrders")}>
                   <ShowButton>Mostrar todos</ShowButton>
                 </Link>
               </OrdersWrapper>

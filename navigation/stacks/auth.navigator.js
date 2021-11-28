@@ -1,6 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
+// REDUX
+import { useSelector } from "react-redux";
+
 // UTILS
 import { headerOptions } from "../utils/navigator.options";
 
@@ -16,19 +19,27 @@ import { EmailVerificationScreen } from "../../features/auth/screens/email-verif
 const AuthStack = createStackNavigator();
 
 export const AuthNavigator = () => {
+  const { user, isSignOut } = useSelector((state) => state.authReducer);
+
   return (
     <AuthStack.Navigator
       screenOptions={{
         ...headerOptions,
       }}
     >
-      <AuthStack.Screen options={{ headerShown: false }} name="Auth" component={AuthScreen} />
-      <AuthStack.Screen options={{ headerShown: false }} name="EmailVerification" component={EmailVerificationScreen} />
-      <AuthStack.Screen options={{ headerShown: false }} name="CompleteProfile" component={CompleteProfileScreen} />
-      <AuthStack.Screen options={{ headerTitle: "Acceder", headerBackTitleVisible: false }} name="Login" component={LoginScreen} />
-      <AuthStack.Screen options={{ headerTitle: "Registrarse", headerBackTitleVisible: false }} name="Register" component={RegisterScreen} />
-      <AuthStack.Screen options={{ headerTitle: "Olvidé mi contraseña", headerBackTitleVisible: false }} name="RecoverPassword" component={RecoverPasswordScreen} />
-      <AuthStack.Screen options={{ headerTitle: "Nueva contraseña", headerBackTitleVisible: false }} name="ResetPassword" component={ResetPasswordScreen} />
+      {!user ? (
+        <>
+          <AuthStack.Screen options={{ headerShown: false, animationTypeForReplace: isSignOut ? "pop" : "push" }} name="Auth" component={AuthScreen} />
+          <AuthStack.Screen options={{ headerTitle: "Acceder", headerBackTitleVisible: false }} name="Login" component={LoginScreen} />
+          <AuthStack.Screen options={{ headerTitle: "Registrarse", headerBackTitleVisible: false }} name="Register" component={RegisterScreen} />
+          <AuthStack.Screen options={{ headerTitle: "Olvidé mi contraseña", headerBackTitleVisible: false }} name="RecoverPassword" component={RecoverPasswordScreen} />
+          <AuthStack.Screen options={{ headerTitle: "Nueva contraseña", headerBackTitleVisible: false }} name="ResetPassword" component={ResetPasswordScreen} />
+        </>
+      ) : !user.verified ? (
+        <AuthStack.Screen options={{ headerShown: false }} name="EmailVerification" component={EmailVerificationScreen} />
+      ) : (
+        <AuthStack.Screen options={{ headerShown: false }} name="CompleteProfile" component={CompleteProfileScreen} />
+      )}
     </AuthStack.Navigator>
   );
 };

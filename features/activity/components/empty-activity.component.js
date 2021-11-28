@@ -9,15 +9,15 @@ import { Button } from "../../../components/UI/button.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { EmptyWrapper } from "./activity.styles";
 
-export const EmptyActivity = () => {
+export const EmptyActivity = ({ onNavigate }) => {
   return (
     <EmptyWrapper>
-      <Coin3d />
+      <Coin3d width={150} />
       <Spacer variant="top" size={2} />
       <Text variant="title">Realiza tu primera operación</Text>
       <Text>Aún no has realizado ningún cambio. Para poder operar debes primero agregar Kash a tu cuenta</Text>
       <Spacer variant="top" size={4} />
-      <Button>Hacer un cambio</Button>
+      <Button onPress={onNavigate}>Hacer un cambio</Button>
     </EmptyWrapper>
   );
 };

@@ -11,7 +11,6 @@ import { loginUser, loginGoogle, clearAuthError } from "../../../store/actions";
 import { GoogleIcon } from "../../../assets/icons/google";
 
 // COMPONENTS
-import { AuthWrapper, AuthLinkWrapper, AuthLine } from "../components/auth.styles";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Button } from "../../../components/UI/button.component";
@@ -21,6 +20,10 @@ import { Text } from "../../../components/typography/text.component";
 import { Link } from "../../../components/typography/link.component";
 import { LoginForm } from "../components/forms/login-form.component";
 import { DismissKeyboard } from "../../../components/utils/dismiss-keyobard.component";
+import { KeyboardView } from "../../../components/utils/keyboard-view.component";
+
+// STYLED COMPONENTS
+import { AuthWrapper, AuthLinkWrapper, AuthLine } from "../components/auth.styles";
 
 export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
@@ -58,39 +61,40 @@ export const LoginScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <DismissKeyboard>
-        <AuthWrapper>
-          <Logo width={280} />
-          <Spacer variant="top">
+      <KeyboardView>
+        <DismissKeyboard>
+          <AuthWrapper>
+            <Logo width={280} />
+            <Spacer variant="top" />
             <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
-          </Spacer>
-          <Button icon={() => <GoogleIcon />} disabled={!request} variant="secondary" onPress={onGoogleLogin}>
-            Ingresar con Google
-          </Button>
-          <Spacer variant="top" />
-          <View style={styles.loginInfo}>
-            <AuthLine />
-            <Spacer variant="horizontal">
-              <Text variant="caption">o ingresa tus datos</Text>
+            <Button icon={() => <GoogleIcon />} disabled={!request} variant="secondary" onPress={onGoogleLogin}>
+              Ingresar con Google
+            </Button>
+            <Spacer variant="top" />
+            <View style={styles.loginInfo}>
+              <AuthLine />
+              <Spacer variant="horizontal">
+                <Text variant="caption">o ingresa tus datos</Text>
+              </Spacer>
+              <AuthLine />
+            </View>
+            <Spacer variant="top" />
+            <LoginForm isProcessing={isProcessing} onSubmit={onSubmit} />
+            <Spacer variant="vertical" size={3}>
+              <Link onPress={() => navigation.navigate("RecoverPassword")}>
+                <Text variant="bold">Olvidé mi contraseña</Text>
+              </Link>
             </Spacer>
-            <AuthLine />
-          </View>
-          <Spacer variant="top" />
-          <LoginForm isProcessing={isProcessing} onSubmit={onSubmit} />
-          <Spacer variant="vertical" size={3}>
-            <Link onPress={() => navigation.navigate("RecoverPassword")}>
-              <Text variant="bold">Olvidé mi contraseña</Text>
-            </Link>
-          </Spacer>
-          <AuthLinkWrapper>
-            <Text>¿Eres nuevo en Instakash?</Text>
-            <Spacer variant="left" />
-            <Link onPress={() => navigation.navigate("Register")}>
-              <Text variant="bold">Registrate</Text>
-            </Link>
-          </AuthLinkWrapper>
-        </AuthWrapper>
-      </DismissKeyboard>
+            <AuthLinkWrapper>
+              <Text>¿Eres nuevo en Instakash?</Text>
+              <Spacer variant="left" />
+              <Link onPress={() => navigation.navigate("Register")}>
+                <Text variant="bold">Registrate</Text>
+              </Link>
+            </AuthLinkWrapper>
+          </AuthWrapper>
+        </DismissKeyboard>
+      </KeyboardView>
       <Alert type="error" onClose={clearAuthError} visible={!!authError}>
         {authError}
       </Alert>
