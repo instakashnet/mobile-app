@@ -17,14 +17,15 @@ import { Button } from "../button.component";
 
 export const CustomDrawer = (props) => {
   const dispatch = useDispatch(),
-    { isProcessing, user } = useSelector((state) => state.authReducer);
+    { isProcessing, user } = useSelector((state) => state.authReducer),
+    porfileName = user.name.split(" ");
 
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={{ alignItems: "center" }}>
       <Header>
         <HeaderInfo>
           {user.identitySex === "male" ? <Male width={45} /> : <Female />}
-          <Name>{user.name}</Name>
+          <Name>{porfileName.length > 2 ? `${porfileName[0]} ${porfileName[2]}` : `${porfileName[0]} ${porfileName[1]}`}</Name>
         </HeaderInfo>
         <TouchableOpacity onPress={() => props.navigation.closeDrawer()}>
           <MaterialIcons name="arrow-back" size={30} color="#FFF" />

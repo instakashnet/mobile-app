@@ -35,6 +35,23 @@ export const AccountCard = styled.TouchableOpacity`
   height: 140px;
 `;
 
+export const NoAccountsCard = styled.View`
+  border-radius: 10px;
+  background-color: #fff;
+  width: 300px;
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.1;
+  shadow-radius: 10px;
+  elevation: 7;
+  align-items: center;
+  justify-content: center;
+  padding-vertical: ${({ theme }) => theme.space[4]};
+  padding-horizontal: ${({ theme }) => theme.space[5]};
+  margin-vertical: ${({ theme }) => theme.space[2]};
+  min-height: 190px;
+`;
+
 export const SectionTitle = styled.View`
   background-color: #fff;
   width: 100%;

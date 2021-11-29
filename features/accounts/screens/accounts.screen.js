@@ -6,13 +6,19 @@ import _ from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { getAccounts } from "../../../store/actions";
 
+// ASSETS
+import { BankIcon } from "../../../assets/icons/bank";
+
 // COMPONENTS
 import { Button } from "../../../components/UI/button.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Loader } from "../../../components/UI/loader.component";
 import { AccountsSection } from "../components/accounts-section.component";
-import { AccountsScroll } from "../components/accounts.styles";
+import { Text } from "../../../components/typography/text.component";
+
+// STYLED COMPONENTS
+import { AccountsScroll, NoAccountsCard } from "../components/accounts.styles";
 
 export const AccountsScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
@@ -36,9 +42,16 @@ export const AccountsScreen = ({ navigation }) => {
         <Loader />
       ) : (
         <AccountsScroll>
-          {groupedAccounts.map((accounts, key) => (
-            <AccountsSection key={key} accounts={accounts} onDetails={onDetailsAccount} />
-          ))}
+          {accounts.length ? (
+            groupedAccounts.map((accounts, key) => <AccountsSection key={key} accounts={accounts} onDetails={onDetailsAccount} />)
+          ) : (
+            <NoAccountsCard>
+              <BankIcon />
+              <Spacer variant="top" size={2} />
+              <Text style={{ textAlign: "center" }}>Debes agregar una cuenta para recibir para poder realizar tus cambios de divisa.</Text>
+            </NoAccountsCard>
+          )}
+          <Spacer variant="top" />
           <Button onPress={onAddAccount}>Agregar cuenta</Button>
           <Spacer variant="top" />
         </AccountsScroll>

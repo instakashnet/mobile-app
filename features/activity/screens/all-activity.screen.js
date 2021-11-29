@@ -12,6 +12,7 @@ import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { OrderItem } from "../components/order-item.component";
+import { Loader } from "../../../components/UI/loader.component";
 
 // STYLED COMPONENTS
 import { Title, ActivityWrapper } from "../components/activity.styles";
@@ -27,10 +28,9 @@ export const AllActivityScreen = ({ navigation }) => {
     }, [dispatch])
   );
 
-  console.log(orders);
-
   return (
     <SafeArea>
+      {isLoading && <Loader />}
       <ActivityWrapper>
         <Spacer variant="top" />
         <Title>

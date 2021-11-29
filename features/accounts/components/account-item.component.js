@@ -23,7 +23,7 @@ export const AccountItem = ({ account, onPress }) => {
         <View style={{ flexDirection: "row" }}>
           <Text variant="subtitle">
             ***
-            {account.accountNumer
+            {account.accountNumber
               ? account.accountNumber.substring(account.accountNumber.length - 4, account.accountNumber.length)
               : account.cci.substring(account.cci.length - 4, account.cci.length)}
           </Text>

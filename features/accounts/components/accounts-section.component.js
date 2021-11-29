@@ -10,7 +10,7 @@ export const AccountsSection = ({ accounts, onDetails }) => {
   return (
     <View style={{ height: "43%", marginVertical: 5 }}>
       <Spacer variant="top" />
-      <Text variant="title">{`Cuentas en ${accounts[0].currency.name} ${accounts[0].currency.Symbol}`}</Text>
+      <Text variant="subtitle" style={{ textAlign: "center" }}>{`Cuentas en ${accounts[0].currency.name} ${accounts[0].currency.Symbol}`}</Text>
       <FlatList horizontal data={accounts} renderItem={({ item }) => <AccountItem account={item} onPress={() => onDetails(item)} />} />
     </View>
   );
