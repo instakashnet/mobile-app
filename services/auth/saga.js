@@ -54,6 +54,10 @@ function* loadUser() {
 
     yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed }));
 
+    if (!resData.verified) yield call([RootNavigation, "push"], "EmailVerification");
+
+    if (!resData.completed) yield call([RootNavigation, "push"], "CompleteProfile");
+
     if (resData.verified && resData.completed) {
       yield call(getData);
       yield put(actions.loginUserSuccess());
@@ -78,7 +82,7 @@ function* registerUser({ values }) {
     if (res.status === 201) {
       yield call(setAuthToken, res.data);
       yield put(actions.registerUserSuccess());
-      yield call([RootNavigation, "navigate"], "EmailVerification");
+      yield call([RootNavigation, "push"], "EmailVerification");
     }
   } catch (error) {
     yield put(actions.apiError(error.message));
@@ -94,7 +98,6 @@ function* loginUser({ values }) {
     const res = yield authInstance.post(`/auth/signin`, values);
     if (res.status === 200) {
       yield call(setAuthToken, res.data);
-
       yield put(actions.loadUser());
     }
   } catch (error) {
@@ -198,7 +201,7 @@ function* watchLogoutUser() {
   yield takeLatest(types.LOGOUT_INIT, logoutUser);
 }
 
-function* logoutUser() {
+function* logoutUser({ logType }) {
   try {
     yield authInstance.post("/auth/logout");
   } catch (error) {
@@ -207,6 +210,8 @@ function* logoutUser() {
 
   yield put(actions.logoutUserSuccess());
   yield call(clearUserData);
+
+  if (logType === "auth") yield call([RootNavigation, "push"], "Auth");
 }
 
 export function* authSaga() {

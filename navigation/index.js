@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { navigationRef } from "./root.navigation";
-import * as Linking from "expo-linking";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -14,17 +13,6 @@ import { DrawerNavigator } from "./drawer.navigator";
 // SCREENS
 import { SplashScreen } from "../features/auth/screens/splash.screen";
 
-const prefix = Linking.makeUrl("/");
-
-const linking = {
-  prefixes: ["https://app.instakash.net", prefix],
-  config: {
-    screens: {
-      ResetPassword: "change-password",
-    },
-  },
-};
-
 export const Navigator = () => {
   const dispatch = useDispatch();
   const { isLoading, isSignedIn } = useSelector((state) => state.authReducer);
@@ -35,9 +23,5 @@ export const Navigator = () => {
 
   if (isLoading) return <SplashScreen />;
 
-  return (
-    <NavigationContainer linking={linking} ref={navigationRef}>
-      {!isSignedIn ? <AuthNavigator /> : <DrawerNavigator />}
-    </NavigationContainer>
-  );
+  return <NavigationContainer ref={navigationRef}>{!isSignedIn ? <AuthNavigator /> : <DrawerNavigator />}</NavigationContainer>;
 };

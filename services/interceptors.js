@@ -10,6 +10,7 @@ export const reqInterceptor = (instance) =>
 
       if (authData) {
         token = JSON.parse(authData).token;
+        console.log("token", token);
         config.headers["x-access-token"] = token;
       }
 

@@ -46,8 +46,9 @@ export const recoverPasswordSuccess = () => ({
   type: types.RECOVER_PASSWORD_SUCCESS,
 });
 
-export const logoutUser = () => ({
+export const logoutUser = (logType) => ({
   type: types.LOGOUT_INIT,
+  logType,
 });
 
 export const logoutUserSuccess = () => ({

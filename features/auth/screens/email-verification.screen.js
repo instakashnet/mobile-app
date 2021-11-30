@@ -34,7 +34,7 @@ export const EmailVerificationScreen = () => {
   const onSubmit = (values) => dispatch(validateEmail(values)),
     onRefreshCode = () => dispatch(refreshCode()),
     onCloseModal = () => dispatch(closeModal()),
-    onLogout = () => dispatch(logoutUser());
+    onLogout = () => dispatch(logoutUser("auth"));
 
   return (
     <SafeArea>

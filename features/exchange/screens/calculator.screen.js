@@ -1,15 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import { View } from "react-native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { getRates, createOrder, validateCoupon, removeCoupon, clearExchangeError } from "../../../store/actions";
-
-// ASSETS
-import { Male } from "../../../assets/icons/male";
-import { CompanyIcon } from "../../../assets/icons/company";
-import { Female } from "../../../assets/icons/female";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -17,10 +11,12 @@ import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.c
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { Alert } from "../../../components/UI/alert.component";
-import { RatesWrapper, RateBox, Caption, Price, BorderLine, ExchangeScroll, ExchangeHeader, ProfileInfo, Type } from "../components/exchange.styles";
 import { CalculatorForm } from "../components/forms/calculator-form.component";
 import { Loader } from "../../../components/UI/loader.component";
-import { Link } from "../../../components/typography/link.component";
+import { HeaderProfile } from "../components/header-profile.component";
+
+// STYLED COMPONENTS
+import { RatesWrapper, RateBox, Caption, Price, BorderLine } from "../components/exchange.styles";
 import { Timer, TimerWrapper } from "../components/calculator.styles";
 
 export const CalculatorScreen = ({ navigation }) => {
@@ -66,21 +62,7 @@ export const CalculatorScreen = ({ navigation }) => {
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <ExchangeHeader>
-        <ProfileInfo>
-          {profile.type === "juridica" ? <CompanyIcon width={25} /> : profile.identitySex === "male" ? <Male width={40} /> : <Female width={40} />}
-          <Spacer variant="left" />
-          <View>
-            <Text style={{ color: "#FFF" }}>
-              {profile.razonSocial ? (profile.razonSocial.length <= 25 ? profile.razonSocial : profile.razonSocial.substring(0, 25)) : `${profile.firstName} ${profile.lastName}`}
-            </Text>
-            <Type>Perfil {profile.type}</Type>
-          </View>
-        </ProfileInfo>
-        <Link style={{ borderBottomColor: "#FFF" }} onPress={() => navigation.navigate("SelectProfile")}>
-          <Text style={{ color: "#FFF" }}>Cambiar perfil</Text>
-        </Link>
-      </ExchangeHeader>
+      <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} />
       <KeyboardScrollAware>
         <Text variant="title">Las mejores tasas del perú</Text>
         <Spacer varaint="top" size={5} />

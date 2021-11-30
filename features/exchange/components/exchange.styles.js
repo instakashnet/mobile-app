@@ -25,17 +25,20 @@ export const ExchangeHeader = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
   width: 100%;
-  height: 65px;
+  min-height: 65px;
+  max-height: 85px;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding-vertical: ${({ theme }) => theme.space[2]};
-  padding-horizontal: ${({ theme }) => theme.space[5]};
+  padding-vertical: ${({ theme }) => theme.space[3]};
+  padding-horizontal: ${({ theme }) => theme.space[4]};
 `;
 
 export const ProfileInfo = styled.View`
   flex-direction: row;
   align-items: center;
+  max-width: 50%;
 `;
 
 export const Type = styled.Text.attrs({

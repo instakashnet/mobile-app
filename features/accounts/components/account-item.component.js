@@ -20,17 +20,12 @@ export const AccountItem = ({ account, onPress }) => {
           <Text variant="bold">{account.thirdParty ? "De terceros" : ""}</Text>
           <Text>{account.alias}</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text variant="subtitle">
-            ***
-            {account.accountNumber
-              ? account.accountNumber.substring(account.accountNumber.length - 4, account.accountNumber.length)
-              : account.cci.substring(account.cci.length - 4, account.cci.length)}
-          </Text>
-          <Text variant="title" style={{ marginLeft: 7 }}>
-            {account.currency.Symbol}
-          </Text>
-        </View>
+        <Text variant="subtitle">
+          ***
+          {account.accountNumber
+            ? account.accountNumber.substring(account.accountNumber.length - 4, account.accountNumber.length)
+            : account.cci.substring(account.cci.length - 4, account.cci.length)}
+        </Text>
       </View>
     </AccountCard>
   );
