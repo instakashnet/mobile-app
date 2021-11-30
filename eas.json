@@ -1,0 +1,40 @@
+{
+  "cli": {
+    "version": ">= 0.38.3"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "simulator": {
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "releaseChannel": "staging-v1"
+    },
+    "staging": {
+      "releaseChannel": "staging-v1"
+    },
+    "production": {
+      "releaseChannel": "prod-v1"
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "keys/android/pc-api-9072173090455432304-835-c28b30e38bc8.json",
+        "track": "internal",
+        "releaseStatus": "draft"
+      },
+      "ios": {
+        "appleId": "admin@instakash.net",
+        "ascAppId": "1596812561",
+        "appleTeamId": "B6PKWF86W5"
+      }
+    }
+  }
+}

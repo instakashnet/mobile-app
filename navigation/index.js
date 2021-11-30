@@ -17,7 +17,7 @@ import { SplashScreen } from "../features/auth/screens/splash.screen";
 const prefix = Linking.makeUrl("/");
 
 const linking = {
-  prefixes: [prefix, "https://*.instakash.net"],
+  prefixes: ["https://app.instakash.net", prefix],
   config: {
     screens: {
       ResetPassword: "change-password",

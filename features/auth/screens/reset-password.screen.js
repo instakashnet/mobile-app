@@ -13,6 +13,8 @@ export const ResetPasswordScreen = ({ route }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const formik = useFormik({ initialValues: { password: "", confirmPassword: "" }, onSubmit: (values) => console.log(values) });
 
+  console.log(route);
+
   return (
     <SafeArea>
       <AuthWrapper>

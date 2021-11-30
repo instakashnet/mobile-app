@@ -16,13 +16,23 @@ export const AuthScreen = ({ navigation }) => {
     index: 0,
     items: [
       {
-        title: "Bienvenido a Instakash",
+        title: "Ahorra cambiando tus divisas",
+        image: require("../../../assets/illustrations/dollars-phone.png"),
+        component: <Text>Por cada cambio que realices estarás ahorrando. Descubre todo lo haz ahorrado en tu tabla de actividades.</Text>,
+      },
+      {
+        title: "Gana 1 KASH al recomendarnos",
         image: require("../../../assets/illustrations/coin-3d.png"),
         component: (
           <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, <Text variant="bold">a cursus vel magna hendrerit.</Text>
+            Obtén <Text variant="bold">1 KASH</Text> cada vez que un amigo use tu código para su primer cambio. El también obtendrá una tasa preferencial.
           </Text>
         ),
+      },
+      {
+        title: "Miles de usuarios cambian de forma fácil y segura",
+        image: require("../../../assets/illustrations/lock-3d.png"),
+        component: <Text>En Instakash siempre pensamos en lo que necesitas ganando tu confianza y fidelidad. Por ello ofrecemos una plataforma 100% segura.</Text>,
       },
     ],
   });
@@ -35,9 +45,12 @@ export const AuthScreen = ({ navigation }) => {
           ref={(ref) => (carousel.current = ref)}
           data={slider.items}
           renderItem={SlideItem}
-          sliderWidth={300}
-          itemWidth={300}
+          sliderWidth={350}
+          itemWidth={350}
           contentContainerCustomStyle={{ display: "flex", alignItems: "center" }}
+          autoplay
+          autoplayInterval={4000}
+          autoplayDelay={3000}
         />
         <Button variant="secondary" onPress={() => navigation.navigate("Login")}>
           Acceder
