@@ -3,6 +3,9 @@ import { View, StyleSheet, Alert as RNAlert } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import { useFocusEffect } from "@react-navigation/native";
 
+// HELPERS
+import { getVariables } from "../../../variables";
+
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser, loginGoogle, clearAuthError } from "../../../store/actions";
@@ -25,13 +28,15 @@ import { KeyboardView } from "../../../components/utils/keyboard-view.component"
 // STYLED COMPONENTS
 import { AuthWrapper, AuthLinkWrapper, AuthLine } from "../components/auth.styles";
 
+const { googleSinInAndroid, googleSinInExpo, googleSinInIOS } = getVariables();
+
 export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     { isProcessing, authError } = useSelector((state) => state.authReducer),
     [request, response, promptAsync] = Google.useAuthRequest({
-      expoClientId: "202060127908-l925rk28ljirtgiea26h043vc8uqfnt5.apps.googleusercontent.com",
-      iosClientId: "202060127908-osr2qas34eeiufdugp705lrrusvh9snl.apps.googleusercontent.com",
-      androidClientId: "202060127908-33q5gm7r7bpghd7b60udnlgjj50qmuv0.apps.googleusercontent.com",
+      expoClientId: googleSinInExpo,
+      iosClientId: googleSinInIOS,
+      androidClientId: googleSinInAndroid,
     });
 
   // EFFECTS

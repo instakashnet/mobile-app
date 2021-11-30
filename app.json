@@ -13,15 +13,18 @@
       "backgroundColor": "#0D8284"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 500
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
       "associatedDomains": ["applinks:app.instakash.net"],
-      "bundleIdentifier": "net.instakash.app"
+      "bundleIdentifier": "net.instakash.app",
+      "buildNumber": "0.1.0"
     },
     "android": {
+      "package": "net.instakash.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0D8284"
@@ -39,7 +42,7 @@
           "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
-      "package": "com.rogerrc12.instakashapp"
+      "permissions": ["CAMERA", "ACCESS_FINE_LOCATION", "WRITE_SETTINGS", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
     }
   }
 }

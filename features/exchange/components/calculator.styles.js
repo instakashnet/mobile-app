@@ -87,12 +87,13 @@ export const CouponInput = styled(TextInput).attrs(({ theme }) => ({
   mode: "outlined",
   outlineColor: theme.colors.ui.border,
   dense: true,
+  allowFontScaling: false,
 }))`
   height: 53px;
   flex: 0.85;
   justify-content: center;
   padding: 0px;
-  font-size: ${({ theme }) => theme.fontSizes.button};
+  font-size: ${({ theme }) => theme.fontSizes.body};
   background-color: #fff;
 `;
 
@@ -100,6 +101,7 @@ export const CouponButton = styled(Button).attrs(({ theme }) => ({
   color: theme.colors.brand.primary,
   mode: "contained",
   uppercase: false,
+  allowFontScaling: false,
   contentStyle: {
     height: 55,
   },

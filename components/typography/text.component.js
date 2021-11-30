@@ -34,12 +34,14 @@ const subtitle = (theme) => `
 `;
 
 const bold = (theme) => `
-    font-family: ${theme.fonts.button};
+    font-family: ${theme.fonts.bold};
+    font-size: ${theme.fontSizes.body};
     color: ${theme.colors.text.title};
 `;
 
 const button = (theme) => `
     font-family: ${theme.fonts.button};
+    font-size: ${theme.fontSizes.button};
 `;
 
 const underline = (theme) => `

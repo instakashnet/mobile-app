@@ -7,11 +7,6 @@ const defaultStyles = (theme) => `
   max-width: ${Dimensions.get("window").width / 1.15}px;
   margin-top: ${theme.space[3]};
   margin-bottom: ${theme.space[2]};
-  shadow-color: #000;
-  shadow-opacity: 0.10;
-  shadow-offset: 5px 10px;
-  shadow-radius: 17px;
-  elevation: 5;
 `;
 
 const defaultAttrs = (theme, labelStyle = {}) => ({
@@ -25,6 +20,7 @@ const defaultAttrs = (theme, labelStyle = {}) => ({
   contentStyle: {
     height: 50,
   },
+  raised: true,
 });
 
 const primary = (theme) => ({

@@ -21,7 +21,7 @@ export const ThirdInfo = ({ formik, onSelect }) => {
         <View style={{ marginRight: 10 }}>
           <Select
             onChange={onSelect}
-            label="Tipo doc."
+            label="Doc."
             error={formik.touched.documentType && formik.errors.documentType}
             style={{ width: Platform.OS === "ios" ? 136 : 110 }}
             options={documentTypes}
@@ -34,7 +34,7 @@ export const ThirdInfo = ({ formik, onSelect }) => {
         <View style={{ flexGrow: 1 }}>
           <Input
             value={formik.values.documentIdentity}
-            label="Nro. de docucmento"
+            label="Número doc."
             error={formik.touched.documentIdentity && formik.errors.documentIdentity}
             onChange={formik.handleChange("documentIdentity")}
             onBlur={formik.handleBlur("documentIdentity")}

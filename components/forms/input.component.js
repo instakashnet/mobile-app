@@ -8,11 +8,13 @@ const StyledInput = styled(TextInput).attrs(({ theme }) => ({
   theme: { ...theme, colors: { primary: theme.colors.brand.primary, error: theme.colors.ui.error } },
   mode: "outlined",
   outlineColor: theme.colors.ui.border,
+  dense: true,
 }))`
   width: 100%;
-  height: 50px;
-  font-size: ${({ theme }) => theme.fontSizes.button};
+  font-size: ${({ theme }) => theme.fontSizes.body};
   background-color: #fff;
+  height: 50px;
+  text-align-vertical: center;
 `;
 
 const FormGroup = styled.View`
@@ -24,6 +26,7 @@ const FormGroup = styled.View`
 export const Input = ({ name, onChange, right, infoText, iconName, onPress, error, isFlex, ...rest }) => {
   const inputProps = {
     name,
+    allowFontScaling: false,
     error: !!error,
   };
 

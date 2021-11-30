@@ -111,11 +111,9 @@ export const AddPersonalForm = ({ currencies, currencyId, onAddAccount, isProces
         infoText="Ej. nombre + banco + moneda."
       />
       {selectedBank && selectedBank.name.toLowerCase() === "interbank" && (
-        <Spacer variant="left">
-          <Checkbox status={formik.values.interbank} onPress={() => formik.setFieldValue("interbank", !formik.values.interbank)}>
-            <Text variant="caption">¿Esta es una cuenta de provincia?.</Text>
-          </Checkbox>
-        </Spacer>
+        <Checkbox status={formik.values.interbank} onPress={() => formik.setFieldValue("interbank", !formik.values.interbank)}>
+          <Text variant="caption">¿Esta es una cuenta de provincia?.</Text>
+        </Checkbox>
       )}
       <Spacer variant="top" />
       <Checkbox status={formik.values.accept} onPress={() => formik.setFieldValue("accept", !formik.values.accept)}>

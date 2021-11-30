@@ -97,8 +97,8 @@ export const CalculatorScreen = ({ navigation }) => {
         </RatesWrapper>
         <Spacer variant="top" size={4} />
         <TimerWrapper>
-          <Text variant="bold">El tipo de cambio se actualizará en:</Text>
-          <Timer id={countdown.toString()} running={countRunnig} until={300} size={14} showSeparator onFinish={onGetRates} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
+          <Text variant="bold">El tipo de cambio se actualizará:</Text>
+          <Timer id={countdown.toString()} running={countRunnig} until={300} size={13} showSeparator onFinish={onGetRates} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
         </TimerWrapper>
         <CalculatorForm
           isProcessing={isProcessing}

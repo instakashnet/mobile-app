@@ -23,30 +23,30 @@ import { AddCompanyList, CompanyList } from "../components/select-profile.styles
 import { CoverBackground, ProfileWrapper, ProfileScroll, SubTitle, Info } from "../components/profile.styles";
 
 export const SelectProfileScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
-  // STORE SELECTORS
-  const user = useSelector((state) => state.authReducer.user);
-  const { isLoading } = useSelector((state) => state.profileReducer);
-  const userProfile = useSelector((state) => state.profileReducer.profiles.find((p) => p.type === "natural"));
-  const companyProfiles = useSelector((state) => state.profileReducer.profiles.filter((p) => p.type === "juridica"));
+  const dispatch = useDispatch(),
+    user = useSelector((state) => state.authReducer.user),
+    { isLoading } = useSelector((state) => state.profileReducer),
+    userProfile = useSelector((state) => state.profileReducer.profiles.find((p) => p.type === "natural")),
+    companyProfiles = useSelector((state) => state.profileReducer.profiles.filter((p) => p.type === "juridica")),
+    porfileName = user.name.split(" ");
 
   // HANDLERS
-  const onAddProfile = () => navigation.navigate("AddProfile");
-  const onSelectProfile = async (type, id = null) => {
-    let profile;
+  const onAddProfile = () => navigation.navigate("AddProfile"),
+    onSelectProfile = async (type, id = null) => {
+      let profile;
 
-    if (type === "juridica") {
-      profile = companyProfiles.find((c) => c.id === id);
-    } else profile = userProfile;
+      if (type === "juridica") {
+        profile = companyProfiles.find((c) => c.id === id);
+      } else profile = userProfile;
 
-    try {
-      await AsyncStorage.setItem("profileSelected", JSON.stringify(profile));
-    } catch (error) {
-      console.log(error);
-    }
+      try {
+        await AsyncStorage.setItem("profileSelected", JSON.stringify(profile));
+      } catch (error) {
+        console.log(error);
+      }
 
-    return dispatch(selectProfile(profile));
-  };
+      return dispatch(selectProfile(profile));
+    };
 
   // EFFECTS
   useFocusEffect(
@@ -64,11 +64,11 @@ export const SelectProfileScreen = ({ navigation }) => {
           <Spacer variant="top" />
           <SubTitle>¿Como deseas cambiar?</SubTitle>
           <Spacer variant="top" />
-          <Info numberOfLines={2}>Selecciona tu perfil para hacer el cambio.</Info>
+          <Info numberOfLines={2}>¿Deseas continuar como {porfileName.length > 2 ? `${porfileName[0]} ${porfileName[2]}` : `${porfileName[0]} ${porfileName[1]}`}?</Info>
           <Spacer variant="top" />
           <Link style={{ borderBottomColor: "#FFF" }} onPress={onSelectProfile.bind(this, "natural")}>
             <Text variant="bold" style={{ color: "#FFF" }}>
-              Continuar como {user.name}
+              Continuar
             </Text>
           </Link>
         </CoverBackground>
@@ -91,7 +91,7 @@ export const SelectProfileScreen = ({ navigation }) => {
           <Spacer variant="top" />
           {companyProfiles.length < 3 && (
             <Link onPress={onAddProfile}>
-              <Text variant="bold">Agregar perfil empresa</Text>
+              <Text variant="bold">Agregar una empresa</Text>
             </Link>
           )}
         </ProfileWrapper>

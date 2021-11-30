@@ -1,5 +1,6 @@
 export const fonts = {
   body: "lato-regular",
+  bold: "lato-bold",
   button: "lato-bold",
   title: "lato-black",
   subtitle: "lato-bold",

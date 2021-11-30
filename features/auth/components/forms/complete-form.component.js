@@ -46,7 +46,7 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
         <View style={{ flexGrow: 0.3, marginRight: 10 }}>
           <Select
             onChange={onSelectChange}
-            label="Tipo doc."
+            label="Doc."
             error={!formik.values.document_type && formik.errors.document_type}
             style={{ width: Platform.OS === "ios" ? 136 : 110 }}
             options={documentTypes}
@@ -58,7 +58,7 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
         <View style={{ flexGrow: 0.7, width: "50%" }}>
           <Input
             value={formik.values.document_identification}
-            label="Nro. de docucmento"
+            label="Número doc."
             error={formik.touched.document_identification && formik.errors.document_identification}
             onChange={formik.handleChange("document_identification")}
             onBlur={formik.handleBlur("document_identification")}
