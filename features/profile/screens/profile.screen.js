@@ -47,7 +47,7 @@ export const ProfileScreen = ({ navigation }) => {
           <RightArrow />
         </ItemWrapper>
       </NavItem>
-      <NavItem onPress={() => openURL("https://instakash.net/faq/")}>
+      <NavItem onPress={() => openURL("https://instakash.net/faq")}>
         <ItemWrapper>
           <Text>Centro de ayuda</Text>
           <RightArrow />
