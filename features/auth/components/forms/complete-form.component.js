@@ -11,8 +11,10 @@ import { Input } from "../../../../components/forms/input.component";
 import { Select } from "../../../../components/forms/select.component";
 import { Button } from "../../../../components/UI/button.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
+import { PhoneInput } from "../../../../components/forms/phone-input.component";
+import { Text } from "../../../../components/typography/text.component";
 
-export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
+export const CompleteProfileForm = ({ isProcessing, onSubmit, user }) => {
   // LIST OPTIONS
   const documentTypes = [
     { value: "DNI", label: "DNI" },
@@ -29,7 +31,7 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
 
   // FORM METHODS
   const formik = useFormik({
-    initialValues: { type: "natural", document_type: "", first_name: "", last_name: "", document_identification: "", identity_sex: "", phone: "" },
+    initialValues: { type: "natural", document_type: "", first_name: "", last_name: "", phone: "", document_identification: "", identity_sex: "", phone: "", affiliate: "" },
     onSubmit,
     validationSchema: completeProfileSchema,
   });
@@ -44,16 +46,7 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
     <>
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", width: "100%" }}>
         <View style={{ flexGrow: 0.3, marginRight: 10 }}>
-          <Select
-            onChange={onSelectChange}
-            label="Doc."
-            error={!formik.values.document_type && formik.errors.document_type}
-            style={{ width: Platform.OS === "ios" ? 136 : 110 }}
-            options={documentTypes}
-            value={formik.values.document_type}
-            name="document_type"
-            isFlex
-          />
+          <Select onChange={onSelectChange} label="Doc." options={documentTypes} value={formik.values.document_type} name="document_type" isFlex />
         </View>
         <View style={{ flexGrow: 0.7, width: "50%" }}>
           <Input
@@ -87,6 +80,15 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
         onChange={formik.handleChange("last_name")}
         onBlur={formik.handleBlur("last_name")}
       />
+      <PhoneInput
+        defaultCode="PE"
+        value={formik.values.phone}
+        error={formik.touched.phone && formik.errors.phone}
+        onChangeText={(number) => onSelectChange("phone", number)}
+        onChange={formik.handleChange("phone")}
+        onBlur={formik.handleBlur("phone")}
+        placeholder="Número de teléfono"
+      />
       <Select
         name="identity_sex"
         value={formik.values.identity_sex}
@@ -95,6 +97,13 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit }) => {
         error={formik.touched.identity_sex && formik.errors.identity_sex}
         onChange={onSelectChange}
       />
+      {user && user.isGoogle && (
+        <>
+          <Spacer variant="top" size={2} />
+          <Text variant="title">¿Te ha referido un amigo?</Text>
+          <Input name="affiliate" label="Ingresa el código acá" value={formik.values.affiliate} onChange={formik.handleChange("affiliate")} />
+        </>
+      )}
       <Spacer variant="top" size={3} />
       <Button variant="primary" disabled={!formik.isValid || isProcessing} loading={isProcessing} onPress={formik.handleSubmit}>
         Completar perfil

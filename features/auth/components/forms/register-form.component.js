@@ -7,7 +7,6 @@ import { openURL } from "../../../../shared/helpers/functions";
 
 // COMPONENTS
 import { Input } from "../../../../components/forms/input.component";
-import { PhoneInput } from "../../../../components/forms/phone-input.component";
 import { Checkbox } from "../../../../components/forms/checkbox.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
@@ -18,7 +17,7 @@ export const RegisterForm = ({ onSubmit, isProcessing }) => {
 
   // FORMIK METHODS
   const formik = useFormik({
-    initialValues: { email: "", phone: "", password: "", confirmPassword: "", affiliate: "", allowPromotionalEmail: true, acceptTerms: false },
+    initialValues: { email: "", password: "", confirmPassword: "", affiliate: "", allowPromotionalEmail: true, acceptTerms: false },
     validationSchema: registerSchema,
     onSubmit,
   });
@@ -38,15 +37,6 @@ export const RegisterForm = ({ onSubmit, isProcessing }) => {
         onBlur={formik.handleBlur("email")}
         autoCapitalize="none"
         autoCorrect={false}
-      />
-      <PhoneInput
-        defaultCode="PE"
-        value={formik.values.phone}
-        error={formik.touched.phone && formik.errors.phone}
-        onChangeText={(number) => formik.setFieldValue("phone", number)}
-        onChange={formik.handleChange("phone")}
-        onBlur={formik.handleBlur("phone")}
-        placeholder="Número de teléfono"
       />
       <Input
         name="password"

@@ -43,7 +43,7 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.CLEAR_ERROR:
       return { ...state, authError: null };
     case types.API_ERROR:
-      return { ...state, isProcessing: false, isLoading: false, user: null, authError: action.error };
+      return { ...state, isProcessing: false, isLoading: false, authError: action.error };
     default:
       return state;
   }

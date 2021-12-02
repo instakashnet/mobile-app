@@ -52,7 +52,7 @@ function* loadUser() {
     const resData = camelize(res.data);
     yield call([AsyncStorage, "setItem"], "@userVerification", JSON.stringify({ verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
 
-    yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed }));
+    yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
 
     if (!resData.verified) yield call([RootNavigation, "push"], "EmailVerification");
 
@@ -72,13 +72,8 @@ function* watchRegisterUser() {
 }
 
 function* registerUser({ values }) {
-  const registerValues = {
-    ...values,
-    phone: values.phone.replace("+", ""),
-  };
-
   try {
-    const res = yield authInstance.post(`/auth/signup`, registerValues);
+    const res = yield authInstance.post(`/auth/signup`, values);
     if (res.status === 201) {
       yield call(setAuthToken, res.data);
       yield put(actions.registerUserSuccess());
@@ -175,8 +170,13 @@ function* watchCompleteProfile() {
 }
 
 function* completeProfile({ values }) {
+  const profileValues = {
+    ...values,
+    phone: values.phone.replace("+", ""),
+  };
+
   try {
-    const res = yield authInstance.post("/users/profiles", values);
+    const res = yield authInstance.post("/users/profiles", profileValues);
     if (res.status === 200) yield put(actions.loadUser());
   } catch (error) {
     yield put(actions.apiError(error.message));

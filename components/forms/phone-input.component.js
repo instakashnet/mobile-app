@@ -7,18 +7,18 @@ import { Spacer } from "../utils/spacer.component";
 
 const StyledInput = styled(Input).attrs(({ theme, focused, error }) => {
   return {
-    containerStyle: { width: "100%", alignSelf: "center", marginTop: 10 },
+    containerStyle: { width: "100%", alignSelf: "center" },
     codeTextStyle: { fontSize: 14, color: theme.colors.text.body },
     textContainerStyle: {
       borderWidth: focused || error ? 2 : 1,
       borderColor: error ? theme.colors.ui.error : focused ? theme.colors.brand.primary : theme.colors.ui.border,
       borderTopRightRadius: 4,
       borderBottomRightRadius: 4,
-      paddingVertical: Platform.OS === "android" ? 8 : 14,
+      paddingVertical: Platform.OS === "android" ? 9 : 16,
       borderLeftWidth: 0,
       backgroundColor: "#fff",
     },
-    textInputStyle: { fontSize: 14, color: theme.colors.text.body },
+    textInputStyle: { fontSize: 16, fontFamily: theme.fonts.button, color: theme.colors.text.body },
     flagButtonStyle: {
       backgroundColor: "#FFF",
       borderWidth: focused || error ? 2 : 1,

@@ -19,8 +19,8 @@ const PickerIcon = styled(Ionicons).attrs({
   color: "black",
 })`
   position: absolute;
-  right: 17px;
-  top: 22px;
+  right: 13px;
+  top: 23px;
   z-index: 10;
 `;
 
@@ -84,7 +84,7 @@ const pickerStyles = StyleSheet.create({
   },
   inputIOS: {
     fontSize: 14,
-    paddingVertical: 15,
+    paddingVertical: 16,
     borderRadius: 4,
     color: "black",
     paddingRight: 30,
@@ -93,7 +93,7 @@ const pickerStyles = StyleSheet.create({
   },
   inputAndroid: {
     fontSize: 14,
-    paddingVertical: 9,
+    paddingVertical: 10,
     borderRadius: 4,
     color: "black",
     paddingRight: 30,

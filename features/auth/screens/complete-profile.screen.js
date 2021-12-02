@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeModal, openModal, logoutUser, completeProfile, clearAuthError } from "../../../store/actions";
 
 // COMPONENTS
-import { AuthWrapper } from "../components/auth.styles";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
@@ -15,10 +14,11 @@ import { Modal } from "../../../components/UI/modal.component";
 import { Alert } from "../../../components/UI/alert.component";
 import { Button } from "../../../components/UI/button.component";
 import { CompleteProfileForm } from "../components/forms/complete-form.component";
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 
 export const CompleteProfileScreen = () => {
   const dispatch = useDispatch(),
-    { isProcessing, authError } = useSelector((state) => state.authReducer);
+    { isProcessing, authError, user } = useSelector((state) => state.authReducer);
 
   // EFFECTS
   useFocusEffect(
@@ -35,11 +35,12 @@ export const CompleteProfileScreen = () => {
 
   return (
     <SafeArea>
-      <AuthWrapper>
+      <KeyboardScrollAware>
+        <Spacer variant="top" size={2} />
         <Text variant="title">¡Ya has creado tu cuenta!</Text>
         <Text>Ahora necesitamos que completes tus datos.</Text>
         <Spacer variant="top" size={2} />
-        <CompleteProfileForm isProcessing={isProcessing} onSubmit={onSubmit} />
+        <CompleteProfileForm isProcessing={isProcessing} onSubmit={onSubmit} user={user} />
         <Button onPress={onLogout} variant="secondary">
           Acceder con otra cuenta
         </Button>
@@ -47,7 +48,7 @@ export const CompleteProfileScreen = () => {
         <Link onPress={onOpenModal}>
           <Text variant="bold">¿Porqué me piden estos datos?</Text>
         </Link>
-      </AuthWrapper>
+      </KeyboardScrollAware>
       <Modal>
         <Text variant="title">Todo por tu seguridad</Text>
         <Spacer variant="top" />
