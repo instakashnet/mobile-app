@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // UTILS
-import { headerOptions, headerLeft, headerBackLeft, headerRight } from "../utils/navigator.options";
+import { headerOptions, headerLeft, headerBackLeft, headerRight, headerTitle } from "../utils/navigator.options";
 
 // NAVIGATORS
 import { AffiliatesTabs } from "../tabs/affiliates-tabs.navigator";
@@ -19,7 +19,7 @@ export const AffiliateCodeNavigator = () => {
         ...headerOptions,
         headerLeft: () => headerLeft(navigation),
         headerRight,
-        headerTitle: "Comparte tu código",
+        headerTitle: () => headerTitle("Comparte tu código"),
       })}
     >
       <AffiliateStack.Screen name="AffiliateTabs" component={AffiliatesTabs} />

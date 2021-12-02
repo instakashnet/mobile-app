@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector } from "react-redux";
 
 // UTILS
-import { headerOptions } from "../utils/navigator.options";
+import { headerOptions, headerTitle } from "../utils/navigator.options";
 
 // SCREENS
 import { AuthScreen } from "../../features/auth/screens/auth.screen";
@@ -31,10 +31,14 @@ export const AuthNavigator = () => {
       <AuthStack.Screen options={{ headerShown: false }} name="EmailVerification" component={EmailVerificationScreen} />
       {!user ? (
         <>
-          <AuthStack.Screen options={{ headerTitle: "Acceder", headerBackTitleVisible: false }} name="Login" component={LoginScreen} />
-          <AuthStack.Screen options={{ headerTitle: "Registrarse", headerBackTitleVisible: false }} name="Register" component={RegisterScreen} />
-          <AuthStack.Screen options={{ headerTitle: "Olvidé mi contraseña", headerBackTitleVisible: false }} name="RecoverPassword" component={RecoverPasswordScreen} />
-          <AuthStack.Screen options={{ headerTitle: "Nueva contraseña", headerBackTitleVisible: false }} name="ResetPassword" component={ResetPasswordScreen} />
+          <AuthStack.Screen options={{ headerTitle: () => headerTitle("Acceder"), headerBackTitleVisible: false }} name="Login" component={LoginScreen} />
+          <AuthStack.Screen options={{ headerTitle: () => headerTitle("Registrarse"), headerBackTitleVisible: false }} name="Register" component={RegisterScreen} />
+          <AuthStack.Screen
+            options={{ headerTitle: () => headerTitle("Olvidé mi contraseña"), headerBackTitleVisible: false }}
+            name="RecoverPassword"
+            component={RecoverPasswordScreen}
+          />
+          <AuthStack.Screen options={{ headerTitle: () => headerTitle("Nueva co)ntraseña"), headerBackTitleVisible: false }} name="ResetPassword" component={ResetPasswordScreen} />
         </>
       ) : (
         <AuthStack.Screen options={{ headerShown: false }} name="CompleteProfile" component={CompleteProfileScreen} />

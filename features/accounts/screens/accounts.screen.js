@@ -48,7 +48,7 @@ export const AccountsScreen = ({ navigation }) => {
             <NoAccountsCard>
               <BankIcon />
               <Spacer variant="top" size={2} />
-              <Text style={{ textAlign: "center" }}>Debes agregar una cuenta para recibir para poder realizar tus cambios de divisa.</Text>
+              <Text style={{ textAlign: "center" }}>Debes agregar una cuenta para poder realizar tus cambios de divisa.</Text>
             </NoAccountsCard>
           )}
           <Spacer variant="top" />

@@ -47,7 +47,7 @@ export const NoAccountsCard = styled.View`
   justify-content: center;
   padding-vertical: ${({ theme }) => theme.space[4]};
   padding-horizontal: ${({ theme }) => theme.space[5]};
-  margin-vertical: ${({ theme }) => theme.space[2]};
+  margin-top: ${({ theme }) => theme.space[4]};
   min-height: 190px;
 `;
 

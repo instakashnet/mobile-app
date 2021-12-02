@@ -10,11 +10,13 @@ const StyledInput = styled(TextInput).attrs(({ theme }) => ({
   theme: { ...theme, colors: { primary: theme.colors.brand.primary, error: theme.colors.ui.error } },
   mode: "outlined",
   outlineColor: theme.colors.ui.border,
+  dense: true,
+  allowFontScaling: false,
 }))`
   width: 100%;
-  padding-vertical: 0px;
-  height: 45px;
-  font-size: ${({ theme }) => theme.fontSizes.button};
+  text-align-vertical: center;
+  height: 50px;
+  font-size: ${({ theme }) => theme.fontSizes.body};
   background-color: #fff;
 `;
 

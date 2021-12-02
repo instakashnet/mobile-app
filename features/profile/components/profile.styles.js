@@ -41,10 +41,10 @@ export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
 `;
 
 export const InfoWrapper = styled.View`
-  padding-horizontal: ${({ theme }) => theme.space[3]};
-  flex: 0.55;
-  border-bottom-left-radius: 45px;
-  border-bottom-right-radius: 45px;
+  padding: ${({ theme }) => theme.space[3]};
+  min-height: 35%;
+  border-bottom-left-radius: 35px;
+  border-bottom-right-radius: 35px;
   background-color: ${({ theme }) => theme.colors.brand.primary};
   align-items: center;
   justify-content: center;
@@ -142,24 +142,18 @@ export const GooglePlacesInput = styled(GooglePlacesAutocomplete).attrs(({ theme
     container: {
       flex: 0,
       marginTop: 10,
-      zIndex: 10,
       elevation: 3,
     },
     textInput: {
       borderWidth: 1,
       borderRadius: 5,
       borderColor: theme.colors.ui.border,
-      fontSize: 14,
-    },
-    listView: {
-      position: "absolute",
-      zIndex: 10,
-      elevation: 3,
-      top: 47,
-      borderRadius: 5,
+      fontSize: 16,
+      height: 50,
     },
   },
   textInputProps: {
     placeholderTextColor: theme.colors.text.body,
+    allowFontScaling: false,
   },
 }))``;

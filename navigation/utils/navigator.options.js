@@ -6,6 +6,9 @@ import { theme } from "../../theme";
 // ASSETS
 import { Whatsapp } from "../../assets/icons/whatsapp";
 
+// COMPONENTS
+import { Text } from "../../components/typography/text.component";
+
 export const headerOptions = {
   backgroundColor: theme.colors.bg.light,
   headerTintColor: theme.colors.text.title,
@@ -68,4 +71,10 @@ export const headerCameraFlash = (onPress, iconType) => (
       <Ionicons name={iconType === 2 ? "ios-flash-outline" : iconType === 1 ? "ios-flash" : "ios-flash-off-outline"} color="#0D8284" size={30} />
     </TouchableWithoutFeedback>
   </View>
+);
+
+export const headerTitle = (title) => (
+  <Text variant="subtitle" numberOfLines={1}>
+    {title}
+  </Text>
 );

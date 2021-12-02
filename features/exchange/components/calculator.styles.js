@@ -148,6 +148,6 @@ export const TimerWrapper = styled.View`
 `;
 
 export const Timer = styled(CountDown).attrs(({ theme }) => ({
-  digitStyle: { backgroundColor: "transparent", width: 35 },
+  digitStyle: { backgroundColor: "transparent", width: 32 },
   digitTxtStyle: { color: theme.colors.text.body, fontFamily: theme.fonts.button, color: theme.colors.brand.primary },
 }))``;

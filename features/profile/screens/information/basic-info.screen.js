@@ -23,7 +23,7 @@ export const BasicInfoScreen = ({ route, navigation }) => {
       <Spacer variant="top" size={6} />
       <InfoItem>
         <Text variant="caption">Nombre y apellido</Text>
-        <Text>{user.name}</Text>
+        <Text numberOfLines={1}>{user.name}</Text>
       </InfoItem>
       <InfoItem>
         <Text variant="caption">Documento de identidad</Text>
@@ -44,7 +44,7 @@ export const BasicInfoScreen = ({ route, navigation }) => {
         <ItemWrapper>
           <View>
             <Text variant="caption">Correo electrónico</Text>
-            <Text>{user.email}</Text>
+            <Text numberOfLines={1}>{user.email}</Text>
           </View>
           <RightArrow />
         </ItemWrapper>

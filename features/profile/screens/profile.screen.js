@@ -16,15 +16,16 @@ import { InfoWrapper, NavItem, RightArrow, ItemWrapper } from "../components/pro
 import { Text } from "../../../components/typography/text.component";
 
 export const ProfileScreen = ({ navigation }) => {
-  const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector((state) => state.authReducer.user),
+    porfileName = user.name.split(" ");
 
   return (
     <SafeArea>
       <InfoWrapper>
-        <Male width={90} />
+        <Male width={80} />
         <Spacer variant="top" />
         <Text variant="subtitle" style={{ color: "#FFF" }}>
-          {user.name}
+          {porfileName.length > 2 ? `${porfileName[0]} ${porfileName[2]}` : `${porfileName[0]} ${porfileName[1]}`}
         </Text>
         <Text style={{ color: "#FFF" }}>{user.username}</Text>
       </InfoWrapper>
