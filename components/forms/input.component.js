@@ -20,7 +20,7 @@ const StyledInput = styled(TextInput).attrs(({ theme }) => ({
 const FormGroup = styled.View`
   width: 100%;
   margin-top: ${({ theme }) => theme.space[2]};
-  margin-bottom: ${({ theme, error, isFlex }) => (error && isFlex ? theme.space[0] : theme.space[3])};
+  margin-bottom: ${({ theme, error, isFlex }) => (error && !isFlex ? theme.space[0] : theme.space[3])};
 `;
 
 export const Input = ({ name, onChange, right, infoText, iconName, onPress, error, isFlex, ...rest }) => {

@@ -33,7 +33,8 @@ const StyledInput = styled(Input).attrs(({ theme, focused, error }) => {
 const InputGroup = styled.View`
   width: 100%;
   align-items: flex-start;
-  margin-vertical: ${({ error, theme }) => (error ? theme.space[0] : theme.space[2])};
+  margin-bottom: ${({ error, theme }) => (error ? theme.space[0] : theme.space[2])};
+  margin-top: ${({ theme }) => theme.space[2]};
 `;
 
 export const PhoneInput = ({ onChange, onBlur, onChangeText, placeholder, value, error, ...rest }) => {

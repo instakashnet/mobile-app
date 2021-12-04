@@ -20,14 +20,18 @@
       "supportsTablet": false,
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "net.instakash.app",
-      "buildNumber": "0.0.3"
+      "buildNumber": "0.0.5"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#0D8284",
+      "translucent": false
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 4,
+      "versionCode": 6,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0D8284"
+        "foregroundImage": "./assets/adaptive-fr.png",
+        "backgroundImage": "./assets/adaptive-bg.png"
       },
       "intentFilters": [
         {

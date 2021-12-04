@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
-import { View, Platform } from "react-native";
+import { View } from "react-native";
 import { HelperText } from "react-native-paper";
 
 // VALIDATIONS
@@ -45,10 +45,10 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit, user }) => {
   return (
     <>
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", width: "100%" }}>
-        <View style={{ flexGrow: 0.3, marginRight: 10 }}>
+        <View style={{ width: "42%", marginRight: 10 }}>
           <Select onChange={onSelectChange} label="Doc." options={documentTypes} value={formik.values.document_type} name="document_type" isFlex />
         </View>
-        <View style={{ flexGrow: 0.7, width: "50%" }}>
+        <View style={{ flexGrow: 0.7, width: "52%" }}>
           <Input
             value={formik.values.document_identification}
             label="Número doc."

@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +15,6 @@ import { Modal } from "../../../components/UI/modal.component";
 import { Alert } from "../../../components/UI/alert.component";
 import { Button } from "../../../components/UI/button.component";
 import { CompleteProfileForm } from "../components/forms/complete-form.component";
-import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 
 export const CompleteProfileScreen = () => {
   const dispatch = useDispatch(),
@@ -35,8 +35,7 @@ export const CompleteProfileScreen = () => {
 
   return (
     <SafeArea>
-      <KeyboardScrollAware>
-        <Spacer variant="top" size={2} />
+      <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20, paddingVertical: 50, alignItems: "center", justifyContent: "center" }}>
         <Text variant="title">¡Ya has creado tu cuenta!</Text>
         <Text>Ahora necesitamos que completes tus datos.</Text>
         <Spacer variant="top" size={2} />
@@ -48,7 +47,7 @@ export const CompleteProfileScreen = () => {
         <Link onPress={onOpenModal}>
           <Text variant="bold">¿Porqué me piden estos datos?</Text>
         </Link>
-      </KeyboardScrollAware>
+      </KeyboardAwareScrollView>
       <Modal>
         <Text variant="title">Todo por tu seguridad</Text>
         <Spacer variant="top" />

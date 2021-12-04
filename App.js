@@ -14,7 +14,7 @@ import { registerTranslation } from "react-native-paper-dates";
 registerTranslation("es", {
   save: "Guardar",
   selectSingle: "Seleccionar fecha",
-  notAccordingToDateFormat: (inputFormat) => `Date format must be ${inputFormat}`,
+  notAccordingToDateFormat: (inputFormat) => `El formato debe ser ${inputFormat}`,
   mustBeHigherThan: "Debe ser mayor a",
   mustBeLowerThan: "Debe ser menor que",
   mustBeBetween: "Debe ser entre",
@@ -35,7 +35,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <ThemeProvider theme={theme}>
         <PaperProvider>
           <Navigator />
