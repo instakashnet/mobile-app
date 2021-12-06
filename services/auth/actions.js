@@ -36,10 +36,9 @@ export const loginGoogleSuccess = () => ({
   type: types.LOGIN_GOOGLE_SUCCESS,
 });
 
-export const recoverPassword = (values, show) => ({
+export const recoverPassword = (values) => ({
   type: types.RECOVER_PASSWORD_INIT,
   values,
-  show,
 });
 
 export const recoverPasswordSuccess = () => ({
@@ -55,9 +54,10 @@ export const logoutUserSuccess = () => ({
   type: types.LOGOUT_SUCCESS,
 });
 
-export const validateEmail = (values) => ({
+export const validateEmail = (values, codeType) => ({
   type: types.VALIDATE_EMAIL_INIT,
   values,
+  codeType,
 });
 
 export const validateEmailSuccess = () => ({

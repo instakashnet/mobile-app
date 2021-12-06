@@ -1,5 +1,7 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useLayoutEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -19,9 +21,10 @@ import { Spacer } from "../../../components/utils/spacer.component";
 import { Alert } from "../../../components/UI/alert.component";
 import { Modal } from "../../../components/UI/modal.component";
 
-export const EmailVerificationScreen = () => {
+export const EmailVerificationScreen = ({ navigation, route }) => {
   const dispatch = useDispatch(),
-    { isProcessing, authError } = useSelector((state) => state.authReducer);
+    { isProcessing, authError } = useSelector((state) => state.authReducer),
+    { type } = route.params;
 
   // EFFECTS
   useFocusEffect(
@@ -30,11 +33,20 @@ export const EmailVerificationScreen = () => {
     }, [dispatch])
   );
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => dispatch(logoutUser("auth"))}>
+          <Ionicons name="arrow-back-outline" color="#0D8284" size={30} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   // HANDLRES
-  const onSubmit = (values) => dispatch(validateEmail(values)),
+  const onSubmit = (values) => dispatch(validateEmail(values, type)),
     onRefreshCode = () => dispatch(refreshCode()),
-    onCloseModal = () => dispatch(closeModal()),
-    onLogout = () => dispatch(logoutUser("auth"));
+    onCloseModal = () => dispatch(closeModal());
 
   return (
     <SafeArea>
@@ -42,12 +54,8 @@ export const EmailVerificationScreen = () => {
         <AuthWrapper>
           <ValidationIcon />
           <Spacer variant="top" size={3} />
-          <Text variant="title">Código de verificación</Text>
-          <Text>Hemos enviado un código de 4 dígitos a tu correo. Por favor, ingresalo para poder validar tu cuenta.</Text>
+          <Text>Hemos enviado un código de 4 dígitos a tu correo. Por favor, ingresalo para validar tu cuenta.</Text>
           <VerificationForm isProcessing={isProcessing} onSubmit={onSubmit} onRefreshCode={onRefreshCode} />
-          <Button variant="secondary" onPress={onLogout}>
-            Regresar
-          </Button>
         </AuthWrapper>
       </DismissKeyboard>
       <Modal>

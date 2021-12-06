@@ -5,7 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { recoverPassword, clearAuthError, closeModal } from "../../../store/actions";
+import { recoverPassword, clearAuthError } from "../../../store/actions";
 
 // COMPONENTS
 import { Text } from "../../../components/typography/text.component";
@@ -16,14 +16,13 @@ import { Input } from "../../../components/forms/input.component";
 import { Button } from "../../../components/UI/button.component";
 import { Link } from "../../../components/typography/link.component";
 import { Alert } from "../../../components/UI/alert.component";
-import { Modal } from "../../../components/UI/modal.component";
 
 export const RecoverPasswordScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     { isProcessing, authError } = useSelector((state) => state.authReducer);
 
   // FORMIK
-  const formik = useFormik({ initialValues: { email: "", linkingUrl: Linking.createURL("/") }, onSubmit: (values) => dispatch(recoverPassword(values)) });
+  const formik = useFormik({ initialValues: { email: "" }, onSubmit: (values) => dispatch(recoverPassword(values)) });
 
   // EFFECTS
   useFocusEffect(
@@ -36,7 +35,7 @@ export const RecoverPasswordScreen = ({ navigation }) => {
     <SafeArea>
       <AuthWrapper>
         <Text variant="title">Tranquilo, lo solucionaremos.</Text>
-        <Text>Ingresa tu correo debajo y te enviaremos un link para crear una nueva contraseña.</Text>
+        <Text>Ingresa tu correo debajo y te enviaremos un correo para iniciar el proceso de crear una nueva contraseña.</Text>
         <Spacer variant="top" size={2} />
         <Input
           name="email"
@@ -51,7 +50,7 @@ export const RecoverPasswordScreen = ({ navigation }) => {
         />
         <Spacer variant="top" />
         <Button onPress={formik.handleSubmit} disabled={isProcessing} loading={isProcessing} variant="primary">
-          {isProcessing ? "Cargando..." : "Enviar correo"}
+          {isProcessing ? "Cargando..." : "Continuar"}
         </Button>
         <Spacer variant="top" />
         <AuthLinkWrapper>
@@ -62,15 +61,6 @@ export const RecoverPasswordScreen = ({ navigation }) => {
           </Link>
         </AuthLinkWrapper>
       </AuthWrapper>
-      <Modal>
-        <Text variant="title">¡Correo enviado!</Text>
-        <Spacer variant="top" />
-        <Text style={{ textAlign: "center" }}>El correo fue enviado correctamente, recuerda revisar tu carpeta spam.</Text>
-        <Spacer variant="top" size={2} />
-        <Button onPress={() => dispatch(closeModal())} variant="primary">
-          Aceptar
-        </Button>
-      </Modal>
       <Alert type="error" onClose={clearAuthError} visible={!!authError}>
         {authError}
       </Alert>

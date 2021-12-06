@@ -7,6 +7,7 @@
     "orientation": "portrait",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
+    "runtimeVersion": "2.718",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -21,10 +22,6 @@
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "net.instakash.app",
       "buildNumber": "0.0.5"
-    },
-    "androidStatusBar": {
-      "backgroundColor": "#0D8284",
-      "translucent": false
     },
     "android": {
       "package": "net.instakash.app",

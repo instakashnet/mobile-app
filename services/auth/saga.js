@@ -54,7 +54,7 @@ function* loadUser() {
 
     yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
 
-    if (!resData.verified) yield call([RootNavigation, "push"], "EmailVerification");
+    if (!resData.verified) yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
 
     if (!resData.completed) yield call([RootNavigation, "push"], "CompleteProfile");
 
@@ -125,8 +125,9 @@ function* recoverPassword({ values }) {
   try {
     const res = yield authInstance.post("/users/recover-password", values);
     if (res.status === 201) {
+      yield call(setAuthToken, res.data);
       yield put(actions.recoverPasswordSuccess());
-      yield put(openModal());
+      yield call([RootNavigation, "push"], "EmailVerification", { type: "pwd" });
     }
   } catch (error) {
     yield put(actions.apiError(error.message));
@@ -137,12 +138,14 @@ function* watchValidateEmail() {
   yield takeLatest(types.VALIDATE_EMAIL_INIT, validateEmail);
 }
 
-function* validateEmail({ values }) {
+function* validateEmail({ values, codeType }) {
   try {
-    const res = yield authInstance.post("/auth/verify-code", { verificationCode: `${values.otp1}${values.otp2}${values.otp3}${values.otp4}` });
+    const res = yield authInstance.post("/auth/verify-code", { verificationCode: `${values.otp1}${values.otp2}${values.otp3}${values.otp4}`, operation: codeType.toUpperCase() });
     if (res.status === 200) {
       yield call(setAuthToken, res.data);
-      yield put(actions.loadUser());
+      if (codeType === "pwd") {
+        yield call([RootNavigation, "push"], "ResetPassword");
+      } else yield put(actions.loadUser());
     }
   } catch (error) {
     yield put(actions.apiError(error.message));

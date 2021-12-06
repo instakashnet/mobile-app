@@ -28,7 +28,7 @@ export const AuthNavigator = () => {
       }}
     >
       <AuthStack.Screen options={{ headerShown: false, animationTypeForReplace: isSignOut ? "pop" : "push" }} name="Auth" component={AuthScreen} />
-      <AuthStack.Screen options={{ headerShown: false }} name="EmailVerification" component={EmailVerificationScreen} />
+      <AuthStack.Screen options={{ headerTitle: () => headerTitle("Verificación") }} name="EmailVerification" component={EmailVerificationScreen} />
       {!user ? (
         <>
           <AuthStack.Screen options={{ headerTitle: () => headerTitle("Acceder"), headerBackTitleVisible: false }} name="Login" component={LoginScreen} />
@@ -38,7 +38,7 @@ export const AuthNavigator = () => {
             name="RecoverPassword"
             component={RecoverPasswordScreen}
           />
-          <AuthStack.Screen options={{ headerTitle: () => headerTitle("Nueva co)ntraseña"), headerBackTitleVisible: false }} name="ResetPassword" component={ResetPasswordScreen} />
+          <AuthStack.Screen options={{ headerTitle: () => headerTitle("Nueva contraseña"), headerBackTitleVisible: false }} name="ResetPassword" component={ResetPasswordScreen} />
         </>
       ) : (
         <AuthStack.Screen options={{ headerShown: false }} name="CompleteProfile" component={CompleteProfileScreen} />
