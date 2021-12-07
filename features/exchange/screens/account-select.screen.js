@@ -60,9 +60,7 @@ export const AccountSelectScreen = ({ route, navigation }) => {
         ) : (
           <AccountsList accounts={accounts} accountSelected={accountSelected} onSelect={onAccountSelect} />
         )}
-        <Spacer variant="top" />
         {type === "account" && <AddAccountButton onPress={() => navigation.navigate("AddAccount", { currencyToReceive })} />}
-        <Spacer variant="top" />
         <Button onPress={onConfirm} disabled={(type === "bank" && !bankSelected) || (type === "account" && !accountSelected)}>
           Confirmar
         </Button>

@@ -45,13 +45,13 @@ export const recoverPasswordSuccess = () => ({
   type: types.RECOVER_PASSWORD_SUCCESS,
 });
 
-export const logoutUser = (logType) => ({
-  type: types.LOGOUT_INIT,
-  logType,
+export const resetPassword = (values) => ({
+  type: types.RESET_PASSWORD_INIT,
+  values,
 });
 
-export const logoutUserSuccess = () => ({
-  type: types.LOGOUT_SUCCESS,
+export const resetPasswordSuccess = () => ({
+  type: types.RESET_PASSWORD_SUCCESS,
 });
 
 export const validateEmail = (values, codeType) => ({
@@ -88,6 +88,15 @@ export const getAffiliates = () => ({
 export const getAffiliatesSuccess = (affiliates) => ({
   type: types.GET_AFFILIATES_SUCCESS,
   affiliates,
+});
+
+export const logoutUser = (logType) => ({
+  type: types.LOGOUT_INIT,
+  logType,
+});
+
+export const logoutUserSuccess = () => ({
+  type: types.LOGOUT_SUCCESS,
 });
 
 export const clearAuthError = () => ({

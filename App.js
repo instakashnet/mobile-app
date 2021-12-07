@@ -11,6 +11,8 @@ import { theme } from "./theme";
 import { store } from "./store";
 import { registerTranslation } from "react-native-paper-dates";
 
+// "runtimeVersion": "2.718",
+
 registerTranslation("es", {
   save: "Guardar",
   selectSingle: "Seleccionar fecha",

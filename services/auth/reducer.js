@@ -18,10 +18,12 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.VALIDATE_EMAIL_INIT:
     case types.REFRESH_CODE_INIT:
     case types.COMPLETE_PROFILE_INIT:
+    case types.RESET_PASSWORD_INIT:
       return { ...state, isProcessing: true, error: null };
     case types.REGISTER_SUCCESS:
     case types.LOGIN_GOOGLE_SUCCESS:
     case types.RECOVER_PASSWORD_SUCCESS:
+    case types.RESET_PASSWORD_SUCCESS:
     case types.VALIDATE_EMAIL_SUCCESS:
     case types.REFRESH_CODE_SUCCESS:
     case types.COMPLETE_PROFILE_SUCCESS:

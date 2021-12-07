@@ -11,10 +11,10 @@ export const CompanyProfile = ({ onSelect, companyName }) => {
   return (
     <CompanyWrapper>
       <CompanyBox onPress={onSelect}>
-        <CompanyIcon width={50} />
+        <CompanyIcon width={45} />
       </CompanyBox>
-      <Text variant="caption">
-        <Text variant="bold">{companyName.length > 20 ? companyName.substring(0, 15) + "..." : companyName}</Text>
+      <Text variant="bold" numberOfLines={1}>
+        {companyName}
       </Text>
     </CompanyWrapper>
   );

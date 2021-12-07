@@ -10,9 +10,6 @@ import { cancelOrder, continueOrder, clearExchangeError } from "../../../store/a
 
 // ASSETS
 import { bankIcons } from "../relative-paths/images";
-import { Male } from "../../../assets/icons/male";
-import { Female } from "../../../assets/icons/female";
-import { CompanyIcon } from "../../../assets/icons/company";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -21,7 +18,10 @@ import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { SelectAccount } from "../components/forms/select-account.component";
 import { Button } from "../../../components/UI/button.component";
-import { ExchangeScroll, ExchangeHeader, ProfileInfo, Type } from "../components/exchange.styles";
+import { HeaderProfile } from "../components/header-profile.component";
+
+// STYLE COMPONENTS
+import { ExchangeScroll } from "../components/exchange.styles";
 import { BankDescription, BankIcon } from "../components/accounts.styles";
 
 export const AccountsScreen = ({ navigation }) => {
@@ -77,18 +77,7 @@ export const AccountsScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <ExchangeHeader style={{ justifyContent: "center" }}>
-        <ProfileInfo>
-          {profile.type === "juridica" ? <CompanyIcon width={25} /> : profile.identitySex === "male" ? <Male width={40} /> : <Female width={40} />}
-          <Spacer variant="left" />
-          <View>
-            <Text style={{ color: "#FFF" }}>
-              {profile.razonSocial ? (profile.razonSocial.length <= 25 ? profile.razonSocial : profile.razonSocial.substring(0, 25)) : `${profile.firstName} ${profile.lastName}`}
-            </Text>
-            <Type>Perfil {profile.type}</Type>
-          </View>
-        </ProfileInfo>
-      </ExchangeHeader>
+      <HeaderProfile profile={profile} screen="accounts" />
       <ExchangeScroll>
         <Text variant="title">Completa la información</Text>
         <Text style={{ textAlign: "center" }}>Debes seleccionar el banco donde envias y la cuando donde vas a recibir.</Text>

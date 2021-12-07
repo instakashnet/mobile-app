@@ -132,9 +132,10 @@ export const Check = styled(MaterialIcons).attrs(({ theme }) => ({
 }))``;
 
 export const FormWrapper = styled.View`
-  padding-horizontal: ${({ theme }) => theme.space[3]};
+  padding-horizontal: ${({ theme }) => theme.space[5]};
   width: 100%;
-  margin-top: ${({ theme }) => theme.space[2]};
+  margin-top: ${({ theme }) => theme.space[5]};
+  align-items: center;
 `;
 
 export const GooglePlacesInput = styled(GooglePlacesAutocomplete).attrs(({ theme }) => ({

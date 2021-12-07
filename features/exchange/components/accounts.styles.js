@@ -61,6 +61,7 @@ export const AddWrapper = styled.TouchableOpacity.attrs({
   elevation: 6;
   padding-horizontal: ${({ theme }) => theme.space[4]};
   padding-vertical: ${({ theme }) => theme.space[2]};
+  margin-vertical: ${({ theme }) => theme.space[5]};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

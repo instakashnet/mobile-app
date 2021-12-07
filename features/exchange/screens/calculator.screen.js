@@ -62,7 +62,7 @@ export const CalculatorScreen = ({ navigation }) => {
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} />
+      <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} screen="calculator" />
       <KeyboardScrollAware>
         <Text variant="title">Las mejores tasas del perú</Text>
         <Spacer varaint="top" size={5} />

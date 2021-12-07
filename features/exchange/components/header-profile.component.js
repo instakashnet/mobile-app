@@ -14,7 +14,7 @@ import { Spacer } from "../../../components/utils/spacer.component";
 // STYLED COMPONENTS
 import { ExchangeHeader, ProfileInfo, Type } from "./exchange.styles";
 
-export const HeaderProfile = ({ profile, onProfileChange }) => {
+export const HeaderProfile = ({ profile, onProfileChange, screen }) => {
   const [profileName, setProfileName] = useState("");
 
   // EFFECTS
@@ -28,7 +28,7 @@ export const HeaderProfile = ({ profile, onProfileChange }) => {
   }, [profile]);
 
   return (
-    <ExchangeHeader>
+    <ExchangeHeader style={{ justifyContent: screen === "calculator" ? "space-between" : "center" }}>
       <ProfileInfo>
         {profile.type === "juridica" ? <CompanyIcon width={25} /> : profile.identitySex === "male" ? <Male width={40} /> : <Female width={40} />}
         <Spacer variant="left" />
@@ -39,11 +39,13 @@ export const HeaderProfile = ({ profile, onProfileChange }) => {
           <Type>Perfil {profile.type}</Type>
         </View>
       </ProfileInfo>
-      <Link style={{ borderBottomColor: "#FFF" }} onPress={onProfileChange}>
-        <Text variant="bold" style={{ color: "#FFF" }}>
-          Cambiar
-        </Text>
-      </Link>
+      {screen === "calculator" && (
+        <Link style={{ borderBottomColor: "#FFF" }} onPress={onProfileChange}>
+          <Text variant="bold" style={{ color: "#FFF" }}>
+            Cambiar
+          </Text>
+        </Link>
+      )}
     </ExchangeHeader>
   );
 };

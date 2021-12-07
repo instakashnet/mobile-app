@@ -1,19 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { useFormik } from "formik";
+import { TouchableOpacity, Platform, ActivityIndicator } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+
+// REDUX
+import { useSelector, useDispatch } from "react-redux";
+import { clearAuthError, resetPassword, logoutUser } from "../../../store/actions";
 
 // COMPONENTS
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
-import { AuthWrapper } from "../components/auth.styles";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Input } from "../../../components/forms/input.component";
 import { Button } from "../../../components/UI/button.component";
+import { Alert } from "../../../components/UI/alert.component";
 
-export const ResetPasswordScreen = ({ route }) => {
-  const [hidePassword, setHidePassword] = useState(true);
-  const formik = useFormik({ initialValues: { password: "", confirmPassword: "" }, onSubmit: (values) => console.log(values) });
+// STYLED COMPONENTS
+import { AuthWrapper } from "../components/auth.styles";
 
-  console.log(route);
+export const ResetPasswordScreen = ({ navigation }) => {
+  const [hidePassword, setHidePassword] = useState(true),
+    dispatch = useDispatch(),
+    { isProcessing, isSignOut, authError } = useSelector((state) => state.authReducer),
+    formik = useFormik({ initialValues: { password: "", confirmPassword: "" }, onSubmit: (values) => dispatch(resetPassword(values)) });
+
+  // EFFECTS
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => dispatch(logoutUser("auth"))} style={{ marginLeft: 10 }}>
+          {isSignOut ? (
+            <ActivityIndicator size="small" color="#0D8284" />
+          ) : (
+            <MaterialIcons name={Platform.OS === "ios" ? "arrow-back-ios" : "arrow-back"} color="#0D8284" size={30} />
+          )}
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <SafeArea>
@@ -42,10 +66,13 @@ export const ResetPasswordScreen = ({ route }) => {
           onChange={formik.handleChange("confirmPassword")}
         />
         <Spacer variant="top" />
-        <Button onPress={formik.handleSubmit} variant="primary">
+        <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing} variant="primary">
           Cambiar contraseña
         </Button>
       </AuthWrapper>
+      <Alert type="error" onClose={clearAuthError} visible={!!authError}>
+        {authError}
+      </Alert>
     </SafeArea>
   );
 };

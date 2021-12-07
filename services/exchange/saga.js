@@ -109,7 +109,7 @@ function* watchCompleteOrder() {
 
 function* completeOrder() {
   try {
-    yield call([RootNavigation, "navigate"], "MyOrders");
+    yield call([RootNavigation, "navigate"], "Activity", { screen: "MyOrders" });
     yield put(actions.completeOrderSuccess());
   } catch (error) {
     console.log(error);

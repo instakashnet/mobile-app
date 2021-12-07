@@ -40,7 +40,7 @@ export const EditInfoScreen = ({ route }) => {
         ) : (
           <Input name="email" label="Correo electrónico" value={formik.values.email} onChange={formik.handleChange("email")} onBlur={formik.handleBlur("email")} />
         )}
-        <Spacer variant="top" size={6} />
+        <Spacer variant="top" size={3} />
         <Button
           disabled={!formik.isValid || isProcessing || (editType === "phone" && user.phone === formik.values.phone) || (editType === "email" && user.email === formik.values.email)}
           loading={isProcessing}

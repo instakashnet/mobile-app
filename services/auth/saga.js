@@ -11,11 +11,12 @@ import { authInstance } from "../auth.service";
 import * as RootNavigation from "../../navigation/root.navigation";
 
 // UTILS
-function* setAuthToken(data) {
+function* setAuthToken(data, type) {
   const date = new Date();
   const expDate = new Date(date.setSeconds(date.getSeconds() + data.expiresIn));
 
   yield call([SecureStore, "setItemAsync"], "authData", JSON.stringify({ token: data.accessToken, expires: expDate }));
+  yield call([SecureStore, "setItemAsync"], "authType", type);
 }
 
 function* getData() {
@@ -47,6 +48,12 @@ function* loadUser() {
     return yield put(actions.logoutUserSuccess());
   }
 
+  const authType = yield call([SecureStore, "getItemAsync"], "authType");
+  if (authType === "recover") {
+    yield call(clearUserData);
+    return yield put(actions.logoutUserSuccess());
+  }
+
   try {
     const res = yield authInstance.get("/users/session");
     const resData = camelize(res.data);
@@ -55,7 +62,6 @@ function* loadUser() {
     yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
 
     if (!resData.verified) yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
-
     if (!resData.completed) yield call([RootNavigation, "push"], "CompleteProfile");
 
     if (resData.verified && resData.completed) {
@@ -75,7 +81,7 @@ function* registerUser({ values }) {
   try {
     const res = yield authInstance.post(`/auth/signup`, values);
     if (res.status === 201) {
-      yield call(setAuthToken, res.data);
+      yield call(setAuthToken, res.data, "login");
       yield put(actions.registerUserSuccess());
       yield call([RootNavigation, "push"], "EmailVerification");
     }
@@ -92,7 +98,7 @@ function* loginUser({ values }) {
   try {
     const res = yield authInstance.post(`/auth/signin`, values);
     if (res.status === 200) {
-      yield call(setAuthToken, res.data);
+      yield call(setAuthToken, res.data, "login");
       yield put(actions.loadUser());
     }
   } catch (error) {
@@ -108,7 +114,7 @@ function* loginGoogle({ token }) {
   try {
     const res = yield authInstance.post("/auth/google", { token });
     if (res.status === 201) {
-      yield call(setAuthToken, res.data);
+      yield call(setAuthToken, res.data, "login");
       yield put(actions.loadUser());
       yield put(actions.loginGoogleSuccess());
     }
@@ -125,7 +131,7 @@ function* recoverPassword({ values }) {
   try {
     const res = yield authInstance.post("/users/recover-password", values);
     if (res.status === 201) {
-      yield call(setAuthToken, res.data);
+      yield call(setAuthToken, res.data, "recover");
       yield put(actions.recoverPasswordSuccess());
       yield call([RootNavigation, "push"], "EmailVerification", { type: "pwd" });
     }
@@ -142,9 +148,10 @@ function* validateEmail({ values, codeType }) {
   try {
     const res = yield authInstance.post("/auth/verify-code", { verificationCode: `${values.otp1}${values.otp2}${values.otp3}${values.otp4}`, operation: codeType.toUpperCase() });
     if (res.status === 200) {
-      yield call(setAuthToken, res.data);
+      yield call(setAuthToken, res.data, codeType === "pwd" ? "recover" : "login");
       if (codeType === "pwd") {
         yield call([RootNavigation, "push"], "ResetPassword");
+        yield put(actions.validateEmailSuccess());
       } else yield put(actions.loadUser());
     }
   } catch (error) {
@@ -163,6 +170,19 @@ function* refreshCode() {
       yield put(openModal());
       yield put(actions.refreshCodeSuccess());
     }
+  } catch (error) {
+    yield put(actions.apiError(error.message));
+  }
+}
+
+function* watchResetPassword() {
+  yield takeLatest(types.RESET_PASSWORD_INIT, resetPassword);
+}
+
+function* resetPassword({ values }) {
+  try {
+    const res = yield authInstance.post("/users/reset-password", values);
+    console.log(res);
   } catch (error) {
     yield put(actions.apiError(error.message));
   }
@@ -223,6 +243,7 @@ export function* authSaga() {
     fork(watchRegisterUser),
     fork(watchLoginUser),
     fork(watchRecoverPassword),
+    fork(watchResetPassword),
     fork(watchValidateEmail),
     fork(watchRefreshCode),
     fork(watchCompleteProfile),

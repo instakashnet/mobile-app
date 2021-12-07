@@ -1,7 +1,7 @@
 import React, { useCallback, useLayoutEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { TouchableOpacity, Platform, ActivityIndicator } from "react-native";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,7 @@ import { Modal } from "../../../components/UI/modal.component";
 
 export const EmailVerificationScreen = ({ navigation, route }) => {
   const dispatch = useDispatch(),
-    { isProcessing, authError } = useSelector((state) => state.authReducer),
+    { isProcessing, isSignOut, authError } = useSelector((state) => state.authReducer),
     { type } = route.params;
 
   // EFFECTS
@@ -36,8 +36,12 @@ export const EmailVerificationScreen = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={() => dispatch(logoutUser("auth"))}>
-          <Ionicons name="arrow-back-outline" color="#0D8284" size={30} />
+        <TouchableOpacity onPress={() => dispatch(logoutUser("auth"))} style={{ marginLeft: 10 }}>
+          {isSignOut ? (
+            <ActivityIndicator size="small" color="#0D8284" />
+          ) : (
+            <MaterialIcons name={Platform.OS === "ios" ? "arrow-back-ios" : "arrow-back"} color="#0D8284" size={30} />
+          )}
         </TouchableOpacity>
       ),
     });

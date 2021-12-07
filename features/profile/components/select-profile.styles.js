@@ -15,6 +15,7 @@ export const CompanyProfileView = styled.View`
 export const CompanyWrapper = styled.View`
   align-items: center;
   margin-horizontal: ${({ theme }) => theme.space[3]};
+  max-width: 125px;
 `;
 
 export const CompanyBox = styled.TouchableOpacity`
@@ -43,6 +44,8 @@ export const AddCompanyBox = styled.TouchableOpacity`
 
 export const CompanyList = styled.View`
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const AddCompanyList = styled.View`
@@ -53,7 +56,8 @@ export const AddCompanyList = styled.View`
 
 export const AddProfileForm = styled.View`
   width: ${Dimensions.get("window").width}px;
-  padding: ${({ theme }) => theme.space[5]};
+  padding-horizontal: ${({ theme }) => theme.space[5]};
+  align-items: center;
 `;
 
 export const BorderLine = styled.View`

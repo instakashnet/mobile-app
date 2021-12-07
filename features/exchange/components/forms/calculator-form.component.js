@@ -83,7 +83,8 @@ export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, prof
 
     if (name === "amount_sent") {
       conversionType = calculatorType === "sell" ? "divide" : "multiply";
-      amountToReceive = conversionType === "divide" ? +value / rates.sell : +value * rates.sell;
+      amountToReceive = conversionType === "divide" ? +value / rates.sell : +value * rates.buy;
+      console.log(amountToSend);
       if (couponRates) amountToReceive = conversionType === "divide" ? +value / couponRates.sell : +value * couponRates.sell;
 
       setFieldValue("amount_received", amountToReceive);
@@ -91,7 +92,8 @@ export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, prof
       amountReceivedRef.current = amountToReceive;
     } else {
       conversionType = calculatorType === "sell" ? "multiply" : "divide";
-      amountToSend = conversionType === "divide" ? +value / rates.buy : +value * rates.buy;
+      amountToSend = conversionType === "divide" ? +value / rates.buy : +value * rates.sell;
+      console.log(amountToSend);
       if (couponRates) amountToSend = conversionType === "divide" ? +value / couponRates.buy : +value * couponRates.buy;
 
       setFieldValue("amount_sent", amountToSend);

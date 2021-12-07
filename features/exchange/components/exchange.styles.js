@@ -18,6 +18,7 @@ export const ExchangeWrapper = styled.View`
   justify-content: center;
   align-items: center;
   padding-horizontal: ${({ theme }) => theme.space[5]};
+  padding-vertical: ${({ theme }) => theme.space[2]};
   width: ${Dimensions.get("window").width}px;
 `;
 
@@ -30,7 +31,6 @@ export const ExchangeHeader = styled(LinearGradient).attrs(({ theme }) => ({
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   padding-vertical: ${({ theme }) => theme.space[3]};
   padding-horizontal: ${({ theme }) => theme.space[4]};
 `;

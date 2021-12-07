@@ -16,10 +16,10 @@ import { Spacer } from "../../../components/utils/spacer.component";
 import { Checkbox } from "../../../components/forms/checkbox.component";
 import { Button } from "../../../components/UI/button.component";
 import { Alert } from "../../../components/UI/alert.component";
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 
 // STYLED COMPONENTS
 import { AddProfileForm, BorderLine } from "../components/select-profile.styles";
-import { ProfileScroll } from "../components/profile.styles";
 
 export const AddProfileScreen = () => {
   const dispatch = useDispatch();
@@ -34,14 +34,16 @@ export const AddProfileScreen = () => {
 
   return (
     <SafeArea>
-      <ProfileScroll>
+      <KeyboardScrollAware>
         <AddProfileForm>
           <Spacer variant="top" />
           <Text>
             Agrega los datos de una empresa donde seas el representante legal y <Text variant="bold">empieza a cambiar dolares con ella</Text>.
           </Text>
           <Spacer variant="top" size={3} />
-          <Text variant="bold">Datos de la empresa</Text>
+          <Text variant="bold" style={{ alignSelf: "flex-start" }}>
+            Datos de la empresa
+          </Text>
           <Spacer variant="top" />
           <BorderLine />
           <Spacer variant="top" />
@@ -78,7 +80,7 @@ export const AddProfileScreen = () => {
             Agregar empresa
           </Button>
         </AddProfileForm>
-      </ProfileScroll>
+      </KeyboardScrollAware>
       <Alert type="error" onClose={clearProfileError} visible={!!profileError}>
         {profileError}
       </Alert>
