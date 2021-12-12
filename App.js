@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
@@ -30,6 +30,15 @@ export default function App() {
     "lato-black": require("./fonts/lato/lato-black.ttf"),
     "roboto-regular": require("./fonts/roboto/roboto-regular.ttf"),
   });
+  const [isBiometricSupported, setIsBiometricSupported] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+
+      setIsBiometricSupported(compatible);
+    })();
+  }, []);
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -40,7 +49,7 @@ export default function App() {
       <StatusBar style="dark" />
       <ThemeProvider theme={theme}>
         <PaperProvider>
-          <Navigator />
+          <Navigator isBiometrics={isBiometricSupported} />
         </PaperProvider>
       </ThemeProvider>
     </Provider>

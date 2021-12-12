@@ -27,6 +27,7 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.VALIDATE_EMAIL_SUCCESS:
     case types.REFRESH_CODE_SUCCESS:
     case types.COMPLETE_PROFILE_SUCCESS:
+    case types.RESET_PASSWORD_SUCCESS:
       return { ...state, isProcessing: false };
     case types.LOGIN_SUCCESS:
       return { ...state, isProcessing: false, isSignedIn: true };

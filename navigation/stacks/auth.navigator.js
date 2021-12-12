@@ -18,7 +18,7 @@ import { EmailVerificationScreen } from "../../features/auth/screens/email-verif
 
 const AuthStack = createStackNavigator();
 
-export const AuthNavigator = () => {
+export const AuthNavigator = ({ isBiometrics }) => {
   const { user, isSignOut } = useSelector((state) => state.authReducer);
 
   return (
@@ -31,7 +31,12 @@ export const AuthNavigator = () => {
       <AuthStack.Screen options={{ headerTitle: () => headerTitle("Verificación") }} name="EmailVerification" component={EmailVerificationScreen} />
       {!user ? (
         <>
-          <AuthStack.Screen options={{ headerTitle: () => headerTitle("Acceder"), headerBackTitleVisible: false }} name="Login" component={LoginScreen} />
+          <AuthStack.Screen
+            options={{ headerTitle: () => headerTitle("Acceder"), headerBackTitleVisible: false }}
+            initialParams={{ isBiometrics }}
+            name="Login"
+            component={LoginScreen}
+          />
           <AuthStack.Screen options={{ headerTitle: () => headerTitle("Registrarse"), headerBackTitleVisible: false }} name="Register" component={RegisterScreen} />
           <AuthStack.Screen
             options={{ headerTitle: () => headerTitle("Olvidé mi contraseña"), headerBackTitleVisible: false }}

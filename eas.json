@@ -19,7 +19,8 @@
       },
       "android": {
         "gradleCommand": ":app:assembleRelease"
-      }
+      },
+      "releaseChannel": "staging-v1"
     },
     "staging": {
       "releaseChannel": "staging-v1"

@@ -48,7 +48,7 @@ export const OrderDetailsScreen = ({ route }) => {
           </InfoWrapper>
           <InfoWrapper>
             <Text variant="subtitle">Banco que recibe:</Text>
-            <BankLogo source={bankLogos.find((b) => b.bankName === order.bankReceive.toLowerCase()).uri} />
+            <BankLogo source={bankLogos.find((b) => b.bankName === order.bankSent.toLowerCase()).uri} />
           </InfoWrapper>
           <InfoWrapper>
             <Text variant="subtitle">Cuenta que recibe:</Text>

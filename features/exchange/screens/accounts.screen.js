@@ -80,7 +80,7 @@ export const AccountsScreen = ({ navigation }) => {
       <HeaderProfile profile={profile} screen="accounts" />
       <ExchangeScroll>
         <Text variant="title">Completa la información</Text>
-        <Text style={{ textAlign: "center" }}>Debes seleccionar el banco donde envias y la cuando donde vas a recibir.</Text>
+        <Text style={{ textAlign: "center" }}>Debes seleccionar el banco donde envias y la cuenta donde vas a recibir.</Text>
         <Spacer vartian="top" size={3} />
         <SelectAccount label="¿Desde que banco nos envias tu dinero?" selected={!!bankSelected} onSelect={onSelect.bind(null, "bank")}>
           {bankSelected ? (

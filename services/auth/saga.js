@@ -1,6 +1,7 @@
 import { all, call, put, fork, takeLatest, takeEvery } from "redux-saga/effects";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 import camelize from "camelize";
 import * as types from "./types";
 import * as actions from "./actions";
@@ -182,7 +183,16 @@ function* watchResetPassword() {
 function* resetPassword({ values }) {
   try {
     const res = yield authInstance.post("/users/reset-password", values);
-    console.log(res);
+    if (res.status === 201) {
+      yield put(actions.resetPasswordSuccess());
+      yield call([Alert, "alert"], "Exitoso", "Tu contraseña fue cambiada correctamente. Ahora puedes iniciar sesión con tu nueva contraseña.", [
+        {
+          text: "Aceptar",
+        },
+      ]);
+      yield put(actions.logoutUser());
+      yield call([RootNavigation, "popToTop"]);
+    }
   } catch (error) {
     yield put(actions.apiError(error.message));
   }

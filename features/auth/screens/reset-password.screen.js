@@ -14,6 +14,8 @@ import { Spacer } from "../../../components/utils/spacer.component";
 import { Input } from "../../../components/forms/input.component";
 import { Button } from "../../../components/UI/button.component";
 import { Alert } from "../../../components/UI/alert.component";
+import { DismissKeyboard } from "../../../components/utils/dismiss-keyobard.component";
+import { KeyboardView } from "../../../components/utils/keyboard-view.component";
 
 // STYLED COMPONENTS
 import { AuthWrapper } from "../components/auth.styles";
@@ -41,35 +43,39 @@ export const ResetPasswordScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <AuthWrapper>
-        <Text variant="title">Ingresa tu nueva contraseña</Text>
-        <Text>Coloque su nueva contraseña para poder acceder nuevamente. Te aconsejamos crear una que te sea facil de recordar.</Text>
-        <Spacer variant="top" size={2} />
-        <Input
-          name="password"
-          label="Contraseña"
-          secureTextEntry={hidePassword}
-          right
-          iconName={hidePassword ? "eye" : "eye-off"}
-          onPress={() => setHidePassword((prev) => !prev)}
-          value={formik.values.password}
-          onChange={formik.handleChange("password")}
-        />
-        <Input
-          name="confirmPassword"
-          label="Confirmar contraseña"
-          secureTextEntry={hidePassword}
-          right
-          iconName={hidePassword ? "eye" : "eye-off"}
-          onPress={() => setHidePassword((prev) => !prev)}
-          value={formik.values.confirmPassword}
-          onChange={formik.handleChange("confirmPassword")}
-        />
-        <Spacer variant="top" />
-        <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing} variant="primary">
-          Cambiar contraseña
-        </Button>
-      </AuthWrapper>
+      <KeyboardView>
+        <DismissKeyboard>
+          <AuthWrapper>
+            <Text variant="title">Ingresa tu nueva contraseña</Text>
+            <Text>Coloque su nueva contraseña para poder acceder nuevamente. Te aconsejamos crear una que te sea facil de recordar.</Text>
+            <Spacer variant="top" size={2} />
+            <Input
+              name="password"
+              label="Contraseña"
+              secureTextEntry={hidePassword}
+              right
+              iconName={hidePassword ? "eye" : "eye-off"}
+              onPress={() => setHidePassword((prev) => !prev)}
+              value={formik.values.password}
+              onChange={formik.handleChange("password")}
+            />
+            <Input
+              name="confirmPassword"
+              label="Confirmar contraseña"
+              secureTextEntry={hidePassword}
+              right
+              iconName={hidePassword ? "eye" : "eye-off"}
+              onPress={() => setHidePassword((prev) => !prev)}
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange("confirmPassword")}
+            />
+            <Spacer variant="top" />
+            <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing} variant="primary">
+              Cambiar contraseña
+            </Button>
+          </AuthWrapper>
+        </DismissKeyboard>
+      </KeyboardView>
       <Alert type="error" onClose={clearAuthError} visible={!!authError}>
         {authError}
       </Alert>

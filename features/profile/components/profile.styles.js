@@ -40,12 +40,11 @@ export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
   padding-horizontal: ${({ theme }) => theme.space[4]};
 `;
 
-export const InfoWrapper = styled.View`
+export const InfoWrapper = styled(LinearGradient).attrs(({ theme }) => ({
+  colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
+}))`
   padding: ${({ theme }) => theme.space[3]};
-  min-height: 35%;
-  border-bottom-left-radius: 35px;
-  border-bottom-right-radius: 35px;
-  background-color: ${({ theme }) => theme.colors.brand.primary};
+  min-height: 32%;
   align-items: center;
   justify-content: center;
   width: 100%;

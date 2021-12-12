@@ -94,3 +94,25 @@ export const RecoverButton = styled(Button).attrs(({ theme }) => ({
   flex: 0.15;
   margin-bottom: 0px;
 `;
+
+export const AppleButton = styled(Button).attrs(({ theme }) => ({
+  color: "#000",
+  mode: "contained",
+  contentStyle: {
+    height: 50,
+  },
+  raised: true,
+  labelStyle: {
+    color: "#FFF",
+    fontSize: 14,
+    fontFamily: theme.fonts.button,
+    letterSpacing: 0,
+    textTransform: "none",
+  },
+}))`
+  width: 100%;
+  max-width: ${Dimensions.get("window").width / 1.15}px;
+  margin-top: ${({ theme }) => theme.space[3]};
+  margin-bottom: ${({ theme }) => theme.space[2]};
+  border-radius: ${({ theme }) => theme.space[2]};
+`;

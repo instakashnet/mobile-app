@@ -7,6 +7,7 @@ const defaultStyles = (theme) => `
   max-width: ${Dimensions.get("window").width / 1.15}px;
   margin-top: ${theme.space[3]};
   margin-bottom: ${theme.space[2]};
+  border-radius: ${theme.space[2]}; 
 `;
 
 const defaultAttrs = (theme, labelStyle = {}) => ({

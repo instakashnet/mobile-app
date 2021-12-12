@@ -12,6 +12,8 @@ import { Text } from "../../../components/typography/text.component";
 import { OrderCard, Badge, Status } from "./activity.styles";
 
 export const OrderItem = ({ order, onOpen }) => {
+  console.log(order);
+
   return (
     <OrderCard onPress={onOpen}>
       <Badge color={order.stateColor}>
