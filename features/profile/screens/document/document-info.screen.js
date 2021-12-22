@@ -1,56 +1,70 @@
 import React from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { FlatList } from "react-native";
 
-// REDUX
-import { useSelector } from "react-redux";
+// ASSETS
+import { DocumentCorrect } from "../../../../assets/illustrations/document/document-correct";
+import { DocumentIncorrect } from "../../../../assets/illustrations/document/document-incorrect";
 
 // COMPONENTS
 import { SafeArea } from "../../../../components/utils/safe-area.component";
+import { Button } from "../../../../components/UI/button.component";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
-import { HeaderProfile, NavItem, ItemWrapper, InfoItem, RightArrow, Check } from "../../components/profile.styles";
+// STYLED COMPONENTS
+import { CoverBackground, ProfileInfoWrapper, WhiteTitle, ListItem, DocumentsWrapper } from "../../components/profile.styles";
 
 export const DocumentInfoScreen = ({ route, navigation }) => {
-  const user = useSelector((state) => state.authReducer.user);
+  const { documentType } = route.params;
 
   return (
     <SafeArea>
-      <HeaderProfile>
-        <Text variant="button" style={{ color: "#FFF" }}>
-          Debes cargar la parte frontal y trasera de tu documento para completar esta sección. Si tienes alguna duda puedes escribirnos a nuestro whatsapp o a
-          contacto@instakash.net
+      <CoverBackground>
+        <DocumentsWrapper>
+          <DocumentCorrect />
+          <DocumentIncorrect />
+        </DocumentsWrapper>
+        <WhiteTitle>Toma una foto a tu documento</WhiteTitle>
+        <Text style={{ color: "#FFF", textAlign: "center" }}>Sigue las siguientes indicaciones para que puedas evitar rechazos en la validación.</Text>
+      </CoverBackground>
+      <ProfileInfoWrapper>
+        <Text variant="subtitle" style={{ alignSelf: "flex-start" }}>
+          ¡Importante!
         </Text>
-      </HeaderProfile>
-      <Spacer variant="top" size={6} />
-      {user.identityPhotoFront ? (
-        <InfoItem>
-          <ItemWrapper>
-            <Text>Parte frontal cargada</Text>
-            <Check />
-          </ItemWrapper>
-        </InfoItem>
-      ) : (
-        <NavItem onPress={() => navigation.navigate("DocumentUpload", { user, uploadType: "frontal" })}>
-          <ItemWrapper>
-            <Text>Subir parte frontal</Text>
-            <RightArrow />
-          </ItemWrapper>
-        </NavItem>
-      )}
-      {user.identityPhotoBack ? (
-        <InfoItem>
-          <ItemWrapper>
-            <Text>Parte trasera cargada</Text>
-            <Check />
-          </ItemWrapper>
-        </InfoItem>
-      ) : (
-        <NavItem onPress={() => navigation.navigate("DocumentUpload", { user, uploadType: "trasera" })}>
-          <ItemWrapper>
-            <Text>Subir parte trasera</Text>
-            <RightArrow />
-          </ItemWrapper>
-        </NavItem>
-      )}
+        <FlatList
+          data={[
+            {
+              key: "El nûmero del documento debe ser el mismo usado en tu registro.",
+            },
+            {
+              key: "La fotografía no debe estar borrosa, desenfocada o pixelada.",
+            },
+            {
+              key: "Tu información y dirección en el documento deben ser completamente legibles.",
+            },
+            {
+              key: "La foto no debe pesar más de 10Mb. Verifica que el formato de la cámara sea .jpg o .png.",
+            },
+          ]}
+          style={{ width: "100%" }}
+          contentContainerStyle={{ alignItems: "flex-start" }}
+          renderItem={({ item }) => {
+            return (
+              <ListItem>
+                <Ionicons name="checkmark-sharp" size={20} color="#13AAAC" style={{ marginRight: 5 }} />
+                <Text style={{ marginTop: 15 }}>{item.key}</Text>
+              </ListItem>
+            );
+          }}
+        />
+        <Spacer variant="top" />
+        <Button icon="camera" labelStyle={{ fontSize: 20, color: "#13AAAC" }} onPress={() => navigation.navigate("Camera", { documentType })}>
+          <Text variant="button" style={{ fontSize: 14 }}>
+            Tomar foto
+          </Text>
+        </Button>
+        <Spacer variant="bottom" />
+      </ProfileInfoWrapper>
     </SafeArea>
   );
 };

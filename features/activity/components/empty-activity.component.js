@@ -1,12 +1,14 @@
 import React from "react";
 
 // ASSETS
-import { Coin3d } from "../../../assets/illustrations/coin-3d";
+import { Coin3d } from "../../../assets/illustrations/money/coin-3d";
 
 // COMPONENTS
 import { Text } from "../../../components/typography/text.component";
 import { Button } from "../../../components/UI/button.component";
 import { Spacer } from "../../../components/utils/spacer.component";
+
+// STYLED COMPONENTS
 import { EmptyWrapper } from "./activity.styles";
 
 export const EmptyActivity = ({ onNavigate }) => {

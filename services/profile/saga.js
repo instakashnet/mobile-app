@@ -1,10 +1,12 @@
-import { put, all, fork, call, takeEvery, takeLatest, select } from "redux-saga/effects";
+import { put, all, fork, call, takeEvery, takeLatest, delay, select } from "redux-saga/effects";
 import camelize from "camelize";
 import * as types from "./types";
-import { authInstance } from "../auth.service";
 import * as RootNavigation from "../../navigation/root.navigation";
 import * as actions from "./actions";
+import { authInstance } from "../auth.service";
 import { loadUserSuccess } from "../auth/actions";
+import { replaceSpace } from "../../shared/helpers/functions";
+import { RNS3 } from "react-native-aws3";
 
 // UTILS
 function* getUserData() {
@@ -12,6 +14,24 @@ function* getUserData() {
   const user = camelize(res.data.user);
   yield put(loadUserSuccess(user));
 }
+
+const uploadToS3 = async (imageObj, uploadType) => {
+  try {
+    const res = await RNS3.put(imageObj, {
+      keyPrefix: `${uploadType}/`,
+      bucket: "instakash-docs-dev",
+      region: "us-east-2",
+      accessKey: "AKIASK3IUQPBETGMFCF7",
+      secretKey: "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",
+      successActionStatus: 201,
+    });
+
+    return res;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
 // SAGAS
 function* watchGetProfiles() {
@@ -85,33 +105,31 @@ function* watchUploadDocument() {
 }
 
 function* uploadDocument({ values, uploadType }) {
-  let URL;
-  const formData = new FormData();
-
-  if (uploadType === "frontal") {
-    URL = "/users/upload-identity-photo";
-    formData.append("file-one", {
-      name: "front-document",
-      uri: values.identityPhoto.uri,
-      type: "image/jpg",
-    });
-  } else {
-    URL = "/users/upload-identity-photo-two";
-    formData.append("file-two", {
-      name: "back-document",
-      uri: values.identityPhotoTwo.uri,
-      type: "image/jpg",
-    });
-  }
+  let uploaded;
 
   try {
-    const res = yield authInstance.post(URL, formData, { headers: { "Content-Type": "multipart/form-data" } });
-    if (res.status === 200) {
-      yield getUserData();
+    const resToken = yield authInstance.get("/users/generate-token"),
+      user = yield select((state) => state.authReducer.user),
+      photos = uploadType === "dni" ? [values.frontPhoto, values.backPhoto] : [values.frontPhoto];
 
-      yield call([RootNavigation, "goBack"]);
-      yield put(actions.uploadDocumentSuccess());
+    for (let i = 0; i < photos.length; i++) {
+      const docSide = uploadType === "passport" ? "front" : i > 0 ? "back" : "front",
+        imageObj = {
+          uri: photos[i],
+          name: `${user.documentType}-${user.documentIdentification}-${replaceSpace(user.name)}-${docSide}-&Token&${resToken.data.accessToken}.jpg`,
+          type: "image/jpeg",
+        };
+
+      const res = yield call(uploadToS3, imageObj, uploadType);
+      uploaded = res.status === 201;
     }
+
+    if (uploaded) {
+      yield delay(5000);
+      yield call(getUserData);
+      yield put(actions.uploadDocumentSuccess());
+      yield call([RootNavigation, "navigate"], "DocumentUploaded");
+    } else throw error;
   } catch (error) {
     yield put(actions.profileError(error.message));
   }

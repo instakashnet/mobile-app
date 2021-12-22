@@ -4,14 +4,23 @@ import { TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { Dimensions } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { Text } from "../../../components/typography/text.component";
 
-export const ProfileWrapper = styled.View`
+export const ProfileInfoWrapper = styled.View`
   min-height: 50%;
   align-items: center;
   justify-content: center;
   padding-vertical: ${({ theme }) => theme.space[5]};
   padding-horizontal: ${({ theme }) => theme.space[4]};
   width: ${Dimensions.get("window").width}px;
+  max-width: 410px;
+`;
+
+export const ProfileWrapper = styled.View`
+  flex: 1;
+  width: ${Dimensions.get("window").width}px;
+  padding: ${({ theme }) => theme.space[4]};
+  align-items: center;
 `;
 
 export const ProfileScroll = styled.ScrollView.attrs({
@@ -23,17 +32,34 @@ export const ProfileScroll = styled.ScrollView.attrs({
   },
 })``;
 
-export const NoCameraWrapper = styled.View`
-  flex: 1;
+export const CompletedWrapper = styled.View`
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: ${({ theme }) => theme.space[3]};
+  width: ${Dimensions.get("window").width}px;
+  padding: ${({ theme }) => theme.space[1]};
+`;
+
+export const CompletedInfo = styled.View`
+  margin-horizontal: ${({ theme }) => theme.space[2]};
+`;
+
+export const CompletedText = styled.Text`
+  font-size: ${({ theme }) => theme.fontSizes.button};
+  font-family: ${({ theme }) => theme.fonts.body};
+  color: ${({ color }) => color};
+`;
+
+export const CompletedItem = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: ${({ theme }) => theme.space[1]};
 `;
 
 export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
-  min-height: 50%;
+  min-height: 40%;
   align-items: center;
   justify-content: center;
   width: ${Dimensions.get("window").width}px;
@@ -59,14 +85,20 @@ export const HeaderProfile = styled.View`
   width: 100%;
 `;
 
-export const Title = styled.Text.attrs({
+export const Title = styled(Text)`
+  font-family: ${({ theme }) => theme.fonts.title};
+  font-size: ${({ theme }) => theme.fontSizes.large};
+  line-height: 40px;
+`;
+
+export const WhiteTitle = styled.Text.attrs({
   allowFontScaling: false,
 })`
   font-family: ${({ theme }) => theme.fonts.title};
   color: #fff;
   font-size: ${({ theme }) => theme.fontSizes.large};
   line-height: 40px;
-  margin-vertical: ${({ theme }) => theme.space[3]};
+  margin-vertical: ${({ theme }) => theme.space[1]};
 `;
 
 export const SubTitle = styled.Text.attrs({
@@ -77,23 +109,17 @@ export const SubTitle = styled.Text.attrs({
   color: #fff;
 `;
 
-export const Info = styled.Text.attrs({
-  allowFontScaling: false,
-})`
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-size: ${({ theme }) => theme.fontSizes.body};
-  text-align: center;
-  color: #fff;
-`;
-
-export const ListWrapper = styled.View`
-  align-items: flex-start;
+export const DocumentsWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ListItem = styled.View`
   flex-direction: row;
   align-items: center;
   margin-vertical: ${({ theme }) => theme.space[1]};
+  width: 100%;
 `;
 
 export const NavItem = styled(TouchableRipple)`
@@ -143,6 +169,7 @@ export const GooglePlacesInput = styled(GooglePlacesAutocomplete).attrs(({ theme
       flex: 0,
       marginTop: 10,
       elevation: 3,
+      width: "100%",
     },
     textInput: {
       borderWidth: 1,

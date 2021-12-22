@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 // ASSETS
-import { Kash } from "../../../assets/illustrations/kash";
-import { KashGray } from "../../../assets/illustrations/kash-gray";
+import { Kash } from "../../../assets/illustrations/money/kash";
+import { KashGray } from "../../../assets/illustrations/money/kash-gray";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";

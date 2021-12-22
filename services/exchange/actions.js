@@ -45,20 +45,22 @@ export const continueOrderSuccess = (order) => ({
   order,
 });
 
-export const cancelOrder = (orderType, orderId) => ({
+export const cancelOrder = (orderType, orderId, screenType) => ({
   type: types.CANCEL_ORDER_INIT,
   orderType,
   orderId,
+  screenType,
 });
 
 export const cancelOrderSuccess = () => ({
   type: types.CANCEL_ORDER_SUCCESS,
 });
 
-export const processCode = (values, orderId) => ({
+export const processCode = (values, orderId, screenType) => ({
   type: types.PROCESS_CODE_INIT,
   values,
   orderId,
+  screenType,
 });
 
 export const processCodeSuccess = () => ({

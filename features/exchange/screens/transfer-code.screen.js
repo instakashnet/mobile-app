@@ -4,13 +4,13 @@ import { View } from "react-native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { cancelOrder, processCode, openModal, clearExchangeError } from "../../../store/actions";
+import { cancelOrder, processCode, clearExchangeError } from "../../../store/actions";
 
 // HELPERS
 import { formatAmount } from "../../../shared/helpers/functions";
 
 // ASSETS
-import { ExchangeImage } from "../../../assets/illustrations/exchange";
+import { ExchangeImage } from "../../../assets/illustrations/platform/exchange";
 import { bankLogos } from "../relative-paths/images";
 
 // COMPONENTS
@@ -24,7 +24,6 @@ import { TransferCodeForm } from "../components/forms/transfer-code-form.compone
 import { Loader } from "../../../components/UI/loader.component";
 
 // STYLED COMPONENTS
-import { ExchangeScroll } from "../components/exchange.styles";
 import { Price, ShadowCard, TransferCard, BankImage, InfoWrapper, InfoBox, Info } from "../components/transfer-code.styles";
 
 export const TransferCodeScreen = ({ navigation }) => {
@@ -41,9 +40,8 @@ export const TransferCodeScreen = ({ navigation }) => {
   );
 
   // HANDLERS
-  const onCancelOrder = () => dispatch(cancelOrder("created", order.id)),
-    onOpenModal = () => dispatch(openModal()),
-    onSubmit = (values) => dispatch(processCode(values, order.id, onOpenModal));
+  const onCancelOrder = () => dispatch(cancelOrder("created", order.id, "exchange")),
+    onSubmit = (values) => dispatch(processCode(values, order.id, "exchange"));
 
   return (
     <SafeArea>

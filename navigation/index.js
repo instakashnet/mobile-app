@@ -13,7 +13,7 @@ import { DrawerNavigator } from "./drawer.navigator";
 // SCREENS
 import { SplashScreen } from "../features/auth/screens/splash.screen";
 
-export const Navigator = ({ isBiometrics }) => {
+export const Navigator = () => {
   const dispatch = useDispatch();
   const { isLoading, isSignedIn } = useSelector((state) => state.authReducer);
 
@@ -23,5 +23,5 @@ export const Navigator = ({ isBiometrics }) => {
 
   if (isLoading) return <SplashScreen />;
 
-  return <NavigationContainer ref={navigationRef}>{!isSignedIn ? <AuthNavigator isBiometrics={isBiometrics} /> : <DrawerNavigator />}</NavigationContainer>;
+  return <NavigationContainer ref={navigationRef}>{!isSignedIn ? <AuthNavigator /> : <DrawerNavigator />}</NavigationContainer>;
 };

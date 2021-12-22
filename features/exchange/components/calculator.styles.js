@@ -28,7 +28,8 @@ export const CurrencyLabel = styled.View`
   padding-vertical: 24px;
   padding-horizontal: 15px;
   align-items: center;
-  flex: 0.35;
+  width: 30%;
+  height: 100%;
 `;
 
 export const Label = styled.Text.attrs({
@@ -40,7 +41,7 @@ export const Label = styled.Text.attrs({
 `;
 
 export const CurrencyInput = styled(InputCurrency)`
-  flex: 0.65;
+  width: 70%;
   padding-vertical: 22px;
   padding-horizontal: ${({ theme }) => theme.space[5]};
   padding-left: 64.5px;
@@ -49,7 +50,7 @@ export const CurrencyInput = styled(InputCurrency)`
   border-bottom-right-radius: 4px;
   color: ${({ theme }) => theme.colors.text.title};
   font-family: ${({ theme }) => theme.fonts.title};
-  font-size: ${({ theme }) => theme.fontSizes.title};
+  font-size: ${({ theme }) => theme.fontSizes.large};
   text-align: right;
 `;
 
@@ -60,7 +61,7 @@ export const Symbol = styled.Text.attrs({
   font-family: ${({ theme }) => theme.fonts.title};
   font-size: ${({ theme }) => theme.fontSizes.large};
   position: absolute;
-  left: 120px;
+  left: 33%;
   top: 30%;
 `;
 

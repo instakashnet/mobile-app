@@ -24,3 +24,5 @@ export const openURL = async (url) => {
 
   await WebBrowser.openBrowserAsync(url);
 };
+
+export const replaceSpace = (text) => text.split(" ").join("-");

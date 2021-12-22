@@ -22,17 +22,17 @@ export const AffiliateCodeScreen = ({ navigation }) => {
       items: [
         {
           title: "1. Comparte tu código con amigos",
-          image: require("../../../assets/illustrations/share-social.png"),
+          image: require("../../../assets/illustrations/platform/share-social.png"),
           component: <Text numberOfLines={3}>Copia tu código de afiliado mostrado en pantalla y compártelo con tus amigos. Anímalos a que realicen su primer cambio.</Text>,
         },
         {
           title: "2. Recibe KASH por cada referido",
-          image: require("../../../assets/illustrations/superkash.png"),
+          image: require("../../../assets/illustrations/money/superkash.png"),
           component: <Text numberOfLines={3}>Cada amigo registrado con tu codigo recibirá una tasa preferencial en su primer cambio y tu ganarás 1 KASH.</Text>,
         },
         {
           title: "3. Acumula beneficios sin límites",
-          image: require("../../../assets/illustrations/save-kash.png"),
+          image: require("../../../assets/illustrations/money/save-kash.png"),
           component: (
             <Text numberOfLines={3}>Acumula KASH y úsalos en tus cambios tanto en soles como en dólares. También podrás retirarlos a tu cuenta bancaria cuando quieras.</Text>
           ),

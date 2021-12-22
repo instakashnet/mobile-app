@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 // ASSETS
-import { PigIcon } from "../../../assets/illustrations/pig";
+import { PigIcon } from "../../../assets/illustrations/platform/pig";
 
 // COMPONENTS
 import { HomeWrapper, WelcomeCard, InfoCard, CardContent, ImgWrapper, Shape1Bg, Button, ShadowCard } from "../components/home.styles";

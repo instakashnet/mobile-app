@@ -17,12 +17,12 @@ export const AuthScreen = ({ navigation }) => {
     items: [
       {
         title: "Ahorra cambiando tus divisas",
-        image: require("../../../assets/illustrations/dollars-phone.png"),
+        image: require("../../../assets/illustrations/platform/dollars-phone.png"),
         component: <Text>Por cada cambio que realices estarás ahorrando. Descubre todo lo haz ahorrado en tu tabla de actividades.</Text>,
       },
       {
         title: "Gana 1 KASH al recomendarnos",
-        image: require("../../../assets/illustrations/coin-3d.png"),
+        image: require("../../../assets/illustrations/money/coin-3d.png"),
         component: (
           <Text>
             Obtén <Text variant="bold">1 KASH</Text> cada vez que un amigo use tu código para su primer cambio. El también obtendrá una tasa preferencial.
@@ -31,7 +31,7 @@ export const AuthScreen = ({ navigation }) => {
       },
       {
         title: "Miles de usuarios cambian de forma fácil y segura",
-        image: require("../../../assets/illustrations/lock-3d.png"),
+        image: require("../../../assets/illustrations/platform/lock-3d.png"),
         component: <Text>En Instakash siempre pensamos en lo que necesitas ganando tu confianza y fidelidad. Por ello ofrecemos una plataforma 100% segura.</Text>,
       },
     ],

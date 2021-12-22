@@ -1,7 +1,4 @@
 import React from "react";
-import { Bar as ProgressBar } from "react-native-progress";
-import { Dimensions } from "react-native";
-import { useProfileCompleted } from "../../../hooks/use-completed.hook";
 
 // HELPERS
 import { openURL } from "../../../shared/helpers/functions";
@@ -16,16 +13,13 @@ import { Female } from "../../../assets/icons/female";
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
+import { ProfileCompleted } from "../components/profile-completed.component";
 import { InfoWrapper, NavItem, RightArrow, ItemWrapper } from "../components/profile.styles";
 import { Text } from "../../../components/typography/text.component";
 
 export const ProfileScreen = ({ navigation }) => {
   const user = useSelector((state) => state.authReducer.user),
     porfileName = user.name.split(" ");
-
-  const [percentage, color] = useProfileCompleted(user);
-
-  console.log(percentage, color);
 
   return (
     <SafeArea>
@@ -38,7 +32,7 @@ export const ProfileScreen = ({ navigation }) => {
         <Text style={{ color: "#FFF" }}>{user.username}</Text>
       </InfoWrapper>
       <Spacer variant="top" size={3} />
-      <ProgressBar progress={percentage / 100} color={color} width={Dimensions.get("window").width / 1.3} height={10} />
+      <ProfileCompleted user={user} />
       <Spacer variant="top" size={3} />
       <NavItem onPress={() => navigation.navigate("BasicInfo", { user })}>
         <ItemWrapper>
@@ -46,12 +40,14 @@ export const ProfileScreen = ({ navigation }) => {
           <RightArrow />
         </ItemWrapper>
       </NavItem>
-      <NavItem onPress={() => navigation.navigate("DocumentInfo", { user })}>
-        <ItemWrapper>
-          <Text>Documento</Text>
-          <RightArrow />
-        </ItemWrapper>
-      </NavItem>
+      {user.identityDocumentValidation !== "success" && (
+        <NavItem onPress={() => navigation.navigate("ValidateDocument", { user })}>
+          <ItemWrapper>
+            <Text>Verificar identidad</Text>
+            <RightArrow />
+          </ItemWrapper>
+        </NavItem>
+      )}
       <NavItem onPress={() => navigation.navigate("AdditionalInfo", { user })}>
         <ItemWrapper>
           <Text>Datos adicionales</Text>

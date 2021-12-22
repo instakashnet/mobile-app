@@ -7,12 +7,13 @@
     "orientation": "portrait",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#0D8284"
     },
-    "plugins": ["expo-camera", "expo-image-picker", "expo-local-authentication"],
+    "plugins": ["expo-camera"],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -20,17 +21,15 @@
     "ios": {
       "supportsTablet": false,
       "associatedDomains": ["applinks:app.instakash.net"],
-      "bundleIdentifier": "net.instakash.app",
-      "buildNumber": "0.0.6",
+      "bundleIdentifier": "instakash.app",
+      "buildNumber": "0.0.9",
       "infoPlist": {
-        "NSCameraUsageDescription": "Instakash requires access to your camera to give you the ablity to take a photo of your document ID so we can validate your identity and be able to exchange currnecy for greater amounts.",
-        "NSPhotoLibraryUsageDescription": "Instakash requires access to your camera roll to give you the ablity to upload your document ID so we can validate your identity and be able to exchange currnecy for greater amounts.",
-        "NSFaceIDUsageDescription": "Instakash offers you the ability to sign in to your account with your apple ID using the face ID technology."
+        "NSCameraUsageDescription": "We need access to your camera to give you the ability to take the photo of your document."
       }
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 8,
+      "versionCode": 10,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-fr.png",
         "backgroundImage": "./assets/adaptive-bg.png"

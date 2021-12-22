@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useColorScheme } from "react-native";
 import { TextInput, HelperText, TouchableRipple } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
@@ -38,6 +39,8 @@ const CalendarButton = styled(TouchableRipple)`
 
 export const DateInput = ({ label, value, onChange, error, ...rest }) => {
   const [pickerVisible, setPickerVisible] = useState(false);
+
+  // HANDLERS
 
   const handleConfirm = (date) => {
     onChange(date);

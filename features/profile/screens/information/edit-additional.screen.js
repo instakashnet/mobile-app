@@ -1,5 +1,4 @@
 import React from "react";
-import { ScrollView } from "react-native";
 
 // FORMIK
 import { useFormik } from "formik";
@@ -11,6 +10,7 @@ import { updateProfile, clearProfileError } from "../../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../../components/utils/safe-area.component";
+import { KeyboardView } from "../../../../components/utils/keyboard-view.component";
 import { DismissKeyboard } from "../../../../components/utils/dismiss-keyobard.component";
 import { Text } from "../../../../components/typography/text.component";
 import { DateInput } from "../../../../components/forms/date-input.component";
@@ -57,48 +57,50 @@ export const EditAdditionalScreen = ({ route }) => {
           Toddos los datos ingresados deben ser reales y serán validados.
         </Text>
       </HeaderProfile>
-      <DismissKeyboard>
-        <ProfileWrapper>
-          <FormWrapper>
-            <DateInput
-              error={formik.touched.date_birth && formik.errors.date_birth}
-              label="Fecha de nacimiento"
-              value={formik.values.date_birth}
-              maximumDate={new Date()}
-              onChange={onDateChange}
-            />
-            <GooglePlacesInput
-              debounce={500}
-              nearbyPlacesAPI="GooglePlacesSearch"
-              placeholder="Dirección corta"
-              query={{ key: googlePlacesKey, language: "es" }}
-              enablePoweredByContainer={false}
-              onFail={(error) => console.log(error)}
-              onPress={(data) => formik.setFieldValue("address", data.description)}
-            />
+      <KeyboardView>
+        <DismissKeyboard>
+          <ProfileWrapper>
+            <FormWrapper>
+              <DateInput
+                error={formik.touched.date_birth && formik.errors.date_birth}
+                label="Fecha de nacimiento"
+                value={formik.values.date_birth}
+                maximumDate={new Date()}
+                onChange={onDateChange}
+              />
+              <GooglePlacesInput
+                debounce={500}
+                nearbyPlacesAPI="GooglePlacesSearch"
+                placeholder="Dirección corta"
+                query={{ key: googlePlacesKey, language: "es" }}
+                enablePoweredByContainer={false}
+                onFail={(error) => console.log(error)}
+                onPress={(data) => formik.setFieldValue("address", data.description)}
+              />
 
-            <Input
-              name="job"
-              error={formik.touched.job && formik.errors.job}
-              value={formik.values.job}
-              label="Ocupación"
-              onChange={formik.handleChange("job")}
-              onBlur={formik.handleBlur("job")}
-            />
-            <Input
-              name="profession"
-              error={formik.touched.profession && formik.errors.profession}
-              value={formik.values.profession}
-              label="Profesión"
-              onChange={formik.handleChange("profession")}
-              onBlur={formik.handleBlur("profession")}
-            />
-            <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing}>
-              Completar información
-            </Button>
-          </FormWrapper>
-        </ProfileWrapper>
-      </DismissKeyboard>
+              <Input
+                name="job"
+                error={formik.touched.job && formik.errors.job}
+                value={formik.values.job}
+                label="Ocupación"
+                onChange={formik.handleChange("job")}
+                onBlur={formik.handleBlur("job")}
+              />
+              <Input
+                name="profession"
+                error={formik.touched.profession && formik.errors.profession}
+                value={formik.values.profession}
+                label="Profesión"
+                onChange={formik.handleChange("profession")}
+                onBlur={formik.handleBlur("profession")}
+              />
+              <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing}>
+                Completar información
+              </Button>
+            </FormWrapper>
+          </ProfileWrapper>
+        </DismissKeyboard>
+      </KeyboardView>
 
       <Alert type="error" onClose={clearProfileError} visible={!!profileError}>
         {profileError}

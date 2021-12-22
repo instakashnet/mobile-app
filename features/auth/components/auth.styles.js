@@ -9,6 +9,9 @@ export const AuthScroll = styled.ScrollView.attrs({
     alignItems: "center",
     flexGrow: 1,
     paddingVertical: 25,
+    paddingHorizontal: 10,
+    width: Dimensions.get("window").width,
+    maxWidth: 390,
   },
 })``;
 
@@ -19,6 +22,7 @@ export const AuthWrapper = styled.View`
   padding-horizontal: ${({ theme }) => theme.space[5]};
   padding-vertical: ${({ theme }) => theme.space[3]};
   width: ${Dimensions.get("window").width}px;
+  max-width: 415px;
 `;
 
 export const SplashWrapper = styled.View`
@@ -93,26 +97,4 @@ export const RecoverButton = styled(Button).attrs(({ theme }) => ({
   border-bottom-left-radius: 0px;
   flex: 0.15;
   margin-bottom: 0px;
-`;
-
-export const AppleButton = styled(Button).attrs(({ theme }) => ({
-  color: "#000",
-  mode: "contained",
-  contentStyle: {
-    height: 50,
-  },
-  raised: true,
-  labelStyle: {
-    color: "#FFF",
-    fontSize: 14,
-    fontFamily: theme.fonts.button,
-    letterSpacing: 0,
-    textTransform: "none",
-  },
-}))`
-  width: 100%;
-  max-width: ${Dimensions.get("window").width / 1.15}px;
-  margin-top: ${({ theme }) => theme.space[3]};
-  margin-bottom: ${({ theme }) => theme.space[2]};
-  border-radius: ${({ theme }) => theme.space[2]};
 `;

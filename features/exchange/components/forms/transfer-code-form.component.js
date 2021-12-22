@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { transferCodeSchema } from "../../validations/schemas";
 
 // COMPONENTS
-import { Spacer } from "../../../../components/utils/spacer.component";
+import { SnackBar } from "../../../../components/UI/snack.component";
 import { Input } from "../../../../components/forms/input.component";
 import { Button } from "../../../../components/UI/button.component";
 
@@ -23,13 +23,7 @@ export const TransferCodeForm = ({ isProcessing, onCancel, onSubmit }) => {
         onChange={formik.handleChange("transaction_code")}
         onBlur={formik.handleBlur("transaction_code")}
       />
-      <Spacer variant="top" />
-      {/* <Snack visible>
-        <Text variant="bold" style={{ color: "#FFF" }}>
-          Solo dispones de 15 minutos para completar el cambio.
-        </Text>
-      </Snack> */}
-      <Spacer variant="top" />
+      <SnackBar>Solo dispones de 15 minutos para completar el cambio.</SnackBar>
       <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing}>
         Completar cambio
       </Button>

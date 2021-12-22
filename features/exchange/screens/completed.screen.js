@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { completeOrder } from "../../../store/actions";
 
 // ASSETS
-import { TransactionSuccess } from "../../../assets/illustrations/transaction-success";
+import { TransactionSuccess } from "../../../assets/illustrations/platform/transaction-success";
 
 // COMPONENTS
 import { Spacer } from "../../../components/utils/spacer.component";

@@ -5,23 +5,12 @@ export const useProfileCompleted = (user) => {
   const [color, setColor] = useState("#FF4B55");
 
   useEffect(() => {
-    if (
-      (user.dateBirth && !user.identityPhotoFront && !user.identityPhotoBack) ||
-      (!user.dateBirth && !user.identityPhotoFront && user.identityPhotoBack) ||
-      (!user.dateBirth && user.identityPhotoFront && !user.identityPhotoBack)
-    ) {
+    if ((user.dateBirth && user.identityDocumentValidation !== "success") || (!user.dateBirth && user.identityDocumentValidation === "success")) {
       setPercentage(66);
       setColor("#EB9824");
-    } else if (
-      (user.dateBirth && user.identityPhotoFront && !user.identityPhotoBack) ||
-      (user.dateBirth && !user.identityPhotoFront && user.identityPhotoBack) ||
-      (!user.dateBirth && user.identityPhotoFront && user.identityPhotoBack)
-    ) {
-      setPercentage(88);
-      setColor("#EB9824");
-    } else if (user.dateBirth && user.identityPhotoFront && user.identityPhotoBack) {
+    } else if (user.dateBirth && user.identityDocumentValidation === "success") {
       setPercentage(100);
-      setColor("#F9F443");
+      setColor("#0D8284");
     } else {
       setPercentage(33);
       setColor("#FF4B55");

@@ -1,4 +1,3 @@
-import { getErrorMessage } from "./error-codes";
 import * as SecureStore from "expo-secure-store";
 
 export const reqInterceptor = (instance) =>
@@ -22,10 +21,13 @@ export const resInterceptor = (instance) =>
   instance.interceptors.response.use(
     (response) => response,
     (error) => {
-      let message = getErrorMessage();
+      console.log(error);
+
+      let message;
       if (error.response) {
-        console.log(error.response);
-        message = getErrorMessage(error.response.data.code);
+        message = error.response.data.error
+          ? error.response.data.error.message
+          : "Ha ocurrido un error inesperado, por favor intenta de nuevo. Si el problema persiste contacte a soporte.";
       }
 
       error.message = message;

@@ -20,7 +20,7 @@ import { Link } from "../../../components/typography/link.component";
 
 // STYLED COMPONENTS
 import { AddCompanyList, CompanyList } from "../components/select-profile.styles";
-import { CoverBackground, ProfileWrapper, ProfileScroll, SubTitle, Info } from "../components/profile.styles";
+import { CoverBackground, ProfileWrapper, ProfileScroll, SubTitle } from "../components/profile.styles";
 
 export const SelectProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
@@ -64,7 +64,7 @@ export const SelectProfileScreen = ({ navigation }) => {
           <Spacer variant="top" />
           <SubTitle>¿Como deseas cambiar?</SubTitle>
           <Spacer variant="top" />
-          <Info numberOfLines={2}>¿Deseas continuar como {porfileName.length > 2 ? `${porfileName[0]} ${porfileName[2]}` : `${porfileName[0]} ${porfileName[1]}`}?</Info>
+          <Text style={{ color: "#FFF" }}>¿Deseas continuar como {porfileName.length > 2 ? `${porfileName[0]} ${porfileName[2]}` : `${porfileName[0]} ${porfileName[1]}`}?</Text>
           <Spacer variant="top" />
           <Link style={{ borderBottomColor: "#FFF" }} onPress={onSelectProfile.bind(this, "natural")}>
             <Text variant="bold" style={{ color: "#FFF" }}>

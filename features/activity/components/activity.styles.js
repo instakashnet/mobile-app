@@ -46,6 +46,7 @@ export const OrderCard = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  elevation: 3;
 `;
 
 export const Card = styled.View`

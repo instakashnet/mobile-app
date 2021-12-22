@@ -1,26 +1,26 @@
 import * as Updates from "expo-updates";
-import { DEV_API, PROD_API, GOOGLE_PLACES_API, GOOGLE_SIGNIN_IOS, GOOGLE_SIGNIN_ANDROID, GOOGLE_SIGNIN_EXPO } from "@env";
+import { DEV_API, PROD_API, GOOGLE_PLACES_API, GOOGLE_SIGNIN_ANDROID, GOOGLE_SIGNIN_EXPO, GOOGLE_SIGNIN_IOS } from "@env";
 
 const ENV = {
   dev: {
     apiUrl: DEV_API,
     googlePlacesKey: GOOGLE_PLACES_API,
-    googleSinInIOS: GOOGLE_SIGNIN_IOS,
     googleSinInAndroid: GOOGLE_SIGNIN_ANDROID,
+    googleSinInIos: GOOGLE_SIGNIN_IOS,
     googleSinInExpo: GOOGLE_SIGNIN_EXPO,
   },
   staging: {
     apiUrl: DEV_API,
     googlePlacesKey: GOOGLE_PLACES_API,
-    googleSinInIOS: GOOGLE_SIGNIN_IOS,
     googleSinInAndroid: GOOGLE_SIGNIN_ANDROID,
+    googleSinInIos: GOOGLE_SIGNIN_IOS,
     googleSinInExpo: GOOGLE_SIGNIN_EXPO,
   },
   prod: {
     apiUrl: PROD_API,
     googlePlacesKey: GOOGLE_PLACES_API,
-    googleSinInIOS: GOOGLE_SIGNIN_IOS,
     googleSinInAndroid: GOOGLE_SIGNIN_ANDROID,
+    googleSinInIos: GOOGLE_SIGNIN_IOS,
     googleSinInExpo: GOOGLE_SIGNIN_EXPO,
   },
 };

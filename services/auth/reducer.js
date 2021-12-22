@@ -1,8 +1,8 @@
 import * as types from "./types";
 const initialState = {
   isProcessing: false,
-  isLoading: true,
-  user: null,
+  isLoading: false,
+  user: {},
   isSignedIn: false,
   isSignOut: false,
   authError: null,

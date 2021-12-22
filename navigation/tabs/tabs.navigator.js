@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { headerOptions, headerLeft, headerRight } from "../utils/navigator.options";
 
 // ASSETS
-import { Logo } from "../../assets/illustrations/logo";
+import { Logo } from "../../assets/illustrations/platform/logo";
 
 // NAVIGATORS
 import { ExchangeNavigator } from "../stacks/exchange.navigator";

@@ -11,7 +11,6 @@ import { validateEmail, refreshCode, clearAuthError, closeModal, logoutUser } fr
 import { ValidationIcon } from "../../../assets/icons/validation";
 
 // COMPONENTS
-import { AuthWrapper } from "../components/auth.styles";
 import { VerificationForm } from "../components/forms/verification-form.component";
 import { DismissKeyboard } from "../../../components/utils/dismiss-keyobard.component";
 import { Button } from "../../../components/UI/button.component";
@@ -20,6 +19,9 @@ import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Alert } from "../../../components/UI/alert.component";
 import { Modal } from "../../../components/UI/modal.component";
+
+// STYLED COMPONENTS
+import { AuthWrapper } from "../components/auth.styles";
 
 export const EmailVerificationScreen = ({ navigation, route }) => {
   const dispatch = useDispatch(),
