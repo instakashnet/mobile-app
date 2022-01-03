@@ -7,6 +7,9 @@ import { authInstance } from "../auth.service";
 import { loadUserSuccess } from "../auth/actions";
 import { replaceSpace } from "../../shared/helpers/functions";
 import { RNS3 } from "react-native-aws3";
+import { getVariables } from "../../variables";
+
+const { awsAccessKey, awsSecretKey, bucketName } = getVariables();
 
 // UTILS
 
@@ -14,10 +17,10 @@ const uploadToS3 = async (imageObj, uploadType) => {
   try {
     const res = await RNS3.put(imageObj, {
       keyPrefix: `${uploadType}/`,
-      bucket: "instakash-docs-dev",
+      bucket: bucketName,
       region: "us-east-2",
-      accessKey: "AKIASK3IUQPBETGMFCF7",
-      secretKey: "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",
+      accessKey: awsAccessKey,
+      secretKey: awsSecretKey,
       successActionStatus: 201,
     });
 
