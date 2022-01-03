@@ -1,7 +1,7 @@
 import { put, all, call, takeEvery, takeLatest, fork } from "redux-saga/effects";
 import * as types from "./types";
 import * as actions from "./actions";
-import { getOrders } from "../activity/actions";
+import { getUserData } from "../profile/actions";
 import { exchangeInstance } from "../exchange.service";
 import * as RootNavigation from "../../navigation/root.navigation";
 import { removeData } from "../../hooks/use-storage.hook";
@@ -45,6 +45,7 @@ function* continueOrder({ values, orderId }) {
   try {
     const res = yield exchangeInstance.put(`/order/step-3/${orderId}`, values);
     if (res.status === 200) {
+      yield put(getUserData());
       yield put(actions.continueOrderSuccess(res.data));
       yield call([RootNavigation, "replace"], "TransferCode");
       yield call(removeData, "@selectedBank");
@@ -78,6 +79,7 @@ function* cancelOrder({ orderType, orderId, screenType }) {
   try {
     const res = yield exchangeInstance.delete(URL);
     if (res.status === 202) {
+      yield put(getUserData());
       yield call([RootNavigation, "replace"], "Calculator");
       yield call(removeData, "@selectedAcc");
       yield call(removeData, "@selectedBank");
@@ -99,6 +101,8 @@ function* processCode({ values, orderId, screenType }) {
   try {
     const res = yield exchangeInstance.put(`order/step-4/${orderId}`, values);
     if (res.status === 200) {
+      yield put(getUserData());
+
       if (screenType === "order") {
         yield call([RootNavigation, "replace"], "Calculator");
       } else yield call([RootNavigation, "replace"], "Completed");

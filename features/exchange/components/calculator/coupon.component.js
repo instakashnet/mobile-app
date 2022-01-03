@@ -21,7 +21,7 @@ export const CouponApplied = ({ coupon, onRemove }) => {
         </TouchableOpacity>
       </CouponWrapper>
       <Spacer variant="top" />
-      {coupon.name.includes("REFERIDO") && <Text>Solo válido para tu primer cambio.</Text>}
+      {coupon.name.includes("REFERIDO") && <Text variant="button">Solo válido para tu primer cambio.</Text>}
     </>
   );
 };

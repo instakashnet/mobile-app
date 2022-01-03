@@ -3,21 +3,21 @@ import { DEV_API, PROD_API, GOOGLE_PLACES_API, GOOGLE_SIGNIN_ANDROID, GOOGLE_SIG
 
 const ENV = {
   dev: {
-    apiUrl: DEV_API,
+    apiUrl: "https://api.dev.instakash.net",
     googlePlacesKey: GOOGLE_PLACES_API,
     googleSinInAndroid: GOOGLE_SIGNIN_ANDROID,
     googleSinInIos: GOOGLE_SIGNIN_IOS,
     googleSinInExpo: GOOGLE_SIGNIN_EXPO,
   },
   staging: {
-    apiUrl: DEV_API,
+    apiUrl: "https://api.dev.instakash.net",
     googlePlacesKey: GOOGLE_PLACES_API,
     googleSinInAndroid: GOOGLE_SIGNIN_ANDROID,
     googleSinInIos: GOOGLE_SIGNIN_IOS,
     googleSinInExpo: GOOGLE_SIGNIN_EXPO,
   },
   prod: {
-    apiUrl: PROD_API,
+    apiUrl: "https://api.instakash.net",
     googlePlacesKey: GOOGLE_PLACES_API,
     googleSinInAndroid: GOOGLE_SIGNIN_ANDROID,
     googleSinInIos: GOOGLE_SIGNIN_IOS,

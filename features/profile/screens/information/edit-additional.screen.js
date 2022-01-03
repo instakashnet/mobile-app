@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 // FORMIK
 import { useFormik } from "formik";
@@ -19,7 +20,7 @@ import { Button } from "../../../../components/UI/button.component";
 import { Alert } from "../../../../components/UI/alert.component";
 
 // STYLED COMPONENTS
-import { FormWrapper, HeaderProfile, GooglePlacesInput, ProfileWrapper } from "../../components/profile.styles";
+import { FormWrapper, HeaderProfile, GooglePlacesInput, ProfileInfoWrapper } from "../../components/profile.styles";
 
 // VARIABLES
 import { getVariables } from "../../../../variables";
@@ -27,8 +28,13 @@ const { googlePlacesKey } = getVariables();
 
 export const EditAdditionalScreen = ({ route }) => {
   const dispatch = useDispatch(),
+    { user } = route.params,
     { isProcessing, profileError } = useSelector((state) => state.profileReducer),
-    { user } = route.params;
+    [addressMounted, setAddressMounted] = useState(false);
+
+  useEffect(() => {
+    setAddressMounted(true);
+  }, []);
 
   // FORMIK
   const formik = useFormik({
@@ -59,7 +65,7 @@ export const EditAdditionalScreen = ({ route }) => {
       </HeaderProfile>
       <KeyboardView>
         <DismissKeyboard>
-          <ProfileWrapper>
+          <ProfileInfoWrapper>
             <FormWrapper>
               <DateInput
                 error={formik.touched.date_birth && formik.errors.date_birth}
@@ -76,8 +82,14 @@ export const EditAdditionalScreen = ({ route }) => {
                 enablePoweredByContainer={false}
                 onFail={(error) => console.log(error)}
                 onPress={(data) => formik.setFieldValue("address", data.description)}
+                renderRightButton={() => null}
+                textInputProps={{
+                  value: formik.values.address,
+                  onChangeText: (value) => addressMounted && formik.setFieldValue("address", value),
+                  placeholderTextColor: "#676767",
+                  allowFontScaling: false,
+                }}
               />
-
               <Input
                 name="job"
                 error={formik.touched.job && formik.errors.job}
@@ -98,7 +110,7 @@ export const EditAdditionalScreen = ({ route }) => {
                 Completar información
               </Button>
             </FormWrapper>
-          </ProfileWrapper>
+          </ProfileInfoWrapper>
         </DismissKeyboard>
       </KeyboardView>
 

@@ -9,6 +9,14 @@ export const getProfilesSuccess = (profiles) => ({
   profiles,
 });
 
+export const getUserData = () => ({
+  type: types.GET_USER_DATA_INIT,
+});
+
+export const getUserDataSuccess = () => ({
+  type: types.GET_USER_DATA_SUCCESS,
+});
+
 export const addProfile = (values) => ({
   type: types.ADD_PROFILE_INIT,
   values,

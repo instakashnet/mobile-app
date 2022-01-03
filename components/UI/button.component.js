@@ -8,6 +8,7 @@ const defaultStyles = (theme) => `
   margin-top: ${theme.space[3]};
   margin-bottom: ${theme.space[2]};
   border-radius: ${theme.space[2]}; 
+  shadow-opacity: .1;
 `;
 
 const defaultAttrs = (theme, labelStyle = {}) => ({

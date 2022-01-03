@@ -1,6 +1,9 @@
 export const GET_PROFILES_INIT = "profile/GET_PROFILES_INIT";
 export const GET_PROFILES_SUCCESS = "profile/GET_PROFILES_SUCCESS";
 
+export const GET_USER_DATA_INIT = "profile/GET_USER_DATA_INIT";
+export const GET_USER_DATA_SUCCESS = "profile/GET_USER_DATA_SUCCESS";
+
 export const ADD_PROFILE_INIT = "profile/ADD_PROFILE_INIT";
 export const ADD_PROFILE_SUCCESS = "profile/ADD_PROFILE_SUCCESS";
 

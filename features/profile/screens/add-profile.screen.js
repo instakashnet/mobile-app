@@ -71,6 +71,7 @@ export const AddProfileScreen = () => {
             error={formik.touched.address && formik.errors.address}
             label="Dirección fiscal"
             onChange={formik.handleChange("address")}
+            onBlur={formik.handleBlur("address")}
             value={formik.values.address}
           />
           <Checkbox status={formik.values.accept} onPress={() => formik.setFieldValue("accept", !formik.values.accept)}>

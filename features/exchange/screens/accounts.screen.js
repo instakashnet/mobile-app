@@ -8,6 +8,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { cancelOrder, continueOrder, clearExchangeError } from "../../../store/actions";
 
+// HELPERS
+import { openURL } from "../../../shared/helpers/functions";
+
 // ASSETS
 import { bankIcons } from "../relative-paths/images";
 
@@ -19,6 +22,7 @@ import { Text } from "../../../components/typography/text.component";
 import { SelectAccount } from "../components/forms/select-account.component";
 import { Button } from "../../../components/UI/button.component";
 import { HeaderProfile } from "../components/header-profile.component";
+import { SnackBar } from "../../../components/UI/snack.component";
 
 // STYLE COMPONENTS
 import { ExchangeScroll } from "../components/exchange.styles";
@@ -109,6 +113,16 @@ export const AccountsScreen = ({ navigation }) => {
           )}
         </SelectAccount>
         <Spacer vartian="top" size={2} />
+        {bankSelected && accountSelected && (!bankSelected.active || !accountSelected.active) && (
+          <SnackBar type="warning">
+            Las operaciones interbancarias pueden demorar hasta 48 horas y acarrean comosiones. Visita nuestros{" "}
+            <Text variant="underline" onPress={() => openURL("https://instakash.net/terminos-y-condiciones")}>
+              Términos y condiciones
+            </Text>{" "}
+            y conoce más.
+          </SnackBar>
+        )}
+
         <Button onPress={formik.handleSubmit} loading={isProcessing} disabled={!formik.isValid || isProcessing}>
           Continuar
         </Button>

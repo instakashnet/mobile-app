@@ -60,7 +60,9 @@ export const EmailVerificationScreen = ({ navigation, route }) => {
         <AuthWrapper>
           <ValidationIcon />
           <Spacer variant="top" size={3} />
-          <Text>Hemos enviado un código de 4 dígitos a tu correo. Por favor, ingresalo para continuar.</Text>
+          <Text variant="title">Verificación</Text>
+          <Spacer variant="top" />
+          <Text>Hemos enviado un código de 4 dígitos a tu correo. Por favor, ingresalo para verificar tu cuenta.</Text>
           <VerificationForm isProcessing={isProcessing} onSubmit={onSubmit} onRefreshCode={onRefreshCode} />
         </AuthWrapper>
       </DismissKeyboard>

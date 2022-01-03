@@ -20,7 +20,7 @@ import { Link } from "../../../components/typography/link.component";
 
 // STYLED COMPONENTS
 import { AddCompanyList, CompanyList } from "../components/select-profile.styles";
-import { CoverBackground, ProfileWrapper, ProfileScroll, SubTitle } from "../components/profile.styles";
+import { CoverBackground, ProfileSection, ProfileScroll, SubTitle } from "../components/profile.styles";
 
 export const SelectProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
@@ -60,8 +60,7 @@ export const SelectProfileScreen = ({ navigation }) => {
       {isLoading && <Loader />}
       <ProfileScroll>
         <CoverBackground>
-          <Male width={90} />
-          <Spacer variant="top" />
+          <Male width={75} />
           <SubTitle>¿Como deseas cambiar?</SubTitle>
           <Spacer variant="top" />
           <Text style={{ color: "#FFF" }}>¿Deseas continuar como {porfileName.length > 2 ? `${porfileName[0]} ${porfileName[2]}` : `${porfileName[0]} ${porfileName[1]}`}?</Text>
@@ -72,7 +71,7 @@ export const SelectProfileScreen = ({ navigation }) => {
             </Text>
           </Link>
         </CoverBackground>
-        <ProfileWrapper>
+        <ProfileSection>
           <Text variant="subtitle">Usar un perfil de empresa</Text>
           {companyProfiles.length > 0 && (
             <CompanyList>
@@ -94,7 +93,7 @@ export const SelectProfileScreen = ({ navigation }) => {
               <Text variant="bold">Agregar una empresa</Text>
             </Link>
           )}
-        </ProfileWrapper>
+        </ProfileSection>
       </ProfileScroll>
     </SafeArea>
   );

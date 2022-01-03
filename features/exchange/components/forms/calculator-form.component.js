@@ -1,20 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+import Popover from "react-native-popover-view";
 
 // FORMIK
 import { useFormik } from "formik";
 
+// REDUX
+import { useDispatch } from "react-redux";
+import { validateCoupon } from "../../../../store/actions";
+
 // COMPONENTS
 import { Spacer } from "../../../../components/utils/spacer.component";
-import { FormWrapper, Caption } from "../exchange.styles";
-import { CalculatorWrapper, CouponInputWrapper, CouponInput, CouponButton } from "../calculator.styles";
 import { CouponApplied } from "../calculator/coupon.component";
 import { Input } from "../calculator/input.component";
 import { SwapButton } from "../calculator/swap-button.component";
 import { Button } from "../../../../components/UI/button.component";
 import { Text } from "../../../../components/typography/text.component";
 
-export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, profile, onSubmit, rates, coupon, couponRates }) => {
-  const [toSendCurrency, setToSendCurrency] = useState("Soles"),
+// STYLED COMPONENTS
+import { FormWrapper, Caption } from "../exchange.styles";
+import { CalculatorWrapper, CouponInputWrapper, CouponInput, CouponButton, InfoWrapper } from "../calculator.styles";
+
+export const CalculatorForm = ({ onRemoveCoupon, isProcessing, profile, onSubmit, rates, coupon, couponRates, isReferal }) => {
+  const dispatch = useDispatch(),
+    [toSendCurrency, setToSendCurrency] = useState("Soles"),
     [toReceiveCurrency, setToReceiveCurrency] = useState("Dólares"),
     [couponName, setCouponName] = useState(""),
     amountSentRef = useRef(1000),
@@ -39,6 +50,12 @@ export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, prof
     { type: calculatorType, amount_sent, amount_received } = formik.values;
 
   // EFFECTS
+  useFocusEffect(
+    useCallback(() => {
+      if (isReferal) onAddCoupon("NUEVOREFERIDO1");
+    }, [isReferal])
+  );
+
   useEffect(() => {
     if (calculatorType === "sell") {
       setToSendCurrency("Soles");
@@ -66,41 +83,42 @@ export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, prof
   }, [couponRates]);
 
   // HANDLERS
-  const onSwapHandler = () => {
-    let amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +rates.buy : +formik.values.amount_sent / +rates.sell;
-    if (couponRates) amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +couponRates.buy : +formik.values.amount_sent / +couponRates.sell;
+  const onAddCoupon = (name) => {
+      formik.setFieldValue("couponName", name);
+      dispatch(validateCoupon(name, profile.type));
+    },
+    onSwapHandler = () => {
+      let amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +rates.buy : +formik.values.amount_sent / +rates.sell;
+      if (couponRates) amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +couponRates.buy : +formik.values.amount_sent / +couponRates.sell;
 
-    setFieldValue("currency_sent_id", formik.values.currency_sent_id === 1 ? 2 : 1);
-    setFieldValue("currency_received_id", formik.values.currency_received_id === 1 ? 2 : 1);
-    setFieldValue("type", calculatorType === "sell" ? "buy" : "sell");
-    amountReceivedRef.current = amountToReceive;
-    setFieldValue("amount_received", amountToReceive);
-  };
-
-  const onChange = (name, value) => {
-    setFieldValue(name, value);
-    let conversionType, amountToReceive, amountToSend;
-
-    if (name === "amount_sent") {
-      conversionType = calculatorType === "sell" ? "divide" : "multiply";
-      amountToReceive = conversionType === "divide" ? +value / rates.sell : +value * rates.buy;
-      console.log(amountToSend);
-      if (couponRates) amountToReceive = conversionType === "divide" ? +value / couponRates.sell : +value * couponRates.sell;
-
-      setFieldValue("amount_received", amountToReceive);
-      amountSentRef.current = value;
+      setFieldValue("currency_sent_id", formik.values.currency_sent_id === 1 ? 2 : 1);
+      setFieldValue("currency_received_id", formik.values.currency_received_id === 1 ? 2 : 1);
+      setFieldValue("type", calculatorType === "sell" ? "buy" : "sell");
       amountReceivedRef.current = amountToReceive;
-    } else {
-      conversionType = calculatorType === "sell" ? "multiply" : "divide";
-      amountToSend = conversionType === "divide" ? +value / rates.buy : +value * rates.sell;
-      console.log(amountToSend);
-      if (couponRates) amountToSend = conversionType === "divide" ? +value / couponRates.buy : +value * couponRates.buy;
+      setFieldValue("amount_received", amountToReceive);
+    },
+    onChange = (name, value) => {
+      setFieldValue(name, value);
+      let conversionType, amountToReceive, amountToSend;
 
-      setFieldValue("amount_sent", amountToSend);
-      amountReceivedRef.current = value;
-      amountSentRef.current = amountToSend;
-    }
-  };
+      if (name === "amount_sent") {
+        conversionType = calculatorType === "sell" ? "divide" : "multiply";
+        amountToReceive = conversionType === "divide" ? +value / rates.sell : +value * rates.buy;
+        if (couponRates) amountToReceive = conversionType === "divide" ? +value / couponRates.sell : +value * couponRates.sell;
+
+        setFieldValue("amount_received", amountToReceive);
+        amountSentRef.current = value;
+        amountReceivedRef.current = amountToReceive;
+      } else {
+        conversionType = calculatorType === "sell" ? "multiply" : "divide";
+        amountToSend = conversionType === "divide" ? +value / rates.buy : +value * rates.sell;
+        if (couponRates) amountToSend = conversionType === "divide" ? +value / couponRates.buy : +value * couponRates.buy;
+
+        setFieldValue("amount_sent", amountToSend);
+        amountReceivedRef.current = value;
+        amountSentRef.current = amountToSend;
+      }
+    };
 
   return (
     <FormWrapper>
@@ -124,12 +142,32 @@ export const CalculatorForm = ({ onAddCoupon, onRemoveCoupon, isProcessing, prof
           symbol={toReceiveCurrency === "Soles" ? "S/." : "$"}
         />
       </CalculatorWrapper>
-      <Spacer variant="vertical" size={5}>
-        <Caption>¿Monto mayor a $ 5,000?</Caption>
-      </Spacer>
+      <Spacer variant="top" size={4} />
+      <InfoWrapper>
+        <Caption>¿Montos mayores a $ 5,000?</Caption>
+        <Spacer variant="left" />
+        <Popover
+          from={
+            <TouchableOpacity>
+              <MaterialCommunityIcons name="information-outline" size={25} color="#0D8284" />
+            </TouchableOpacity>
+          }
+          popoverStyle={{ padding: 15 }}
+        >
+          <Text variant="button">Escribenos a nuestro whatsapp para ofrecerte un cupón de descuento para tu cambio.</Text>
+        </Popover>
+      </InfoWrapper>
+
+      <Spacer variant="top" size={4} />
 
       {coupon ? (
-        <CouponApplied coupon={coupon} onRemove={onRemoveCoupon} />
+        <CouponApplied
+          coupon={coupon}
+          onRemove={() => {
+            formik.setFieldValue("couponName", "");
+            onRemoveCoupon();
+          }}
+        />
       ) : (
         <CouponInputWrapper>
           <CouponInput autoCorrect={false} autoComplete="off" value={couponName} label="Agregar cupón" onChangeText={setCouponName} />

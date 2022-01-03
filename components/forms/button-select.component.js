@@ -10,7 +10,7 @@ const Button = styled.TouchableOpacity`
   shadow-offset: 0px 3px;
   shadow-radius: 5px;
   background-color: #fff;
-  padding-horizontal: ${({ theme }) => theme.space[3]};
+  padding: ${({ theme }) => theme.space[3]};
   border-radius: 10px;
   flex-direction: row;
   align-items: center;
@@ -21,7 +21,7 @@ const Button = styled.TouchableOpacity`
 const Info = styled.View`
   flex-direction: row;
   align-items: center;
-  flex: 0.75;
+  flex: 0.8;
 `;
 
 const FormGroup = styled.View`

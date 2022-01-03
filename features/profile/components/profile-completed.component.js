@@ -15,7 +15,16 @@ export const ProfileCompleted = ({ user }) => {
 
   return (
     <CompletedWrapper>
-      <ProgressCircle progress={percentage / 100} size={95} borderWidth={1} thickness={3} showsText textStyle={{ color, fontFamily: "lato-black", fontSize: 22 }} color={color} />
+      <ProgressCircle
+        progress={percentage / 100}
+        size={95}
+        animated={false}
+        borderWidth={1}
+        thickness={3}
+        showsText
+        textStyle={{ color, fontFamily: "lato-black", fontSize: 22 }}
+        color={color}
+      />
       <Spacer variant="left" />
       <CompletedInfo>
         <Text variant="bold">{percentage < 100 ? "Por completar" : "Perfil completado"}</Text>

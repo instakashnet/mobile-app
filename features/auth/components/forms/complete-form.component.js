@@ -45,7 +45,7 @@ export const CompleteProfileForm = ({ isProcessing, onSubmit, user }) => {
   return (
     <>
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", width: "100%" }}>
-        <View style={{ width: "42%", marginRight: 10 }}>
+        <View style={{ width: "40%", marginRight: 10 }}>
           <Select onChange={onSelectChange} label="Doc." options={documentTypes} value={formik.values.document_type} name="document_type" isFlex />
         </View>
         <View style={{ flexGrow: 0.7, width: "52%" }}>

@@ -1,17 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Camera } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { View, Linking, Image, Dimensions } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Linking, Image, Dimensions, Platform } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { uploadDocument } from "../../../../store/actions";
-
-// UTILS
-import { headerCameraFlash } from "../../../../navigation/utils/navigator.options";
 
 // COMPONENTS
 import { Link } from "../../../../components/typography/link.component";
@@ -20,15 +15,18 @@ import { Spacer } from "../../../../components/utils/spacer.component";
 import { Button } from "../../../../components/UI/button.component";
 
 // STYLED COMPONENTS
-import { NoCameraWrapper, CameraOverlay, CameraSquare } from "../../components/camera.styles";
+import { NoCameraWrapper, CameraWrapper, CameraOverlay, CameraSquare, CameraButton, CameraLoader, ButtonsWrapper, Info, Title } from "../../components/camera.styles";
 
 export const CameraScreen = ({ navigation, route }) => {
   const [hasPermission, setHasPermission] = useState(null),
-    [cameraReady, setCameraReady] = useState(false),
-    [flash, setFlash] = useState(2),
+    [cameraReady, setIsCameraReady] = useState(false),
     [frontPhoto, setFrontPhoto] = useState(null),
-    [preview, setPreview] = useState(false),
+    [preview, setPreview] = useState(null),
     [loading, setLoading] = useState(false),
+    [ratio, setRatio] = useState("4:3"),
+    [isRatioSet, setIsRatioSet] = useState(false),
+    { height, width } = Dimensions.get("window"),
+    screenRatio = height / width,
     cameraRef = useRef(),
     dispatch = useDispatch(),
     isProcessing = useSelector((state) => state.profileReducer.isProcessing),
@@ -42,22 +40,44 @@ export const CameraScreen = ({ navigation, route }) => {
     })();
   }, []);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (hasPermission ? headerCameraFlash(onFlashType, flash) : null),
-    });
-  }, [onFlashType, hasPermission, flash]);
-
   // HANDLERS
-  const onFlashType = useCallback(() => {
-      let flashType;
+  const prepareRatio = async () => {
+      let desiredRatio = "4:3"; // Start with the system default
+      // This issue only affects Android
+      if (Platform.OS === "android") {
+        const ratios = await cameraRef.current.getSupportedRatiosAsync();
 
-      if (flash === Camera.Constants.FlashMode.auto) flashType = Camera.Constants.FlashMode.on;
-      if (flash === Camera.Constants.FlashMode.on) flashType = Camera.Constants.FlashMode.off;
-      if (flash === Camera.Constants.FlashMode.off) flashType = Camera.Constants.FlashMode.auto;
+        // Calculate the width/height of each of the supported camera ratios
+        // These width/height are measured in landscape mode
+        // find the ratio that is closest to the screen ratio without going over
+        let distances = {},
+          realRatios = {},
+          minDistance = null;
 
-      setFlash(flashType);
-    }, [flash]),
+        for (const ratio of ratios) {
+          const parts = ratio.split(":");
+          const realRatio = parseInt(parts[0]) / parseInt(parts[1]);
+          realRatios[ratio] = realRatio;
+          // ratio can't be taller than screen, so we don't want an abs()
+          const distance = screenRatio - realRatio;
+          distances[ratio] = realRatio;
+          if (minDistance == null) {
+            minDistance = ratio;
+          } else {
+            if (distance >= 0 && distance < distances[minDistance]) {
+              minDistance = ratio;
+            }
+          }
+        }
+        // set the best match
+        desiredRatio = minDistance;
+        setRatio(desiredRatio);
+        // Set a flag so we don't do this
+        // calculation each time the screen refreshes
+        setIsRatioSet(true);
+      }
+      setIsCameraReady(true);
+    },
     onSnap = async () => {
       setLoading(true);
 
@@ -66,17 +86,9 @@ export const CameraScreen = ({ navigation, route }) => {
           const photo = await cameraRef.current.takePictureAsync({ quality: 1 });
           let image;
 
-          if (photo.width < 3000) {
-            image = await manipulateAsync(photo.uri, [{ resize: { height: Dimensions.get("window").height / 2 } }, { rotate: 90 }], {
-              format: SaveFormat.JPEG,
-              compress: 0.8,
-            });
-          } else {
-            image = await manipulateAsync(photo.uri, [{ resize: { height: Dimensions.get("window").height / 2 } }], {
-              format: SaveFormat.JPEG,
-              compress: 0.8,
-            });
-          }
+          image = await manipulateAsync(photo.uri, [{ resize: { width: photo.width * 0.8 } }], {
+            format: SaveFormat.JPEG,
+          });
 
           setPreview(image.uri);
         }
@@ -86,9 +98,10 @@ export const CameraScreen = ({ navigation, route }) => {
         setLoading(false);
       }
     },
+    setCameraReady = async () => {
+      if (!isRatioSet) await prepareRatio();
+    },
     onConfirm = useCallback(() => {
-      setPreview(false);
-
       if (documentType === "dni") {
         if (!frontPhoto) {
           setFrontPhoto(preview);
@@ -98,7 +111,9 @@ export const CameraScreen = ({ navigation, route }) => {
       } else {
         dispatch(uploadDocument({ frontPhoto: preview }, documentType));
       }
-    }, [frontPhoto, documentType, preview]),
+
+      setPreview(false);
+    }, [documentType, preview]),
     onOpenConfig = () => Linking.openSettings();
 
   // CONDITIONAL RETURNS
@@ -122,52 +137,40 @@ export const CameraScreen = ({ navigation, route }) => {
   }
 
   return (
-    <Camera
-      ratio="16:9"
-      flashMode={flash}
-      ref={(camera) => (cameraRef.current = camera)}
-      onCameraReady={() => setCameraReady(true)}
-      style={{ flex: 1, padding: 32, alignItems: "center", justifyContent: "center" }}
-      type={Camera.Constants.Type.back}
-    >
-      {cameraReady &&
-        (preview ? (
-          <>
-            <CameraOverlay preview={preview} />
-            <Text variant="title" variant="bold" style={{ color: "#FFF" }}>
-              {documentType !== "passport" ? (frontPhoto ? "Foto trasera" : "Foto frontal") : "Foto pasaporte"}
-            </Text>
-            <Image source={{ uri: preview }} style={{ width: "100%", height: Dimensions.get("window").height / 4 }} resizeMode="contain" />
-            <Spacer variant="top" size={2} />
-            <Text variant="bold" style={{ color: "#FFF" }}>
-              ¿Se leen bien los datos?
-            </Text>
-            <Spacer variant="top" size={2} />
-            <Button onPress={onConfirm}>Si, se lee bien</Button>
-            <Button variant="secondary" onPress={() => setPreview(false)}>
-              Volver a tomar
-            </Button>
-          </>
-        ) : (
-          <>
-            <CameraOverlay preview={preview} />
-            <Text variant="title" style={{ color: "#FFF" }}>
-              {documentType !== "passport" ? (frontPhoto ? "Foto trasera" : "Foto frontal") : "Foto pasaporte"}
-            </Text>
-            <CameraSquare />
-            <Text variant="bold" style={{ color: "#FFF" }}>
-              {isProcessing ? "Subiendo..." : "Coloca tu documento dentro del marco"}
-            </Text>
-            <Spacer variant="top" size={2} />
-            {loading || isProcessing ? (
-              <ActivityIndicator color="#FFF" animating size={90} />
-            ) : (
-              <TouchableOpacity onPress={onSnap}>
-                <Ionicons name="scan-circle-outline" size={90} color="#FFF" />
-              </TouchableOpacity>
-            )}
-          </>
-        ))}
+    <Camera ratio={ratio} ref={(camera) => (cameraRef.current = camera)} onCameraReady={setCameraReady} style={{ flex: 1 }} type={Camera.Constants.Type.back}>
+      {cameraReady && (
+        <CameraWrapper>
+          <CameraOverlay />
+          <Title variant="bold">{documentType === "passport" ? "Foto pasaporte" : frontPhoto ? "Foto trasera" : "Foto frontal"}</Title>
+          {preview ? <Image source={{ uri: preview }} style={{ width: Dimensions.get("window").width / 1.06, flex: 0.34 }} resizeMode="cover" /> : <CameraSquare />}
+          <CameraOverlay />
+          {!isProcessing && <Info variant="bold">Ajusta el documento dentro del cuadro</Info>}
+          {preview ? (
+            <ButtonsWrapper>
+              <Button onPress={onConfirm}>Se ve bien</Button>
+              <Button variant="secondary" onPress={() => setPreview(null)}>
+                Volver a tomar
+              </Button>
+            </ButtonsWrapper>
+          ) : (
+            !loading &&
+            !isProcessing && (
+              <CameraButton onPress={onSnap}>
+                <MaterialCommunityIcons name="circle-slice-8" size={90} color="#FFF" />
+              </CameraButton>
+            )
+          )}
+          {loading && <CameraLoader />}
+          {isProcessing && (
+            <>
+              <Info variant="bold" style={{ left: Dimensions.get("window").width / 2.5, bottom: "22%" }}>
+                Subiendo
+              </Info>
+              <CameraLoader />
+            </>
+          )}
+        </CameraWrapper>
+      )}
     </Camera>
   );
 };

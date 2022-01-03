@@ -8,12 +8,12 @@ import { Button } from "../../../../components/UI/button.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
 
 // STYLED COMPONENTS
-import { ProfileWrapper, Title } from "../../components/profile.styles";
+import { ProfileSection, Title } from "../../components/profile.styles";
 
 export const DocumentUploadedScreen = ({ navigation }) => {
   return (
     <SafeArea>
-      <ProfileWrapper style={{ justifyContent: "center" }}>
+      <ProfileSection>
         <MaterialCommunityIcons size={75} name="checkbox-marked-circle-outline" color="#0D8284" />
         <Spacer variant="top" size={3} />
         <Title variant="subtitle" style={{ textAlign: "center" }}>
@@ -25,7 +25,7 @@ export const DocumentUploadedScreen = ({ navigation }) => {
         </Text>
         <Spacer variant="top" size={4} />
         <Button onPress={() => navigation.navigate("Home")}>Aceptar</Button>
-      </ProfileWrapper>
+      </ProfileSection>
     </SafeArea>
   );
 };

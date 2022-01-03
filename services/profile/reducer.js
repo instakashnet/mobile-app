@@ -11,7 +11,11 @@ const initialState = {
 export const profileReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case types.GET_PROFILES_INIT:
+    case types.GET_USER_DATA_INIT:
       return { ...state, isLoading: true, profileError: null };
+
+    case types.GET_USER_DATA_SUCCESS:
+      return { ...state, isLoading: false };
     case types.GET_PROFILES_SUCCESS:
       return { ...state, isLoading: false, profiles: action.profiles };
 

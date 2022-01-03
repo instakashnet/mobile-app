@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Dimensions, Platform } from "react-native";
+import { View, Platform } from "react-native";
 
 // COMPONENTS
 import { Input } from "../../../../components/forms/input.component";
@@ -17,8 +17,8 @@ export const ThirdInfo = ({ formik, onSelect }) => {
 
   return (
     <>
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", width: Dimensions.get("window").width / 1.11 }}>
-        <View style={{ marginRight: 10 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", width: "100%" }}>
+        <View style={{ width: "40%", marginRight: 10 }}>
           <Select
             onChange={onSelect}
             label="Doc."
@@ -31,7 +31,7 @@ export const ThirdInfo = ({ formik, onSelect }) => {
             isFlex
           />
         </View>
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 0.7, width: "52%" }}>
           <Input
             value={formik.values.documentIdentity}
             label="Número doc."

@@ -1,9 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getRates, createOrder, validateCoupon, removeCoupon, clearExchangeError } from "../../../store/actions";
+import { getRates, createOrder, removeCoupon, clearExchangeError, openModal } from "../../../store/actions";
+
+// HELPERS
+import { useProfileCompleted } from "../../../hooks/use-completed.hook";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -14,6 +18,8 @@ import { Alert } from "../../../components/UI/alert.component";
 import { CalculatorForm } from "../components/forms/calculator-form.component";
 import { Loader } from "../../../components/UI/loader.component";
 import { HeaderProfile } from "../components/header-profile.component";
+import { Modal } from "../../../components/UI/modal.component";
+import { Button } from "../../../components/UI/button.component";
 
 // STYLED COMPONENTS
 import { RatesWrapper, RateBox, Caption, Price, BorderLine } from "../components/exchange.styles";
@@ -23,10 +29,12 @@ export const CalculatorScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     isFocused = useIsFocused(),
     { isLoading, isProcessing, rates, coupon, exchangeError } = useSelector((state) => state.exchangeReducer),
+    user = useSelector((state) => state.authReducer.user),
     profile = useSelector((state) => state.profileReducer.profile),
     [countdown, setCountdown] = useState(1),
     [couponRates, setCouponRates] = useState(null),
-    [countRunnig, setCountRunning] = useState(false);
+    [countRunnig, setCountRunning] = useState(false),
+    [percentage] = useProfileCompleted(user);
 
   // EFFECTS
   useFocusEffect(
@@ -50,14 +58,17 @@ export const CalculatorScreen = ({ navigation }) => {
   }, [coupon]);
 
   // HANDLERS
-  const onSubmit = (values) => dispatch(createOrder(values)),
+  const onSubmit = (values) => {
+      if (percentage < 100 && ((values.type === "sell" && values.amount_received >= 5000) || (values.type === "buy" && values.amount_sent >= 5000))) {
+        return dispatch(openModal());
+      } else dispatch(createOrder(values));
+    },
+    onRemoveCoupon = () => dispatch(removeCoupon()),
     onGetRates = () => {
       setCountdown(Math.random());
       dispatch(getRates());
       onRemoveCoupon();
-    },
-    onAddCoupon = (couponName) => dispatch(validateCoupon(couponName, profile.type)),
-    onRemoveCoupon = () => dispatch(removeCoupon());
+    };
 
   return (
     <SafeArea>
@@ -65,7 +76,7 @@ export const CalculatorScreen = ({ navigation }) => {
       <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} screen="calculator" />
       <KeyboardScrollAware>
         <Text variant="title">Las mejores tasas del perú</Text>
-        <Spacer varaint="top" size={5} />
+        <Spacer varaint="top" size={2} />
         <RatesWrapper>
           <RateBox>
             <Caption>Compramos</Caption>
@@ -83,16 +94,25 @@ export const CalculatorScreen = ({ navigation }) => {
           <Timer id={countdown.toString()} running={countRunnig} until={300} size={14} showSeparator onFinish={onGetRates} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
         </TimerWrapper>
         <CalculatorForm
+          onRemoveCoupon={onRemoveCoupon}
+          isReferal={user.isReferal}
           isProcessing={isProcessing}
           couponRates={couponRates}
           coupon={coupon}
-          onAddCoupon={onAddCoupon}
-          onRemoveCoupon={onRemoveCoupon}
           profile={profile}
           rates={rates}
           onSubmit={onSubmit}
         />
       </KeyboardScrollAware>
+      <Modal>
+        <MaterialCommunityIcons name="information" size={50} color="#EB9824" />
+        <Spacer variant="top" size={2} />
+        <Text variant="bold" style={{ textAlign: "center" }}>
+          Debes completar tu perfil al 100% para poder realizar operaciones mayores a 5000 USD.
+        </Text>
+        <Spacer variant="top" />
+        <Button onPress={() => navigation.navigate("Profile")}>Completar perfil</Button>
+      </Modal>
       <Alert type="error" onClose={clearExchangeError} visible={!!exchangeError}>
         {exchangeError}
       </Alert>

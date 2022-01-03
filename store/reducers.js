@@ -14,5 +14,7 @@ import { exchangeReducer } from "../services/exchange/reducer";
 import { accountsReducer } from "../services/accounts/reducer";
 // ACTIVITY
 import { activityReducer } from "../services/activity/reducer";
+// SETTINGS
+import { settingsReducer } from "../services/settings/reducer";
 
-export const rootReducer = combineReducers({ authReducer, utilsReducer, profileReducer, exchangeReducer, accountsReducer, activityReducer });
+export const rootReducer = combineReducers({ authReducer, utilsReducer, profileReducer, exchangeReducer, accountsReducer, activityReducer, settingsReducer });

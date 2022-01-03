@@ -60,7 +60,7 @@ function* loadUser() {
     const resData = camelize(res.data);
     yield call([AsyncStorage, "setItem"], "@userVerification", JSON.stringify({ verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
 
-    yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
+    yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle, isReferal: resData.isReferal }));
 
     if (!resData.verified) yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
     if (!resData.completed) yield call([RootNavigation, "push"], "CompleteProfile");
@@ -84,7 +84,7 @@ function* registerUser({ values }) {
     if (res.status === 201) {
       yield call(setAuthToken, res.data, "login");
       yield put(actions.registerUserSuccess());
-      yield call([RootNavigation, "push"], "EmailVerification");
+      yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
     }
   } catch (error) {
     yield put(actions.apiError(error.message));
@@ -191,7 +191,7 @@ function* resetPassword({ values }) {
         },
       ]);
       yield put(actions.logoutUser());
-      yield call([RootNavigation, "popToTop"]);
+      yield call([RootNavigation, "push"], "Login");
     }
   } catch (error) {
     yield put(actions.apiError(error.message));

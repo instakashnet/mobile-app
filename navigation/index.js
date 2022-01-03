@@ -17,6 +17,7 @@ export const Navigator = () => {
   const dispatch = useDispatch();
   const { isLoading, isSignedIn } = useSelector((state) => state.authReducer);
 
+  // EFFECTS
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);

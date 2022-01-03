@@ -9,11 +9,6 @@ import { replaceSpace } from "../../shared/helpers/functions";
 import { RNS3 } from "react-native-aws3";
 
 // UTILS
-function* getUserData() {
-  const res = yield authInstance.get("/users/session");
-  const user = camelize(res.data.user);
-  yield put(loadUserSuccess(user));
-}
 
 const uploadToS3 = async (imageObj, uploadType) => {
   try {
@@ -46,6 +41,17 @@ function* getProfiles() {
     console.log(error);
     yield put(actions.profileError(error.message));
   }
+}
+
+function* watchGetUserData() {
+  yield takeEvery(types.GET_USER_DATA_INIT, getUserData);
+}
+
+function* getUserData() {
+  const res = yield authInstance.get("/users/session");
+  const user = camelize(res.data.user);
+  yield put(loadUserSuccess(user));
+  yield put(actions.getUserDataSuccess());
 }
 
 function* watchAddProfiles() {
@@ -120,12 +126,12 @@ function* uploadDocument({ values, uploadType }) {
           type: "image/jpeg",
         };
 
-      const res = yield call(uploadToS3, imageObj, uploadType);
+      const res = yield call(uploadToS3, imageObj, user.documentType.toLowerCase());
       uploaded = res.status === 201;
     }
 
     if (uploaded) {
-      yield delay(5000);
+      yield delay(2000);
       yield call(getUserData);
       yield put(actions.uploadDocumentSuccess());
       yield call([RootNavigation, "navigate"], "DocumentUploaded");
@@ -187,6 +193,7 @@ function* selectProfile({ profile }) {
 export function* profileSaga() {
   yield all([
     fork(watchGetProfiles),
+    fork(watchGetUserData),
     fork(watchAddProfiles),
     fork(watchChangePhone),
     fork(watchChangeEmail),

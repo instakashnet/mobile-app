@@ -3,7 +3,7 @@
     "scheme": "instakash",
     "name": "Instakash",
     "slug": "instakash-app",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "orientation": "portrait",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
@@ -15,6 +15,7 @@
     },
     "plugins": ["expo-camera"],
     "updates": {
+      "checkAutomatically": "ON_ERROR_RECOVERY",
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
@@ -22,18 +23,19 @@
       "supportsTablet": false,
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
-      "buildNumber": "0.0.9",
+      "buildNumber": "0.1.1",
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to give you the ability to take the photo of your document."
       }
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 10,
+      "versionCode": 13,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-fr.png",
         "backgroundImage": "./assets/adaptive-bg.png"
       },
+      "useNextNotificationsApi": true,
       "intentFilters": [
         {
           "action": "VIEW",

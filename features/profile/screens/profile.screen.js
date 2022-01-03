@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 // HELPERS
 import { openURL } from "../../../shared/helpers/functions";
 
 // REDUX
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserData } from "../../../store/actions";
 
 // ASSETS
 import { Male } from "../../../assets/icons/male";
@@ -14,15 +16,28 @@ import { Female } from "../../../assets/icons/female";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { ProfileCompleted } from "../components/profile-completed.component";
-import { InfoWrapper, NavItem, RightArrow, ItemWrapper } from "../components/profile.styles";
 import { Text } from "../../../components/typography/text.component";
+import { Loader } from "../../../components/UI/loader.component";
+
+// STYLED COMPONENTS
+import { InfoWrapper, NavItem, RightArrow, ItemWrapper } from "../components/profile.styles";
 
 export const ProfileScreen = ({ navigation }) => {
   const user = useSelector((state) => state.authReducer.user),
+    isLoading = useSelector((state) => state.profileReducer.isLoading),
+    dispatch = useDispatch(),
     porfileName = user.name.split(" ");
+
+  // EFFECTS
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getUserData());
+    }, [dispatch])
+  );
 
   return (
     <SafeArea>
+      {isLoading && <Loader />}
       <InfoWrapper>
         {user.identitySex === "male" ? <Male width={80} /> : <Female width={80} />}
         <Spacer variant="top" />

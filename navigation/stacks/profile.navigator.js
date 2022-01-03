@@ -31,6 +31,7 @@ export const ProfileNavigator = () => {
         headerLeft: () => headerBackLeft(navigation),
         headerRight,
       })}
+      initialRouteName="MyProfile"
     >
       <ProfileStack.Screen name="MyProfile" options={{ headerTitle: () => headerTitle("Mi perfil") }} component={ProfileScreen} />
       <ProfileStack.Screen name="BasicInfo" options={{ headerTitle: () => headerTitle("Información básica") }} component={BasicInfoScreen} />

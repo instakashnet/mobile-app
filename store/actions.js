@@ -15,3 +15,6 @@ export * from "../services/accounts/actions";
 
 // ACTIVITY
 export * from "../services/activity/actions";
+
+// SETTINGS
+export * from "../services/settings/actions";

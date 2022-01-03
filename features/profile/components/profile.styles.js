@@ -7,20 +7,22 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { Text } from "../../../components/typography/text.component";
 
 export const ProfileInfoWrapper = styled.View`
-  min-height: 50%;
   align-items: center;
   justify-content: center;
-  padding-vertical: ${({ theme }) => theme.space[5]};
+  margin-vertical: ${({ theme }) => theme.space[5]};
   padding-horizontal: ${({ theme }) => theme.space[4]};
   width: ${Dimensions.get("window").width}px;
-  max-width: 410px;
+  max-width: 370px;
 `;
 
-export const ProfileWrapper = styled.View`
+export const ProfileSection = styled.View`
   flex: 1;
   width: ${Dimensions.get("window").width}px;
-  padding: ${({ theme }) => theme.space[4]};
+  padding-horizontal: ${({ theme }) => theme.space[4]};
+  margin-vertical: ${({ theme }) => theme.space[4]};
   align-items: center;
+  justify-content: center;
+  min-height: 55%;
 `;
 
 export const ProfileScroll = styled.ScrollView.attrs({
@@ -28,7 +30,7 @@ export const ProfileScroll = styled.ScrollView.attrs({
     flexGrow: 1,
     alignItems: "center",
     width: Dimensions.get("window").width,
-    paddingBottom: 65,
+    paddingBottom: 60,
   },
 })``;
 
@@ -59,7 +61,7 @@ export const CompletedItem = styled.View`
 export const CoverBackground = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
-  min-height: 40%;
+  min-height: 45%;
   align-items: center;
   justify-content: center;
   width: ${Dimensions.get("window").width}px;
@@ -157,10 +159,10 @@ export const Check = styled(MaterialIcons).attrs(({ theme }) => ({
 }))``;
 
 export const FormWrapper = styled.View`
-  padding-horizontal: ${({ theme }) => theme.space[5]};
   width: 100%;
   margin-top: ${({ theme }) => theme.space[5]};
   align-items: center;
+  justify-content: center;
 `;
 
 export const GooglePlacesInput = styled(GooglePlacesAutocomplete).attrs(({ theme }) => ({
@@ -178,9 +180,5 @@ export const GooglePlacesInput = styled(GooglePlacesAutocomplete).attrs(({ theme
       fontSize: 16,
       height: 50,
     },
-  },
-  textInputProps: {
-    placeholderTextColor: theme.colors.text.body,
-    allowFontScaling: false,
   },
 }))``;

@@ -18,15 +18,16 @@
         "simulator": true
       },
       "android": {
-        "gradleCommand": ":app:assembleRelease"
+        "buildType": "apk"
       },
-      "releaseChannel": "staging-v1"
+      "releaseChannel": "staging",
+      "distribution": "internal"
     },
     "staging": {
-      "releaseChannel": "staging-v1"
+      "releaseChannel": "staging"
     },
     "production": {
-      "releaseChannel": "prod-v1"
+      "releaseChannel": "production"
     }
   },
   "submit": {

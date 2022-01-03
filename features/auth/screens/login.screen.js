@@ -4,7 +4,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser, clearAuthError } from "../../../store/actions";
+import { loginUser, clearAuthError, loginGoogle } from "../../../store/actions";
 
 // ASSETS
 import { Logo } from "../../../assets/illustrations/platform/logo";
@@ -33,7 +33,8 @@ export const LoginScreen = ({ navigation }) => {
   );
 
   // HANDLERS
-  const onSubmit = (values) => dispatch(loginUser(values));
+  const onSubmit = (values) => dispatch(loginUser(values)),
+    onGoogleLogin = (token) => dispatch(loginGoogle(token));
 
   return (
     <SafeArea>
@@ -44,7 +45,7 @@ export const LoginScreen = ({ navigation }) => {
           <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
           {Platform.OS === "android" && (
             <>
-              <GoogleButton />
+              <GoogleButton loginGoogle={onGoogleLogin} />
               <Spacer variant="top" />
               <View style={styles.loginInfo}>
                 <AuthLine />

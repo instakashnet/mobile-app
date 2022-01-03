@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as Google from "expo-auth-session/providers/google";
 import { Alert } from "react-native";
 
 // HELPERS
 import { getVariables } from "../../../variables";
-
-import { loginGoogle } from "../../../store/actions";
 
 // ASSETS
 import { GoogleIcon } from "../../../assets/icons/google";
@@ -15,7 +13,7 @@ import { Button } from "../../../components/UI/button.component";
 
 const { googleSinInAndroid, googleSinInExpo, googleSinInIos } = getVariables();
 
-export const GoogleButton = () => {
+export const GoogleButton = ({ loginGoogle }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: googleSinInExpo,
     androidClientId: googleSinInAndroid,
@@ -26,7 +24,7 @@ export const GoogleButton = () => {
   useEffect(() => {
     if (response?.type === "success") {
       const { authentication } = response;
-      dispatch(loginGoogle(authentication.accessToken));
+      loginGoogle(authentication.accessToken);
     }
   }, [response]);
 

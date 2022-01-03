@@ -113,6 +113,13 @@ export const CouponButton = styled(Button).attrs(({ theme }) => ({
   margin-bottom: 0px;
 `;
 
+export const InfoWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const CouponWrapper = styled.View`
   background-color: #fff;
   width: 100%;
