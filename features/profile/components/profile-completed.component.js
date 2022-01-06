@@ -29,34 +29,25 @@ export const ProfileCompleted = ({ user }) => {
       <CompletedInfo>
         <Text variant="bold">{percentage < 100 ? "Por completar" : "Perfil completado"}</Text>
         <CompletedItem>
-          <MaterialCommunityIcons size={20} color={user.name ? "#0D8284" : "#AFAFAF"} name={user.name ? "check" : "minus"} style={{ marginRight: 5 }} />
-          <CompletedText color={user.name ? "#0D8284" : "#AFAFAF"}>Datos personales</CompletedText>
+          <MaterialCommunityIcons size={20} color={user.level > 0 ? "#0D8284" : "#AFAFAF"} name={user.level > 0 ? "check" : "minus"} style={{ marginRight: 5 }} />
+          <CompletedText color={user.level > 0 ? "#0D8284" : "#AFAFAF"}>Datos personales</CompletedText>
         </CompletedItem>
 
         <CompletedItem>
           {user.identityDocumentValidation === "pending" ? (
             <ActivityIndicator color="#EB9824" size={20} style={{ marginRight: 5 }} />
           ) : (
-            <MaterialCommunityIcons
-              size={20}
-              color={user.identityDocumentValidation === "success" ? "#0D8284" : "#AFAFAF"}
-              name={user.identityDocumentValidation === "success" ? "check" : "minus"}
-              style={{ marginRight: 5 }}
-            />
+            <MaterialCommunityIcons size={20} color={user.level === 3 ? "#0D8284" : "#AFAFAF"} name={user.level === 3 ? "check" : "minus"} style={{ marginRight: 5 }} />
           )}
 
           <CompletedText color={user.identityDocumentValidation === "success" ? "#0D8284" : user.identityDocumentValidation === "pending" ? "#EB9824" : "#AFAFAF"}>
-            {user.identityDocumentValidation === "success"
-              ? "Identidad verificada"
-              : user.identityDocumentValidation === "pending"
-              ? "Verificando identidad"
-              : "Debes verificar tu identidad"}
+            {user.level === 3 ? "Identidad verificada" : user.identityDocumentValidation === "pending" ? "Verificando identidad" : "Debes verificar tu identidad"}
           </CompletedText>
         </CompletedItem>
 
         <CompletedItem>
-          <MaterialCommunityIcons size={20} color={user.address ? "#0D8284" : "#AFAFAF"} name={user.address ? "check" : "minus"} style={{ marginRight: 5 }} />
-          <CompletedText color={user.address ? "#0D8284" : "#AFAFAF"}>{user.address ? "Datos adicionales" : "Faltan datos adicionales"}</CompletedText>
+          <MaterialCommunityIcons size={20} color={user.level > 1 ? "#0D8284" : "#AFAFAF"} name={user.level > 1 ? "check" : "minus"} style={{ marginRight: 5 }} />
+          <CompletedText color={user.level > 1 ? "#0D8284" : "#AFAFAF"}>{user.level > 1 ? "Datos adicionales" : "Faltan datos adicionales"}</CompletedText>
         </CompletedItem>
       </CompletedInfo>
     </CompletedWrapper>

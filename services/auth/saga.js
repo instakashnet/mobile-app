@@ -57,18 +57,18 @@ function* loadUser() {
 
   try {
     const res = yield authInstance.get("/users/session");
-    const resData = camelize(res.data);
-    yield call([AsyncStorage, "setItem"], "@userVerification", JSON.stringify({ verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle }));
+    const user = camelize(res.data.user);
+    yield call([AsyncStorage, "setItem"], "@userVerification", JSON.stringify(user));
 
-    yield put(actions.loadUserSuccess({ ...resData.user, verified: resData.verified, completed: resData.completed, isGoogle: resData.isGoogle, isReferal: resData.isReferal }));
+    yield put(actions.loadUserSuccess(user));
 
-    if (!resData.verified) yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
-    if (!resData.completed) yield call([RootNavigation, "push"], "CompleteProfile");
+    if (!user.verified) return yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
+    if (!user.completed) return yield call([RootNavigation, "push"], "CompleteProfile");
 
-    if (resData.verified && resData.completed) {
-      yield call(getData);
-      yield put(actions.loginUserSuccess());
-    }
+    console.log(user);
+
+    yield call(getData);
+    yield put(actions.loginUserSuccess());
   } catch (error) {
     yield put(actions.logoutUser());
   }

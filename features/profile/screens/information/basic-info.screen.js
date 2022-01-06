@@ -34,7 +34,7 @@ export const BasicInfoScreen = ({ route, navigation }) => {
         <ItemWrapper>
           <View>
             <Text variant="caption">Teléfono</Text>
-            <Text>{user.phone}</Text>
+            <Text>{user.phone || "Debes agregar un teléfono"}</Text>
           </View>
           <RightArrow />
         </ItemWrapper>

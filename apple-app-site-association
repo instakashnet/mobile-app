@@ -5,8 +5,7 @@
       {
         "appID": "B6PKWF86W5.net.instakash.app",
         "paths": [
-          "/change-password",
-          "/change-password/*"
+          "/"
         ]
       }
     ]

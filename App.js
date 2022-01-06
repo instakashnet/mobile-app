@@ -13,10 +13,20 @@ import { ThemeProvider } from "styled-components/native";
 import { Navigator } from "./navigation";
 import { theme } from "./theme";
 import { store } from "./store";
+import * as Sentry from "sentry-expo";
+import { getVariables } from "./variables";
 
 // COMPONENTS
 import { Text } from "./components/typography/text.component";
 import { Spacer } from "./components/utils/spacer.component";
+
+const { stage } = getVariables();
+
+Sentry.init({
+  dsn: "https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263",
+  enableInExpoDevelopment: true,
+  debug: stage !== "prod",
+});
 
 registerTranslation("es", {
   save: "Guardar",
@@ -46,7 +56,7 @@ export default function App() {
         setUpdateModal(true);
         setTimeout(() => {
           onReloadApp();
-        }, 3000);
+        }, 4000);
       }
     })();
   });

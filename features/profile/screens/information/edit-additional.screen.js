@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 // FORMIK
 import { useFormik } from "formik";

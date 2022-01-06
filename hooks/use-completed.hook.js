@@ -7,10 +7,10 @@ export const useProfileCompleted = (user) => {
 
   useFocusEffect(
     useCallback(() => {
-      if ((user.dateBirth && user.identityDocumentValidation !== "success") || (!user.dateBirth && user.identityDocumentValidation === "success")) {
+      if (user.level === 2) {
         setPercentage(66);
         setColor("#EB9824");
-      } else if (user.dateBirth && user.identityDocumentValidation === "success") {
+      } else if (user.level === 3) {
         setPercentage(100);
         setColor("#0D8284");
       } else {

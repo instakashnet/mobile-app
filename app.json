@@ -3,7 +3,7 @@
     "scheme": "instakash",
     "name": "Instakash",
     "slug": "instakash-app",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "orientation": "portrait",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
@@ -13,9 +13,20 @@
       "resizeMode": "contain",
       "backgroundColor": "#0D8284"
     },
-    "plugins": ["expo-camera"],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "instakash-sac",
+            "project": "instakash-sac",
+            "authToken": "f9aea168dc174991a8ada3492ece7e658b22ce3f8a094c1b9420d9b9b80fa299"
+          }
+        }
+      ]
+    },
+    "plugins": ["expo-camera", "sentry-expo", "expo-notifications"],
     "updates": {
-      "checkAutomatically": "ON_ERROR_RECOVERY",
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
@@ -30,12 +41,13 @@
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 13,
+      "versionCode": 15,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-fr.png",
         "backgroundImage": "./assets/adaptive-bg.png"
       },
       "useNextNotificationsApi": true,
+      "googleServicesFile": "./google-services.json",
       "intentFilters": [
         {
           "action": "VIEW",
@@ -49,7 +61,7 @@
           "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
-      "permissions": ["CAMERA", "ACCESS_COARSE_LOCATION", "WRITE_SETTINGS", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+      "permissions": ["CAMERA", "ACCESS_COARSE_LOCATION", "WRITE_SETTINGS", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE", "RECEIVE_BOOT_COMPLETED"]
     }
   }
 }

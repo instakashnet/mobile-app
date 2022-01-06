@@ -12,7 +12,6 @@ import { getVariables } from "../../variables";
 const { awsAccessKey, awsSecretKey, bucketName } = getVariables();
 
 // UTILS
-
 const uploadToS3 = async (imageObj, uploadType) => {
   try {
     const res = await RNS3.put(imageObj, {

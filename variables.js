@@ -11,6 +11,7 @@ const ENV = {
     awsAccessKey: AWS_ACCESS_KEY,
     awsSecretKey: AWS_SECRET_KEY,
     bucketName: "instakash-docs-dev",
+    stage: "dev",
   },
   staging: {
     apiUrl: DEV_API,
@@ -21,6 +22,7 @@ const ENV = {
     awsAccessKey: AWS_ACCESS_KEY,
     awsSecretKey: AWS_SECRET_KEY,
     bucketName: "instakash-docs-dev",
+    stage: "staging",
   },
   prod: {
     apiUrl: PROD_API,
@@ -31,6 +33,7 @@ const ENV = {
     awsAccessKey: AWS_ACCESS_KEY,
     awsSecretKey: AWS_SECRET_KEY,
     bucketName: "instakash-docs",
+    stage: "prod",
   },
 };
 

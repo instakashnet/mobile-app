@@ -6,9 +6,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { getRates, createOrder, removeCoupon, clearExchangeError, openModal } from "../../../store/actions";
 
-// HELPERS
-import { useProfileCompleted } from "../../../hooks/use-completed.hook";
-
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
@@ -33,8 +30,7 @@ export const CalculatorScreen = ({ navigation }) => {
     profile = useSelector((state) => state.profileReducer.profile),
     [countdown, setCountdown] = useState(1),
     [couponRates, setCouponRates] = useState(null),
-    [countRunnig, setCountRunning] = useState(false),
-    [percentage] = useProfileCompleted(user);
+    [countRunnig, setCountRunning] = useState(false);
 
   // EFFECTS
   useFocusEffect(
@@ -59,7 +55,7 @@ export const CalculatorScreen = ({ navigation }) => {
 
   // HANDLERS
   const onSubmit = (values) => {
-      if (percentage < 100 && ((values.type === "sell" && values.amount_received >= 5000) || (values.type === "buy" && values.amount_sent >= 5000))) {
+      if (user.level < 3 && ((values.type === "sell" && values.amount_received >= 5000) || (values.type === "buy" && values.amount_sent >= 5000))) {
         return dispatch(openModal());
       } else dispatch(createOrder(values));
     },
