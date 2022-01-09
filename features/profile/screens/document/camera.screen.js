@@ -6,16 +6,16 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { uploadDocument } from "../../../../store/actions";
+import { uploadDocument, clearProfileError } from "../../../../store/actions";
 
 // COMPONENTS
 import { Link } from "../../../../components/typography/link.component";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
-import { Button } from "../../../../components/UI/button.component";
+import { Alert } from "../../../../components/UI/alert.component";
 
 // STYLED COMPONENTS
-import { NoCameraWrapper, CameraWrapper, CameraOverlay, CameraSquare, CameraButton, CameraLoader, ButtonsWrapper, Info, Title } from "../../components/camera.styles";
+import { NoCameraWrapper, CameraWrapper, CameraOverlay, CameraSquare, CameraButton, Button, CameraLoader, ButtonsWrapper, Info, Title } from "../../components/camera.styles";
 
 export const CameraScreen = ({ navigation, route }) => {
   const [hasPermission, setHasPermission] = useState(null),
@@ -29,7 +29,7 @@ export const CameraScreen = ({ navigation, route }) => {
     screenRatio = height / width,
     cameraRef = useRef(),
     dispatch = useDispatch(),
-    isProcessing = useSelector((state) => state.profileReducer.isProcessing),
+    { isProcessing, profileError } = useSelector((state) => state.profileReducer),
     { documentType } = route.params;
 
   // EFFECTS
@@ -140,37 +140,51 @@ export const CameraScreen = ({ navigation, route }) => {
     <Camera ratio={ratio} ref={(camera) => (cameraRef.current = camera)} onCameraReady={setCameraReady} style={{ flex: 1 }} type={Camera.Constants.Type.back}>
       {cameraReady && (
         <CameraWrapper>
-          <CameraOverlay />
-          <Title variant="bold">{documentType === "passport" ? "Foto pasaporte" : frontPhoto ? "Foto trasera" : "Foto frontal"}</Title>
+          <CameraOverlay>
+            <Title variant="bold">{documentType === "passport" ? "Foto pasaporte" : frontPhoto ? "Foto trasera" : "Foto frontal"}</Title>
+          </CameraOverlay>
           {preview ? <Image source={{ uri: preview }} style={{ width: Dimensions.get("window").width / 1.06, flex: 0.34 }} resizeMode="cover" /> : <CameraSquare />}
-          <CameraOverlay />
-          {!isProcessing && <Info variant="bold">Ajusta el documento dentro del cuadro</Info>}
-          {preview ? (
-            <ButtonsWrapper>
-              <Button onPress={onConfirm}>Se ve bien</Button>
-              <Button variant="secondary" onPress={() => setPreview(null)}>
-                Volver a tomar
-              </Button>
-            </ButtonsWrapper>
-          ) : (
-            !loading &&
-            !isProcessing && (
-              <CameraButton onPress={onSnap}>
-                <MaterialCommunityIcons name="circle-slice-8" size={90} color="#FFF" />
-              </CameraButton>
-            )
-          )}
-          {loading && <CameraLoader />}
-          {isProcessing && (
-            <>
-              <Info variant="bold" style={{ left: Dimensions.get("window").width / 2.5, bottom: "22%" }}>
-                Subiendo
-              </Info>
-              <CameraLoader />
-            </>
-          )}
+          <CameraOverlay>
+            {!isProcessing && !preview && <Info variant="bold">Ajusta el documento dentro del cuadro</Info>}
+            {preview ? (
+              <ButtonsWrapper>
+                <Button onPress={onConfirm}>
+                  <MaterialCommunityIcons name="check-circle" color="#0D8284" size={30} />
+                  <Spacer variant="left" />
+                  <Text variant="bold" style={{ color: "#FFF" }}>
+                    Se ve bien
+                  </Text>
+                </Button>
+                <Button variant="secondary" onPress={() => setPreview(null)}>
+                  <MaterialCommunityIcons name="backspace-reverse" color="#FFF" size={30} />
+                  <Spacer variant="left" />
+                  <Text variant="bold" style={{ color: "#FFF" }}>
+                    Repetir
+                  </Text>
+                </Button>
+              </ButtonsWrapper>
+            ) : (
+              !loading &&
+              !isProcessing && (
+                <CameraButton onPress={onSnap}>
+                  <MaterialCommunityIcons name="circle-slice-8" size={85} color="#FFF" />
+                </CameraButton>
+              )
+            )}
+            {loading && <CameraLoader />}
+            {isProcessing && (
+              <>
+                <Info variant="bold">Subiendo</Info>
+                <CameraLoader />
+              </>
+            )}
+          </CameraOverlay>
         </CameraWrapper>
       )}
+
+      <Alert type="error" onClose={clearProfileError} visible={!!profileError}>
+        {profileError}
+      </Alert>
     </Camera>
   );
 };

@@ -9,10 +9,10 @@ import { Text } from "../../../components/typography/text.component";
 export const ProfileInfoWrapper = styled.View`
   align-items: center;
   justify-content: center;
-  margin-vertical: ${({ theme }) => theme.space[5]};
-  padding-horizontal: ${({ theme }) => theme.space[4]};
+  margin-top: ${({ theme }) => theme.space[4]};
+  padding-horizontal: ${({ theme }) => theme.space[3]};
   width: ${Dimensions.get("window").width}px;
-  max-width: 370px;
+  max-width: 400px;
 `;
 
 export const ProfileSection = styled.View`
@@ -30,7 +30,7 @@ export const ProfileScroll = styled.ScrollView.attrs({
     flexGrow: 1,
     alignItems: "center",
     width: Dimensions.get("window").width,
-    paddingBottom: 60,
+    paddingBottom: 30,
   },
 })``;
 

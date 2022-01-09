@@ -11,13 +11,11 @@ import { GoogleIcon } from "../../../assets/icons/google";
 // COMPONENTS
 import { Button } from "../../../components/UI/button.component";
 
-const { googleSinInAndroid, googleSinInExpo, googleSinInIos } = getVariables();
-
 export const GoogleButton = ({ loginGoogle }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: googleSinInExpo,
-    androidClientId: googleSinInAndroid,
-    iosClientId: googleSinInIos,
+    expoClientId: "836395718088-lehca6774i6v9d0shlo9b9ich8seeoeb.apps.googleusercontent.com",
+    androidClientId: "836395718088-smvqt6vip76e66sd852be6pkgjuth9sf.apps.googleusercontent.com",
+    iosClientId: "836395718088-ehkp8sf0hud9h5h5ain3b31g9aan2rf4.apps.googleusercontent.com",
   });
 
   // EFFECTS

@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components/native";
-import { Dimensions, View } from "react-native";
+import { Dimensions } from "react-native";
 
 // COMPONENTS
 import { Text } from "../../components/typography/text.component";
 import { Spacer } from "../../components/utils/spacer.component";
 
 const SlideImage = styled.Image`
-  height: 180px;
+  height: 150px;
   resize-mode: contain;
 `;
 

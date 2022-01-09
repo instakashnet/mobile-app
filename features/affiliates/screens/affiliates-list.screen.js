@@ -14,8 +14,9 @@ import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { AffiliatesTable } from "../components/affiliates-table.component";
-import { AffiliatesScroll, Card, Number, Subtitle } from "../components/affiliates.styles";
-import { View } from "react-native";
+
+// STYLED COMPONENTS
+import { AffiliatesScroll, Card, Number, Subtitle, AffiliatesInfo } from "../components/affiliates.styles";
 
 export const AffiliatesListScreen = () => {
   const dispatch = useDispatch(),
@@ -58,19 +59,19 @@ export const AffiliatesListScreen = () => {
   return (
     <SafeArea>
       <AffiliatesScroll>
-        <Spacer variant="top" size={3} />
+        <Spacer variant="top" />
         <Text variant="title">Mis referidos</Text>
-        <Text numberOfLines={3} style={{ paddingHorizontal: 20 }}>
+        <Text numberOfLines={3} style={{ paddingHorizontal: 10 }}>
           Recuerda que ganas Kash cada vez que tus amigos se registran con tu código y completan su primer cambio.
         </Text>
         <Spacer variant="top" size={3} />
         <AffiliatesTable columns={columns} rows={rows} />
         <Spacer variant="top" size={5} />
         <Text variant="subtitle" style={{ color: "#676767" }}>
-          Mientras más invites <Text variant="bold">más KASH ganarás</Text>
+          Mientras más invites más KASH ganarás
         </Text>
         <Spacer variant="top" size={3} />
-        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
+        <AffiliatesInfo>
           <Card>
             <Number>{total}</Number>
             <Subtitle>Invitados</Subtitle>
@@ -87,7 +88,7 @@ export const AffiliatesListScreen = () => {
             <Number>{completed}</Number>
             <Subtitle>Kash ganados</Subtitle>
           </Card>
-        </View>
+        </AffiliatesInfo>
       </AffiliatesScroll>
     </SafeArea>
   );

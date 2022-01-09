@@ -6,7 +6,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 const KeyboardAware = styled(KeyboardAwareScrollView).attrs({
   contentContainerStyle: {
     width: Dimensions.get("window").width,
-    padding: 20,
+    flexGrow: 1,
+    paddingBottom: 15,
     alignItems: "center",
   },
 })``;

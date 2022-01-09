@@ -25,7 +25,6 @@ const uploadToS3 = async (imageObj, uploadType) => {
 
     return res;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -40,7 +39,6 @@ function* getProfiles() {
     const res = yield authInstance.get("/users/profiles");
     if (res.status === 200) yield put(actions.getProfilesSuccess(res.data.profiles));
   } catch (error) {
-    console.log(error);
     yield put(actions.profileError(error.message));
   }
 }
@@ -50,10 +48,15 @@ function* watchGetUserData() {
 }
 
 function* getUserData() {
-  const res = yield authInstance.get("/users/session");
-  const user = camelize(res.data.user);
-  yield put(loadUserSuccess(user));
-  yield put(actions.getUserDataSuccess());
+  try {
+    const res = yield authInstance.get("/users/session");
+    const user = camelize(res.data.user);
+    yield put(loadUserSuccess(user));
+    yield put(actions.getUserDataSuccess());
+  } catch {
+    yield put(actions.profileError(error.message));
+    throw error;
+  }
 }
 
 function* watchAddProfiles() {

@@ -56,16 +56,20 @@ export const AffiliateCodeScreen = ({ navigation }) => {
           ref={(ref) => (carousel.current = ref)}
           data={slider.items}
           renderItem={SlideItem}
-          sliderWidth={350}
-          slideStyle={{ height: Dimensions.get("window").height / 2.5, alignItems: "center", justifyContent: "center" }}
-          itemWidth={350}
+          sliderWidth={Dimensions.get("window").width < 400 ? 300 : 375}
+          slideStyle={{
+            height: Dimensions.get("screen").height < 890 ? Dimensions.get("window").height / 2 : Dimensions.get("window").height / 4,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          itemWidth={Dimensions.get("window").width < 400 ? 300 : 375}
           contentContainerCustomStyle={{ display: "flex", alignItems: "center" }}
           loop
           autoplay
           autoplayDelay={2000}
           autoplayInterval={5000}
         />
-        <Spacer variant="top" size={2} />
+        <Spacer variant="top" size={4} />
         <CodeWrapper>
           <Text variant="subtitle" style={{ textTransform: "uppercase" }}>
             {user.username}

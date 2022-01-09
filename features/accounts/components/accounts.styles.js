@@ -12,17 +12,25 @@ export const AccountsScroll = styled.ScrollView.attrs({
 })``;
 
 export const AccountsWrapper = styled.View`
+  margin-top: ${({ theme }) => theme.space[4]};
   padding-horizontal: ${({ theme }) => theme.space[4]};
-  width: ${Dimensions.get("window").width}px;
+  width: 100%;
   flex: 1;
   justify-content: center;
   align-items: center;
 `;
 
+export const AccountsListWrapper = styled.View`
+  width: 100%;
+  min-height: ${Dimensions.get("window").height < 650 ? Dimensions.get("window").height / 3 : Dimensions.get("window").height / 4.5}px;
+  margin-top: ${({ theme }) => theme.space[6]};
+  margin-bottom: ${({ theme }) => theme.space[3]};
+`;
+
 export const AccountCard = styled.TouchableOpacity`
   border-radius: 10px;
   background-color: #fff;
-  width: 300px;
+  width: ${Dimensions.get("window").width / 1.3}px;
   shadow-color: #000;
   shadow-offset: 0px 2px;
   shadow-opacity: 0.1;
@@ -47,7 +55,7 @@ export const NoAccountsCard = styled.View`
   justify-content: center;
   padding-vertical: ${({ theme }) => theme.space[4]};
   padding-horizontal: ${({ theme }) => theme.space[5]};
-  margin-top: ${({ theme }) => theme.space[4]};
+  margin-top: ${({ theme }) => theme.space[6]};
   min-height: 190px;
 `;
 

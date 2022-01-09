@@ -8,20 +8,21 @@ export const AuthScroll = styled.ScrollView.attrs({
     justifyContent: "center",
     alignItems: "center",
     flexGrow: 1,
-    padding: 25,
+    paddingHorizontal: 15,
+    marginTop: 10,
     width: Dimensions.get("window").width,
-    maxWidth: 390,
+    maxWidth: 400,
   },
 })``;
 
 export const AuthWrapper = styled.View`
-  flex-grow: 1;
+  flex: 1;
   justify-content: center;
   align-items: center;
-  padding-horizontal: ${({ theme }) => theme.space[5]};
-  padding-vertical: ${({ theme }) => theme.space[3]};
+  padding-horizontal: ${({ theme }) => theme.space[3]};
+  margin-top: ${({ theme }) => theme.space[4]};
   width: ${Dimensions.get("window").width}px;
-  max-width: 415px;
+  max-width: 400px;
 `;
 
 export const SplashWrapper = styled.View`

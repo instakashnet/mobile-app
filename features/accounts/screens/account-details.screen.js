@@ -88,11 +88,10 @@ export const AccountDetailsScreen = ({ route, navigation }) => {
             </DetailsWrapper>
           )}
         </DetailsCard>
-        <Spacer variant="top" size={6} />
+        <Spacer variant="top" size={4} />
         <Button icon="circle-edit-outline" contentStyle={{ flexDirection: "row-reverse" }} onPress={() => navigation.navigate("EditAccount", { account })}>
           Editar cuenta
         </Button>
-        <Spacer variant="top" />
         <Button
           icon="trash-can"
           variant="error"

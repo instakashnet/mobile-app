@@ -5,11 +5,9 @@ import { LinearGradient } from "expo-linear-gradient";
 export const ExchangeScroll = styled.ScrollView.attrs({
   contentContainerStyle: {
     flexGrow: 1,
-    paddingTop: 30,
     paddingBottom: 30,
     alignItems: "center",
     width: Dimensions.get("window").width,
-    paddingHorizontal: 30,
   },
 })``;
 
@@ -22,16 +20,22 @@ export const ExchangeWrapper = styled.View`
   width: ${Dimensions.get("window").width}px;
 `;
 
+export const ExchangeForm = styled.View`
+  padding-horizontal: ${({ theme }) => theme.space[3]};
+  align-items: center;
+  width: 100%;
+`;
+
 export const ExchangeHeader = styled(LinearGradient).attrs(({ theme }) => ({
   colors: [theme.colors.brand.primary, theme.colors.brand.tertiary],
 }))`
   width: 100%;
-  min-height: 65px;
-  max-height: 85px;
+  min-height: 60px;
+  max-height: 80px;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  padding-vertical: ${({ theme }) => theme.space[3]};
+  padding-vertical: ${({ theme }) => theme.space[2]};
   padding-horizontal: ${({ theme }) => theme.space[4]};
 `;
 
@@ -59,9 +63,15 @@ export const RatesWrapper = styled.View`
   shadow-radius: 10px;
 `;
 
+export const OldRatesWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const RateBox = styled.View`
-  padding-horizontal: ${({ theme }) => theme.space[6]};
-  padding-vertical: ${({ theme }) => theme.space[4]};
+  padding: ${({ theme }) => theme.space[4]};
   align-items: center;
 `;
 

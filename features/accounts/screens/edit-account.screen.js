@@ -15,7 +15,6 @@ import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.c
 
 // STYLED COMPONENTS
 import { AccountsWrapper } from "../components/accounts.styles";
-import { Dimensions } from "react-native";
 
 export const EditAccountScreen = ({ route }) => {
   const dispatch = useDispatch(),

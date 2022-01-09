@@ -14,13 +14,14 @@ export const CameraWrapper = styled.View`
   flex: 1;
   align-items: center;
   justify-content: space-between;
-  position: relative;
 `;
 
 export const CameraOverlay = styled.View`
   width: ${Dimensions.get("window").width}px;
   flex: 0.33;
   background-color: rgba(0, 0, 0, 0.75);
+  align-items: center;
+  padding-vertical: ${({ theme }) => theme.space[3]};
 `;
 
 export const CameraSquare = styled.View`
@@ -32,38 +33,38 @@ export const CameraSquare = styled.View`
 
 export const Title = styled(Text)`
   color: #fff;
-  position: absolute;
-  left: ${Dimensions.get("window").width / 2.75}px;
-  top: 28%;
-  elevation: 1;
+  margin-top: auto;
 `;
 
 export const Info = styled(Text)`
   color: #fff;
-  position: absolute;
-  bottom: 28%;
-  left: ${Dimensions.get("window").width / 8.5}px;
 `;
 
 export const CameraButton = styled.TouchableOpacity`
-  position: absolute;
-  bottom: 40px;
-  left: ${Dimensions.get("window").width / 2.75}px;
+  margin-top: auto;
+  margin-bottom: ${({ theme }) => theme.space[4]};
 `;
 
 export const CameraLoader = styled(ActivityIndicator).attrs({
-  size: 90,
+  size: 80,
   animating: true,
   color: "#FFF",
 })`
-  position: absolute;
-  bottom: 40px;
-  left: ${Dimensions.get("window").width / 2.75}px;
+  margin-top: auto;
+  margin-bottom: ${({ theme }) => theme.space[4]};
 `;
 
 export const ButtonsWrapper = styled.View`
-  position: absolute;
-  bottom: 40px;
-  left: ${Dimensions.get("window").width / 16}px;
   width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: ${({ theme }) => theme.space[6]};
+`;
+
+export const Button = styled.TouchableOpacity`
+  flex-direction: row;
+  padding: ${({ theme }) => theme.space[2]};
+  margin-horizontal: ${({ theme }) => theme.space[2]};
+  align-items: center;
 `;

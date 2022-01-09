@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 
 // REDUX
 import { useDispatch } from "react-redux";
-import { validateCoupon } from "../../../../store/actions";
+import { validateCoupon, removeCoupon } from "../../../../store/actions";
 
 // COMPONENTS
 import { Spacer } from "../../../../components/utils/spacer.component";
@@ -21,13 +21,15 @@ import { Text } from "../../../../components/typography/text.component";
 
 // STYLED COMPONENTS
 import { FormWrapper, Caption } from "../exchange.styles";
-import { CalculatorWrapper, CouponInputWrapper, CouponInput, CouponButton, InfoWrapper } from "../calculator.styles";
+import { CalculatorWrapper, CouponInputWrapper, CouponInput, CouponButton, InfoWrapper, TimerWrapper, Timer } from "../calculator.styles";
 
-export const CalculatorForm = ({ onRemoveCoupon, isProcessing, profile, onSubmit, rates, coupon, couponRates, isReferal }) => {
+export const CalculatorForm = ({ getRates, isProcessing, isFocused, profile, onSubmit, rates, coupon, couponRates, isReferal }) => {
   const dispatch = useDispatch(),
     [toSendCurrency, setToSendCurrency] = useState("Soles"),
     [toReceiveCurrency, setToReceiveCurrency] = useState("Dólares"),
     [couponName, setCouponName] = useState(""),
+    [countdown, setCountdown] = useState(1),
+    [countRunnig, setCountRunning] = useState(false),
     amountSentRef = useRef(1000),
     amountReceivedRef = useRef(0);
 
@@ -57,6 +59,12 @@ export const CalculatorForm = ({ onRemoveCoupon, isProcessing, profile, onSubmit
   );
 
   useEffect(() => {
+    setCountRunning(isFocused);
+
+    () => setCountRunning(false);
+  }, [isFocused]);
+
+  useEffect(() => {
     if (calculatorType === "sell") {
       setToSendCurrency("Soles");
       setToReceiveCurrency("Dólares");
@@ -83,10 +91,24 @@ export const CalculatorForm = ({ onRemoveCoupon, isProcessing, profile, onSubmit
   }, [couponRates]);
 
   // HANDLERS
-  const onAddCoupon = (name) => {
-      formik.setFieldValue("couponName", name);
-      dispatch(validateCoupon(name, profile.type));
+  const onAddCoupon = useCallback(
+      (name) => {
+        formik.setFieldValue("couponName", name);
+        dispatch(validateCoupon(name, profile.type));
+      },
+      [profile.type]
+    ),
+    onRemoveCoupon = () => {
+      dispatch(removeCoupon());
+      formik.setFieldValue("couponName", "");
     },
+    onGetRates = useCallback(() => {
+      setCountdown(Math.random());
+      getRates();
+      onRemoveCoupon();
+
+      if (isReferal) onAddCoupon("NUEVOREFERIDO1");
+    }, [isReferal]),
     onSwapHandler = () => {
       let amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +rates.buy : +formik.values.amount_sent / +rates.sell;
       if (couponRates) amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +couponRates.buy : +formik.values.amount_sent / +couponRates.sell;
@@ -121,68 +143,69 @@ export const CalculatorForm = ({ onRemoveCoupon, isProcessing, profile, onSubmit
     };
 
   return (
-    <FormWrapper>
-      <CalculatorWrapper>
-        <Input
-          name="amount_sent"
-          onChange={onChange}
-          label="Envías"
-          value={formik.values.amount_sent}
-          currency={toSendCurrency}
-          symbol={toSendCurrency === "Soles" ? "S/." : "$"}
-        />
-        <SwapButton onPress={onSwapHandler} />
-        <Spacer variant="top" size={2} />
-        <Input
-          name="amount_received"
-          onChange={onChange}
-          label="Recibes"
-          value={formik.values.amount_received}
-          currency={toReceiveCurrency}
-          symbol={toReceiveCurrency === "Soles" ? "S/." : "$"}
-        />
-      </CalculatorWrapper>
-      <Spacer variant="top" size={4} />
-      <InfoWrapper>
-        <Caption>¿Montos mayores a $ 5,000?</Caption>
-        <Spacer variant="left" />
-        <Popover
-          from={
-            <TouchableOpacity>
-              <MaterialCommunityIcons name="information-outline" size={25} color="#0D8284" />
-            </TouchableOpacity>
-          }
-          popoverStyle={{ padding: 15 }}
-        >
-          <Text variant="button">Escribenos a nuestro whatsapp para ofrecerte un cupón de descuento para tu cambio.</Text>
-        </Popover>
-      </InfoWrapper>
+    <>
+      <TimerWrapper>
+        <Text variant="bold">El tipo de cambio se actualizará:</Text>
+        <Timer id={countdown.toString()} running={countRunnig} until={300} size={14} showSeparator onFinish={onGetRates} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
+      </TimerWrapper>
 
-      <Spacer variant="top" size={4} />
+      <FormWrapper>
+        <CalculatorWrapper>
+          <Input
+            name="amount_sent"
+            onChange={onChange}
+            label="Envías"
+            value={formik.values.amount_sent}
+            currency={toSendCurrency}
+            symbol={toSendCurrency === "Soles" ? "S/." : "$"}
+          />
+          <SwapButton onPress={onSwapHandler} />
+          <Spacer variant="top" size={2} />
+          <Input
+            name="amount_received"
+            onChange={onChange}
+            label="Recibes"
+            value={formik.values.amount_received}
+            currency={toReceiveCurrency}
+            symbol={toReceiveCurrency === "Soles" ? "S/." : "$"}
+          />
+        </CalculatorWrapper>
+        <Spacer variant="top" size={4} />
+        <InfoWrapper>
+          <Caption>¿Montos mayores a $ 5,000?</Caption>
+          <Spacer variant="left" />
+          <Popover
+            from={
+              <TouchableOpacity>
+                <MaterialCommunityIcons name="information-outline" size={25} color="#0D8284" />
+              </TouchableOpacity>
+            }
+            popoverStyle={{ padding: 15 }}
+          >
+            <Text variant="button">Escribenos a nuestro whatsapp para ofrecerte un cupón de descuento para tu cambio.</Text>
+          </Popover>
+        </InfoWrapper>
 
-      {coupon ? (
-        <CouponApplied
-          coupon={coupon}
-          onRemove={() => {
-            formik.setFieldValue("couponName", "");
-            onRemoveCoupon();
-          }}
-        />
-      ) : (
-        <CouponInputWrapper>
-          <CouponInput autoCorrect={false} autoComplete="off" value={couponName} label="Agregar cupón" onChangeText={setCouponName} />
-          <CouponButton onPress={() => onAddCoupon(couponName)} disabled={!couponName} loading={isProcessing}>
-            <Text variant="button" style={{ color: !couponName ? "#676767" : "#FFF" }}>
-              Agregar
-            </Text>
-          </CouponButton>
-        </CouponInputWrapper>
-      )}
+        <Spacer variant="top" size={4} />
 
-      <Spacer variant="top" />
-      <Button onPress={formik.handleSubmit} disabled={amount_sent <= 0 || amount_received <= 0 || isProcessing} loading={isProcessing}>
-        Comenzar cambio
-      </Button>
-    </FormWrapper>
+        {coupon ? (
+          <CouponApplied coupon={coupon} onRemove={onRemoveCoupon} />
+        ) : (
+          <CouponInputWrapper>
+            <CouponInput autoCorrect={false} autoComplete="off" value={couponName} label="Agregar cupón" onChangeText={setCouponName} />
+            <CouponButton onPress={() => onAddCoupon(couponName)} disabled={!couponName} loading={isProcessing}>
+              <Text variant="button" style={{ color: !couponName ? "#676767" : "#FFF" }}>
+                Agregar
+              </Text>
+            </CouponButton>
+          </CouponInputWrapper>
+        )}
+
+        <Spacer variant="top" />
+        <Button onPress={formik.handleSubmit} disabled={amount_sent <= 0 || amount_received <= 0 || isProcessing} loading={isProcessing}>
+          Comenzar cambio
+        </Button>
+      </FormWrapper>
+    </>
   );
 };

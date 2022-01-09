@@ -15,8 +15,9 @@ import { Button } from "../../../../components/UI/button.component";
 // STYLED COMPONENTS
 import { HeaderProfile, ProfileScroll, ProfileInfoWrapper } from "../../components/profile.styles";
 
-export const DocumentTypeScreen = ({ navigation }) => {
-  const [documentType, setDocumentType] = useState(null);
+export const DocumentTypeScreen = ({ navigation, route }) => {
+  const [documentType, setDocumentType] = useState(null),
+    user = route.params?.user;
 
   return (
     <SafeArea>
@@ -33,23 +34,26 @@ export const DocumentTypeScreen = ({ navigation }) => {
         <ProfileInfoWrapper>
           <Text variant="title">Selecciona tu documento</Text>
           <Spacer variant="top" />
-          <ButtonSelect selected={documentType === "dni"} onPress={() => setDocumentType("dni")}>
-            <DniIcon />
-            <Spacer variant="left" />
-            <View>
+          {user?.documentType === "pasaporte" ? (
+            <ButtonSelect selected={documentType === "passport"} onPress={() => setDocumentType("passport")}>
+              <PassportIcon />
+              <Spacer variant="left" />
               <Text variant="bold" numberOfLines={1}>
-                Documento emitido por el país
+                Pasaporte
               </Text>
-              <Text variant="caption">DNI, PTP, CE</Text>
-            </View>
-          </ButtonSelect>
-          <ButtonSelect selected={documentType === "passport"} onPress={() => setDocumentType("passport")}>
-            <PassportIcon />
-            <Spacer variant="left" />
-            <Text variant="bold" numberOfLines={1}>
-              Pasaporte
-            </Text>
-          </ButtonSelect>
+            </ButtonSelect>
+          ) : (
+            <ButtonSelect selected={documentType === "dni"} onPress={() => setDocumentType("dni")}>
+              <DniIcon />
+              <Spacer variant="left" />
+              <View>
+                <Text variant="bold" numberOfLines={1}>
+                  Documento emitido por el país
+                </Text>
+                <Text variant="caption">DNI, PTP, CE</Text>
+              </View>
+            </ButtonSelect>
+          )}
           <View style={{ width: "100%", paddingLeft: 5 }}>
             {[
               {

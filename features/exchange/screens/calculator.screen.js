@@ -19,8 +19,7 @@ import { Modal } from "../../../components/UI/modal.component";
 import { Button } from "../../../components/UI/button.component";
 
 // STYLED COMPONENTS
-import { RatesWrapper, RateBox, Caption, Price, BorderLine } from "../components/exchange.styles";
-import { Timer, TimerWrapper } from "../components/calculator.styles";
+import { RatesWrapper, ExchangeForm, OldRatesWrapper, RateBox, Caption, Price, BorderLine } from "../components/exchange.styles";
 
 export const CalculatorScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
@@ -28,9 +27,7 @@ export const CalculatorScreen = ({ navigation }) => {
     { isLoading, isProcessing, rates, coupon, exchangeError } = useSelector((state) => state.exchangeReducer),
     user = useSelector((state) => state.authReducer.user),
     profile = useSelector((state) => state.profileReducer.profile),
-    [countdown, setCountdown] = useState(1),
-    [couponRates, setCouponRates] = useState(null),
-    [countRunnig, setCountRunning] = useState(false);
+    [couponRates, setCouponRates] = useState(null);
 
   // EFFECTS
   useFocusEffect(
@@ -42,12 +39,6 @@ export const CalculatorScreen = ({ navigation }) => {
   );
 
   useEffect(() => {
-    setCountRunning(isFocused);
-
-    () => setCountRunning(false);
-  }, [isFocused]);
-
-  useEffect(() => {
     if (coupon) {
       setCouponRates({ buy: (+rates.buy + coupon.discount).toFixed(4), sell: (+rates.sell - coupon.discount).toFixed(4) });
     } else setCouponRates(null);
@@ -55,56 +46,61 @@ export const CalculatorScreen = ({ navigation }) => {
 
   // HANDLERS
   const onSubmit = (values) => {
-      if (user.level < 3 && ((values.type === "sell" && values.amount_received >= 5000) || (values.type === "buy" && values.amount_sent >= 5000))) {
-        return dispatch(openModal());
-      } else dispatch(createOrder(values));
-    },
-    onRemoveCoupon = () => dispatch(removeCoupon()),
-    onGetRates = () => {
-      setCountdown(Math.random());
-      dispatch(getRates());
-      onRemoveCoupon();
-    };
+    if (user.level < 3 && ((values.type === "sell" && values.amount_received >= 1000) || (values.type === "buy" && values.amount_sent >= 1000))) {
+      return dispatch(openModal());
+    } else dispatch(createOrder(values));
+  };
 
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} screen="calculator" />
       <KeyboardScrollAware>
-        <Text variant="title">Las mejores tasas del perú</Text>
-        <Spacer varaint="top" size={2} />
-        <RatesWrapper>
-          <RateBox>
-            <Caption>Compramos</Caption>
-            <Price>S/. {couponRates ? couponRates.buy : rates.buy}</Price>
-          </RateBox>
-          <BorderLine />
-          <RateBox>
-            <Caption>Vendemos</Caption>
-            <Price>S/. {couponRates ? couponRates.sell : rates.sell}</Price>
-          </RateBox>
-        </RatesWrapper>
-        <Spacer variant="top" size={4} />
-        <TimerWrapper>
-          <Text variant="bold">El tipo de cambio se actualizará:</Text>
-          <Timer id={countdown.toString()} running={countRunnig} until={300} size={14} showSeparator onFinish={onGetRates} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
-        </TimerWrapper>
-        <CalculatorForm
-          onRemoveCoupon={onRemoveCoupon}
-          isReferal={user.isReferal}
-          isProcessing={isProcessing}
-          couponRates={couponRates}
-          coupon={coupon}
-          profile={profile}
-          rates={rates}
-          onSubmit={onSubmit}
-        />
+        <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} screen="calculator" />
+        <ExchangeForm>
+          <Spacer variant="top" />
+          <Text variant="title">Las mejores tasas del perú</Text>
+          <Spacer varaint="top" />
+          {couponRates && (
+            <>
+              <OldRatesWrapper>
+                <Text variant="bold">S/. {rates.buy}</Text>
+                <Spacer variant="left" size={6} />
+                <Text variant="bold">S/. {rates.sell}</Text>
+              </OldRatesWrapper>
+              <Spacer variant="top" />
+            </>
+          )}
+          <RatesWrapper>
+            <RateBox>
+              <Caption>Compramos</Caption>
+              <Price>S/. {couponRates ? couponRates.buy : rates.buy}</Price>
+            </RateBox>
+            <BorderLine />
+            <RateBox>
+              <Caption>Vendemos</Caption>
+              <Price>S/. {couponRates ? couponRates.sell : rates.sell}</Price>
+            </RateBox>
+          </RatesWrapper>
+          <Spacer variant="top" size={4} />
+
+          <CalculatorForm
+            isReferal={user.isReferal}
+            isProcessing={isProcessing}
+            couponRates={couponRates}
+            coupon={coupon}
+            profile={profile}
+            rates={rates}
+            onSubmit={onSubmit}
+            isFocused={isFocused}
+            getRates={() => dispatch(getRates())}
+          />
+        </ExchangeForm>
       </KeyboardScrollAware>
       <Modal>
         <MaterialCommunityIcons name="information" size={50} color="#EB9824" />
         <Spacer variant="top" size={2} />
         <Text variant="bold" style={{ textAlign: "center" }}>
-          Debes completar tu perfil al 100% para poder realizar operaciones mayores a 5000 USD.
+          Debes completar tu perfil al 100% para poder realizar operaciones mayores a 1000 USD.
         </Text>
         <Spacer variant="top" />
         <Button onPress={() => navigation.navigate("Profile")}>Completar perfil</Button>

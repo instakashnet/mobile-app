@@ -12,6 +12,9 @@ import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.c
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Alert } from "../../../components/UI/alert.component";
 
+// STYLED COMPONENTS
+import { AccountsWrapper } from "../components/accounts.styles";
+
 export const AddPersonalAccountScreen = ({ route }) => {
   const dispatch = useDispatch(),
     { banks, currencies, isProcessing, accountsError } = useSelector((state) => state.accountsReducer),
@@ -23,9 +26,11 @@ export const AddPersonalAccountScreen = ({ route }) => {
   return (
     <SafeArea>
       <KeyboardScrollAware>
-        <Text>Agrega una cuenta donde recibirás tu cambio.</Text>
-        <Spacer variant="top" />
-        <AddPersonalForm banks={banks} currencyId={currencyId} isProcessing={isProcessing} onAddAccount={onAddAccount} currencies={currencies} />
+        <AccountsWrapper>
+          <Text>Agrega una cuenta donde recibirás tu cambio.</Text>
+          <Spacer variant="top" />
+          <AddPersonalForm banks={banks} currencyId={currencyId} isProcessing={isProcessing} onAddAccount={onAddAccount} currencies={currencies} />
+        </AccountsWrapper>
       </KeyboardScrollAware>
       <Alert type="error" onClose={clearAccountsError} visible={!!accountsError}>
         {accountsError}

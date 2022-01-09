@@ -18,6 +18,12 @@ export const InfoWrapper = styled.View`
   align-items: center;
 `;
 
+export const TransferWrapper = styled.View`
+  width: 100%;
+  padding-horizontal: ${({ theme }) => theme.space[3]};
+  align-items: center;
+`;
+
 export const InfoBox = styled.View`
   align-items: center;
 `;

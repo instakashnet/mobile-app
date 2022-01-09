@@ -14,6 +14,9 @@ import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { RegisterForm } from "../components/forms/register-form.component";
 
+// STYLED COMPONENTS
+import { AuthWrapper } from "../components/auth.styles";
+
 export const RegisterScreen = () => {
   const dispatch = useDispatch();
   const { isProcessing, authError } = useSelector((state) => state.authReducer);
@@ -32,10 +35,12 @@ export const RegisterScreen = () => {
   return (
     <SafeArea>
       <KeyboardScrollAware>
-        <Text variant="title">¡Bienvenido a Instakash!</Text>
-        <Text>Regístrate y realiza tus operaciones de forma segura desde nuetra plataforma digital.</Text>
-        <Spacer variant="top" size={2} />
-        <RegisterForm isProcessing={isProcessing} onSubmit={onSubmit} />
+        <AuthWrapper>
+          <Text variant="title">¡Bienvenido a Instakash!</Text>
+          <Text>Regístrate y realiza tus operaciones de forma segura desde nuetra plataforma digital.</Text>
+          <Spacer variant="top" size={2} />
+          <RegisterForm isProcessing={isProcessing} onSubmit={onSubmit} />
+        </AuthWrapper>
       </KeyboardScrollAware>
       <Alert type="error" onClose={clearAuthError} visible={!!authError}>
         {authError}

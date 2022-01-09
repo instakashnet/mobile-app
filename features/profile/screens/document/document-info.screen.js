@@ -34,7 +34,7 @@ export const DocumentInfoScreen = ({ route, navigation }) => {
           <Text variant="subtitle" style={{ alignSelf: "flex-start" }}>
             ¡Importante!
           </Text>
-          <View style={{ width: "100%", paddingRight: 10 }}>
+          <View style={{ width: "100%", paddingRight: 25 }}>
             {[
               {
                 key: "El tipo y nro. de documento debe ser el mismo usado en tu registro.",
@@ -61,6 +61,7 @@ export const DocumentInfoScreen = ({ route, navigation }) => {
               Tomar foto
             </Text>
           </Button>
+          <Spacer variant="top" size={6} />
         </ProfileInfoWrapper>
       </ProfileScroll>
     </SafeArea>

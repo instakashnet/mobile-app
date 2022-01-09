@@ -11,6 +11,7 @@ import { Logo } from "../../../assets/illustrations/platform/logo";
 
 // COMPONENTS
 import { DismissKeyboard } from "../../../components/utils/dismiss-keyobard.component";
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Alert } from "../../../components/UI/alert.component";
@@ -39,38 +40,40 @@ export const LoginScreen = ({ navigation }) => {
   return (
     <SafeArea>
       <DismissKeyboard>
-        <AuthScroll>
-          <Logo width={280} />
-          <Spacer variant="top" />
-          <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
-          {Platform.OS === "android" && (
-            <>
-              <GoogleButton loginGoogle={onGoogleLogin} />
-              <Spacer variant="top" />
-              <View style={styles.loginInfo}>
-                <AuthLine />
-                <Spacer variant="horizontal">
-                  <Text variant="caption">o ingresa tus datos</Text>
-                </Spacer>
-                <AuthLine />
-              </View>
-            </>
-          )}
-          <Spacer variant="top" />
-          <LoginForm isProcessing={isProcessing} onSubmit={onSubmit} />
-          <Spacer variant="vertical" size={3}>
-            <Link onPress={() => navigation.navigate("RecoverPassword")}>
-              <Text variant="bold">Olvidé mi contraseña</Text>
-            </Link>
-          </Spacer>
-          <AuthLinkWrapper>
-            <Text>¿Eres nuevo en Instakash?</Text>
-            <Spacer variant="left" />
-            <Link onPress={() => navigation.navigate("Register")}>
-              <Text variant="bold">Registrate</Text>
-            </Link>
-          </AuthLinkWrapper>
-        </AuthScroll>
+        <KeyboardScrollAware>
+          <AuthScroll>
+            <Logo width={280} />
+            <Spacer variant="top" />
+            <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
+            {Platform.OS === "android" && (
+              <>
+                <GoogleButton loginGoogle={onGoogleLogin} />
+                <Spacer variant="top" />
+                <View style={styles.loginInfo}>
+                  <AuthLine />
+                  <Spacer variant="horizontal">
+                    <Text variant="caption">o ingresa tus datos</Text>
+                  </Spacer>
+                  <AuthLine />
+                </View>
+              </>
+            )}
+            <Spacer variant="top" />
+            <LoginForm isProcessing={isProcessing} onSubmit={onSubmit} />
+            <Spacer variant="vertical" size={3}>
+              <Link onPress={() => navigation.navigate("RecoverPassword")}>
+                <Text variant="bold">Olvidé mi contraseña</Text>
+              </Link>
+            </Spacer>
+            <AuthLinkWrapper>
+              <Text>¿Eres nuevo en Instakash?</Text>
+              <Spacer variant="left" />
+              <Link onPress={() => navigation.navigate("Register")}>
+                <Text variant="bold">Registrate</Text>
+              </Link>
+            </AuthLinkWrapper>
+          </AuthScroll>
+        </KeyboardScrollAware>
       </DismissKeyboard>
       <Alert type="error" onClose={clearAuthError} visible={!!authError}>
         {authError}

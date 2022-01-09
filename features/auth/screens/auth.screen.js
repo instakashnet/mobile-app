@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import Carousel from "react-native-snap-carousel";
+import { Dimensions } from "react-native";
 
 // Components
 import { AuthWrapper } from "../components/auth.styles";
@@ -45,8 +46,8 @@ export const AuthScreen = ({ navigation }) => {
           ref={(ref) => (carousel.current = ref)}
           data={slider.items}
           renderItem={SlideItem}
-          sliderWidth={350}
-          itemWidth={350}
+          sliderWidth={Dimensions.get("window").width < 385 ? 300 : 375}
+          itemWidth={Dimensions.get("window").width < 385 ? 300 : 375}
           contentContainerCustomStyle={{ display: "flex", alignItems: "center" }}
           autoplay
           autoplayInterval={4000}

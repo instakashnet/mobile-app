@@ -26,3 +26,11 @@ export const openURL = async (url) => {
 };
 
 export const replaceSpace = (text) => text.split(" ").join("-");
+
+export const validateInterplaza = (accountNumber) => {
+  const firstAccNumber = accountNumber.substring(0, 1);
+
+  let interplaza = false;
+  if (firstAccNumber >= 3 && firstAccNumber <= 7) interplaza = true;
+  return interplaza;
+};

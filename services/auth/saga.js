@@ -1,4 +1,4 @@
-import { all, call, put, fork, takeLatest, takeEvery } from "redux-saga/effects";
+import { all, call, put, fork, takeLatest, delay, takeEvery } from "redux-saga/effects";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
@@ -29,6 +29,11 @@ function* clearUserData() {
   yield call([SecureStore, "deleteItemAsync"], "authData");
   yield call([AsyncStorage, "removeItem"], "profileSelected");
   yield put(clearProfile());
+}
+
+function* setAuthTimeout(timeout) {
+  yield delay(timeout - 60000);
+  yield put(actions.logoutUser());
 }
 
 // SAGAS
@@ -65,10 +70,10 @@ function* loadUser() {
     if (!user.verified) return yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
     if (!user.completed) return yield call([RootNavigation, "push"], "CompleteProfile");
 
-    console.log(user);
-
     yield call(getData);
     yield put(actions.loginUserSuccess());
+
+    yield call(setAuthTimeout, new Date(expires).getTime() - new Date().getTime());
   } catch (error) {
     yield put(actions.logoutUser());
   }

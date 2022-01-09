@@ -15,12 +15,20 @@ import { theme } from "./theme";
 import { store } from "./store";
 import * as Sentry from "sentry-expo";
 import { getVariables } from "./variables";
+import { connectToDevTools } from "react-devtools-core";
 
 // COMPONENTS
 import { Text } from "./components/typography/text.component";
 import { Spacer } from "./components/utils/spacer.component";
 
 const { stage } = getVariables();
+
+if (__DEV__) {
+  connectToDevTools({
+    host: "localhost",
+    port: 8097,
+  });
+}
 
 Sentry.init({
   dsn: "https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263",

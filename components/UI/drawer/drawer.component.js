@@ -24,7 +24,7 @@ export const CustomDrawer = (props) => {
     <DrawerContentScrollView {...props} contentContainerStyle={{ alignItems: "center" }}>
       <Header>
         <HeaderInfo>
-          {user.identitySex === "male" ? <Male width={45} /> : <Female />}
+          {user.identitySex === "male" ? <Male width={45} /> : <Female width={45} />}
           <Name>{porfileName.length > 2 ? `${porfileName[0]} ${porfileName[2]}` : `${porfileName[0]} ${porfileName[1]}`}</Name>
         </HeaderInfo>
         <TouchableOpacity onPress={() => props.navigation.closeDrawer()}>

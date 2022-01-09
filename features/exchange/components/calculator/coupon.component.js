@@ -16,9 +16,11 @@ export const CouponApplied = ({ coupon, onRemove }) => {
       <Spacer variant="top" />
       <CouponWrapper>
         <CouponText>{coupon.name}</CouponText>
-        <TouchableOpacity onPress={onRemove}>
-          <Ionicons name="close-sharp" size={30} color="#0D8284" />
-        </TouchableOpacity>
+        {!coupon.name.includes("REFERIDO") && (
+          <TouchableOpacity onPress={onRemove}>
+            <Ionicons name="close-sharp" size={30} color="#0D8284" />
+          </TouchableOpacity>
+        )}
       </CouponWrapper>
       <Spacer variant="top" />
       {coupon.name.includes("REFERIDO") && <Text variant="button">Solo válido para tu primer cambio.</Text>}

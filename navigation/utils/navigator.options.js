@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, TouchableWithoutFeedback, Alert, Linking, View } from "react-native";
+import { TouchableOpacity, TouchableWithoutFeedback, Alert, Linking, Dimensions, Platform, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../theme";
 
@@ -14,7 +14,7 @@ export const headerOptions = {
   headerTintColor: theme.colors.text.title,
   headerBackTitleStyle: { fontSize: 12 },
   headerStyle: {
-    height: 90,
+    height: Dimensions.get("screen").height < 840 ? 80 : 95,
     borderBottomWidth: 1,
   },
   headerLeftContainerStyle: {

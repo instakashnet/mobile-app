@@ -1,5 +1,6 @@
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
+import { Text } from "../../../components/typography/text.component";
 
 export const AffiliatesWrapper = styled.View`
   padding-horizontal: ${({ theme }) => theme.space[6]};
@@ -12,10 +13,11 @@ export const AffiliatesWrapper = styled.View`
 export const AffiliatesScroll = styled.ScrollView.attrs({
   contentContainerStyle: {
     flexGrow: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 20,
     alignItems: "center",
     width: Dimensions.get("window").width,
+    maxWidth: 400,
   },
 })``;
 
@@ -51,7 +53,7 @@ export const ButtonsWrapper = styled.View`
   justify-content: space-between;
 `;
 
-export const Title = styled.Text.attrs({
+export const Title = styled(Text).attrs({
   allowFontScaling: false,
 })`
   color: ${({ theme }) => theme.colors.text.body};
@@ -59,26 +61,34 @@ export const Title = styled.Text.attrs({
   font-family: ${({ theme }) => theme.fonts.subtitle};
 `;
 
+export const AffiliatesInfo = styled.View`
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
 export const Card = styled.View`
   background-color: #fff;
   border-radius: 10px;
   padding: ${({ theme }) => theme.space[2]};
   height: 110px;
-  width: 125px;
+  width: 120px;
   margin: ${({ theme }) => theme.space[2]};
   align-items: center;
   justify-content: center;
 `;
 
-export const Number = styled.Text.attrs({
+export const Number = styled(Text).attrs({
   allowFontScaling: false,
 })`
   color: ${({ theme }) => theme.colors.text.body};
+  line-height: 45px;
   font-size: ${({ theme }) => theme.fontSizes.xxl};
   font-family: ${({ theme }) => theme.fonts.subtitle};
 `;
 
-export const Subtitle = styled.Text.attrs({
+export const Subtitle = styled(Text).attrs({
   allowFontScaling: false,
 })`
   color: ${({ theme }) => theme.colors.text.body};
