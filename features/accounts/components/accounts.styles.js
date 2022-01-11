@@ -22,7 +22,7 @@ export const AccountsWrapper = styled.View`
 
 export const AccountsListWrapper = styled.View`
   width: 100%;
-  min-height: ${Dimensions.get("window").height < 650 ? Dimensions.get("window").height / 3 : Dimensions.get("window").height / 4.5}px;
+  min-height: ${Dimensions.get("window").height < 700 ? Dimensions.get("window").height / 3.5 : Dimensions.get("window").height / 4.5}px;
   margin-top: ${({ theme }) => theme.space[6]};
   margin-bottom: ${({ theme }) => theme.space[3]};
 `;

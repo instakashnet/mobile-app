@@ -45,6 +45,19 @@ function* getAccounts({ accType }) {
   }
 }
 
+function* watchGetKashAccount() {
+  yield takeEvery(types.GET_KASH_ACCOUNT_INIT, getKashAccount);
+}
+
+function* getKashAccount() {
+  try {
+    const res = yield accountsInstance.get(`/accounts?type=kash`);
+    if (res.status === 200) yield put(actions.getKashAccountSuccess(res.data.accounts.balance));
+  } catch (error) {
+    yield put(actions.accountsError(error.message));
+  }
+}
+
 function* watchAddAccount() {
   yield takeLatest(types.ADD_ACCOUNT_INIT, addAccount);
 }
@@ -96,5 +109,13 @@ function* deleteAccount({ accId }) {
 }
 
 export function* accountsSaga() {
-  yield all([fork(watchGetBanks), fork(watchGetCurrencies), fork(watchGetAccounts), fork(watchAddAccount), fork(watchEditAccount), fork(watchDeleteAccount)]);
+  yield all([
+    fork(watchGetBanks),
+    fork(watchGetCurrencies),
+    fork(watchGetAccounts),
+    fork(watchGetKashAccount),
+    fork(watchAddAccount),
+    fork(watchEditAccount),
+    fork(watchDeleteAccount),
+  ]);
 }

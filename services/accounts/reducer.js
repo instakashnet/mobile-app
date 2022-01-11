@@ -4,6 +4,7 @@ const initialState = {
   banks: [],
   currencies: [],
   accounts: [],
+  kashBalance: 0,
   isLoading: true,
   isProcessing: false,
   accountsError: null,
@@ -16,6 +17,8 @@ export const accountsReducer = (state = initialState, action = {}) => {
       return { ...state, isLoading: true, accountsError: null };
     case types.GET_ACCOUNTS_INIT:
       return { ...state, isLoading: true, accounts: [], accountsError: null };
+    case types.GET_KASH_ACCOUNT_INIT:
+      return { ...state, isLoading: true, accountsError: null };
     case types.ADD_ACCOUNT_INIT:
     case types.EDIT_ACCOUNT_INIT:
     case types.DELETE_ACCOUNT_INIT:
@@ -26,6 +29,8 @@ export const accountsReducer = (state = initialState, action = {}) => {
       return { ...state, isLoading: false, currencies: action.currencies };
     case types.GET_ACCOUNTS_SUCCESS:
       return { ...state, isLoading: false, accounts: action.accounts };
+    case types.GET_KASH_ACCOUNT_SUCCESS:
+      return { ...state, isLoading: false, kashBalance: action.balance };
     case types.ADD_ACCOUNT_SUCCESS:
     case types.EDIT_ACCOUNT_SUCCESS:
     case types.DELETE_ACCOUNT_SUCCESS:

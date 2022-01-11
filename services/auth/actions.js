@@ -103,7 +103,7 @@ export const clearAuthError = () => ({
   type: types.CLEAR_ERROR,
 });
 
-export const apiError = (error) => ({
+export const authError = (error) => ({
   type: types.API_ERROR,
   error,
 });

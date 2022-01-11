@@ -93,7 +93,7 @@ export const CalculatorForm = ({ getRates, isProcessing, isFocused, profile, onS
   // HANDLERS
   const onAddCoupon = useCallback(
       (name) => {
-        formik.setFieldValue("couponName", name);
+        formik.setFieldValue("couponName", name.toUpperCase());
         dispatch(validateCoupon(name, profile.type));
       },
       [profile.type]

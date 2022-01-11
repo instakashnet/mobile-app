@@ -27,6 +27,8 @@ export const LoginForm = ({ onSubmit, isProcessing }) => {
         label="Correo electrónico"
         textContentType="emailAddress"
         keyboardType="email-address"
+        autoCompleteType="email"
+        importantForAutofill="no"
         error={formik.touched.email && formik.errors.email}
         right
         iconName="email"

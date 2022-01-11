@@ -28,6 +28,15 @@ export const getAccountsSuccess = (accounts) => ({
   accounts,
 });
 
+export const getKashAccount = () => ({
+  type: types.GET_KASH_ACCOUNT_INIT,
+});
+
+export const getKashAccountSuccess = (balance) => ({
+  type: types.GET_KASH_ACCOUNT_SUCCESS,
+  balance,
+});
+
 export const addAccount = (values, accType) => ({
   type: types.ADD_ACCOUNT_INIT,
   values,

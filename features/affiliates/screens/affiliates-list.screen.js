@@ -7,13 +7,14 @@ import { KashGray } from "../../../assets/illustrations/money/kash-gray";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getAffiliates } from "../../../store/actions";
+import { getAffiliates, getKashAccount } from "../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { AffiliatesTable } from "../components/affiliates-table.component";
+import { Loader } from "../../../components/UI/loader.component";
 
 // STYLED COMPONENTS
 import { AffiliatesScroll, Card, Number, Subtitle, AffiliatesInfo } from "../components/affiliates.styles";
@@ -21,6 +22,7 @@ import { AffiliatesScroll, Card, Number, Subtitle, AffiliatesInfo } from "../com
 export const AffiliatesListScreen = () => {
   const dispatch = useDispatch(),
     affiliates = useSelector((state) => state.authReducer.affiliates),
+    { isLoading, kashBalance } = useSelector((state) => state.accountsReducer),
     [total, setTotal] = useState(0),
     [completed, setCompleted] = useState(0),
     [notCompleted, setNotCompleted] = useState(0),
@@ -39,6 +41,7 @@ export const AffiliatesListScreen = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getAffiliates());
+      dispatch(getKashAccount());
     }, [dispatch])
   );
 
@@ -58,6 +61,7 @@ export const AffiliatesListScreen = () => {
 
   return (
     <SafeArea>
+      {isLoading && <Loader />}
       <AffiliatesScroll>
         <Spacer variant="top" />
         <Text variant="title">Mis referidos</Text>
@@ -85,7 +89,7 @@ export const AffiliatesListScreen = () => {
             <Subtitle>Completados</Subtitle>
           </Card>
           <Card>
-            <Number>{completed}</Number>
+            <Number>{kashBalance || 0}</Number>
             <Subtitle>Kash ganados</Subtitle>
           </Card>
         </AffiliatesInfo>

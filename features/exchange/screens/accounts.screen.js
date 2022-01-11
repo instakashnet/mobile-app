@@ -31,7 +31,7 @@ import { BankDescription, BankIcon } from "../components/accounts.styles";
 export const AccountsScreen = ({ navigation }) => {
   // CUSTOM HOOKS && VARIABLES
   const dispatch = useDispatch(),
-    { order, isProcessing, exchangeError } = useSelector((state) => state.exchangeReducer),
+    { order, isProcessing, coupon, exchangeError } = useSelector((state) => state.exchangeReducer),
     profile = useSelector((state) => state.profileReducer.profile),
     [bankSelected, setBankSelected] = useState(null),
     [accountSelected, setAccountSelected] = useState(null),
@@ -41,7 +41,7 @@ export const AccountsScreen = ({ navigation }) => {
         bank_id: bankSelected ? bankSelected.id : "",
         account_to_id: accountSelected ? accountSelected.id : "",
         funds_origin: "",
-        couponName: null,
+        couponName: coupon ? coupon.name : null,
         kashApplied: "no",
         kashUsed: "",
       },

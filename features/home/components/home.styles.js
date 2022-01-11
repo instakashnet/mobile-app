@@ -83,6 +83,6 @@ export const Button = styled(PaperButton).attrs({
 })`
   width: 100%;
   max-width: 130px;
-  box-shadow: 5px 10px 17px rgba(0, 0, 0, 0.1);
-  elevation: 5;
+  shadow-opacity: 0.2;
+  border-radius: ${theme.space[2]};
 `;

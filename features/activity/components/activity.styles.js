@@ -61,10 +61,8 @@ export const Card = styled.View`
 
 export const Badge = styled.View`
   border-radius: 5px;
-  border-width: 2px;
-  border-color: ${({ color }) => color};
-  color: ${({ color }) => color};
-  padding: 6px;
+  background-color: ${({ color }) => color};
+  padding: 8px;
 `;
 
 export const Status = styled.Text.attrs({
@@ -75,7 +73,7 @@ export const Status = styled.Text.attrs({
   font-family: ${({ theme }) => theme.fonts.subtitle};
   font-size: ${({ theme }) => theme.fontSizes.button};
   text-transform: lowercase;
-  color: ${({ color }) => color};
+  color: #fff;
 `;
 
 export const ShowButton = styled.Text`

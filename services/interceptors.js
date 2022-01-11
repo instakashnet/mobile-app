@@ -28,23 +28,23 @@ export const resInterceptor = (instance) =>
         originalRequest = error.config,
         { dispatch } = store;
 
-      if ((status === 403 || status === 401) && !originalRequest._retry) {
+      if (status === 418 && !originalRequest._retry) {
         await SecureStore.deleteItemAsync("authData");
         await AsyncStorage.removeItem("profileSelected");
 
         dispatch(clearProfile());
         return dispatch(logoutUserSuccess());
-      } else {
-        let message;
-        if (error.response) {
-          message = error.response.data.error
-            ? error.response.data.error.message
-            : "Ha ocurrido un error inesperado, por favor intenta de nuevo. Si el problema persiste contacte a soporte.";
-        }
-
-        error.message = message;
-
-        return Promise.reject(error);
       }
+
+      let message;
+      if (error.response) {
+        message = error.response.data.error
+          ? error.response.data.error.message
+          : "Ha ocurrido un error inesperado, por favor intenta de nuevo. Si el problema persiste contacte a soporte.";
+      }
+
+      error.message = message;
+
+      return Promise.reject(error);
     }
   );

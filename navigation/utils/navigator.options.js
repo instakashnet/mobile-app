@@ -32,7 +32,7 @@ export const topBarOptions = {
 };
 
 const onOpenWhatsapp = async () => {
-  const URL = `whatsapp://send?text=Hola Instakash, deseo información&phone=51930463531`;
+  const URL = `whatsapp://send?text=Hola Instakash, deseo información&phone=51927013800`;
 
   try {
     await Linking.openURL(URL);

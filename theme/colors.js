@@ -11,7 +11,7 @@ export const colors = {
     success: "#F9F443",
     processing: "#31C5F4",
     validating: "#EB9824",
-    paying: "#F9F443",
+    paying: "#bcbcbc",
     error: "#FF4B55",
     link: "#0D8284",
     border: "#AFAFAF",

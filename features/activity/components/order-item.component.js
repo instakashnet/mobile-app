@@ -15,7 +15,7 @@ export const OrderItem = ({ order, onOpen }) => {
   return (
     <OrderCard onPress={onOpen}>
       <Badge color={order.stateColor}>
-        <Status color={order.stateColor}>{order.estateName}</Status>
+        <Status>{order.estateName}</Status>
       </Badge>
       <View>
         <Text>{order.uuid}</Text>

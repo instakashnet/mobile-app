@@ -92,7 +92,7 @@ function* registerUser({ values }) {
       yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
     }
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -108,7 +108,7 @@ function* loginUser({ values }) {
       yield put(actions.loadUser());
     }
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -125,7 +125,7 @@ function* loginGoogle({ token }) {
       yield put(actions.loginGoogleSuccess());
     }
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -142,7 +142,7 @@ function* recoverPassword({ values }) {
       yield call([RootNavigation, "push"], "EmailVerification", { type: "pwd" });
     }
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -161,7 +161,7 @@ function* validateEmail({ values, codeType }) {
       } else yield put(actions.loadUser());
     }
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -177,7 +177,7 @@ function* refreshCode() {
       yield put(actions.refreshCodeSuccess());
     }
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -199,7 +199,7 @@ function* resetPassword({ values }) {
       yield call([RootNavigation, "push"], "Login");
     }
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -217,7 +217,7 @@ function* completeProfile({ values }) {
     const res = yield authInstance.post("/users/profiles", profileValues);
     if (res.status === 200) yield put(actions.loadUser());
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -231,7 +231,7 @@ function* getAffiliates() {
     const affiliates = camelize(res.data.affiliates);
     if (res.status === 200) yield put(actions.getAffiliatesSuccess(affiliates));
   } catch (error) {
-    yield put(actions.apiError(error.message));
+    yield put(actions.authError(error.message));
   }
 }
 
@@ -243,7 +243,7 @@ function* logoutUser({ logType }) {
   try {
     yield authInstance.post("/auth/logout");
   } catch (error) {
-    yield put(actions.apiError());
+    yield put(actions.authError());
   }
 
   yield put(actions.logoutUserSuccess());
