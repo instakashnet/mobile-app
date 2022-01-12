@@ -1,6 +1,10 @@
 {
   "expo": {
     "scheme": "instakash",
+    "facebookScheme": "fb285266469843350",
+    "facebookAppId": "285266469843350",
+    "facebookDisplayName": "My kash business",
+    "facebookAutoLogAppEventsEnabled": true,
     "name": "Instakash",
     "slug": "instakash-app",
     "version": "0.0.6",
@@ -25,7 +29,7 @@
         }
       ]
     },
-    "plugins": ["expo-camera", "sentry-expo", "expo-notifications", "expo-community-flipper"],
+    "plugins": ["expo-camera", "sentry-expo", "expo-notifications", "expo-community-flipper", "expo-facebook"],
     "updates": {
       "fallbackToCacheTimeout": 0
     },

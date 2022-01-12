@@ -14,6 +14,7 @@ import { Navigator } from "./navigation";
 import { theme } from "./theme";
 import { store } from "./store";
 import * as Sentry from "sentry-expo";
+import * as Facebook from "expo-facebook";
 import { getVariables } from "./variables";
 import { connectToDevTools } from "react-devtools-core";
 
@@ -47,7 +48,8 @@ registerTranslation("es", {
 });
 
 export default function App() {
-  const [updateModal, setUpdateModal] = useState(false),
+  const [status, requestPermission] = Facebook.usePermissions(),
+    [updateModal, setUpdateModal] = useState(false),
     [fontsLoaded] = useFonts({
       "lato-regular": require("./fonts/lato/lato-regular.ttf"),
       "lato-bold": require("./fonts/lato/lato-bold.ttf"),
@@ -57,17 +59,33 @@ export default function App() {
 
   // EFFECTS
   useEffect(() => {
-    (async () => {
-      const update = await Updates.checkForUpdateAsync();
+    if (stage !== "dev") {
+      (async () => {
+        const update = await Updates.checkForUpdateAsync();
 
-      if (update.isAvailable) {
-        setUpdateModal(true);
-        setTimeout(() => {
-          onReloadApp();
-        }, 4000);
+        if (update.isAvailable) {
+          setUpdateModal(true);
+          setTimeout(() => {
+            onReloadApp();
+          }, 4000);
+        }
+      })();
+    }
+  });
+
+  useEffect(() => {
+    (async () => {
+      if (status) {
+        if (!status.granted) {
+          const res = await requestPermission();
+          if (!res.granted) return;
+        }
+
+        await Facebook.initializeAsync();
+        await Facebook.setAdvertiserTrackingEnabledAsync(true);
       }
     })();
-  });
+  }, [status]);
 
   // HANDLERS
   const onReloadApp = async () => {
