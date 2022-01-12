@@ -49,6 +49,8 @@ export const AccountsScreen = ({ navigation }) => {
       onSubmit: (values) => dispatch(continueOrder(values, order.id)),
     });
 
+  console.log(coupon);
+
   // EFFECTS
   useFocusEffect(
     useCallback(() => {

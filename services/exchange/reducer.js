@@ -26,6 +26,7 @@ export const exchangeReducer = (state = initialState, action = {}) => {
     case types.VALIDATE_COUPON_SUCCESS:
       return { ...state, isLoading: false, coupon: action.coupon };
     case types.CREATE_ORDER_SUCCESS:
+      return { ...state, isProcessing: false, order: action.order };
     case types.CONTINUE_ORDER_SUCCESS:
       return { ...state, isProcessing: false, order: action.order, coupon: null };
     case types.CANCEL_ORDER_SUCCESS:
