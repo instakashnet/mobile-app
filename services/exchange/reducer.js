@@ -28,11 +28,11 @@ export const exchangeReducer = (state = initialState, action = {}) => {
     case types.CREATE_ORDER_SUCCESS:
       return { ...state, isProcessing: false, order: action.order };
     case types.CONTINUE_ORDER_SUCCESS:
-      return { ...state, isProcessing: false, order: action.order, coupon: null };
+      return { ...state, isProcessing: false, order: action.order };
     case types.CANCEL_ORDER_SUCCESS:
       return { ...state, isProcessing: false, isLoading: false, order: null, coupon: null };
     case types.PROCESS_CODE_SUCCESS:
-      return { ...state, isProcessing: false };
+      return { ...state, isProcessing: false, coupon: null };
     case types.COMPLETE_ORDER_SUCCESS:
       return { ...state, order: null };
     case types.REMOVE_COUPON:

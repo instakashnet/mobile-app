@@ -21,6 +21,7 @@ const uploadToS3 = async (imageObj, uploadType) => {
       accessKey: awsAccessKey,
       secretKey: awsSecretKey,
       successActionStatus: 201,
+      acl: "public-read",
     });
 
     return res;

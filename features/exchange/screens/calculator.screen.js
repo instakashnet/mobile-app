@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getRates, createOrder, removeCoupon, clearExchangeError, openModal } from "../../../store/actions";
+import { getRates, createOrder, clearExchangeError, removeCoupon, openModal } from "../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -33,6 +33,7 @@ export const CalculatorScreen = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getRates());
+      dispatch(removeCoupon());
 
       return () => dispatch(clearExchangeError());
     }, [dispatch])
@@ -55,7 +56,7 @@ export const CalculatorScreen = ({ navigation }) => {
     <SafeArea>
       {isLoading && <Loader />}
       <KeyboardScrollAware>
-        <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} screen="calculator" />
+        {profile && <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} screen="calculator" />}
         <ExchangeForm>
           <Spacer variant="top" />
           <Text variant="title">Las mejores tasas del perú</Text>

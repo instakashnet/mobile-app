@@ -134,7 +134,7 @@ export const CalculatorForm = ({ getRates, isProcessing, isFocused, profile, onS
       } else {
         conversionType = calculatorType === "sell" ? "multiply" : "divide";
         amountToSend = conversionType === "divide" ? +value / rates.buy : +value * rates.sell;
-        if (couponRates) amountToSend = conversionType === "divide" ? +value / couponRates.buy : +value * couponRates.buy;
+        if (couponRates) amountToSend = conversionType === "divide" ? +value / couponRates.buy : +value * couponRates.sell;
 
         setFieldValue("amount_sent", amountToSend);
         amountReceivedRef.current = value;

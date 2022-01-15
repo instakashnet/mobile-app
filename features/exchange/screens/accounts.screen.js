@@ -49,8 +49,6 @@ export const AccountsScreen = ({ navigation }) => {
       onSubmit: (values) => dispatch(continueOrder(values, order.id)),
     });
 
-  console.log(coupon);
-
   // EFFECTS
   useFocusEffect(
     useCallback(() => {
@@ -88,7 +86,7 @@ export const AccountsScreen = ({ navigation }) => {
   return (
     <SafeArea>
       <ExchangeScroll>
-        <HeaderProfile profile={profile} screen="accounts" />
+        {profile && <HeaderProfile profile={profile} screen="accounts" />}
         <ExchangeForm>
           <Spacer variant="top" size={2} />
           <Text variant="title">Completa la información</Text>
