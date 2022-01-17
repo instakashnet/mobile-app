@@ -55,7 +55,7 @@ export const CalculatorScreen = ({ navigation }) => {
   return (
     <SafeArea>
       {isLoading && <Loader />}
-      <KeyboardScrollAware>
+      <KeyboardScrollAware contentContainerStyle={{ justifyContent: "center" }}>
         {profile && <HeaderProfile profile={profile} onProfileChange={() => navigation.navigate("SelectProfile")} screen="calculator" />}
         <ExchangeForm>
           <Spacer variant="top" />

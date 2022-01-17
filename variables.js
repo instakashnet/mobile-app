@@ -37,6 +37,6 @@ export const getVariables = () => {
     return ENV.staging;
   } else {
     // assume any other release channel is development
-    return ENV.dev;
+    return ENV.prod;
   }
 };

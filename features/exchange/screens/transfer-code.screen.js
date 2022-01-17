@@ -89,11 +89,7 @@ export const TransferCodeScreen = ({ navigation }) => {
             </InfoBox>
           </InfoWrapper>
           <Spacer variant="top" size={3} />
-          <Text>
-            Una vez realizado coloque el <Text variant="bold">número de operación emitido por su banco</Text> dentro del casillero mostrado debajo y debe darle al botón de
-            "completar cambio".
-          </Text>
-          <TransferCodeForm isProcessing={isProcessing} onCancel={onCancelOrder} onSubmit={onSubmit} />
+          <TransferCodeForm isProcessing={isProcessing} direct={order?.bankFromClientActive} onCancel={onCancelOrder} onSubmit={onSubmit} />
         </TransferWrapper>
       </KeyboardScrollAware>
       <Alert type="error" onClose={clearExchangeError} visible={!!exchangeError}>
