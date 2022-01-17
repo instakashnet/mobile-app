@@ -17,7 +17,7 @@ import { ShadowCard, TransferCard, Info } from "../transfer-code.styles";
 
 export const TransferCodeForm = ({ isProcessing, onCancel, direct, onSubmit }) => {
   // FORMIK
-  const formik = useFormik({ initialValues: { transaction_code: "", interbank: !direct }, enableReinitialize: true, validationSchema: transferCodeSchema, onSubmit });
+  const formik = useFormik({ initialValues: { transaction_code: "", direct }, enableReinitialize: true, validationSchema: transferCodeSchema, onSubmit });
 
   return (
     <>

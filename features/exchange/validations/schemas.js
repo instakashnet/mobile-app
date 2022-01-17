@@ -1,8 +1,8 @@
 import * as Yup from "yup";
 
 export const transferCodeSchema = Yup.object().shape({
-  transaction_code: Yup.string().when("interbank", {
-    is: true,
+  transaction_code: Yup.string().when("direct", {
+    is: false,
     then: Yup.string().notRequired(),
     otherwise: Yup.string()
       .required("Debes ingresar el nro. de tu transferencia.")
