@@ -5,9 +5,10 @@
     "facebookAppId": "285266469843350",
     "facebookDisplayName": "My kash business",
     "facebookAutoLogAppEventsEnabled": true,
+    "facebookAdvertiserIDCollectionEnabled": true,
     "name": "Instakash",
     "slug": "instakash-app",
-    "version": "0.0.6",
+    "version": "0.1.0",
     "orientation": "portrait",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
@@ -29,7 +30,18 @@
         }
       ]
     },
-    "plugins": ["expo-camera", "sentry-expo", "expo-notifications", "expo-community-flipper", "expo-facebook"],
+    "plugins": [
+      "expo-camera",
+      "sentry-expo",
+      "expo-notifications",
+      "expo-community-flipper",
+      [
+        "expo-tracking-transparency",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+        }
+      ]
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -38,14 +50,14 @@
       "supportsTablet": false,
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
-      "buildNumber": "0.1.0",
+      "buildNumber": "0.0.3",
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to give you the ability to take the photo of your document."
       }
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 18,
+      "versionCode": 21,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-fr.png",
         "backgroundImage": "./assets/adaptive-bg.png"

@@ -15,6 +15,7 @@ import { theme } from "./theme";
 import { store } from "./store";
 import * as Sentry from "sentry-expo";
 import * as Facebook from "expo-facebook";
+import { requestTrackingPermissionsAsync, getTrackingPermissionsAsync } from "expo-tracking-transparency";
 import { getVariables } from "./variables";
 import { connectToDevTools } from "react-devtools-core";
 
@@ -48,8 +49,7 @@ registerTranslation("es", {
 });
 
 export default function App() {
-  const [status, requestPermission] = Facebook.usePermissions(),
-    [updateModal, setUpdateModal] = useState(false),
+  const [updateModal, setUpdateModal] = useState(false),
     [fontsLoaded] = useFonts({
       "lato-regular": require("./fonts/lato/lato-regular.ttf"),
       "lato-bold": require("./fonts/lato/lato-bold.ttf"),
@@ -75,17 +75,21 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      if (status) {
-        if (!status.granted) {
-          const res = await requestPermission();
-          if (!res.granted) return;
-        }
+      let { granted: getGranted } = await getTrackingPermissionsAsync();
 
+      if (getGranted) {
         await Facebook.initializeAsync();
         await Facebook.setAdvertiserTrackingEnabledAsync(true);
+      } else {
+        let { granted: requestGranted } = await requestTrackingPermissionsAsync();
+
+        if (requestGranted) {
+          await Facebook.initializeAsync();
+          await Facebook.setAdvertiserTrackingEnabledAsync(true);
+        }
       }
     })();
-  }, [status]);
+  }, []);
 
   // HANDLERS
   const onReloadApp = async () => {
