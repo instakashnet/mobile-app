@@ -42,8 +42,13 @@ function* watchContinueOrder() {
 }
 
 function* continueOrder({ values, orderId }) {
+  const orderValues = {
+    ...values,
+    funds_origin: values.funds_input || values.funds_origin,
+  };
+
   try {
-    const res = yield exchangeInstance.put(`/order/step-3/${orderId}`, values);
+    const res = yield exchangeInstance.put(`/order/step-3/${orderId}`, orderValues);
     if (res.status === 200) {
       yield put(getUserData());
       yield put(actions.continueOrderSuccess(res.data));
@@ -120,12 +125,8 @@ function* watchCompleteOrder() {
 }
 
 function* completeOrder() {
-  try {
-    yield call([RootNavigation, "navigate"], "Activity", { screen: "MyOrders" });
-    yield put(actions.completeOrderSuccess());
-  } catch (error) {
-    console.log(error);
-  }
+  yield call([RootNavigation, "navigate"], "Activity", { screen: "MyOrders" });
+  yield put(actions.completeOrderSuccess());
 }
 
 export function* exchangeSaga() {

@@ -59,14 +59,6 @@ const InputAndroid = styled.View`
 export const Select = ({ label, value, onChange, name, options, hasIcon, style, error, isFlex, ...rest }) => {
   const [pickerShown, setPickerShown] = useState(false);
 
-  // HANDLERS
-  const getIcon = (options) => {
-    if (value && hasIcon) {
-      const Icon = options.find((o) => o.value === value).icon;
-      return <Icon />;
-    } else return null;
-  };
-
   return (
     <>
       <FormGroup error={!!error}>

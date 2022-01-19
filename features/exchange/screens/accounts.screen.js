@@ -1,8 +1,11 @@
-import React, { useCallback, useState } from "react";
-import { useFormik } from "formik";
+import React, { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
 import { getData } from "../../../hooks/use-storage.hook";
 import { useFocusEffect } from "@react-navigation/native";
+
+// FORMIK
+import { useFormik } from "formik";
+import { accountsSchema } from "../validations/schemas";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +19,8 @@ import { bankIcons } from "../relative-paths/images";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
+import { Select } from "../../../components/forms/select.component";
+import { Input } from "../../../components/forms/input.component";
 import { Alert } from "../../../components/UI/alert.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { Text } from "../../../components/typography/text.component";
@@ -36,16 +41,38 @@ export const AccountsScreen = ({ navigation }) => {
     [bankSelected, setBankSelected] = useState(null),
     [accountSelected, setAccountSelected] = useState(null),
     [interplaza, setInterplaza] = useState(false),
+    [fundsInput, setFundsInput] = useState(false),
+    fundsOptions = [
+      { label: "Ahorros", value: "ahorros" },
+      {
+        label: "Alquiler de bienes inmuebles",
+        value: "alquiler de bienes inmuebles",
+      },
+      {
+        label: "Alquiler de bienes muebles",
+        value: "alquiler de bienes muebles",
+      },
+      { label: "Venta de bienes inmuebles", value: "venta de bienes inmuebles" },
+      { label: "Venta de bienes muebles", value: "venta de bienes muebles" },
+      { label: "Donación o sorteo", value: "donación o sorteo" },
+      { label: "Trabajo independiente", value: "trabajo independiente" },
+      { label: "Regalía", value: "regalía" },
+      { label: "Préstamos", value: "préstamos" },
+      { label: "Otros", value: "otros" },
+    ],
     formik = useFormik({
       initialValues: {
         bank_id: bankSelected ? bankSelected.id : "",
         account_to_id: accountSelected ? accountSelected.id : "",
         funds_origin: "",
+        funds_input: "",
         couponName: coupon ? coupon.name : null,
+        origin: (order.currencyReceivedId === 1 && order.amountSent >= 4000) || (order.currencyReceivedId === 2 && order.amountSent >= 1000),
         kashApplied: "no",
         kashUsed: "",
       },
       enableReinitialize: true,
+      validationSchema: accountsSchema,
       onSubmit: (values) => dispatch(continueOrder(values, order.id)),
     });
 
@@ -81,7 +108,17 @@ export const AccountsScreen = ({ navigation }) => {
 
   // HANDLERS
   const onSelect = (type) => navigation.navigate("AccountSelect", { type, currencyToReceive: order.currencyReceivedId }),
-    onCancelOrder = () => dispatch(cancelOrder("draft", order.id));
+    onCancelOrder = () => dispatch(cancelOrder("draft", order.id)),
+    onFundsHandler = (name, value) => {
+      if (value === "otros") {
+        setFundsInput(true);
+      } else {
+        setFundsInput(false);
+        formik.setFieldValue("funds_input", "");
+      }
+
+      formik.setFieldValue(name, value);
+    };
 
   return (
     <SafeArea>
@@ -119,6 +156,25 @@ export const AccountsScreen = ({ navigation }) => {
             )}
           </SelectAccount>
           <Spacer vartian="top" size={2} />
+          {formik.values.origin && (
+            <Select
+              name="funds_origin"
+              error={formik.touched.funds_origin && formik.errors.funds_origin}
+              label="Origen de los fondos"
+              value={formik.values.funds_origin}
+              options={fundsOptions}
+              onChange={onFundsHandler}
+            />
+          )}
+          {fundsInput && (
+            <Input
+              name="funds_input"
+              value={formik.values.funds_input}
+              label="Escribe el origen de tus fondos"
+              error={formik.touched.funds_input && formik.errors.funds_input}
+              onChange={formik.handleChange("funds_input")}
+            />
+          )}
           {accountSelected && interplaza && (
             <SnackBar type="warning">
               Las transferencias a cuentas Interbank interplaza acarrean comisión. Visita nuestros{" "}
