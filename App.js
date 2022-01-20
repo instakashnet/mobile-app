@@ -15,6 +15,8 @@ import { Navigator } from "./navigation";
 import { theme } from "./theme";
 import { store } from "./store";
 import * as Sentry from "sentry-expo";
+import * as Facebook from "expo-facebook";
+import { requestTrackingPermissionsAsync, getTrackingPermissionsAsync } from "expo-tracking-transparency";
 import { getVariables } from "./variables";
 import { connectToDevTools } from "react-devtools-core";
 
@@ -64,8 +66,37 @@ export default function App() {
       }
 
       console.log(+Application.nativeBuildVersion);
+
+      (async () => {
+        const update = await Updates.checkForUpdateAsync();
+
+        if (update.isAvailable) {
+          setUpdateModal(true);
+          setTimeout(() => {
+            onReloadApp();
+          }, 4000);
+        }
+      })();
     }
   });
+
+  useEffect(() => {
+    (async () => {
+      let { granted: getGranted } = await getTrackingPermissionsAsync();
+
+      if (getGranted) {
+        await Facebook.initializeAsync();
+        await Facebook.setAdvertiserTrackingEnabledAsync(true);
+      } else {
+        let { granted: requestGranted } = await requestTrackingPermissionsAsync();
+
+        if (requestGranted) {
+          await Facebook.initializeAsync();
+          await Facebook.setAdvertiserTrackingEnabledAsync(true);
+        }
+      }
+    })();
+  }, []);
 
   // HANDLERS
   const onReloadApp = async () => {
