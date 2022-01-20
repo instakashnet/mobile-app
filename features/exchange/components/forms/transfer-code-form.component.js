@@ -19,6 +19,8 @@ export const TransferCodeForm = ({ isProcessing, onCancel, direct, onSubmit }) =
   // FORMIK
   const formik = useFormik({ initialValues: { transaction_code: "", direct }, enableReinitialize: true, validationSchema: transferCodeSchema, onSubmit });
 
+  console.log(formik.values);
+
   return (
     <>
       {direct ? (

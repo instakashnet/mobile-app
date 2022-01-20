@@ -75,7 +75,7 @@ export const OrderDetailsScreen = ({ route }) => {
               <>
                 <Spacer variant="top" size={2} />
                 <Text variant="subtitle">completar orden</Text>
-                <TransferCodeForm isProcessing={isProcessing} onSubmit={onSubmit} onCancel={onCancelOrder} />
+                <TransferCodeForm isProcessing={isProcessing} direct={!!order?.bankFromClientActive} onSubmit={onSubmit} onCancel={onCancelOrder} />
               </>
             )}
           </Card>

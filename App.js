@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Platform } from "react-native";
 import AppLoading from "expo-app-loading";
 import "react-native-gesture-handler";
 import * as Updates from "expo-updates";
-import { StyleSheet } from "react-native";
+import * as Application from "expo-application";
 import { Provider as PaperProvider, DefaultTheme, Modal } from "react-native-paper";
 import { registerTranslation } from "react-native-paper-dates";
 import LottieView from "lottie-react-native";
@@ -57,16 +58,13 @@ export default function App() {
 
   // EFFECTS
   useEffect(() => {
-    (async () => {
-      const update = await Updates.checkForUpdateAsync();
-
-      if (update.isAvailable) {
-        setUpdateModal(true);
-        setTimeout(() => {
-          onReloadApp();
-        }, 4000);
+    if (stage !== "dev") {
+      if (Platform.OS === "ios" && Application.nativeBuildVersion !== "0.1.2") {
+        console.log("Debe actualizar app store");
       }
-    })();
+
+      console.log(+Application.nativeBuildVersion);
+    }
   });
 
   // HANDLERS

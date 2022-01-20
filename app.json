@@ -3,7 +3,7 @@
     "scheme": "instakash",
     "name": "Instakash",
     "slug": "instakash-app",
-    "version": "0.0.6",
+    "version": "0.1.0",
     "orientation": "portrait",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
@@ -41,7 +41,7 @@
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 18,
+      "versionCode": 21,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-fr.png",
         "backgroundImage": "./assets/adaptive-bg.png"
