@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, Alert, Linking } from "react-native";
 import AppLoading from "expo-app-loading";
 import "react-native-gesture-handler";
 import * as Updates from "expo-updates";
@@ -61,22 +61,32 @@ export default function App() {
   // EFFECTS
   useEffect(() => {
     if (stage !== "dev") {
-      if (Platform.OS === "ios" && Application.nativeBuildVersion !== "0.1.2") {
-        console.log("Debe actualizar app store");
+      if (Application.nativeApplicationVersion !== "0.2.0") {
+        Alert.alert("Actualización!", "Hay una nueva versión disponible en la store, debes descargarla para poder usar esta app.", [
+          {
+            text: "Ir a la store",
+            onPress: () =>
+              Linking.openURL(
+                Platform.OS === "android" ? "https://play.google.com/store/apps/details?id=net.instakash.app" : "https://apps.apple.com/pe/app/instakash/id1601561803"
+              ),
+          },
+        ]);
+      } else {
+        (async () => {
+          try {
+            const update = await Updates.checkForUpdateAsync();
+
+            if (update.isAvailable) {
+              setUpdateModal(true);
+              setTimeout(() => {
+                onReloadApp();
+              }, 4000);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        })();
       }
-
-      console.log(+Application.nativeBuildVersion);
-
-      (async () => {
-        const update = await Updates.checkForUpdateAsync();
-
-        if (update.isAvailable) {
-          setUpdateModal(true);
-          setTimeout(() => {
-            onReloadApp();
-          }, 4000);
-        }
-      })();
     }
   });
 
@@ -100,8 +110,12 @@ export default function App() {
 
   // HANDLERS
   const onReloadApp = async () => {
-    await Updates.fetchUpdateAsync();
-    await Updates.reloadAsync();
+    try {
+      await Updates.fetchUpdateAsync();
+      await Updates.reloadAsync();
+    } catch (error) {
+      throw error;
+    }
   };
 
   if (!fontsLoaded) {
