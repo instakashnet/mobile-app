@@ -1,7 +1,12 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { store } from "../store";
 import { clearProfile, logoutUserSuccess } from "../store/actions";
+
+let store;
+
+export const injectStore = (_store) => {
+  store = _store;
+};
 
 export const reqInterceptor = (instance) =>
   instance.interceptors.request.use(
@@ -29,21 +34,23 @@ export const resInterceptor = (instance) =>
         { dispatch } = store;
 
       if (status === 418 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
         await SecureStore.deleteItemAsync("authData");
         await AsyncStorage.removeItem("profileSelected");
 
         dispatch(clearProfile());
         return dispatch(logoutUserSuccess());
-      }
+      } else {
+        let message;
+        if (error.response) {
+          message = error.response.data.error
+            ? error.response.data.error.message
+            : "Ha ocurrido un error inesperado, por favor intenta de nuevo. Si el problema persiste contacte a soporte.";
+        }
 
-      let message;
-      if (error.response) {
-        message = error.response.data.error
-          ? error.response.data.error.message
-          : "Ha ocurrido un error inesperado, por favor intenta de nuevo. Si el problema persiste contacte a soporte.";
+        error.message = message;
       }
-
-      error.message = message;
 
       return Promise.reject(error);
     }

@@ -21,14 +21,11 @@ export const BanksList = ({ banks, bankSelected, onSelect }) => {
             {bankSelected && bankSelected.id === bank.id ? <Ionicons name="checkmark-circle" color="#0D8284" size={25} style={styles.icon} /> : <Radio />}
             <Spacer variant="left" />
             <BankDescription>
-              <BankIcon bankName={bank.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri} />
+              <BankIcon source={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri} />
               <Text variant="caption" style={styles.caption}>
                 {bank.name}
               </Text>
             </BankDescription>
-            <Text variant="flag" style={styles.flag}>
-              Corriente
-            </Text>
           </AccountSelect>
         </TouchableOpacity>
       )}

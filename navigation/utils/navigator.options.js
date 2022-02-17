@@ -14,7 +14,7 @@ export const headerOptions = {
   headerTintColor: theme.colors.text.title,
   headerBackTitleStyle: { fontSize: 12 },
   headerStyle: {
-    height: Dimensions.get("screen").height < 840 ? 80 : 95,
+    height: Dimensions.get("screen").height < 810 ? 80 : 90,
     borderBottomWidth: 1,
   },
   headerLeftContainerStyle: {
