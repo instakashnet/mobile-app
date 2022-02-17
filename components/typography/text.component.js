@@ -52,7 +52,7 @@ const underline = (theme) => `
 
 const error = (theme) => `
   font-family: ${theme.fonts.button};
-  color: #fff;
+  color: ${theme.colors.ui.error};
 `;
 
 const variants = {

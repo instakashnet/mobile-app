@@ -8,7 +8,7 @@
     "facebookAdvertiserIDCollectionEnabled": true,
     "name": "Instakash",
     "slug": "instakash-app",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "orientation": "portrait",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
@@ -52,14 +52,14 @@
       "supportsTablet": false,
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
-      "buildNumber": "0.1.4",
+      "buildNumber": "0.1.1",
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to give you the ability to take the photo of your document."
       }
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 24,
+      "versionCode": 27,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-fr.png",
         "backgroundImage": "./assets/adaptive-bg.png"

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { View } from "react-native";
 import { getData } from "../../../hooks/use-storage.hook";
 import { useFocusEffect } from "@react-navigation/native";
@@ -92,8 +92,14 @@ export const AccountsScreen = ({ navigation }) => {
           const selectedBank = await getData("@selectedBank");
           const selectedAcc = await getData("@selectedAcc");
 
-          if (selectedBank) setBankSelected(selectedBank);
+          if (selectedBank) {
+            formik.setFieldTouched("bank_id", true);
+            formik.setFieldValue("bank_id", selectedBank.id);
+            setBankSelected(selectedBank);
+          }
           if (selectedAcc) {
+            formik.setFieldTouched("account_to_id", true);
+            formik.setFieldValue("account_to_id", selectedAcc.id);
             setAccountSelected(selectedAcc);
             if (selectedAcc.bank.name.toLowerCase() === "interbank") setInterplaza(validateInterplaza(selectedAcc.accountNumber));
           }
@@ -103,7 +109,7 @@ export const AccountsScreen = ({ navigation }) => {
       };
 
       getSelectedData();
-    }, [])
+    }, [formik.setFieldTouched])
   );
 
   // HANDLERS
@@ -129,7 +135,12 @@ export const AccountsScreen = ({ navigation }) => {
           <Text variant="title">Completa la información</Text>
           <Text style={{ textAlign: "center" }}>Debes seleccionar el banco donde envias y la cuenta donde vas a recibir.</Text>
           <Spacer vartian="top" size={3} />
-          <SelectAccount label="¿Desde que banco nos envias tu dinero?" selected={!!bankSelected} onSelect={onSelect.bind(null, "bank")}>
+          <SelectAccount
+            label="¿Desde que banco nos envias tu dinero?"
+            error={!formik.touched.bank_id && formik.errors.bank_id}
+            selected={!!bankSelected}
+            onSelect={onSelect.bind(null, "bank")}
+          >
             {bankSelected ? (
               <BankDescription>
                 <BankIcon bankName={bankSelected.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === bankSelected.name.toLowerCase()).uri} />
@@ -142,7 +153,12 @@ export const AccountsScreen = ({ navigation }) => {
             )}
           </SelectAccount>
           <Spacer vartian="top" size={3} />
-          <SelectAccount label="¿En que cuenta recibirás tu cambio?" selected={!!accountSelected} onSelect={onSelect.bind(null, "account")}>
+          <SelectAccount
+            label="¿En que cuenta recibirás tu cambio?"
+            error={!formik.touched.account_to_id && formik.errors.account_to_id}
+            selected={!!accountSelected}
+            onSelect={onSelect.bind(null, "account")}
+          >
             {accountSelected ? (
               <BankDescription>
                 <BankIcon bankName={accountSelected.bank.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === accountSelected.bank.name.toLowerCase()).uri} />

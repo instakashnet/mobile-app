@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { FlatList } from "react-native";
+import { Dimensions, FlatList } from "react-native";
 
 export const AccountWrapper = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7,
@@ -17,11 +17,11 @@ export const AccountWrapper = styled.TouchableOpacity.attrs({
   align-items: center;
   justify-content: space-between;
   border-width: 1px;
-  border-color: ${({ theme }) => theme.colors.ui.border};
+  border-color: ${({ theme, error }) => (error ? theme.colors.ui.error : theme.colors.ui.border)};
 `;
 
 export const AccountSelect = styled.View`
-  width: 100%;
+  width: ${Dimensions.get("window").width / 1.15}px;
   height: 50px;
   background-color: #fff;
   padding-horizontal: ${({ theme }) => theme.space[4]};
@@ -32,6 +32,7 @@ export const AccountSelect = styled.View`
   shadow-radius: 5px;
   flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   border-width: 1px;
   border-color: transparent;
 `;
