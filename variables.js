@@ -1,5 +1,5 @@
 import * as Updates from "expo-updates";
-import { DEV_API, PROD_API, GOOGLE_PLACES_API, AWS_ACCESS_KEY, AWS_SECRET_KEY } from "@env";
+import { DEV_API, PROD_API, GOOGLE_PLACES_API, AWS_ACCESS_KEY, AWS_SECRET_KEY, DEV_WEBSOCKET_URL, WEBSOCKET_URL } from "@env";
 
 const ENV = {
   dev: {
@@ -7,6 +7,7 @@ const ENV = {
     googlePlacesKey: GOOGLE_PLACES_API,
     awsAccessKey: AWS_ACCESS_KEY,
     awsSecretKey: AWS_SECRET_KEY,
+    websocketUrl: DEV_WEBSOCKET_URL,
     bucketName: "instakash-docs-dev",
     stage: "dev",
   },
@@ -15,6 +16,7 @@ const ENV = {
     googlePlacesKey: GOOGLE_PLACES_API,
     awsAccessKey: AWS_ACCESS_KEY,
     awsSecretKey: AWS_SECRET_KEY,
+    websocketUrl: DEV_WEBSOCKET_URL,
     bucketName: "instakash-docs-dev",
     stage: "staging",
   },
@@ -23,6 +25,7 @@ const ENV = {
     googlePlacesKey: GOOGLE_PLACES_API,
     awsAccessKey: AWS_ACCESS_KEY,
     awsSecretKey: AWS_SECRET_KEY,
+    websocketUrl: WEBSOCKET_URL,
     bucketName: "instakash-docs",
     stage: "prod",
   },

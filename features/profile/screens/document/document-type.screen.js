@@ -72,8 +72,15 @@ export const DocumentTypeScreen = ({ navigation, route }) => {
 
           <Spacer variant="top" size={3} />
           <Button disabled={!documentType} onPress={() => navigation.navigate("DocumentInfo", { documentType })}>
-            Continuar
+            {user.identityDocumentValidation === "failed" ? "Verificar de nuevo" : "Continuar"}
           </Button>
+          {user.identityDocumentValidation === "failed" && (
+            <View style={{ backgroundColor: "red", padding: 15, borderRadius: 5, marginTop: 15 }}>
+              <Text variant="button" style={{ color: "#FFF" }}>
+                No se ha podido validar tu identidad. Revisa tu correo para más detalles.
+              </Text>
+            </View>
+          )}
         </ProfileInfoWrapper>
       </ProfileScroll>
     </SafeArea>

@@ -8,11 +8,11 @@
     "facebookAdvertiserIDCollectionEnabled": true,
     "name": "Instakash",
     "slug": "instakash-app",
-    "version": "0.2.1",
-    "orientation": "portrait",
+    "version": "0.2.2",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
+    "orientation": "portrait",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -59,7 +59,7 @@
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 27,
+      "versionCode": 29,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-fr.png",
         "backgroundImage": "./assets/adaptive-bg.png"

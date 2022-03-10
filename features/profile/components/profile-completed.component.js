@@ -3,7 +3,7 @@ import { Circle as ProgressCircle } from "react-native-progress";
 import { ActivityIndicator } from "react-native-paper";
 import { Dimensions } from "react-native";
 import { Text } from "../../../components/typography/text.component";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import { useProfileCompleted } from "../../../hooks/use-completed.hook";
 
@@ -33,24 +33,30 @@ export const ProfileCompleted = ({ user }) => {
         </CompletedItem>
 
         <CompletedItem>
-          {user.identityDocumentValidation === "pending" ? (
-            <ActivityIndicator color="#EB9824" size={20} style={{ marginRight: 5 }} />
-          ) : (
-            <MaterialCommunityIcons
-              size={20}
-              color={user.identityDocumentValidation === "success" ? "#0D8284" : "#AFAFAF"}
-              name={user.identityDocumentValidation === "success" ? "check" : "minus"}
-              style={{ marginRight: 5 }}
-            />
+          {user.identityDocumentValidation === "none" && (
+            <>
+              <MaterialCommunityIcons size={20} color="#AFAFAF" name="minus" style={{ marginRight: 5 }} />
+              <CompletedText color="#AFAFAF">Debes verificar tu identidad</CompletedText>
+            </>
           )}
-
-          <CompletedText color={user.identityDocumentValidation === "success" ? "#0D8284" : user.identityDocumentValidation === "pending" ? "#EB9824" : "#AFAFAF"}>
-            {user.identityDocumentValidation === "success"
-              ? "Identidad verificada"
-              : user.identityDocumentValidation === "pending"
-              ? "Verificando identidad"
-              : "Debes verificar tu identidad"}
-          </CompletedText>
+          {user.identityDocumentValidation === "pending" && (
+            <>
+              <ActivityIndicator color="#EB9824" size={20} style={{ marginRight: 5 }} />
+              <CompletedText color="#EB9824">Verificando identidad</CompletedText>
+            </>
+          )}
+          {user.identityDocumentValidation === "failed" && (
+            <>
+              <MaterialIcons size={20} name="error-outline" color="#FF4B55" style={{ marginRight: 5 }} />
+              <CompletedText color="#FF4B55">Error en la verificación</CompletedText>
+            </>
+          )}
+          {user.identityDocumentValidation === "success" && (
+            <>
+              <MaterialCommunityIcons size={20} name="check" color="#0D8284" style={{ marginRight: 5 }} />
+              <CompletedText color="#0D8284">Identidad verificada</CompletedText>
+            </>
+          )}
         </CompletedItem>
 
         <CompletedItem>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useColorScheme } from "react-native";
 import { TextInput, HelperText, TouchableRipple } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";

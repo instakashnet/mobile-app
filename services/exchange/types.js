@@ -9,6 +9,11 @@ export const VALIDATE_COUPON_SUCCESS = "exchange/VALIDATE_COUPON_SUCCESS";
 
 export const REMOVE_COUPON = "exchange/REMOVE_COUPON";
 
+export const LAST_ORDER = {
+  INIT: "exchange/LAST_ORDER_INIT",
+  SUCCESS: "exchange/LAST_ORDER_SUCCESS",
+};
+
 export const CONTINUE_ORDER_INIT = "exchange/CONTINUE_ORDER_INIT";
 export const CONTINUE_ORDER_SUCCESS = "exchange/CONTINUE_ORDER_SUCCESS";
 

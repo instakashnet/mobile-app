@@ -66,3 +66,23 @@ export const addTPAccountSchema = Yup.object().shape({
     otherwise: Yup.string().notRequired(),
   }),
 });
+
+export const editAccountSchema = Yup.object().shape({
+  account_number: Yup.string().when("isDirect", {
+    is: true,
+    then: Yup.string()
+      .required("Debes colocar tu número de cuenta.")
+      .matches(/^[0-9]{13,14}$/, "Número de cuenta inválido. Solo números, de 13 a 14 caracteres."),
+    otherwise: Yup.string().notRequired(),
+  }),
+  cci: Yup.string().when("isDirect", {
+    is: false,
+    then: Yup.string()
+      .required("Debes colocar tu número de cuenta interbancario.")
+      .matches(/^[0-9]{20}$/, "CCI inválido. Deben ser solo números y 20 caracteres."),
+    otherwise: Yup.string().notRequired(),
+  }),
+  currencyId: Yup.string().required("Debes seleccionar una moneda."),
+  alias: Yup.string().required("Debes ingresar un alias.").min(5, "Debe ser mínimo de 5 caracteres.").max(40, "No deben ser más de 40 caracteres."),
+  acc_type: Yup.string().required("Debes seleccionar un tipo de cuenta."),
+});

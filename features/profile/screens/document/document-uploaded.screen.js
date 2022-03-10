@@ -21,10 +21,11 @@ export const DocumentUploadedScreen = ({ navigation }) => {
         </Title>
         <Spacer variant="top" />
         <Text style={{ textAlign: "center" }}>
-          Estamos verificando tu identidad, el proceso no demorará más de 5 minutos. Recibirás una notificación a tu correo cuando terminemos de validar.
+          Estamos verificando tu identidad, el proceso <Text variant="bold">puede demorar entre 5 a 10 minutos</Text>. Recibirás una notificación a tu correo cuando hayamos
+          finalizado.
         </Text>
         <Spacer variant="top" size={4} />
-        <Button onPress={() => navigation.navigate("Home")}>Aceptar</Button>
+        <Button onPress={() => navigation.navigate("MyProfile")}>Aceptar</Button>
       </ProfileSection>
     </SafeArea>
   );

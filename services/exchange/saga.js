@@ -1,4 +1,5 @@
 import { put, all, call, takeEvery, takeLatest, fork } from "redux-saga/effects";
+import camelize from "camelize";
 import * as types from "./types";
 import * as actions from "./actions";
 import { getUserData } from "../profile/actions";
@@ -16,6 +17,25 @@ function* getRates() {
     if (res.status === 200) yield put(actions.getRatesSuccess(res.data[0]));
   } catch (error) {
     yield put(actions.exchangeError(error.message));
+  }
+}
+
+function* watchGetLastOrder() {
+  yield takeEvery(types.LAST_ORDER.INIT, getLastOrder);
+}
+
+function* getLastOrder() {
+  try {
+    const res = yield exchangeInstance.get("/order/last-order");
+
+    if (res.status === 200) {
+      const orderData = camelize(res.data);
+      yield put(actions.getLastOrderSuccess(orderData.lastOrder));
+
+      if (orderData.hasOrder && orderData.lastOrder?.status === 2) yield call([RootNavigation, "replace"], "TransferCode");
+    }
+  } catch (error) {
+    yield put(actions.exchangeError());
   }
 }
 
@@ -132,6 +152,7 @@ function* completeOrder() {
 export function* exchangeSaga() {
   yield all([
     fork(watchGetRates),
+    fork(watchGetLastOrder),
     fork(watchCreateOrder),
     fork(watchCancelOrder),
     fork(watchContinueOrder),

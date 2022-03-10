@@ -9,11 +9,6 @@ export const getRatesSuccess = (rates) => ({
   rates,
 });
 
-export const createOrder = (values) => ({
-  type: types.CREATE_ORDER_INIT,
-  values,
-});
-
 export const validateCoupon = (couponName, profileType) => ({
   type: types.VALIDATE_COUPON_INIT,
   couponName,
@@ -27,6 +22,20 @@ export const validateCouponSuccess = (coupon) => ({
 
 export const removeCoupon = () => ({
   type: types.REMOVE_COUPON,
+});
+
+export const getLastOrder = () => ({
+  type: types.LAST_ORDER.INIT,
+});
+
+export const getLastOrderSuccess = (order) => ({
+  type: types.LAST_ORDER.SUCCESS,
+  order,
+});
+
+export const createOrder = (values) => ({
+  type: types.CREATE_ORDER_INIT,
+  values,
 });
 
 export const createOrderSuccess = (order) => ({

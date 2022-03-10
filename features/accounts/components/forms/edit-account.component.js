@@ -2,6 +2,7 @@ import React from "react";
 
 // FORMIK
 import { useFormik } from "formik";
+import { editAccountSchema } from "../../validations/schemas";
 
 // COMPONENTS
 import { Input } from "../../../../components/forms/input.component";
@@ -9,9 +10,19 @@ import { Select } from "../../../../components/forms/select.component";
 import { Button } from "../../../../components/UI/button.component";
 
 export const EditAccount = ({ currencies, isProcessing, account, onEdit }) => {
+  console.log(account);
+
   const formik = useFormik({
-      initialValues: { account_number: account.accountNumber, cci: account.cci, acc_type: account.accType, currencyId: account.currency.id, alias: account.alias },
+      initialValues: {
+        account_number: account.accountNumber,
+        cci: account.cci,
+        acc_type: account.accType,
+        currencyId: account.currency?.id,
+        alias: account.alias,
+        isDirect: account.bank?.active,
+      },
       enableReinitialize: true,
+      validationSchema: editAccountSchema,
       onSubmit: (values) => onEdit(values, account.id),
     }),
     { account_number } = formik.values;

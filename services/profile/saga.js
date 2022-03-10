@@ -1,5 +1,6 @@
 import { put, all, fork, call, takeEvery, takeLatest, delay, select } from "redux-saga/effects";
 import camelize from "camelize";
+import { format } from "date-fns";
 import * as types from "./types";
 import * as RootNavigation from "../../navigation/root.navigation";
 import * as actions from "./actions";
@@ -15,7 +16,7 @@ const { awsAccessKey, awsSecretKey, bucketName } = getVariables();
 const uploadToS3 = async (imageObj, uploadType) => {
   try {
     const res = await RNS3.put(imageObj, {
-      keyPrefix: `${uploadType}/`,
+      keyPrefix: `${uploadType}/${format(new Date(), "yyyyMM/dd")}/`,
       bucket: bucketName,
       region: "us-east-2",
       accessKey: awsAccessKey,
@@ -128,7 +129,7 @@ function* uploadDocument({ values, uploadType }) {
       const docSide = uploadType === "passport" ? "front" : i > 0 ? "back" : "front",
         imageObj = {
           uri: photos[i],
-          name: `${user.documentType}-${user.documentIdentification}-${replaceSpace(user.name)}-${docSide}-&Token&${resToken.data.accessToken}.jpg`,
+          name: `${user.documentType?.toUpperCase()}-${user.documentIdentification}-${replaceSpace(user.name)}-${docSide}-&Token&${resToken.data.accessToken}.jpg`,
           type: "image/jpeg",
         };
 
@@ -137,8 +138,7 @@ function* uploadDocument({ values, uploadType }) {
     }
 
     if (uploaded) {
-      yield delay(2000);
-      yield call(getUserData);
+      yield delay(4000);
       yield put(actions.uploadDocumentSuccess());
       yield call([RootNavigation, "navigate"], "DocumentUploaded");
     } else throw error;

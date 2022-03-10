@@ -1,21 +1,33 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Camera } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { View, Linking, Image, Dimensions, Platform } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { View, Linking, Image, Dimensions, Platform, TouchableOpacity } from "react-native";
+import { Entypo, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
 import { uploadDocument, clearProfileError } from "../../../../store/actions";
 
 // COMPONENTS
+import { SafeArea } from "../../../../components/utils/safe-area.component";
 import { Link } from "../../../../components/typography/link.component";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
 import { Alert } from "../../../../components/UI/alert.component";
 
 // STYLED COMPONENTS
-import { NoCameraWrapper, CameraWrapper, CameraOverlay, CameraSquare, CameraButton, Button, CameraLoader, ButtonsWrapper, Info, Title } from "../../components/camera.styles";
+import {
+  NoCameraWrapper,
+  CameraWrapper,
+  CameraItemsWrapper,
+  CameraSquare,
+  CameraLoader,
+  ButtonsWrapper,
+  InfoWrapper,
+  LoaderWrapper,
+  Button,
+  ActionButtons,
+} from "../../components/camera.styles";
 
 export const CameraScreen = ({ navigation, route }) => {
   const [hasPermission, setHasPermission] = useState(null),
@@ -84,13 +96,16 @@ export const CameraScreen = ({ navigation, route }) => {
       try {
         if (cameraRef.current) {
           const photo = await cameraRef.current.takePictureAsync({ quality: 1 });
-          let image;
+          let height = photo.height,
+            width = photo.width,
+            image;
 
-          image = await manipulateAsync(photo.uri, [{ resize: { width: photo.width * 0.8 } }], {
-            format: SaveFormat.JPEG,
+          image = await manipulateAsync(photo.uri, [{ crop: { originX: 0, originY: width - height / 6.5, width, height: height / 3 } }], {
+            format: SaveFormat.PNG,
+            compress: 0.8,
           });
 
-          setPreview(image.uri);
+          setPreview(image?.uri);
         }
       } catch (error) {
         console.log(error);
@@ -105,21 +120,14 @@ export const CameraScreen = ({ navigation, route }) => {
       if (documentType === "dni") {
         if (!frontPhoto) {
           setFrontPhoto(preview);
-        } else {
-          dispatch(uploadDocument({ frontPhoto, backPhoto: preview }, documentType));
-        }
-      } else {
-        dispatch(uploadDocument({ frontPhoto: preview }, documentType));
-      }
+        } else dispatch(uploadDocument({ frontPhoto, backPhoto: preview }, documentType));
+      } else dispatch(uploadDocument({ frontPhoto: preview }, documentType));
 
       setPreview(false);
     }, [documentType, preview]),
     onOpenConfig = () => Linking.openSettings();
 
   // CONDITIONAL RETURNS
-  if (hasPermission === null) {
-    return <View />;
-  }
   if (hasPermission === false) {
     return (
       <NoCameraWrapper>
@@ -138,49 +146,70 @@ export const CameraScreen = ({ navigation, route }) => {
 
   return (
     <Camera ratio={ratio} ref={(camera) => (cameraRef.current = camera)} onCameraReady={setCameraReady} style={{ flex: 1 }} type={Camera.Constants.Type.back}>
-      {cameraReady && (
-        <CameraWrapper>
-          <CameraOverlay>
-            <Title variant="bold">{documentType === "passport" ? "Foto pasaporte" : frontPhoto ? "Foto trasera" : "Foto frontal"}</Title>
-          </CameraOverlay>
-          {preview ? <Image source={{ uri: preview }} style={{ width: Dimensions.get("window").width / 1.06, flex: 0.34 }} resizeMode="cover" /> : <CameraSquare />}
-          <CameraOverlay>
-            {!isProcessing && !preview && <Info variant="bold">Ajusta el documento dentro del cuadro</Info>}
-            {preview ? (
-              <ButtonsWrapper>
-                <Button onPress={onConfirm}>
-                  <MaterialCommunityIcons name="check-circle" color="#0D8284" size={30} />
-                  <Spacer variant="left" />
-                  <Text variant="bold" style={{ color: "#FFF" }}>
-                    Se ve bien
-                  </Text>
-                </Button>
-                <Button variant="secondary" onPress={() => setPreview(null)}>
-                  <MaterialCommunityIcons name="backspace-reverse" color="#FFF" size={30} />
-                  <Spacer variant="left" />
-                  <Text variant="bold" style={{ color: "#FFF" }}>
-                    Repetir
-                  </Text>
-                </Button>
-              </ButtonsWrapper>
+      <SafeArea>
+        {cameraReady && (
+          <CameraWrapper>
+            <ButtonsWrapper>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <MaterialIcons name="arrow-back" color="#FFF" size={30} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {}}>
+                <MaterialIcons name="info-outline" color="#FFF" size={30} />
+              </TouchableOpacity>
+            </ButtonsWrapper>
+
+            <CameraItemsWrapper>
+              <InfoWrapper>
+                <Text variant="subtitle" style={{ color: "#FFF" }}>
+                  {documentType === "passport" ? "Foto pasaporte" : frontPhoto ? "Foto trasera" : "Foto frontal"}
+                </Text>
+              </InfoWrapper>
+              {preview ? (
+                <>
+                  <Image source={{ uri: preview }} style={{ width: 350, height: 250, marginVertical: 15 }} resizeMode="contain" />
+                  <InfoWrapper>
+                    <ActionButtons>
+                      <Button onPress={onConfirm}>
+                        <MaterialCommunityIcons name="check-circle" color="#0D8284" size={30} />
+                        <Spacer variant="left" />
+                        <Text variant="bold" style={{ color: "#FFF" }}>
+                          Se ve bien
+                        </Text>
+                      </Button>
+                      <Button variant="secondary" onPress={() => setPreview(null)}>
+                        <MaterialCommunityIcons name="backspace-reverse" color="#FFF" size={30} />
+                        <Spacer variant="left" />
+                        <Text variant="bold" style={{ color: "#FFF" }}>
+                          Repetir
+                        </Text>
+                      </Button>
+                    </ActionButtons>
+                  </InfoWrapper>
+                </>
+              ) : (
+                <CameraSquare />
+              )}
+            </CameraItemsWrapper>
+
+            {!loading && !isProcessing ? (
+              <TouchableOpacity onPress={onSnap}>
+                <Entypo name="circle" size={85} color="#FFF" />
+              </TouchableOpacity>
             ) : (
-              !loading &&
-              !isProcessing && (
-                <CameraButton onPress={onSnap}>
-                  <MaterialCommunityIcons name="circle-slice-8" size={85} color="#FFF" />
-                </CameraButton>
-              )
-            )}
-            {loading && <CameraLoader />}
-            {isProcessing && (
-              <>
-                <Info variant="bold">Subiendo</Info>
+              <LoaderWrapper>
                 <CameraLoader />
-              </>
+                <Text style={{ color: "#FFF" }}>{loading ? "Cargando..." : "Subiendo..."}</Text>
+              </LoaderWrapper>
             )}
-          </CameraOverlay>
-        </CameraWrapper>
-      )}
+          </CameraWrapper>
+        )}
+      </SafeArea>
+
+      <View style={{ backgroundColor: "#000", width: "100%", paddingBottom: 15, paddingTop: 10, alignItems: "center", justifyContent: "center", flex: 0.075 }}>
+        <Text variant="bold" style={{ color: "#FFF" }}>
+          Ajusta el documento dentro del marco
+        </Text>
+      </View>
 
       <Alert type="error" onClose={clearProfileError} visible={!!profileError}>
         {profileError}

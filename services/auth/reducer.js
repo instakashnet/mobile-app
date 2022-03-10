@@ -1,4 +1,6 @@
 import * as types from "./types";
+import { GET_USER_DATA_SUCCESS } from "../profile/types";
+
 const initialState = {
   isProcessing: false,
   isLoading: false,

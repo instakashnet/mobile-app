@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { clearProfile, logoutUserSuccess } from "../store/actions";
@@ -40,7 +41,9 @@ export const resInterceptor = (instance) =>
         await AsyncStorage.removeItem("profileSelected");
 
         dispatch(clearProfile());
-        return dispatch(logoutUserSuccess());
+        dispatch(logoutUserSuccess());
+
+        return Alert.alert("Tu sesión ha terminado", "El tiempo de tu sesión ha terminado, debes iniciar sesión nuevamente.", [{ text: "Lo entiendo" }]);
       } else {
         let message;
         if (error.response) {
@@ -50,8 +53,7 @@ export const resInterceptor = (instance) =>
         }
 
         error.message = message;
+        return Promise.reject(error);
       }
-
-      return Promise.reject(error);
     }
   );

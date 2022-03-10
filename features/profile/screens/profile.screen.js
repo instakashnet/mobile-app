@@ -1,4 +1,6 @@
 import React, { useCallback } from "react";
+import { View } from "react-native";
+import { Badge } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 
 // HELPERS
@@ -6,7 +8,7 @@ import { openURL } from "../../../shared/helpers/functions";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getUserData } from "../../../store/actions";
+import { connectWebsocket, disconnectWebsocket } from "../../../store/actions";
 
 // ASSETS
 import { Male } from "../../../assets/icons/male";
@@ -17,27 +19,26 @@ import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { ProfileCompleted } from "../components/profile-completed.component";
 import { Text } from "../../../components/typography/text.component";
-import { Loader } from "../../../components/UI/loader.component";
 
 // STYLED COMPONENTS
 import { InfoWrapper, NavItem, RightArrow, ItemWrapper, ProfileScroll } from "../components/profile.styles";
 
 export const ProfileScreen = ({ navigation }) => {
   const user = useSelector((state) => state.authReducer.user),
-    isLoading = useSelector((state) => state.profileReducer.isLoading),
     dispatch = useDispatch(),
     porfileName = user.name.split(" ");
 
   // EFFECTS
   useFocusEffect(
     useCallback(() => {
-      dispatch(getUserData());
+      dispatch(connectWebsocket("validation"));
+
+      return () => dispatch(disconnectWebsocket());
     }, [dispatch])
   );
 
   return (
     <SafeArea>
-      {isLoading && <Loader />}
       <ProfileScroll>
         <InfoWrapper>
           {user.identitySex === "male" ? <Male width={80} /> : <Female width={80} />}
@@ -59,7 +60,12 @@ export const ProfileScreen = ({ navigation }) => {
         {user.identityDocumentValidation !== "success" && (
           <NavItem onPress={() => navigation.navigate("ValidateDocument", { user })}>
             <ItemWrapper>
-              <Text>Verificar identidad</Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text>Verificar identidad</Text>
+                {user.identityDocumentValidation === "failed" && (
+                  <Badge style={{ marginLeft: 10, borderRadius: 5, height: 23, color: "#FF4B55", backgroundColor: "#FEE2E0" }}>error</Badge>
+                )}
+              </View>
               <RightArrow />
             </ItemWrapper>
           </NavItem>

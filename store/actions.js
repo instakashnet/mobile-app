@@ -18,3 +18,6 @@ export * from "../services/activity/actions";
 
 // SETTINGS
 export * from "../services/settings/actions";
+
+// SOCKET
+export * from "../services/socket/actions";

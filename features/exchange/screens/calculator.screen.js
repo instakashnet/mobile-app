@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { getRates, createOrder, clearExchangeError, removeCoupon, openModal } from "../../../store/actions";
+import { getRates, createOrder, clearExchangeError, removeCoupon, openModal, getLastOrder } from "../../../store/actions";
 
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
@@ -34,6 +34,7 @@ export const CalculatorScreen = ({ navigation }) => {
     useCallback(() => {
       dispatch(getRates());
       dispatch(removeCoupon());
+      dispatch(getLastOrder());
 
       return () => dispatch(clearExchangeError());
     }, [dispatch])

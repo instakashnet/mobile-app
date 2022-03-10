@@ -25,7 +25,7 @@ export const openURL = async (url) => {
   await WebBrowser.openBrowserAsync(url);
 };
 
-export const replaceSpace = (text) => text.split(" ").join("-");
+export const replaceSpace = (text) => text.split(" ").join("_");
 
 export const validateInterplaza = (accountNumber) => {
   const firstAccNumber = accountNumber.substring(0, 1);

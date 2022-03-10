@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Platform, Alert, Linking } from "react-native";
-import { Provider as PaperProvider, DefaultTheme, Modal } from "react-native-paper";
+import React, { useCallback, useEffect, useState } from "react";
+import { Platform, Linking } from "react-native";
+import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import { connectToDevTools } from "react-devtools-core";
 import { ThemeProvider } from "styled-components/native";
-import LottieView from "lottie-react-native";
-import { registerTranslation } from "react-native-paper-dates";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as Updates from "expo-updates";
@@ -24,8 +22,8 @@ import { store } from "./store";
 import { injectStore } from "./services/interceptors";
 
 // COMPONENTS
-import { Text } from "./components/typography/text.component";
-import { Spacer } from "./components/utils/spacer.component";
+import { UpdateModal } from "./components/modals/update-modal.component";
+import { StoreModal } from "./components/modals/store-modal.component";
 
 injectStore(store);
 const { stage } = getVariables();
@@ -43,24 +41,19 @@ Sentry.init({
   debug: stage !== "prod",
 });
 
-registerTranslation("es", {
-  save: "Guardar",
-  selectSingle: "Seleccionar fecha",
-  notAccordingToDateFormat: (inputFormat) => `El formato debe ser ${inputFormat}`,
-  mustBeHigherThan: "Debe ser mayor a",
-  mustBeLowerThan: "Debe ser menor que",
-  mustBeBetween: "Debe ser entre",
-  dateIsDisabled: "El dia está deshabilitado",
-});
-
 export default function App() {
-  const [updateModal, setUpdateModal] = useState(false),
-    [isUpdateAvailable, setIsUpdateAvailable] = useState(false),
+  const [otaModal, setOtaModal] = useState(false),
+    [isOtaUpdate, setIsOtaUpdate] = useState(false),
     [isStoreUpdate, setIsStoreUpdate] = useState(false),
     [appIsReady, setAppIsReady] = useState(false);
 
-  // EFFECTS
+  // HANDLERS
+  const goToStore = useCallback(
+    () => Linking.openURL(Platform.OS === "android" ? "https://play.google.com/store/apps/details?id=net.instakash.app" : "https://apps.apple.com/pe/app/instakash/id1601561803"),
+    [Linking, Platform]
+  );
 
+  // EFFECTS
   useEffect(() => {
     (async () => {
       try {
@@ -75,20 +68,13 @@ export default function App() {
         });
 
         if (stage !== "dev") {
-          if (Application.nativeApplicationVersion !== "0.2.1") {
-            Alert.alert("Actualización!", "Hay una nueva versión disponible en la store, debes descargarla para poder usar esta app.", [
-              {
-                text: "Ir a la store",
-                onPress: () =>
-                  Linking.openURL(
-                    Platform.OS === "android" ? "https://play.google.com/store/apps/details?id=net.instakash.app" : "https://apps.apple.com/pe/app/instakash/id1601561803"
-                  ),
-              },
-            ]);
-            setIsStoreUpdate(true);
+          const update = await Updates.checkForUpdateAsync();
+
+          if (update.isAvailable) {
+            await Updates.fetchUpdateAsync();
+            setIsOtaUpdate(update.isAvailable);
           } else {
-            const update = await Updates.checkForUpdateAsync();
-            setIsUpdateAvailable(update.isAvailable);
+            if (Application.nativeApplicationVersion !== "0.2.2") setIsStoreUpdate(true);
           }
         }
       } catch (e) {
@@ -108,75 +94,42 @@ export default function App() {
   }, [appIsReady]);
 
   useEffect(() => {
-    if (appIsReady && !isUpdateAvailable && !isStoreUpdate) {
-      (async () => {
-        let { granted: getGranted } = await getTrackingPermissionsAsync();
-
-        if (getGranted) {
-          await Facebook.initializeAsync();
-          await Facebook.setAdvertiserTrackingEnabledAsync(true);
+    (async () => {
+      try {
+        if (isOtaUpdate) {
+          setOtaModal(true);
+          return await Updates.reloadAsync();
         } else {
-          let { granted: requestGranted } = await requestTrackingPermissionsAsync();
+          let { granted: getGranted } = await getTrackingPermissionsAsync();
 
-          if (requestGranted) {
+          if (getGranted) {
             await Facebook.initializeAsync();
             await Facebook.setAdvertiserTrackingEnabledAsync(true);
+          } else {
+            let { granted: requestGranted } = await requestTrackingPermissionsAsync();
+
+            if (requestGranted) {
+              await Facebook.initializeAsync();
+              await Facebook.setAdvertiserTrackingEnabledAsync(true);
+            }
           }
         }
-      })();
-    }
-  }, [appIsReady, isUpdateAvailable]);
+      } catch (error) {
+        throw error;
+      }
+    })();
+  }, [isOtaUpdate]);
 
-  useEffect(() => {
-    if (isUpdateAvailable && appIsReady) {
-      (async () => {
-        try {
-          setUpdateModal(true);
-
-          await Updates.fetchUpdateAsync();
-          await Updates.reloadAsync();
-        } catch (error) {
-          throw error;
-        }
-      })();
-    }
-  }, [isUpdateAvailable, appIsReady]);
-
-  if (!appIsReady) {
-    return null;
-  }
-
-  return (
+  return appIsReady ? (
     <Provider store={store}>
       <StatusBar style="dark" />
       <ThemeProvider theme={theme}>
         <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
           <Navigator />
-          <Modal dismissable={false} visible={updateModal} contentContainerStyle={styles.modalContainer}>
-            <LottieView key="animation" resizeMode="contain" style={{ width: 140 }} loop autoPlay source={require("./assets/animations/updating.json")} />
-            <Spacer variant="top" size={2} />
-            <Text variant="title">¡Actualización!</Text>
-            <Spacer variant="top" />
-            <Text style={{ textAlign: "center" }}>
-              Estamos actualizando la app para poder brindarte todas las funcionalidades, solo tomará unos segundos. <Text variant="bold">Agradecemos tu espera.</Text>
-            </Text>
-            <Spacer variant="top" />
-          </Modal>
+          <UpdateModal isVisible={otaModal} />
+          <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} />
         </PaperProvider>
       </ThemeProvider>
     </Provider>
-  );
+  ) : null;
 }
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    width: "80%",
-    backgroundColor: "#fff",
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    minHeight: 150,
-  },
-});

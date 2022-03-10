@@ -95,6 +95,7 @@ export const CalculatorForm = ({ getRates, isProcessing, isFocused, profile, onS
       (name) => {
         formik.setFieldValue("couponName", name.toUpperCase());
         dispatch(validateCoupon(name, profile.type));
+        setCouponName("");
       },
       [profile.type]
     ),
@@ -202,7 +203,7 @@ export const CalculatorForm = ({ getRates, isProcessing, isFocused, profile, onS
         )}
 
         <Spacer variant="top" />
-        <Button onPress={formik.handleSubmit} disabled={amount_sent <= 0 || amount_received <= 0 || isProcessing} loading={isProcessing}>
+        <Button onPress={formik.handleSubmit} disabled={amount_sent <= 0 || amount_received <= 0 || couponName || isProcessing} loading={isProcessing}>
           Comenzar cambio
         </Button>
       </FormWrapper>

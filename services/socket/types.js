@@ -1,0 +1,4 @@
+export const WEBSOCKET = {
+  CONNECT: "socket/CONNECT_WEBSOCKET",
+  DISCONNECT: "socket/DISCONNECT_WEBSOCKET",
+};

@@ -42,7 +42,7 @@ export const ProfileNavigator = () => {
         component={identityDocumentValidation === "pending" ? DocumentValidationScreen : DocumentTypeScreen}
       />
       <ProfileStack.Screen name="DocumentInfo" options={{ headerTitle: () => headerTitle("Cargar documento") }} component={DocumentInfoScreen} />
-      <ProfileStack.Screen name="Camera" options={{ headerTitle: "", headerRight: null }} component={CameraScreen} />
+      <ProfileStack.Screen name="Camera" options={{ headerShown: false }} component={CameraScreen} />
       <ProfileStack.Screen name="DocumentUploaded" options={{ headerTitle: "", headerLeft: null }} component={DocumentUploadedScreen} />
       <ProfileStack.Screen name="AdditionalInfo" options={{ headerTitle: () => headerTitle("Información adicional") }} component={AdditionalInfoScreen} />
       <ProfileStack.Screen name="EditAdditionals" options={{ headerTitle: () => headerTitle("Editar información") }} component={EditAdditionalScreen} />
