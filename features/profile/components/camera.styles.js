@@ -27,7 +27,7 @@ export const CameraItemsWrapper = styled.View`
 
 export const CameraSquare = styled.View`
   width: ${Dimensions.get("window").width / 1.1}px;
-  height: ${Dimensions.get("window").height / 3.8}px;
+  height: 215px;
   border-width: 6px;
   border-color: #fff;
   border-radius: 10px;

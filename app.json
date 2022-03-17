@@ -11,7 +11,7 @@
     "version": "0.2.2",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "orientation": "portrait",
     "splash": {
       "image": "./assets/splash.png",
@@ -52,14 +52,15 @@
       "supportsTablet": false,
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
-      "buildNumber": "0.1.1",
+      "buildNumber": "0.1.2",
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to give you the ability to take the photo of your document."
       }
     },
     "android": {
       "package": "net.instakash.app",
-      "versionCode": 29,
+      "userInterfaceStyle": "light",
+      "versionCode": 30,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-fr.png",
         "backgroundImage": "./assets/adaptive-bg.png"

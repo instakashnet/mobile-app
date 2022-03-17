@@ -34,7 +34,9 @@ const createChannel = (token, service) =>
       };
 
       ws.onclose = (e) => {
-        if (e.code === 1001) {
+        console.log(e.code);
+
+        if (e.code === 1001 || e.code === 1000) {
           console.log("Connection closed.");
           emit(END);
         } else {

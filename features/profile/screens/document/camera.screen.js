@@ -98,9 +98,10 @@ export const CameraScreen = ({ navigation, route }) => {
           const photo = await cameraRef.current.takePictureAsync({ quality: 1 });
           let height = photo.height,
             width = photo.width,
+            originY = width - height / (Dimensions.get("window").height > 750 ? 6 : 3.5),
             image;
 
-          image = await manipulateAsync(photo.uri, [{ crop: { originX: 0, originY: width - height / 6.5, width, height: height / 3 } }], {
+          image = await manipulateAsync(photo.uri, [{ crop: { originX: 0, originY, width, height: height / 3 } }], {
             format: SaveFormat.PNG,
             compress: 0.8,
           });
@@ -166,7 +167,7 @@ export const CameraScreen = ({ navigation, route }) => {
               </InfoWrapper>
               {preview ? (
                 <>
-                  <Image source={{ uri: preview }} style={{ width: 350, height: 250, marginVertical: 15 }} resizeMode="contain" />
+                  <Image source={{ uri: preview }} style={{ width: 350, height: 275, marginVertical: 15 }} resizeMode="contain" />
                   <InfoWrapper>
                     <ActionButtons>
                       <Button onPress={onConfirm}>
