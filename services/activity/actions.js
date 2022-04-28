@@ -11,6 +11,16 @@ export const getOrdersSuccess = (data) => ({
   data,
 });
 
+export const getOrderDetails = (id) => ({
+  type: types.GET_ORDER_DETAILS.INIT,
+  id,
+});
+
+export const getOrderDetailsSuccess = (order) => ({
+  type: types.GET_ORDER_DETAILS.SUCCESS,
+  order,
+});
+
 export const getWithdrawals = (limit) => ({
   type: types.GET_WITHDRAWALS_INIT,
   limit,

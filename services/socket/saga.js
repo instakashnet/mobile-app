@@ -1,9 +1,9 @@
-import { END, eventChannel } from "redux-saga";
-import { call, fork, take, takeEvery, cancel, cancelled, put, select } from "redux-saga/effects";
 import * as SecureStore from "expo-secure-store";
-import { WEBSOCKET } from "./types";
-import { getVariables } from "../../variables";
+import { END, eventChannel } from "redux-saga";
+import { call, cancel, cancelled, fork, put, select, take, takeEvery } from "redux-saga/effects";
 import { loadUserSuccess } from "../../store/actions";
+import { getVariables } from "../../variables";
+import { WEBSOCKET } from "./types";
 
 const { websocketUrl } = getVariables();
 let ws;
@@ -34,8 +34,6 @@ const createChannel = (token, service) =>
       };
 
       ws.onclose = (e) => {
-        console.log(e.code);
-
         if (e.code === 1001 || e.code === 1000) {
           console.log("Connection closed.");
           emit(END);
@@ -81,13 +79,17 @@ function* listenToSocketSaga(...args) {
 }
 
 function* connectToSocketSaga({ service }) {
-  const authData = yield call([SecureStore, "getItemAsync"], "authData");
-  const { token } = JSON.parse(authData);
+  try {
+    const authData = yield call([SecureStore, "getItemAsync"], "authData");
+    const { token } = JSON.parse(authData);
 
-  const socket = yield fork(listenToSocketSaga, token, service);
+    const socket = yield fork(listenToSocketSaga, token, service);
 
-  yield take(WEBSOCKET.DISCONNECT);
-  yield cancel(socket);
+    yield take(WEBSOCKET.DISCONNECT);
+    yield cancel(socket);
+  } catch (error) {
+    console.error("Websocket error: ", { error });
+  }
 }
 
 export function* socketSaga() {

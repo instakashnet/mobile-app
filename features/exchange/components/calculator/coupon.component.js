@@ -1,29 +1,32 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-
+import { HelperText } from "react-native-paper";
 // COMPONENTS
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
-import { CouponWrapper, CouponText } from "../calculator.styles";
+import { CouponText, CouponWrapper } from "../calculator.styles";
 
 export const CouponApplied = ({ coupon, onRemove }) => {
   return (
     <>
-      <Text variant="title" style={{ textAlign: "center" }}>
-        !Se ha aplicado el cupón!
-      </Text>
       <Spacer variant="top" />
       <CouponWrapper>
         <CouponText>{coupon.name}</CouponText>
         {!coupon.name.includes("REFERIDO") && (
           <TouchableOpacity onPress={onRemove}>
-            <Ionicons name="close-sharp" size={30} color="#0D8284" />
+            <Text variant="button" style={{ color: "#0D8284" }}>
+              Quitar
+            </Text>
           </TouchableOpacity>
         )}
       </CouponWrapper>
-      <Spacer variant="top" />
-      {coupon.name.includes("REFERIDO") && <Text variant="button">Solo válido para tu primer cambio.</Text>}
+      <HelperText visible>Si no deseas usar este cupón presiona "Quitar".</HelperText>
+      {coupon.name.includes("REFERIDO") && (
+        <>
+          <Spacer variant="top" />
+          <Text variant="button">Solo válido para tu primer cambio.</Text>
+        </>
+      )}
     </>
   );
 };

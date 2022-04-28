@@ -1,17 +1,13 @@
-import React from "react";
-
 // FORMIK
 import { useFormik } from "formik";
-import { editAccountSchema } from "../../validations/schemas";
-
+import React from "react";
 // COMPONENTS
 import { Input } from "../../../../components/forms/input.component";
 import { Select } from "../../../../components/forms/select.component";
 import { Button } from "../../../../components/UI/button.component";
+import { editAccountSchema } from "../../validations/schemas";
 
 export const EditAccount = ({ currencies, isProcessing, account, onEdit }) => {
-  console.log(account);
-
   const formik = useFormik({
       initialValues: {
         account_number: account.accountNumber,

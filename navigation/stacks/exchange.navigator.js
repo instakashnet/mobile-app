@@ -1,22 +1,18 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import React from "react";
 // REDUX
 import { useSelector } from "react-redux";
-
-// UTILS
-import { headerOptions, headerLeft, headerBackLeft, headerRight, headerTitle } from "../utils/navigator.options";
-
-// NAVIGATORS
-import { AddAccountTabs } from "../tabs/add-account-tabs.navigatior";
-import { SelectProfileNavigator } from "../stacks/select-profile.navigator";
-
+import { AccountSelectScreen } from "../../features/exchange/screens/account-select.screen";
+import { AccountsScreen } from "../../features/exchange/screens/accounts.screen";
 // SCREENS
 import { CalculatorScreen } from "../../features/exchange/screens/calculator.screen";
-import { AccountsScreen } from "../../features/exchange/screens/accounts.screen";
-import { AccountSelectScreen } from "../../features/exchange/screens/account-select.screen";
-import { TransferCodeScreen } from "../../features/exchange/screens/transfer-code.screen";
 import { CompletedScreen } from "../../features/exchange/screens/completed.screen";
+import { TransferCodeScreen } from "../../features/exchange/screens/transfer-code.screen";
+import { SelectProfileNavigator } from "../stacks/select-profile.navigator";
+// NAVIGATORS
+import { AddAccountTabs } from "../tabs/add-account-tabs.navigatior";
+// UTILS
+import { headerBackLeft, headerLeft, headerOptions, headerRight, headerTitle } from "../utils/navigator.options";
 
 const ExchangeStack = createStackNavigator();
 
@@ -47,11 +43,11 @@ export const ExchangeNavigator = () => {
           />
           <ExchangeStack.Screen
             name="AddAccount"
-            options={({ navigation }) => ({ headerTitle: headerTitle("Agregar cuenta"), headerRight: null, headerLeft: () => headerBackLeft(navigation) })}
+            options={({ navigation }) => ({ headerTitle: () => headerTitle("Agregar cuenta"), headerRight: null, headerLeft: () => headerBackLeft(navigation) })}
             component={AddAccountTabs}
           />
-          <ExchangeStack.Screen name="TransferCode" options={{ headerTitle: headerTitle("Completar operación"), headerRight: null }} component={TransferCodeScreen} />
-          <ExchangeStack.Screen name="Completed" options={{ headerTitle: headerTitle("¡Solicitud completada!"), headerRight: null }} component={CompletedScreen} />
+          <ExchangeStack.Screen name="TransferCode" options={{ headerTitle: () => headerTitle("Completar operación"), headerRight: null }} component={TransferCodeScreen} />
+          <ExchangeStack.Screen name="Completed" options={{ headerTitle: () => headerTitle("¡Solicitud completada!"), headerRight: null }} component={CompletedScreen} />
         </>
       )}
     </ExchangeStack.Navigator>

@@ -1,35 +1,29 @@
-import React, { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback } from "react";
 import { View } from "react-native";
-
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { cancelOrder, processCode, clearExchangeError } from "../../../store/actions";
-
-// HELPERS
-import { formatAmount } from "../../../shared/helpers/functions";
-
+import { useDispatch, useSelector } from "react-redux";
 // ASSETS
 import { ExchangeImage } from "../../../assets/illustrations/platform/exchange";
-import { bankLogos } from "../relative-paths/images";
-
+import { Text } from "../../../components/typography/text.component";
 // COMPONENTS
 import { Alert } from "../../../components/UI/alert.component";
-import { SafeArea } from "../../../components/utils/safe-area.component";
-import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
-import { Spacer } from "../../../components/utils/spacer.component";
-import { Text } from "../../../components/typography/text.component";
 import { CopyButton } from "../../../components/UI/copy-button.component";
-import { TransferCodeForm } from "../components/forms/transfer-code-form.component";
 import { Loader } from "../../../components/UI/loader.component";
-
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
+import { SafeArea } from "../../../components/utils/safe-area.component";
+import { Spacer } from "../../../components/utils/spacer.component";
+// HELPERS
+import { formatAmount } from "../../../shared/helpers/functions";
+import { cancelOrder, clearExchangeError, processCode } from "../../../store/actions";
+import { TransferCodeForm } from "../components/forms/transfer-code-form.component";
 // STYLED COMPONENTS
-import { Price, ShadowCard, TransferCard, BankImage, InfoWrapper, InfoBox, TransferWrapper, Info } from "../components/transfer-code.styles";
+import { BankImage, Info, InfoBox, InfoWrapper, Price, ShadowCard, TransferCard, TransferWrapper } from "../components/transfer-code.styles";
+import { bankLogos } from "../relative-paths/images";
 
 export const TransferCodeScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     { order, isProcessing, isLoading, exchangeError } = useSelector((state) => state.exchangeReducer);
-
   // EFFECTS
   useFocusEffect(
     useCallback(() => {

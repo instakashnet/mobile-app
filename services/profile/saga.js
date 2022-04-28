@@ -129,7 +129,7 @@ function* uploadDocument({ values, uploadType }) {
       const docSide = uploadType === "passport" ? "front" : i > 0 ? "back" : "front",
         imageObj = {
           uri: photos[i],
-          name: `${user.documentType?.toUpperCase()}-${user.documentIdentification}-${replaceSpace(user.name)}-${docSide}-&Token&${resToken.data.accessToken}.jpg`,
+          name: `${user.documentType?.toUpperCase()}-${user.documentIdentification}-${replaceSpace(user.name.toUpperCase())}-${docSide}-&Token&${resToken.data.accessToken}.jpg`,
           type: "image/jpeg",
         };
 

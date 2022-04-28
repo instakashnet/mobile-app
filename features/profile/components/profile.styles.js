@@ -1,9 +1,9 @@
-import styled from "styled-components/native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { Dimensions } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { TouchableRipple } from "react-native-paper";
+import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component";
 
 export const ProfileInfoWrapper = styled.View`
@@ -84,7 +84,7 @@ export const HeaderProfile = styled.View`
   min-height: 100px;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.brand.primary};
-  width: 100%;
+  width: ${Dimensions.get("window").width}px;
 `;
 
 export const Title = styled(Text)`
@@ -117,6 +117,19 @@ export const DocumentsWrapper = styled.View`
   justify-content: center;
 `;
 
+export const Separator = styled.View`
+  background-color: #ccc;
+  width: 100%;
+  height: 1px;
+`;
+
+export const NotificationLabel = styled.View`
+  align-items: flex-start;
+  width: 100%;
+  padding-left: 15px;
+  margin-top: 25px;
+`;
+
 export const ListItem = styled.View`
   flex-direction: row;
   align-items: center;
@@ -144,6 +157,17 @@ export const ItemWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const NotificationWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-color: ${({ theme }) => theme.colors.text.inactive};
+  border-bottom-width: 1px;
+  padding: ${({ theme }) => theme.space[4]};
+  width: 100%;
 `;
 
 export const RightArrow = styled(MaterialIcons).attrs(({ theme }) => ({
