@@ -6,6 +6,7 @@ import * as Updates from "expo-updates";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { connectToDevTools } from "react-devtools-core";
 import { Linking, Platform } from "react-native";
+import { AppearanceProvider } from "react-native-appearance";
 import "react-native-gesture-handler";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 // REDUX
@@ -116,14 +117,16 @@ export default function App() {
 
   return appIsReady ? (
     <Provider store={store}>
-      <StatusBar style="dark" />
-      <ThemeProvider theme={theme}>
-        <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
-          <Navigator />
-          <UpdateModal isVisible={otaModal} />
-          <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} />
-        </PaperProvider>
-      </ThemeProvider>
+      <AppearanceProvider>
+        <StatusBar style="dark" backgroundColor="#0D8284" />
+        <ThemeProvider theme={theme}>
+          <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
+            <Navigator />
+            <UpdateModal isVisible={otaModal} />
+            <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} />
+          </PaperProvider>
+        </ThemeProvider>
+      </AppearanceProvider>
     </Provider>
   ) : null;
 }

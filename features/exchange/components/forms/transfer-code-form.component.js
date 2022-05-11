@@ -1,19 +1,15 @@
-import React from "react";
-
 // FORMIK
 import { useFormik } from "formik";
-import { transferCodeSchema } from "../../validations/schemas";
-
+import React from "react";
+import { Input } from "../../../../components/forms/input.component";
 // COMPONENTS
 import { Text } from "../../../../components/typography/text.component";
-import { Spacer } from "../../../../components/utils/spacer.component";
-import { SnackBar } from "../../../../components/UI/snack.component";
-import { Input } from "../../../../components/forms/input.component";
 import { Button } from "../../../../components/UI/button.component";
 import { CopyButton } from "../../../../components/UI/copy-button.component";
-
+import { Spacer } from "../../../../components/utils/spacer.component";
+import { transferCodeSchema } from "../../validations/schemas";
 // STYLED COMPONENTS
-import { ShadowCard, TransferCard, Info } from "../transfer-code.styles";
+import { Info, ShadowCard, TransferCard } from "../transfer-code.styles";
 
 export const TransferCodeForm = ({ isProcessing, onCancel, direct, onSubmit }) => {
   // FORMIK
@@ -24,8 +20,7 @@ export const TransferCodeForm = ({ isProcessing, onCancel, direct, onSubmit }) =
       {direct ? (
         <>
           <Text>
-            Una vez realizado coloque el <Text variant="bold">número de operación emitido por su banco</Text> dentro del casillero mostrado debajo y debe darle al botón de
-            "completar cambio".
+            <Text variant="bold">Copia el número de operación</Text> generado por tu banco en tu voucher, colocalo en el casillero debajo y completa tu operación.
           </Text>
           <Input
             name="transaction_code"
@@ -51,13 +46,11 @@ export const TransferCodeForm = ({ isProcessing, onCancel, direct, onSubmit }) =
           <Spacer variant="top" />
         </>
       )}
-
-      <SnackBar type="info">Solo dispones de 15 minutos para completar el cambio.</SnackBar>
       <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing}>
         Completar cambio
       </Button>
       <Button variant="secondary" onPress={onCancel}>
-        Cancelar
+        Regresar
       </Button>
     </>
   );

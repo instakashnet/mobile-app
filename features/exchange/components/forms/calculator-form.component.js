@@ -1,21 +1,20 @@
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { Text } from "../../../../components/typography/text.component";
 // COMPONENTS
 import { Spacer } from "../../../../components/utils/spacer.component";
-import { CalculatorWrapper, Timer, TimerInfo, TimerWrapper } from "../calculator.styles";
+import { CalculatorWrapper, TimerInfo } from "../calculator.styles";
 import { InputCoupon } from "../calculator/coupon-input.component";
 import { CouponApplied } from "../calculator/coupon.component";
 import { Input } from "../calculator/input.component";
 import { Rates } from "../calculator/rates.component";
 import { SwapButton } from "../calculator/swap-button.component";
+import { CountdownTimer } from "../timer.component";
 
 export const CalculatorForm = ({ formik, isFocused, rates, coupon, couponRates, isReferal, countdown, handleTimeout, setCouponName, onAddCoupon, onRemoveCoupon, ...rest }) => {
   const [toSendCurrency, setToSendCurrency] = useState("Soles"),
     [toReceiveCurrency, setToReceiveCurrency] = useState("Dólares"),
-    [countRunnig, setCountRunning] = useState(false);
-  const { setFieldValue } = formik,
+    { setFieldValue } = formik,
     { type: calculatorType } = formik.values,
     { amountSentRef, amountReceivedRef, couponName } = rest;
 
@@ -25,12 +24,6 @@ export const CalculatorForm = ({ formik, isFocused, rates, coupon, couponRates, 
       if (isReferal) onAddCoupon("NUEVOREFERIDO1");
     }, [isReferal])
   );
-
-  useEffect(() => {
-    setCountRunning(isFocused);
-
-    () => setCountRunning(false);
-  }, [isFocused]);
 
   useEffect(() => {
     if (calculatorType === "sell") {
@@ -43,17 +36,17 @@ export const CalculatorForm = ({ formik, isFocused, rates, coupon, couponRates, 
   }, [calculatorType]);
 
   // HANDLERS
-  (onSwapHandler = () => {
-    let amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +rates.buy : +formik.values.amount_sent / +rates.sell;
-    if (couponRates) amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +couponRates.buy : +formik.values.amount_sent / +couponRates.sell;
+  const onSwapHandler = () => {
+      let amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +rates.buy : +formik.values.amount_sent / +rates.sell;
+      if (couponRates) amountToReceive = calculatorType === "sell" ? +formik.values.amount_sent * +couponRates.buy : +formik.values.amount_sent / +couponRates.sell;
 
-    setFieldValue("currency_sent_id", formik.values.currency_sent_id === 1 ? 2 : 1);
-    setFieldValue("currency_received_id", formik.values.currency_received_id === 1 ? 2 : 1);
-    setFieldValue("type", calculatorType === "sell" ? "buy" : "sell");
-    amountReceivedRef.current = amountToReceive;
-    setFieldValue("amount_received", amountToReceive);
-  }),
-    (onChange = (name, value) => {
+      setFieldValue("currency_sent_id", formik.values.currency_sent_id === 1 ? 2 : 1);
+      setFieldValue("currency_received_id", formik.values.currency_received_id === 1 ? 2 : 1);
+      setFieldValue("type", calculatorType === "sell" ? "buy" : "sell");
+      amountReceivedRef.current = amountToReceive;
+      setFieldValue("amount_received", amountToReceive);
+    },
+    onChange = (name, value) => {
       setFieldValue(name, value);
       let conversionType, amountToReceive, amountToSend;
 
@@ -74,7 +67,7 @@ export const CalculatorForm = ({ formik, isFocused, rates, coupon, couponRates, 
         amountReceivedRef.current = value;
         amountSentRef.current = amountToSend;
       }
-    });
+    };
 
   return (
     <>
@@ -83,19 +76,7 @@ export const CalculatorForm = ({ formik, isFocused, rates, coupon, couponRates, 
 
       <TimerInfo>
         <Text variant="button">La tasa se actualizará en:</Text>
-        <TimerWrapper>
-          <CountdownCircleTimer key={countdown.toString()} isPlaying duration={300} size={18} strokeWidth={2.5} colors="#0D8284" />
-          <Timer
-            id={countdown.toString()}
-            running={countRunnig}
-            until={300}
-            size={14}
-            showSeparator
-            onFinish={handleTimeout}
-            timeToShow={["M", "S"]}
-            timeLabels={{ m: "", s: "" }}
-          />
-        </TimerWrapper>
+        <CountdownTimer countdown={countdown} duration={300} onFinish={handleTimeout} />
       </TimerInfo>
       <Spacer variant="top" />
       <CalculatorWrapper>

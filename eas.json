@@ -24,14 +24,14 @@
       "releaseChannel": "dev",
       "distribution": "internal"
     },
-    "simulator-staging": {
+    "simulator-prod": {
       "ios": {
         "simulator": true
       },
       "android": {
         "buildType": "apk"
       },
-      "releaseChannel": "staging",
+      "releaseChannel": "prod",
       "distribution": "internal"
     },
     "staging": {

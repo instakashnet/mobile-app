@@ -1,4 +1,4 @@
-import { AWS_ACCESS_KEY, AWS_SECRET_KEY, GOOGLE_PLACES_API } from "@env";
+import { AWS_ACCESS_KEY, AWS_SECRET_KEY, FB_APP_ID, GOOGLE_PLACES_API } from "@env";
 import * as Updates from "expo-updates";
 
 const ENV = {
@@ -9,6 +9,7 @@ const ENV = {
     awsSecretKey: AWS_SECRET_KEY,
     websocketUrl: "wss://ws.dev.instakash.net",
     bucketName: "instakash-docs-dev",
+    fbAppId: FB_APP_ID,
     stage: "dev",
   },
   staging: {
@@ -18,6 +19,7 @@ const ENV = {
     awsSecretKey: AWS_SECRET_KEY,
     websocketUrl: "wss://ws.dev.instakash.net",
     bucketName: "instakash-docs-dev",
+    fbAppId: FB_APP_ID,
     stage: "staging",
   },
   prod: {
@@ -27,6 +29,7 @@ const ENV = {
     awsSecretKey: AWS_SECRET_KEY,
     websocketUrl: "wss://ws.instakash.net",
     bucketName: "instakash-docs",
+    fbAppId: FB_APP_ID,
     stage: "prod",
   },
 };

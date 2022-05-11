@@ -1,14 +1,14 @@
-import { put, all, fork, call, takeEvery, takeLatest, delay, select } from "redux-saga/effects";
 import camelize from "camelize";
 import { format } from "date-fns";
-import * as types from "./types";
+import { RNS3 } from "react-native-aws3";
+import { all, call, delay, fork, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import * as RootNavigation from "../../navigation/root.navigation";
-import * as actions from "./actions";
+import { replaceSpace } from "../../shared/helpers/functions";
+import { getVariables } from "../../variables";
 import { authInstance } from "../auth.service";
 import { loadUserSuccess } from "../auth/actions";
-import { replaceSpace } from "../../shared/helpers/functions";
-import { RNS3 } from "react-native-aws3";
-import { getVariables } from "../../variables";
+import * as actions from "./actions";
+import * as types from "./types";
 
 const { awsAccessKey, awsSecretKey, bucketName } = getVariables();
 
@@ -101,7 +101,7 @@ function* watchUpdateUsername() {
 
 function* updateUsername({ values }) {
   try {
-    const res = yield authInstance.put("/users/username", values);
+    const res = yield authInstance.put("/users/username", { username: values?.username.toUpperCase() });
     if (res.status === 200) {
       yield getUserData();
 

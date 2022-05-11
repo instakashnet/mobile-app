@@ -4,6 +4,15 @@ import * as Facebook from "expo-facebook";
 import * as Notifications from "expo-notifications";
 import { getTrackingPermissionsAsync, requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import * as Updates from "expo-updates";
+import { getVariables } from "../../variables";
+
+const { fbAppId } = getVariables();
+
+const fbAppOptions = {
+  appId: fbAppId,
+  appName: "kash-app",
+  autoLogAppEvents: true,
+};
 
 export async function checkAppUpdate() {
   let storeUpdate = false,
@@ -24,13 +33,13 @@ export async function checkTrackingPermissions() {
   let { granted: getGranted } = await getTrackingPermissionsAsync();
 
   if (getGranted) {
-    await Facebook.initializeAsync();
+    await Facebook.initializeAsync(fbAppOptions);
     await Facebook.setAdvertiserTrackingEnabledAsync(true);
   } else {
     let { granted: requestGranted } = await requestTrackingPermissionsAsync();
 
     if (requestGranted) {
-      await Facebook.initializeAsync();
+      await Facebook.initializeAsync(fbAppOptions);
       await Facebook.setAdvertiserTrackingEnabledAsync(true);
     }
   }

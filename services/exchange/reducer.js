@@ -2,7 +2,7 @@ import * as types from "./types";
 
 const initialState = {
   rates: { buy: 0, sell: 0 },
-  order: null,
+  order: {},
   isLoading: true,
   ratesLoading: true,
   isProcessing: false,
@@ -35,11 +35,11 @@ export const exchangeReducer = (state = initialState, action = {}) => {
     case types.CONTINUE_ORDER_SUCCESS:
       return { ...state, isProcessing: false, order: action.order };
     case types.CANCEL_ORDER_SUCCESS:
-      return { ...state, isProcessing: false, isLoading: false, order: null, coupon: null };
+      return { ...state, isProcessing: false, isLoading: false, order: {}, coupon: null };
     case types.PROCESS_CODE_SUCCESS:
       return { ...state, isProcessing: false, coupon: null };
     case types.COMPLETE_ORDER_SUCCESS:
-      return { ...state, order: null };
+      return { ...state, order: {} };
     case types.REMOVE_COUPON:
       return { ...state, coupon: null };
     case types.CLEAR_ERROR:

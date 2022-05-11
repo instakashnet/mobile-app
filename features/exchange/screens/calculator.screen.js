@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
+import { TimeBellIcon } from "../../../assets/icons/time-bell";
 import { Text } from "../../../components/typography/text.component";
 import { Alert } from "../../../components/UI/alert.component";
 import { Button } from "../../../components/UI/button.component";
@@ -142,9 +143,16 @@ export const CalculatorScreen = ({ navigation }) => {
           </Button>
         </ExchangeForm>
       </KeyboardScrollAware>
-      <Modal dismissable={modalType === "timeout"}>
+      <Modal dismissable={modalType !== "timeout"}>
         {modalType === "timeout" ? (
-          <Button onPress={onGetRates}>Aceptar</Button>
+          <>
+            <TimeBellIcon />
+            <Text variant="subtitle">¡Se acabó el tiempo!</Text>
+            <Spacer variant="top" />
+            <Text style={{ textAlign: "center" }}>Los 5 minutos de cambio garantizado han finalizado. El tipo de cambio se actualizará y puede haber variado.</Text>
+            <Spacer variant="top" size={2} />
+            <Button onPress={onGetRates}>Aceptar</Button>
+          </>
         ) : (
           <>
             <MaterialCommunityIcons name="information" size={50} color="#EB9824" />

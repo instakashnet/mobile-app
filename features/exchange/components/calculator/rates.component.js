@@ -8,9 +8,13 @@ export const Rates = ({ couponRates, rates }) => {
     <>
       {couponRates && (
         <RatesWrapper>
-          <Text variant="caption">Antes: {rates.buy}</Text>
+          <Text variant="caption" style={{ textDecorationLine: "line-through" }}>
+            Antes: {rates.buy}
+          </Text>
           <Spacer variant="left" size={6} />
-          <Text variant="caption">Antes: {rates.sell}</Text>
+          <Text variant="caption" style={{ textDecorationLine: "line-through" }}>
+            Antes: {rates.sell}
+          </Text>
         </RatesWrapper>
       )}
       <RatesWrapper>

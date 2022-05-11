@@ -29,7 +29,6 @@ export const Navigator = () => {
 
   // EFFECTS
   useEffect(() => {
-    console.log("calling load user");
     dispatch(loadUser());
   }, [dispatch]);
 

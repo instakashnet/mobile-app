@@ -20,12 +20,10 @@ export const CouponApplied = ({ coupon, onRemove }) => {
           </TouchableOpacity>
         )}
       </CouponWrapper>
-      <HelperText visible>Si no deseas usar este cupón presiona "Quitar".</HelperText>
-      {coupon.name.includes("REFERIDO") && (
-        <>
-          <Spacer variant="top" />
-          <Text variant="button">Solo válido para tu primer cambio.</Text>
-        </>
+      {coupon.name.includes("REFERIDO") ? (
+        <Text variant="button">Solo válido para tu primer cambio.</Text>
+      ) : (
+        <HelperText visible>Si no deseas usar este cupón presiona "Quitar".</HelperText>
       )}
     </>
   );

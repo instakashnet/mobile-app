@@ -94,3 +94,9 @@ export const FormWrapper = styled.View`
   elevation: 7;
   padding: ${({ theme }) => theme.space[5]};
 `;
+
+export const StepsProgressWrapper = styled.View`
+  height: 50px;
+  width: 100%;
+  padding-top: 5px;
+`;

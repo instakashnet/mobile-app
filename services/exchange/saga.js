@@ -33,7 +33,7 @@ function* getLastOrder() {
       const orderData = camelize(res.data);
       yield put(actions.getLastOrderSuccess(orderData.lastOrder));
 
-      if (orderData.hasOrder && orderData.lastOrder?.status === 2) yield call([RootNavigation, "replace"], "TransferCode");
+      if (orderData.hasOrder && orderData.lastOrder?.status === 2) yield call([RootNavigation, "replace"], "Transfer");
     }
   } catch (error) {
     yield put(actions.exchangeError());
@@ -83,7 +83,7 @@ function* continueOrder({ values, orderId }) {
         },
       });
 
-      yield call([RootNavigation, "replace"], "TransferCode");
+      yield call([RootNavigation, "replace"], "Transfer");
       yield call(removeData, "@selectedBank");
       yield call(removeData, "@selectedAcc");
     }
@@ -115,11 +115,10 @@ function* cancelOrder({ orderType, orderId, screenType }) {
   try {
     const res = yield exchangeInstance.delete(URL);
     if (res.status === 202) {
-      if (screenType === "order") {
-        yield call(removeData, "@selectedAcc");
-        yield call(removeData, "@selectedBank");
-        yield call([RootNavigation, "replace"], "MyOrders");
-      }
+      yield call(removeData, "@selectedAcc");
+      yield call(removeData, "@selectedBank");
+
+      if (screenType === "order") yield call([RootNavigation, "replace"], "MyOrders");
       if (screenType === "exchange") yield call([RootNavigation, "replace"], "Calculator");
 
       yield call([Notifications, "cancelAllScheduledNotificationsAsync"]);
