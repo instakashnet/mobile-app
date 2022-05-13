@@ -82,6 +82,7 @@ export const CouponButton = styled.TouchableOpacity`
   margin-vertical: 5px;
   border-left-width: 1px;
   border-left-color: #676767;
+  z-index: 10;
 `;
 
 export const InfoWrapper = styled.View`
