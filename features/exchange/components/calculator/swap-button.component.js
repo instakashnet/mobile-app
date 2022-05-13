@@ -1,5 +1,5 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
 
 const Button = styled.TouchableOpacity.attrs({
@@ -7,30 +7,32 @@ const Button = styled.TouchableOpacity.attrs({
 })`
   width: 55px;
   height: 55px;
-  background-color: ${({ theme }) => theme.colors.buttons.active};
   border-radius: 50px;
-  border-width: 5px;
+  border-width: 4px;
   border-color: #fff;
   align-items: center;
   justify-content: center;
   position: absolute;
   top: 55px;
-  left: 7%;
+  right: 10%;
   z-index: 10;
-  elevation: 10;
+  background-color: #67be9f;
 `;
 
 const ViewIcon = styled.View`
-  width: 100%;
+  width: 75%;
   align-items: center;
   justify-content: center;
+  background-color: ${({ theme }) => theme.colors.buttons.active};
+  border-radius: 50px;
+  padding-vertical: 6px;
 `;
 
 export const SwapButton = ({ onPress }) => {
   return (
     <Button onPress={onPress}>
       <ViewIcon>
-        <Ionicons color="#676767" name="swap-vertical-outline" size={30} />
+        <MaterialCommunityIcons color="#0D8284" name="swap-vertical-variant" size={23} />
       </ViewIcon>
     </Button>
   );

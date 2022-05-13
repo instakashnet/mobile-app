@@ -1,9 +1,8 @@
 import React from "react";
 import { Modal as ModalComponent } from "react-native-paper";
-import styled from "styled-components/native";
-
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components/native";
 import { closeModal } from "../../store/actions";
 
 const StyledModal = styled(ModalComponent).attrs({
@@ -19,7 +18,7 @@ const StyledModal = styled(ModalComponent).attrs({
   },
 })``;
 
-export const Modal = ({ children, onClose }) => {
+export const Modal = ({ children, onClose, dismissable }) => {
   const dispatch = useDispatch();
   const { showModal } = useSelector((state) => state.utilsReducer);
 
@@ -27,7 +26,7 @@ export const Modal = ({ children, onClose }) => {
   const onDismiss = () => dispatch(closeModal());
 
   return (
-    <StyledModal visible={showModal} onDismiss={onClose ? onClose : onDismiss}>
+    <StyledModal visible={showModal} onDismiss={onClose ? onClose : onDismiss} dismissable={dismissable}>
       {children}
     </StyledModal>
   );

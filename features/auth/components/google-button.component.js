@@ -1,21 +1,16 @@
-import React, { useEffect } from "react";
 import * as Google from "expo-auth-session/providers/google";
+import React, { useEffect } from "react";
 import { Alert } from "react-native";
-
-// HELPERS
-import { getVariables } from "../../../variables";
-
 // ASSETS
 import { GoogleIcon } from "../../../assets/icons/google";
-
 // COMPONENTS
 import { Button } from "../../../components/UI/button.component";
 
 export const GoogleButton = ({ loginGoogle }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "836395718088-lehca6774i6v9d0shlo9b9ich8seeoeb.apps.googleusercontent.com",
-    androidClientId: "836395718088-smvqt6vip76e66sd852be6pkgjuth9sf.apps.googleusercontent.com",
-    iosClientId: "836395718088-ehkp8sf0hud9h5h5ain3b31g9aan2rf4.apps.googleusercontent.com",
+    expoClientId: "638094177367-34hn531ql7iij56qrj6r812idrjeisl2.apps.googleusercontent.com",
+    androidClientId: "638094177367-9s0qdgi795pev8b6f17cq2sq34em1qfb.apps.googleusercontent.com",
+    iosClientId: "638094177367-8jp983jgbcd4mc5v31617d95u8sgtfsc.apps.googleusercontent.com",
   });
 
   // EFFECTS

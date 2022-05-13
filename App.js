@@ -1,29 +1,29 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Platform, Linking } from "react-native";
-import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
-import { connectToDevTools } from "react-devtools-core";
-import { ThemeProvider } from "styled-components/native";
 import * as Font from "expo-font";
+import * as Notifications from "expo-notifications";
 import * as SplashScreen from "expo-splash-screen";
-import * as Updates from "expo-updates";
 import { StatusBar } from "expo-status-bar";
-import * as Sentry from "sentry-expo";
-import * as Facebook from "expo-facebook";
-import * as Application from "expo-application";
-import { requestTrackingPermissionsAsync, getTrackingPermissionsAsync } from "expo-tracking-transparency";
+import * as Updates from "expo-updates";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { connectToDevTools } from "react-devtools-core";
+import { Linking, Platform } from "react-native";
+import { AppearanceProvider } from "react-native-appearance";
 import "react-native-gesture-handler";
-import { Navigator } from "./navigation";
-import { theme } from "./theme";
-import { getVariables } from "./variables";
-
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 // REDUX
 import { Provider } from "react-redux";
-import { store } from "./store";
-import { injectStore } from "./services/interceptors";
-
+import * as Sentry from "sentry-expo";
+import { ThemeProvider } from "styled-components/native";
+import { StoreModal } from "./components/modals/store-modal.component";
 // COMPONENTS
 import { UpdateModal } from "./components/modals/update-modal.component";
-import { StoreModal } from "./components/modals/store-modal.component";
+import { Navigator } from "./navigation";
+import { injectStore } from "./services/interceptors";
+// PERMISSIONS
+import { checkAppUpdate, checkTrackingPermissions } from "./shared/helpers/permissions";
+import { store } from "./store";
+import { handleNotificationsInit } from "./store/actions";
+import { theme } from "./theme";
+import { getVariables } from "./variables";
 
 injectStore(store);
 const { stage } = getVariables();
@@ -45,7 +45,10 @@ export default function App() {
   const [otaModal, setOtaModal] = useState(false),
     [isOtaUpdate, setIsOtaUpdate] = useState(false),
     [isStoreUpdate, setIsStoreUpdate] = useState(false),
-    [appIsReady, setAppIsReady] = useState(false);
+    [appIsReady, setAppIsReady] = useState(false),
+    [notification, setNotification] = useState(null),
+    notificationListener = useRef(null),
+    responseListener = useRef(null);
 
   // HANDLERS
   const goToStore = useCallback(
@@ -68,14 +71,10 @@ export default function App() {
         });
 
         if (stage !== "dev") {
-          const update = await Updates.checkForUpdateAsync();
+          const { storeUpdate, otaUpdate } = await checkAppUpdate();
 
-          if (update.isAvailable) {
-            await Updates.fetchUpdateAsync();
-            setIsOtaUpdate(update.isAvailable);
-          } else {
-            if (Application.nativeApplicationVersion !== "0.2.2") setIsStoreUpdate(true);
-          }
+          setIsStoreUpdate(storeUpdate);
+          setIsOtaUpdate(otaUpdate);
         }
       } catch (e) {
         console.warn(e);
@@ -89,47 +88,45 @@ export default function App() {
     if (appIsReady) {
       (async () => {
         await SplashScreen.hideAsync();
+
+        try {
+          if (isOtaUpdate) {
+            setOtaModal(true);
+
+            await Updates.fetchUpdateAsync();
+            await Updates.reloadAsync();
+          } else await checkTrackingPermissions();
+        } catch (error) {
+          throw error;
+        }
       })();
     }
   }, [appIsReady]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (isOtaUpdate) {
-          setOtaModal(true);
-          return await Updates.reloadAsync();
-        } else {
-          let { granted: getGranted } = await getTrackingPermissionsAsync();
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => setNotification(notification));
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) =>
+      store.dispatch(handleNotificationsInit(response.notification?.request?.content))
+    );
 
-          if (getGranted) {
-            await Facebook.initializeAsync();
-            await Facebook.setAdvertiserTrackingEnabledAsync(true);
-          } else {
-            let { granted: requestGranted } = await requestTrackingPermissionsAsync();
-
-            if (requestGranted) {
-              await Facebook.initializeAsync();
-              await Facebook.setAdvertiserTrackingEnabledAsync(true);
-            }
-          }
-        }
-      } catch (error) {
-        throw error;
-      }
-    })();
-  }, [isOtaUpdate]);
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
+    };
+  }, []);
 
   return appIsReady ? (
     <Provider store={store}>
-      <StatusBar style="dark" />
-      <ThemeProvider theme={theme}>
-        <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
-          <Navigator />
-          <UpdateModal isVisible={otaModal} />
-          <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} />
-        </PaperProvider>
-      </ThemeProvider>
+      <AppearanceProvider>
+        <StatusBar style="dark" backgroundColor="#0D8284" />
+        <ThemeProvider theme={theme}>
+          <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
+            <Navigator />
+            <UpdateModal isVisible={otaModal} />
+            <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} />
+          </PaperProvider>
+        </ThemeProvider>
+      </AppearanceProvider>
     </Provider>
   ) : null;
 }

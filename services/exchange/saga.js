@@ -1,11 +1,12 @@
-import { put, all, call, takeEvery, takeLatest, fork } from "redux-saga/effects";
 import camelize from "camelize";
-import * as types from "./types";
-import * as actions from "./actions";
-import { getUserData } from "../profile/actions";
-import { exchangeInstance } from "../exchange.service";
-import * as RootNavigation from "../../navigation/root.navigation";
+import * as Notifications from "expo-notifications";
+import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { removeData } from "../../hooks/use-storage.hook";
+import * as RootNavigation from "../../navigation/root.navigation";
+import { exchangeInstance } from "../exchange.service";
+import { getUserData } from "../profile/actions";
+import * as actions from "./actions";
+import * as types from "./types";
 
 function* watchGetRates() {
   yield takeEvery(types.GET_RATES_INIT, getRates);
@@ -32,7 +33,7 @@ function* getLastOrder() {
       const orderData = camelize(res.data);
       yield put(actions.getLastOrderSuccess(orderData.lastOrder));
 
-      if (orderData.hasOrder && orderData.lastOrder?.status === 2) yield call([RootNavigation, "replace"], "TransferCode");
+      if (orderData.hasOrder && orderData.lastOrder?.status === 2) yield call([RootNavigation, "replace"], "Transfer");
     }
   } catch (error) {
     yield put(actions.exchangeError());
@@ -70,9 +71,19 @@ function* continueOrder({ values, orderId }) {
   try {
     const res = yield exchangeInstance.put(`/order/step-3/${orderId}`, orderValues);
     if (res.status === 200) {
-      yield put(getUserData());
       yield put(actions.continueOrderSuccess(res.data));
-      yield call([RootNavigation, "replace"], "TransferCode");
+
+      yield call([Notifications, "scheduleNotificationAsync"], {
+        content: {
+          title: "Completa tu operación",
+          body: "Te queda 1 minúto para colocar el nro. de operación de tu transferencia y completar tu cambio de divisas.",
+        },
+        trigger: {
+          seconds: 840,
+        },
+      });
+
+      yield call([RootNavigation, "replace"], "Transfer");
       yield call(removeData, "@selectedBank");
       yield call(removeData, "@selectedAcc");
     }
@@ -104,13 +115,13 @@ function* cancelOrder({ orderType, orderId, screenType }) {
   try {
     const res = yield exchangeInstance.delete(URL);
     if (res.status === 202) {
-      yield put(getUserData());
-      yield call([RootNavigation, "replace"], "Calculator");
       yield call(removeData, "@selectedAcc");
       yield call(removeData, "@selectedBank");
 
       if (screenType === "order") yield call([RootNavigation, "replace"], "MyOrders");
+      if (screenType === "exchange") yield call([RootNavigation, "replace"], "Calculator");
 
+      yield call([Notifications, "cancelAllScheduledNotificationsAsync"]);
       yield put(actions.cancelOrderSuccess());
     }
   } catch (error) {
@@ -133,6 +144,8 @@ function* processCode({ values, orderId, screenType }) {
       } else yield call([RootNavigation, "replace"], "Completed");
 
       if (screenType === "order") yield call([RootNavigation, "replace"], "MyOrders");
+
+      yield call([Notifications, "cancelAllScheduledNotificationsAsync"]);
       yield put(actions.processCodeSuccess());
     }
   } catch (error) {

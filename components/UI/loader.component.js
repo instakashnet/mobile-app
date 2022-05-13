@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components/native";
 import { ActivityIndicator } from "react-native-paper";
+import styled from "styled-components/native";
 
 const LoaderWrapper = styled.View`
   justify-content: center;
@@ -8,7 +8,7 @@ const LoaderWrapper = styled.View`
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: rgba(13, 130, 132, 0.8);
+  background-color: rgba(13, 130, 132, 0.4);
   z-index: 100;
   elevation: 8;
 `;

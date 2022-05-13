@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import { useFormik } from "formik";
 import * as SecureStore from "expo-secure-store";
-
-// HELPERS
-import { loginSchema } from "../../validations/schemas";
-
+import { useFormik } from "formik";
+import React, { useState } from "react";
 // COMPONENTS
 import { Input } from "../../../../components/forms/input.component";
 import { Button } from "../../../../components/UI/button.component";
+// HELPERS
+import { loginSchema } from "../../validations/schemas";
 
 export const LoginForm = ({ onSubmit, isProcessing }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const formik = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { email: "", password: "", from: "app" },
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       await SecureStore.setItemAsync("authValues", JSON.stringify(values));

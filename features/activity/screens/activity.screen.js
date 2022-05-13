@@ -1,23 +1,17 @@
-import React, { useCallback, useState, useEffect } from "react";
-import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-
-// HELPERS
-import { formatAmount } from "../../../shared/helpers/functions";
-
-// REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { getOrders } from "../../../store/actions";
-
-// COMPONENTS
-import { EmptyActivity } from "../components/empty-activity.component";
-import { SafeArea } from "../../../components/utils/safe-area.component";
-import { Text } from "../../../components/typography/text.component";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "../../../components/typography/link.component";
-import { ActivityScroll, OrdersWrapper, Title, Card, ShowButton } from "../components/activity.styles";
-import { OrderItem } from "../components/order-item.component";
+import { Text } from "../../../components/typography/text.component";
 import { Loader } from "../../../components/UI/loader.component";
+import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
+import { formatAmount } from "../../../shared/helpers/functions";
+import { getOrders } from "../../../store/actions";
+import { ActivityScroll, Card, OrdersWrapper, ShowButton, Title } from "../components/activity.styles";
+import { EmptyActivity } from "../components/empty-activity.component";
+import { OrderItem } from "../components/order-item.component";
 
 export const ActivityScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
@@ -54,7 +48,7 @@ export const ActivityScreen = ({ navigation }) => {
                   <Ionicons name="swap-horizontal-outline" color="#0D8284" size={25} />
                 </Title>
                 {orders.map((order) => (
-                  <OrderItem key={order.id} order={order} onOpen={() => navigation.navigate("OrderDetails", { order })} />
+                  <OrderItem key={order.id} order={order} onOpen={() => navigation.navigate("OrderDetails", { orderId: order.id })} />
                 ))}
                 <Spacer variant="top" />
                 <Link onPress={() => navigation.navigate("AllOrders")}>

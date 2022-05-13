@@ -24,16 +24,6 @@
       "releaseChannel": "dev",
       "distribution": "internal"
     },
-    "simulator-staging": {
-      "ios": {
-        "simulator": true
-      },
-      "android": {
-        "buildType": "apk"
-      },
-      "releaseChannel": "staging",
-      "distribution": "internal"
-    },
     "simulator-prod": {
       "ios": {
         "simulator": true

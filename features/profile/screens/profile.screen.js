@@ -1,27 +1,21 @@
-import React, { useCallback } from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { Badge } from "react-native-paper";
-import { useFocusEffect } from "@react-navigation/native";
-
-// HELPERS
-import { openURL } from "../../../shared/helpers/functions";
-
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { connectWebsocket, disconnectWebsocket } from "../../../store/actions";
-
+import { useDispatch, useSelector } from "react-redux";
+import { Female } from "../../../assets/icons/female";
 // ASSETS
 import { Male } from "../../../assets/icons/male";
-import { Female } from "../../../assets/icons/female";
-
+import { Text } from "../../../components/typography/text.component";
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
+// HELPERS
+import { openURL } from "../../../shared/helpers/functions";
+import { connectWebsocket, disconnectWebsocket } from "../../../store/actions";
 import { ProfileCompleted } from "../components/profile-completed.component";
-import { Text } from "../../../components/typography/text.component";
-
 // STYLED COMPONENTS
-import { InfoWrapper, NavItem, RightArrow, ItemWrapper, ProfileScroll } from "../components/profile.styles";
+import { InfoWrapper, ItemWrapper, NavItem, ProfileScroll, RightArrow } from "../components/profile.styles";
 
 export const ProfileScreen = ({ navigation }) => {
   const user = useSelector((state) => state.authReducer.user),
@@ -29,13 +23,11 @@ export const ProfileScreen = ({ navigation }) => {
     porfileName = user.name.split(" ");
 
   // EFFECTS
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(connectWebsocket("validation"));
+  useEffect(() => {
+    dispatch(connectWebsocket("validation"));
 
-      return () => dispatch(disconnectWebsocket());
-    }, [dispatch])
-  );
+    return () => dispatch(disconnectWebsocket());
+  }, []);
 
   return (
     <SafeArea>
@@ -79,6 +71,13 @@ export const ProfileScreen = ({ navigation }) => {
         <NavItem onPress={() => openURL("https://instakash.net/faq")}>
           <ItemWrapper>
             <Text>Centro de ayuda</Text>
+            <RightArrow />
+          </ItemWrapper>
+        </NavItem>
+
+        <NavItem onPress={() => navigation.navigate("Notifications")}>
+          <ItemWrapper>
+            <Text>Notificaciones</Text>
             <RightArrow />
           </ItemWrapper>
         </NavItem>

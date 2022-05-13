@@ -1,16 +1,14 @@
 import React from "react";
-
 // COMPONENTS
-import { InputWrapper, CurrencyLabel, Label, InputLabel, Symbol, CurrencyInput } from "../calculator.styles";
+import { CurrencyInput, InputLabel, InputWrapper, Symbol } from "../calculator.styles";
 
 export const Input = ({ label, currency, name, symbol, value, onChange }) => {
   return (
     <InputWrapper>
-      <CurrencyLabel>
-        <Label>{currency}</Label>
-      </CurrencyLabel>
+      <InputLabel>
+        {label} {currency}
+      </InputLabel>
       <CurrencyInput value={value} keyboardType="number-pad" ignoreNegative={true} delimiter="," minValue={0} separator="." onChangeValue={(value) => onChange(name, value)} />
-      <InputLabel>{label}</InputLabel>
       <Symbol>{symbol}</Symbol>
     </InputWrapper>
   );

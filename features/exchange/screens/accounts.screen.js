@@ -1,37 +1,32 @@
-import React, { useCallback, useState } from "react";
-import { View } from "react-native";
-import { getData } from "../../../hooks/use-storage.hook";
 import { useFocusEffect } from "@react-navigation/native";
-
 // FORMIK
 import { useFormik } from "formik";
-import { accountsSchema } from "../validations/schemas";
-
+import React, { useCallback, useState } from "react";
+import { View } from "react-native";
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { cancelOrder, continueOrder, clearExchangeError } from "../../../store/actions";
-
-// HELPERS
-import { openURL, validateInterplaza } from "../../../shared/helpers/functions";
-
-// ASSETS
-import { bankIcons } from "../relative-paths/images";
-
+import { useDispatch, useSelector } from "react-redux";
+import { Input } from "../../../components/forms/input.component";
+import { Select } from "../../../components/forms/select.component";
+import { Text } from "../../../components/typography/text.component";
+import { Alert } from "../../../components/UI/alert.component";
+import { Button } from "../../../components/UI/button.component";
+import { SnackBar } from "../../../components/UI/snack.component";
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
-import { Select } from "../../../components/forms/select.component";
-import { Input } from "../../../components/forms/input.component";
-import { Alert } from "../../../components/UI/alert.component";
 import { Spacer } from "../../../components/utils/spacer.component";
-import { Text } from "../../../components/typography/text.component";
-import { SelectAccount } from "../components/forms/select-account.component";
-import { Button } from "../../../components/UI/button.component";
-import { HeaderProfile } from "../components/header-profile.component";
-import { SnackBar } from "../../../components/UI/snack.component";
-
-// STYLE COMPONENTS
-import { ExchangeScroll, ExchangeForm } from "../components/exchange.styles";
+import { getData } from "../../../hooks/use-storage.hook";
+// HELPERS
+import { openURL, validateInterplaza } from "../../../shared/helpers/functions";
+import { cancelOrder, clearExchangeError, continueOrder } from "../../../store/actions";
 import { BankDescription, BankIcon } from "../components/accounts.styles";
+// STYLE COMPONENTS
+import { ExchangeForm, ExchangeScroll, StepsProgressWrapper } from "../components/exchange.styles";
+import { SelectAccount } from "../components/forms/select-account.component";
+import { HeaderProfile } from "../components/header-profile.component";
+import { ProgressIndicator } from "../components/progress-indicator.component";
+// ASSETS
+import { bankIcons } from "../relative-paths/images";
+import { accountsSchema } from "../validations/schemas";
 
 export const AccountsScreen = ({ navigation }) => {
   // CUSTOM HOOKS && VARIABLES
@@ -79,7 +74,7 @@ export const AccountsScreen = ({ navigation }) => {
   // EFFECTS
   useFocusEffect(
     useCallback(() => {
-      if (!order) navigation.popToTop();
+      if (!order) return navigation.popToTop();
 
       return () => dispatch(clearExchangeError());
     }, [order])
@@ -114,7 +109,7 @@ export const AccountsScreen = ({ navigation }) => {
 
   // HANDLERS
   const onSelect = (type) => navigation.navigate("AccountSelect", { type, currencyToReceive: order.currencyReceivedId }),
-    onCancelOrder = () => dispatch(cancelOrder("draft", order.id)),
+    onCancelOrder = () => dispatch(cancelOrder("draft", order.id, "exchange")),
     onFundsHandler = (name, value) => {
       if (value === "otros") {
         setFundsInput(true);
@@ -132,9 +127,12 @@ export const AccountsScreen = ({ navigation }) => {
         {profile && <HeaderProfile profile={profile} screen="accounts" />}
         <ExchangeForm>
           <Spacer variant="top" size={2} />
-          <Text variant="title">Completa la información</Text>
-          <Text style={{ textAlign: "center" }}>Debes seleccionar el banco donde envias y la cuenta donde vas a recibir.</Text>
+          <StepsProgressWrapper>
+            <ProgressIndicator labels={["Selecciona", "Transfiere", "Confirma"]} currentPos={0} />
+          </StepsProgressWrapper>
           <Spacer vartian="top" size={3} />
+          <Text variant="title">Selecciona tu banco y cuenta</Text>
+          <Spacer vartian="top" />
           <SelectAccount
             label="¿Desde que banco nos envias tu dinero?"
             error={!formik.touched.bank_id && formik.errors.bank_id}

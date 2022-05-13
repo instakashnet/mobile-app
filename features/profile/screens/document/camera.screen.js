@@ -1,32 +1,30 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Entypo, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { View, Linking, Image, Dimensions, Platform, TouchableOpacity } from "react-native";
-import { Entypo, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Dimensions, Image, Linking, Platform, TouchableOpacity, View } from "react-native";
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { uploadDocument, clearProfileError } from "../../../../store/actions";
-
-// COMPONENTS
-import { SafeArea } from "../../../../components/utils/safe-area.component";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "../../../../components/typography/link.component";
 import { Text } from "../../../../components/typography/text.component";
-import { Spacer } from "../../../../components/utils/spacer.component";
 import { Alert } from "../../../../components/UI/alert.component";
-
+import { Tooltip } from "../../../../components/UI/tooltip.component";
+// COMPONENTS
+import { SafeArea } from "../../../../components/utils/safe-area.component";
+import { Spacer } from "../../../../components/utils/spacer.component";
+import { clearProfileError, uploadDocument } from "../../../../store/actions";
 // STYLED COMPONENTS
 import {
-  NoCameraWrapper,
-  CameraWrapper,
-  CameraItemsWrapper,
-  CameraSquare,
-  CameraLoader,
+  ActionButtons,
+  Button,
   ButtonsWrapper,
+  CameraItemsWrapper,
+  CameraLoader,
+  CameraSquare,
+  CameraWrapper,
   InfoWrapper,
   LoaderWrapper,
-  Button,
-  ActionButtons,
+  NoCameraWrapper,
 } from "../../components/camera.styles";
 
 export const CameraScreen = ({ navigation, route }) => {
@@ -154,9 +152,9 @@ export const CameraScreen = ({ navigation, route }) => {
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <MaterialIcons name="arrow-back" color="#FFF" size={30} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {}}>
-                <MaterialIcons name="info-outline" color="#FFF" size={30} />
-              </TouchableOpacity>
+              <Tooltip icon={<MaterialIcons name="info-outline" color="#FFF" size={30} />}>
+                <Text variant="button">Te recordamos que la foto del documento debe ser nítida y la información totalmente legible.</Text>
+              </Tooltip>
             </ButtonsWrapper>
 
             <CameraItemsWrapper>

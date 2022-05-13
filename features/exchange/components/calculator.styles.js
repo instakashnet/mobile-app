@@ -1,7 +1,7 @@
-import styled from "styled-components/native";
-import { TextInput, Button } from "react-native-paper";
-import InputCurrency from "react-native-currency-input";
 import CountDown from "react-native-countdown-component";
+import InputCurrency from "react-native-currency-input";
+import { TextInput } from "react-native-paper";
+import styled from "styled-components/native";
 
 export const CalculatorWrapper = styled.View`
   position: relative;
@@ -9,49 +9,25 @@ export const CalculatorWrapper = styled.View`
 `;
 
 export const InputWrapper = styled.View`
-  shadow-color: #000;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.1;
-  shadow-radius: 10px;
-  elevation: 7;
   flex-direction: row;
   align-items: center;
   position: relative;
   width: 100%;
-`;
-
-export const CurrencyLabel = styled.View`
-  background-color: ${({ theme }) => theme.colors.ui.primary};
-  color: #fff;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  padding-vertical: 24px;
-  padding-horizontal: 15px;
-  align-items: center;
-  width: 30%;
-  height: 100%;
-`;
-
-export const Label = styled.Text.attrs({
-  allowFontScaling: false,
-})`
-  color: #fff;
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 16px;
+  background-color: #e9f6f6;
+  border-radius: 10px;
 `;
 
 export const CurrencyInput = styled(InputCurrency)`
   width: 70%;
-  padding-vertical: 22px;
-  padding-horizontal: ${({ theme }) => theme.space[5]};
-  padding-left: 64.5px;
-  background-color: #fff;
+  padding-bottom: 16px;
+  padding-top: 24px;
+  padding-horizontal: ${({ theme }) => theme.space[3]};
+  padding-right: 55px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   color: ${({ theme }) => theme.colors.text.title};
   font-family: ${({ theme }) => theme.fonts.title};
   font-size: ${({ theme }) => theme.fontSizes.large};
-  text-align: right;
 `;
 
 export const Symbol = styled.Text.attrs({
@@ -59,21 +35,21 @@ export const Symbol = styled.Text.attrs({
 })`
   color: ${({ theme }) => theme.colors.text.title};
   font-family: ${({ theme }) => theme.fonts.title};
-  font-size: ${({ theme }) => theme.fontSizes.large};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
   position: absolute;
-  left: 33%;
-  top: 30%;
+  right: 6%;
+  top: 16px;
 `;
 
 export const InputLabel = styled.Text.attrs({
   allowFontScaling: false,
 })`
   position: absolute;
-  right: 25px;
+  left: 15px;
   top: 7px;
   color: ${({ theme }) => theme.colors.text.title};
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: ${({ theme }) => theme.fontSizes.caption};
+  font-size: ${({ theme }) => theme.fontSizes.button};
 `;
 
 export const CouponInputWrapper = styled.View`
@@ -90,27 +66,23 @@ export const CouponInput = styled(TextInput).attrs(({ theme }) => ({
   dense: true,
   allowFontScaling: false,
 }))`
-  height: 53px;
-  flex: 0.85;
+  height: 50px;
+  flex: 1;
   justify-content: center;
   padding: 0px;
-  font-size: ${({ theme }) => theme.fontSizes.body};
+  font-size: ${({ theme }) => theme.fontSizes.button};
   background-color: #fff;
 `;
 
-export const CouponButton = styled(Button).attrs(({ theme }) => ({
-  color: theme.colors.brand.primary,
-  mode: "contained",
-  uppercase: false,
-  allowFontScaling: false,
-  contentStyle: {
-    height: 55,
-  },
-}))`
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-  flex: 0.15;
-  margin-bottom: 0px;
+export const CouponButton = styled.TouchableOpacity`
+  padding: ${({ theme }) => theme.space[1]};
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+  margin-vertical: 5px;
+  border-left-width: 1px;
+  border-left-color: #676767;
+  z-index: 10;
 `;
 
 export const InfoWrapper = styled.View`
@@ -124,38 +96,40 @@ export const CouponWrapper = styled.View`
   background-color: #fff;
   width: 100%;
   flex-direction: row;
-  border-radius: 4px;
-  border-width: 1px;
-  shadow-color: #000;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.1;
-  shadow-radius: 10px;
-  elevation: 7;
+  border-width: 2px;
   border-style: dashed;
   border-color: ${({ theme }) => theme.colors.brand.primary};
   padding: ${({ theme }) => theme.space[2]};
   justify-content: space-between;
   align-items: center;
+  margin-bottom: ${({ theme }) => theme.space[1]};
 `;
 
 export const CouponText = styled.Text.attrs({
   allowFontScaling: false,
 })`
   font-family: ${({ theme }) => theme.fonts.subtitle};
-  font-size: ${({ theme }) => theme.fontSizes.title};
+  font-size: ${({ theme }) => theme.fontSizes.body};
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.brand.primary};
 `;
 
-export const TimerWrapper = styled.View`
+export const TimerInfo = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: ${({ theme }) => theme.space[1]};
+  padding-vertical: ${({ theme }) => theme.space[1]};
   width: 100%;
 `;
 
+export const TimerWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Timer = styled(CountDown).attrs(({ theme }) => ({
-  digitStyle: { backgroundColor: "transparent", width: 32 },
-  digitTxtStyle: { color: theme.colors.text.body, fontFamily: theme.fonts.button, color: theme.colors.brand.primary },
+  digitStyle: { backgroundColor: "transparent", width: 26 },
+  digitTxtStyle: { color: theme.colors.text.body, fontFamily: theme.fonts.title, color: theme.colors.text.body, fontSize: 16 },
 }))``;
