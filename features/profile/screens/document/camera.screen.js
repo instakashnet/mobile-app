@@ -146,8 +146,7 @@ export const CameraScreen = ({ navigation, route }) => {
   return (
     <Camera ratio={ratio} ref={(camera) => (cameraRef.current = camera)} onCameraReady={setCameraReady} style={{ flex: 1 }} type={Camera.Constants.Type.back}>
       <SafeArea>
-        {cameraReady && (
-          <CameraWrapper>
+      <CameraWrapper>
             <ButtonsWrapper>
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <MaterialIcons name="arrow-back" color="#FFF" size={30} />
@@ -201,7 +200,6 @@ export const CameraScreen = ({ navigation, route }) => {
               </LoaderWrapper>
             )}
           </CameraWrapper>
-        )}
       </SafeArea>
 
       <View style={{ backgroundColor: "#000", width: "100%", paddingBottom: 15, paddingTop: 10, alignItems: "center", justifyContent: "center", flex: 0.075 }}>
