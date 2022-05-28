@@ -44,7 +44,7 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "keys/android/pc-api-9072173090455432304-835-c28b30e38bc8.json",
+        "serviceAccountKeyPath": "keys/android/pc-api-9072173090455432304-835-aec2f96507ad.json",
         "track": "internal",
         "releaseStatus": "draft"
       },
