@@ -1,0 +1,31 @@
+export const GET_PROFILES_INIT = "profile/GET_PROFILES_INIT";
+export const GET_PROFILES_SUCCESS = "profile/GET_PROFILES_SUCCESS";
+
+export const GET_USER_DATA_INIT = "profile/GET_USER_DATA_INIT";
+export const GET_USER_DATA_SUCCESS = "profile/GET_USER_DATA_SUCCESS";
+
+export const ADD_PROFILE_INIT = "profile/ADD_PROFILE_INIT";
+export const ADD_PROFILE_SUCCESS = "profile/ADD_PROFILE_SUCCESS";
+
+export const UPDATE_PROFILE_INIT = "profile/UPDATE_PROFILE_INIT";
+export const UPDATE_PROFILE_SUCCESS = "profile/UPDATE_PROFILE_SUCCESS";
+
+export const SELECT_PROFILE_INIT = "profile/SELECT_PROFILE_INIT";
+export const SELECT_PROFILE_SUCCESS = "profile/SELECT_PROFILE_SUCCESS";
+
+export const UPDATE_USERNAME_INIT = "profile/UPDATE_USERNAME_INIT";
+export const UPDATE_USERNAME_SUCCESS = "profile/UPDATE_USERNAME_SUCCESS";
+
+export const CLEAR_PROFILE = "profile/CLEAR_PROFILE";
+
+export const UPLOAD_DOCUMENT_INIT = "profile/UPLOAD_DOCUMENT_INIT";
+export const UPLOAD_DOCUMENT_SUCCESS = "profile/UPLOAD_DOCUMENT_SUCCESS";
+
+export const CHANGE_PHONE_INIT = "auth/CHANGE_PHONE_INIT";
+export const CHANGE_PHONE_SUCCESS = "auth/CHANGE_PHONE_SUCCESS";
+
+export const CHANGE_EMAIL_INIT = "auth/CHANGE_EMAIL_INIT";
+export const CHANGE_EMAIL_SUCCESS = "auth/CHANGE_EMAIL_SUCCESS";
+
+export const CLEAR_ERROR = "profile/CLEAR_ERROR";
+export const API_ERROR = "profile/API_ERROR";

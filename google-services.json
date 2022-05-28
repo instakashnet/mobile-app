@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "638094177367",
+    "project_id": "instakash-d4eb4",
+    "storage_bucket": "instakash-d4eb4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638094177367:android:d20ec4ae427f572bf85f12",
+        "android_client_info": {
+          "package_name": "net.instakash.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638094177367-a0t6vofdlhlr7s6neuj61t6luqo6583o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu9g4hMxLaahzhWHscytAhglr4fox60pc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638094177367-a0t6vofdlhlr7s6neuj61t6luqo6583o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

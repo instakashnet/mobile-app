@@ -1,0 +1,85 @@
+{
+  "expo": {
+    "scheme": "instakash",
+    "facebookScheme": "fb285266469843350",
+    "facebookAppId": "285266469843350",
+    "facebookDisplayName": "My kash business",
+    "facebookAutoLogAppEventsEnabled": true,
+    "facebookAdvertiserIDCollectionEnabled": true,
+    "name": "Instakash",
+    "slug": "instakash-app",
+    "version": "0.2.4",
+    "platforms": ["ios", "android"],
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "orientation": "portrait",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0D8284"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "instakash-sac",
+            "project": "instakash-sac",
+            "authToken": "f9aea168dc174991a8ada3492ece7e658b22ce3f8a094c1b9420d9b9b80fa299"
+          }
+        }
+      ]
+    },
+    "plugins": ["sentry-expo", "expo-notifications", "expo-facebook", "expo-community-flipper"],
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_ERROR_RECOVERY"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "associatedDomains": ["applinks:app.instakash.net"],
+      "bundleIdentifier": "instakash.app",
+      "userInterfaceStyle": "light",
+      "buildNumber": "0.1.0",
+      "infoPlist": {
+        "NSCameraUsageDescription": "We need access to your camera to give you the ability to take the photo of your document.",
+        "NSFaceIDUsageDescription": "Solicitamos tus datos biometricos para ofrecerte un incio de sesión de forma ràpida."
+      }
+    },
+    "android": {
+      "package": "net.instakash.app",
+      "userInterfaceStyle": "light",
+      "versionCode": 37,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#20A2A5"
+      },
+      "useNextNotificationsApi": true,
+      "googleServicesFile": "./google-services.json",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "app.instakash.net",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "permissions": [
+        "CAMERA",
+        "ACCESS_COARSE_LOCATION",
+        "WRITE_SETTINGS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECEIVE_BOOT_COMPLETED",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT"
+      ]
+    }
+  }
+}
