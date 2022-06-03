@@ -20,9 +20,9 @@ export const toggleNotification = (notifType, enabled) => ({
   enabled,
 });
 
-export const setNotificationRates = (rates) => ({
+export const setNotificationRates = (values) => ({
   type: types.SET_NOTIFICATIONS_RATES.INIT,
-  rates,
+  values,
 });
 
 export const setNotificationRatesSuccess = () => ({

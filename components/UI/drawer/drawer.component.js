@@ -1,22 +1,22 @@
-import React from "react";
-import { Drawer } from "react-native-paper";
-import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
-import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { MaterialIcons } from "@expo/vector-icons";
-
+import { DrawerContentScrollView } from "@react-navigation/drawer";
+import React from "react";
+import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
+import { Drawer } from "react-native-paper";
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../../../store/actions";
-
+import { useDispatch, useSelector } from "react-redux";
+import { Female } from "../../../assets/icons/female";
 // COMPONENTS
 import { Male } from "../../../assets/icons/male";
-import { Female } from "../../../assets/icons/female";
-import { NavItem } from "./nav-item.component";
-import { Header, Name, HeaderInfo } from "./drawer.styles";
+import { useBiometrics } from "../../../hooks/use-biometrics.hook";
+import { logoutUser } from "../../../store/actions";
 import { Button } from "../button.component";
+import { Header, HeaderInfo, Name } from "./drawer.styles";
+import { NavItem } from "./nav-item.component";
 
 export const CustomDrawer = (props) => {
   const dispatch = useDispatch(),
+    { isBiometricsSupported } = useBiometrics(),
     { isProcessing, user } = useSelector((state) => state.authReducer),
     porfileName = user.name.split(" ");
 
@@ -32,7 +32,7 @@ export const CustomDrawer = (props) => {
         </TouchableOpacity>
       </Header>
       <Drawer.Section style={styles.section}>
-        <NavItem onPress={() => props.navigation.navigate("Profile", { screen: "MyProfile" })} label="Mis datos" icon="user-alt" />
+        <NavItem onPress={() => props.navigation.navigate("Profile", { screen: "MyProfile" })} label="Mi perfil" icon="user-alt" />
         <NavItem onPress={() => props.navigation.navigate("Accounts", { screen: "MyAccounts" })} label="Mis cuentas" icon="university" />
       </Drawer.Section>
       <Drawer.Section style={styles.section}>
@@ -40,6 +40,12 @@ export const CustomDrawer = (props) => {
         <NavItem onPress={() => props.navigation.navigate("Activity")} label="Mis cambios" icon="chart-bar" />
         <NavItem onPress={() => props.navigation.navigate("Affiliates")} label="Recomienda y gana" icon="trophy" />
       </Drawer.Section>
+
+      <Drawer.Section style={styles.section}>
+        <NavItem onPress={() => props.navigation.navigate("Notifications")} label="Notificaciones" icon="bell" />
+        {isBiometricsSupported && <NavItem onPress={() => props.navigation.navigate("Biometrics")} label="Inicio rápido de sesión" icon="fingerprint" />}
+      </Drawer.Section>
+
       <Button variant="secondary" onPress={() => dispatch(logoutUser())} loading={isProcessing}>
         Cerrar sesión
       </Button>
@@ -52,5 +58,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     marginTop: 20,
     width: Dimensions.get("window").width,
+    borderColor: "#20A2A5",
   },
 });

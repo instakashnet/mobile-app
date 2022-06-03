@@ -1,35 +1,32 @@
 import { useFocusEffect } from "@react-navigation/native";
-import * as Linking from "expo-linking";
+import { applicationId } from "expo-application";
+import { ActivityAction, startActivityAsync } from "expo-intent-launcher";
 import { getPermissionsAsync } from "expo-notifications";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { AppState } from "react-native";
-import CurrencyInput from "react-native-currency-input";
+import { AppState, Linking, Platform, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Text } from "../../../components/typography/text.component";
 import { Alert } from "../../../components/UI/alert.component";
-import { Button } from "../../../components/UI/button.component";
 import { CustomSwitch } from "../../../components/UI/custom-switch.component";
 import { Loader } from "../../../components/UI/loader.component";
 import { KeyboardView } from "../../../components/utils/keyboard-view.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
-import { clearNotificationsError, getNotifications, setNotificationRates, toggleNotification } from "../../../store/actions";
-import { HeaderProfile, NotificationLabel, NotificationWrapper, ProfileScroll } from "../components/profile.styles";
+import { clearNotificationsError, getNotifications, toggleNotification } from "../../../store/actions";
+import { Header, NavItem, NotificationWrapper, RightArrow, ScrollContainer } from "../components/notifications.styles";
 
-export const NotificationsScreen = () => {
+export const NotificationsScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     [notificationsState, setNotificationsState] = useState([]),
-    [buyAlert, setBuyAlert] = useState(0),
-    [sellAlert, setSellAlert] = useState(0),
     [permissions, hasPermissions] = useState(false),
     { isLoading, notifications, notificationsError } = useSelector((state) => state.notificationsReducer),
     appState = useRef(AppState.currentState);
 
   useEffect(() => {
-    AppState.addEventListener("change", _handleAppStateChange);
+    let appStateListener = AppState.addEventListener("change", _handleAppStateChange);
 
     return () => {
-      AppState.removeEventListener("change", _handleAppStateChange);
+      if (appStateListener) appStateListener.remove();
     };
   }, []);
 
@@ -63,12 +60,6 @@ export const NotificationsScreen = () => {
           enabled: notif.enabled,
         }))
       );
-
-      let buyRate = notifications.find((notif) => notif.type === "rateBuy"),
-        sellRate = notifications.find((notif) => notif.type === "rateSell");
-
-      setBuyAlert(buyRate?.amount || 0);
-      setSellAlert(sellRate?.amount || 0);
     }
   }, [notifications]);
 
@@ -79,23 +70,47 @@ export const NotificationsScreen = () => {
     setNotificationsState([...filteredMotifications, { type, enabled }]);
   };
 
-  const handleSetNotificationRates = useCallback(() => dispatch(setNotificationRates({ rateBuy: buyAlert, rateSell: sellAlert })), [buyAlert, sellAlert, dispatch]);
+  const handleOpenNotificationSettings = () => {
+    if (Platform.OS === "ios") {
+      Linking.openURL("app-settings:");
+    } else {
+      const bundleIdentifier = applicationId;
+
+      startActivityAsync(ActivityAction.APPLICATION_DETAILS_SETTINGS, {
+        data: `package:${bundleIdentifier}`,
+      });
+    }
+  };
 
   return (
     <SafeArea>
       {isLoading && <Loader />}
       <KeyboardView>
-        <HeaderProfile>
+        <Header>
           <Text numberOfLines={3} variant="button" style={{ color: "#FFF" }}>
             Gestiona tus notificaciones y selecciona aquellas que deseas recibir.
           </Text>
-        </HeaderProfile>
-        <ProfileScroll>
+        </Header>
+        <ScrollContainer>
           <Spacer variant="top" size={4} />
-          <NotificationWrapper>
-            <Text>Notificaciones generales</Text>
-            <CustomSwitch enabled={permissions} onToggle={() => Linking.openURL("app-settings:")} />
-          </NotificationWrapper>
+          <NavItem onPress={handleOpenNotificationSettings}>
+            <NotificationWrapper>
+              <View style={{ flex: 0.9 }}>
+                <Text>Notificaciones generales</Text>
+                <Text variant="caption">
+                  {permissions
+                    ? "Si desactivas las notificaciones, dejarás de recibir información de tu interés sobre Instakash"
+                    : "Activa las notificaciones para recibir información de tu interés sobre Instakash y los procesos de tus cambios."}
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center", paddingVertical: 10 }}>
+                <Text variant="caption" style={{ color: "#999" }}>
+                  {permissions ? "Desactivar" : "Activar"}
+                </Text>
+                <RightArrow />
+              </View>
+            </NotificationWrapper>
+          </NavItem>
           <Spacer variant="top" size={5} />
           {notifications.map(
             (notif) =>
@@ -118,56 +133,14 @@ export const NotificationsScreen = () => {
                 </NotificationWrapper>
               )
           )}
-          <Spacer variant="top" size={3} />
-          <NotificationLabel>
-            <Text>
-              Alerta cuando la <Text variant="bold">COMPRA</Text> esté por encima de:
-            </Text>
-          </NotificationLabel>
-          <Spacer variant="top" />
-          <NotificationWrapper>
-            <CurrencyInput
-              value={buyAlert}
-              keyboardType="decimal-pad"
-              precision={3}
-              ignoreNegative={true}
-              minValue={0}
-              separator="."
-              onChangeValue={(value) => setBuyAlert(value)}
-              style={{ paddingRight: 30, paddingVertical: 10, paddingLeft: 10 }}
-            />
-            <CustomSwitch
-              enabled={permissions && notificationsState.find((n) => n.type === "rateBuy")?.enabled}
-              onToggle={() => handleToggleNotification("rateBuy", !notificationsState.find((n) => n.type === "rateBuy")?.enabled)}
-            />
-          </NotificationWrapper>
-          <NotificationLabel>
-            <Text>
-              Alerta cuando la <Text variant="bold">VENTA</Text> esté por debajo de:
-            </Text>
-          </NotificationLabel>
-          <Spacer variant="top" />
-          <NotificationWrapper>
-            <CurrencyInput
-              value={sellAlert}
-              keyboardType="decimal-pad"
-              precision={3}
-              ignoreNegative={true}
-              minValue={0}
-              separator="."
-              onChangeValue={(value) => setSellAlert(value)}
-              style={{ paddingRight: 30, paddingVertical: 10, paddingLeft: 10 }}
-            />
-            <CustomSwitch
-              enabled={permissions && notificationsState.find((n) => n.type === "rateSell")?.enabled}
-              onToggle={() => handleToggleNotification("rateSell", !notificationsState.find((n) => n.type === "rateSell")?.enabled)}
-            />
-          </NotificationWrapper>
-          <Spacer variant="top" />
-          <Button onPress={handleSetNotificationRates} loading={isLoading}>
-            Guardar valores
-          </Button>
-        </ProfileScroll>
+          <Spacer variant="top" size={5} />
+          <NavItem onPress={() => navigation.navigate("ExchangeAlerts")}>
+            <NotificationWrapper>
+              <Text>Alertas de tipo de cambio</Text>
+              <RightArrow />
+            </NotificationWrapper>
+          </NavItem>
+        </ScrollContainer>
       </KeyboardView>
       <Alert type="error" onClose={clearNotificationsError} visible={!!notificationsError}>
         {notificationsError}

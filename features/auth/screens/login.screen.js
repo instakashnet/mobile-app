@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { authenticateAsync } from "expo-local-authentication";
-import React, { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useCallback } from "react";
+import { Platform, StyleSheet, View } from "react-native";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 // ASSETS
@@ -15,8 +15,9 @@ import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.c
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { useBiometrics } from "../../../hooks/use-biometrics.hook";
+import { getFromStore } from "../../../shared/helpers/async-store";
 import { getFromSecureStore } from "../../../shared/helpers/secure-store";
-import { clearAuthError, loginGoogle, loginUser } from "../../../store/actions";
+import { clearAuthError, loginBiometrics, loginGoogle, loginUser } from "../../../store/actions";
 // STYLED COMPONENTS
 import { AuthLine, AuthLinkWrapper, AuthScroll } from "../components/auth.styles";
 import { LoginForm } from "../components/forms/login-form.component";
@@ -25,8 +26,7 @@ import { GoogleButton } from "../components/google-button.component";
 export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     { isBiometricsSupported } = useBiometrics(),
-    { isProcessing, authError } = useSelector((state) => state.authReducer),
-    [isBiometricSaved, setIsBiometricsSaved] = useState(true);
+    { isProcessing, authError } = useSelector((state) => state.authReducer);
 
   useFocusEffect(
     useCallback(() => {
@@ -37,21 +37,19 @@ export const LoginScreen = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       (async () => {
-        if (isBiometricsSupported) {
-          const values = await getFromSecureStore("biometricsValues");
+        const granted = await getFromStore("biometricsGranted");
 
-          if (!values) {
-            setIsBiometricsSaved(false);
-          } else {
-            setIsBiometricsSaved(true);
+        if (isBiometricsSupported && granted) {
+          const user = await getFromSecureStore("biometricsValues");
 
+          if (user) {
             const biometrics = await authenticateAsync({
               promptMessage: "Inicio rápido de sesión",
               cancelLabel: "Cancelar",
               fallbackLabel: "Usar código",
             });
 
-            if (biometrics.success) dispatch(loginUser(values, isBiometricSaved));
+            if (biometrics.success) dispatch(loginBiometrics(user.email));
           }
         }
       })();
@@ -59,7 +57,7 @@ export const LoginScreen = ({ navigation }) => {
   );
 
   // HANDLERS
-  const onSubmit = (values) => dispatch(loginUser(values, isBiometricSaved)),
+  const onSubmit = (values) => dispatch(loginUser(values)),
     onGoogleLogin = (token) => dispatch(loginGoogle(token));
 
   return (
@@ -73,7 +71,7 @@ export const LoginScreen = ({ navigation }) => {
               <Spacer variant="top" />
               <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
             </View>
-            <GoogleButton loginGoogle={onGoogleLogin} />
+            {Platform.OS === "android" && <GoogleButton loginGoogle={onGoogleLogin} />}
             <Spacer variant="top" />
             <View style={styles.loginInfo}>
               <AuthLine />

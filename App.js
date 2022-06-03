@@ -32,13 +32,13 @@ if (__DEV__) {
     host: "localhost",
     port: 8097,
   });
+} else {
+  Sentry.init({
+    dsn: "https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263",
+    enableInExpoDevelopment: false,
+    debug: stage !== "prod",
+  });
 }
-
-Sentry.init({
-  dsn: "https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263",
-  enableInExpoDevelopment: true,
-  debug: stage !== "prod",
-});
 
 export default function App() {
   const [otaModal, setOtaModal] = useState(false),

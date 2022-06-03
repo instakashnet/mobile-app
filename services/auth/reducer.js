@@ -1,5 +1,4 @@
 import * as types from "./types";
-import { GET_USER_DATA_SUCCESS } from "../profile/types";
 
 const initialState = {
   isProcessing: false,
@@ -21,6 +20,7 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.REFRESH_CODE_INIT:
     case types.COMPLETE_PROFILE_INIT:
     case types.RESET_PASSWORD_INIT:
+    case types.SET_BIOMETRCIS_VALUES.INIT:
       return { ...state, isProcessing: true, error: null };
     case types.REGISTER_SUCCESS:
     case types.LOGIN_GOOGLE_SUCCESS:
@@ -30,6 +30,7 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.REFRESH_CODE_SUCCESS:
     case types.COMPLETE_PROFILE_SUCCESS:
     case types.RESET_PASSWORD_SUCCESS:
+    case types.SET_BIOMETRCIS_VALUES.SUCCESS:
       return { ...state, isProcessing: false };
     case types.LOGIN_SUCCESS:
       return { ...state, isProcessing: false, isSignedIn: true };

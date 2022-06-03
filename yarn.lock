@@ -5549,6 +5549,11 @@ expo-image-manipulator@~10.3.1:
   dependencies:
     expo-image-loader "~3.2.0"
 
+expo-intent-launcher@~10.2.0:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/expo-intent-launcher/-/expo-intent-launcher-10.2.0.tgz#2ca00f4c86fe7e5adad8627c6d623ebc27c96a13"
+  integrity sha512-PZn86QEOAE89SAi4kn1av+XGXZpfnXddByHjBUJbgJcyUDfJWb6nHd0B8los4ceETzlgIMozqSe/Kex2MPjWFA==
+
 expo-json-utils@~0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/expo-json-utils/-/expo-json-utils-0.3.0.tgz#0c4a0195ee2bbde02cbb5f4d384d1cb63bea7493"

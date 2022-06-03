@@ -1,8 +1,9 @@
 import camelize from "camelize";
+import * as LocalAuthentication from "expo-local-authentication";
 import { Alert } from "react-native";
 import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
 import * as RootNavigation from "../../navigation/root.navigation";
-import { deleteFromStore, saveInStore } from "../../shared/helpers/async-store";
+import { deleteFromStore, getFromStore, saveInStore } from "../../shared/helpers/async-store";
 import { deleteFromSecureStore, getFromSecureStore, saveInSecureStore } from "../../shared/helpers/secure-store";
 import { openModal } from "../../store/actions";
 import { getBanks, getCurrencies } from "../accounts/actions";
@@ -31,7 +32,49 @@ function* clearUserData() {
   yield put(clearProfile());
 }
 
+const checkBiometricsStatus = async (user) => {
+  let isCompatible = await LocalAuthentication.hasHardwareAsync(),
+    isEnrolled = await LocalAuthentication.isEnrolledAsync(),
+    granted = await getFromStore("biometricsGranted");
+
+  if (isCompatible && isEnrolled && granted === null) {
+    console.log("compatible");
+
+    Alert.alert("Inicio rápido", "¿Deseas activar la verificación biométrica para iniciar sesión?", [
+      {
+        text: "Aceptar",
+        onPress: async () => {
+          await authInstance.put("/auth/faceid", { authenticationMethods: ["faceId"] });
+          await saveInSecureStore("biometricsValues", user);
+          await saveInStore("biometricsGranted", true);
+        },
+      },
+      { text: "No", onPress: async () => await saveInStore("biometricsGranted", false) },
+    ]);
+  }
+
+  console.log("non compatible");
+};
+
 // SAGAS
+function* watchSetBiometricsValues() {
+  yield takeLatest(types.SET_BIOMETRCIS_VALUES.INIT, setBiometricsValues);
+}
+
+function* setBiometricsValues({ setBiometrics, user }) {
+  try {
+    yield authInstance.put("/auth/faceid", { authenticationMethods: ["faceId"] });
+    yield saveInSecureStore("biometricsValues", user);
+    yield saveInStore("biometricsGranted", true);
+
+    if (setBiometrics) yield call(setBiometrics, true);
+
+    yield put(actions.setBiometricsValuesSuccess());
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 function* watchLoadUser() {
   yield takeEvery(types.LOAD_USER_INIT, loadUser);
 }
@@ -67,6 +110,7 @@ function* loadUser() {
 
     yield call(getData);
     yield put(actions.loginUserSuccess());
+    yield call(checkBiometricsStatus, user);
   } catch (error) {
     yield put(actions.logoutUser());
   }
@@ -89,22 +133,33 @@ function* registerUser({ values }) {
   }
 }
 
+function* watchLoginBiometrics() {
+  yield takeLatest(types.LOGIN_BIOMETRICS_INIT, loginBiometrics);
+}
+
+function* loginBiometrics({ email }) {
+  try {
+    const res = yield authInstance.post("/auth/login-faceid", { mobile: true, email });
+
+    if (res.status === 200) {
+      yield call(setAuthToken, res.data, "login");
+
+      yield put(actions.loadUser());
+    }
+  } catch (error) {
+    yield put(actions.authError(error.message));
+  }
+}
+
 function* watchLoginUser() {
   yield takeLatest(types.LOGIN_INIT, loginUser);
 }
 
-function* loginUser({ values, isBiometricSaved }) {
+function* loginUser({ values }) {
   try {
     const res = yield authInstance.post(`/auth/signin`, values);
     if (res.status === 200) {
       yield call(setAuthToken, res.data, "login");
-
-      if (!isBiometricSaved) {
-        yield call([Alert, "alert"], "Inicio rápido", "¿Deseas activar la verificación biométrica para iniciar sesión?", [
-          { text: "Aceptar", onPress: async () => await saveInSecureStore("biometricsValues", values) },
-          { text: "No" },
-        ]);
-      }
 
       yield put(actions.loadUser());
     }
@@ -258,6 +313,7 @@ export function* authSaga() {
     fork(watchLoadUser),
     fork(watchRegisterUser),
     fork(watchLoginUser),
+    fork(watchLoginBiometrics),
     fork(watchRecoverPassword),
     fork(watchResetPassword),
     fork(watchValidateEmail),
@@ -266,5 +322,6 @@ export function* authSaga() {
     fork(watchLogoutUser),
     fork(watchGetAffiliates),
     fork(watchLoginGoogle),
+    fork(watchSetBiometricsValues),
   ]);
 }

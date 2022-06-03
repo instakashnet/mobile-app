@@ -18,10 +18,9 @@ export const registerUserSuccess = () => ({
   type: types.REGISTER_SUCCESS,
 });
 
-export const loginUser = (values, isBiometricSaved) => ({
+export const loginUser = (values) => ({
   type: types.LOGIN_INIT,
   values,
-  isBiometricSaved,
 });
 
 export const loginUserSuccess = () => ({
@@ -35,6 +34,15 @@ export const loginGoogle = (token) => ({
 
 export const loginGoogleSuccess = () => ({
   type: types.LOGIN_GOOGLE_SUCCESS,
+});
+
+export const loginBiometrics = (email) => ({
+  type: types.LOGIN_BIOMETRICS_INIT,
+  email,
+});
+
+export const loginBiometricsSuccess = () => ({
+  type: types.LOGIN_BIOMETRICS_SUCCESS,
 });
 
 export const recoverPassword = (values) => ({
@@ -89,6 +97,16 @@ export const getAffiliates = () => ({
 export const getAffiliatesSuccess = (affiliates) => ({
   type: types.GET_AFFILIATES_SUCCESS,
   affiliates,
+});
+
+export const setIsBiometricsValues = (user, setBiometrics = null) => ({
+  type: types.SET_BIOMETRCIS_VALUES.INIT,
+  setBiometrics,
+  user,
+});
+
+export const setBiometricsValuesSuccess = () => ({
+  type: types.SET_BIOMETRCIS_VALUES.SUCCESS,
 });
 
 export const logoutUser = (logType) => ({
