@@ -1,23 +1,41 @@
-import * as SecureStore from "expo-secure-store";
+
+import { useFocusEffect } from "@react-navigation/native";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { Checkbox } from "../../../../components/forms/checkbox.component";
 // COMPONENTS
 import { Input } from "../../../../components/forms/input.component";
+import { Link } from "../../../../components/typography/link.component";
+import { Text } from "../../../../components/typography/text.component";
 import { Button } from "../../../../components/UI/button.component";
+import { getFromSecureStore, saveInSecureStore } from "../../../../shared/helpers/secure-store";
 // HELPERS
 import { loginSchema } from "../../validations/schemas";
 
-export const LoginForm = ({ onSubmit, isProcessing }) => {
+export const LoginForm = ({ onSubmit, isProcessing, navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const formik = useFormik({
-    initialValues: { email: "", password: "", from: "app" },
+    initialValues: { email: "", password: "", remember: false, from: "app" },
+    enableReinitialize: true,
     validationSchema: loginSchema,
     onSubmit: async (values) => {
-      await SecureStore.setItemAsync("authValues", JSON.stringify(values));
+      if (values.remember) await saveInSecureStore("authValues", values);
       onSubmit(values);
     },
   });
 
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        const values = await getFromSecureStore("authValues");
+        if (values) {
+          formik.setFieldValue("email", values.email);
+          formik.setFieldValue("remember", true);
+        }
+      })();
+    }, [formik.setFieldValue])
+  );
   return (
     <>
       <Input
@@ -48,9 +66,27 @@ export const LoginForm = ({ onSubmit, isProcessing }) => {
         onChange={formik.handleChange("password")}
         onBlur={formik.handleBlur("password")}
       />
+      <View style={styles.ActionWrapper}>
+        <Checkbox status={formik.values.remember} onPress={() => formik.setFieldValue("remember", !formik.values.remember)}>
+          <Text variant="caption">Recordarme</Text>
+        </Checkbox>
+        <Link onPress={() => navigation.navigate("RecoverPassword")}>
+          <Text variant="caption">Olvidé mi contraseña</Text>
+        </Link>
+      </View>
       <Button onPress={formik.handleSubmit} disabled={!formik.isValid || isProcessing} loading={isProcessing} variant="primary">
         {isProcessing ? "Cargando..." : "Iniciar sesión"}
       </Button>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  ActionWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    marginBottom: 15,
+  },
+});

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { StyleSheet, Modal, TouchableOpacity, View, TouchableWithoutFeedback, Dimensions, Platform } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+import React, { useState } from "react";
+import { Dimensions, Modal, Platform, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { HelperText } from "react-native-paper";
 import styled from "styled-components/native";
-import { theme } from "../../theme";
 import { Text } from "../typography/text.component";
 
 const FormGroup = styled.View`
@@ -56,7 +56,7 @@ const InputAndroid = styled.View`
   justify-content: center;
 `;
 
-export const Select = ({ label, value, onChange, name, options, hasIcon, style, error, isFlex, ...rest }) => {
+export const Select = ({ label, value, onChange, name, options, error, isFlex }) => {
   const [pickerShown, setPickerShown] = useState(false);
 
   return (
@@ -128,28 +128,3 @@ export const Select = ({ label, value, onChange, name, options, hasIcon, style, 
     </>
   );
 };
-
-const pickerStyles = StyleSheet.create({
-  placeholder: {
-    color: theme.colors.text.body,
-    paddingLeft: 10,
-  },
-  inputIOS: {
-    fontSize: 14,
-    paddingVertical: 16,
-    borderRadius: 4,
-    color: "black",
-    paddingRight: 30,
-    marginTop: 5,
-    backgroundColor: "#FFF",
-  },
-  inputAndroid: {
-    fontSize: 14,
-    paddingVertical: 10,
-    borderRadius: 4,
-    color: "black",
-    paddingRight: 30,
-    marginTop: 5,
-    backgroundColor: "#FFF",
-  },
-});

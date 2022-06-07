@@ -36,6 +36,15 @@ export const loginGoogleSuccess = () => ({
   type: types.LOGIN_GOOGLE_SUCCESS,
 });
 
+export const loginBiometrics = (email) => ({
+  type: types.LOGIN_BIOMETRICS_INIT,
+  email,
+});
+
+export const loginBiometricsSuccess = () => ({
+  type: types.LOGIN_BIOMETRICS_SUCCESS,
+});
+
 export const recoverPassword = (values) => ({
   type: types.RECOVER_PASSWORD_INIT,
   values,
@@ -88,6 +97,16 @@ export const getAffiliates = () => ({
 export const getAffiliatesSuccess = (affiliates) => ({
   type: types.GET_AFFILIATES_SUCCESS,
   affiliates,
+});
+
+export const setIsBiometricsValues = (user, setBiometrics = null) => ({
+  type: types.SET_BIOMETRCIS_VALUES.INIT,
+  setBiometrics,
+  user,
+});
+
+export const setBiometricsValuesSuccess = () => ({
+  type: types.SET_BIOMETRCIS_VALUES.SUCCESS,
 });
 
 export const logoutUser = (logType) => ({

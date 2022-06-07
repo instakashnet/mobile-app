@@ -11,7 +11,6 @@ import { AdditionalInfoScreen } from "../../features/profile/screens/information
 import { BasicInfoScreen } from "../../features/profile/screens/information/basic-info.screen";
 import { EditAdditionalScreen } from "../../features/profile/screens/information/edit-additional.screen";
 import { EditInfoScreen } from "../../features/profile/screens/information/edit-info.screen";
-import { NotificationsScreen } from "../../features/profile/screens/notifications.screen";
 // SCREENS
 import { ProfileScreen } from "../../features/profile/screens/profile.screen";
 // UTILS
@@ -44,7 +43,6 @@ export const ProfileNavigator = () => {
       <ProfileStack.Screen name="DocumentUploaded" options={{ headerTitle: "", headerLeft: null }} component={DocumentUploadedScreen} />
       <ProfileStack.Screen name="AdditionalInfo" options={{ headerTitle: () => headerTitle("Información adicional") }} component={AdditionalInfoScreen} />
       <ProfileStack.Screen name="EditAdditionals" options={{ headerTitle: () => headerTitle("Editar información") }} component={EditAdditionalScreen} />
-      <ProfileStack.Screen name="Notifications" options={{ headerTitle: () => headerTitle("Notificaciones") }} component={NotificationsScreen} />
     </ProfileStack.Navigator>
   );
 };

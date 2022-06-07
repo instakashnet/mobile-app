@@ -123,13 +123,6 @@ export const Separator = styled.View`
   height: 1px;
 `;
 
-export const NotificationLabel = styled.View`
-  align-items: flex-start;
-  width: 100%;
-  padding-left: 15px;
-  margin-top: 25px;
-`;
-
 export const ListItem = styled.View`
   flex-direction: row;
   align-items: center;
@@ -157,17 +150,6 @@ export const ItemWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-`;
-
-export const NotificationWrapper = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-  border-color: ${({ theme }) => theme.colors.text.inactive};
-  border-bottom-width: 1px;
-  padding: ${({ theme }) => theme.space[4]};
-  width: 100%;
 `;
 
 export const RightArrow = styled(MaterialIcons).attrs(({ theme }) => ({

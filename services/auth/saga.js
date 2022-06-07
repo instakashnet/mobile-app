@@ -1,23 +1,24 @@
-import { all, call, put, fork, takeLatest, takeEvery } from "redux-saga/effects";
-import * as SecureStore from "expo-secure-store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native";
 import camelize from "camelize";
-import * as types from "./types";
-import * as actions from "./actions";
-import { openModal } from "../../store/actions";
-import { clearProfile } from "../profile/actions";
-import { getCurrencies, getBanks } from "../accounts/actions";
-import { authInstance } from "../auth.service";
+import * as LocalAuthentication from "expo-local-authentication";
+import { Alert } from "react-native";
+import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
 import * as RootNavigation from "../../navigation/root.navigation";
+import { deleteFromStore, getFromStore, saveInStore } from "../../shared/helpers/async-store";
+import { deleteFromSecureStore, getFromSecureStore, saveInSecureStore } from "../../shared/helpers/secure-store";
+import { openModal } from "../../store/actions";
+import { getBanks, getCurrencies } from "../accounts/actions";
+import { authInstance } from "../auth.service";
+import { clearProfile } from "../profile/actions";
+import * as actions from "./actions";
+import * as types from "./types";
 
 // UTILS
 function* setAuthToken(data, type) {
   const date = new Date();
   const expDate = new Date(date.setSeconds(date.getSeconds() + data.expiresIn));
 
-  yield call([SecureStore, "setItemAsync"], "authData", JSON.stringify({ token: data.accessToken, expires: expDate }));
-  yield call([SecureStore, "setItemAsync"], "authType", type);
+  yield call(saveInSecureStore, "authData", { token: data.accessToken, expires: expDate });
+  yield call(saveInSecureStore, "authType", type);
 }
 
 function* getData() {
@@ -26,30 +27,70 @@ function* getData() {
 }
 
 function* clearUserData() {
-  yield call([SecureStore, "deleteItemAsync"], "authData");
-  yield call([AsyncStorage, "removeItem"], "profileSelected");
+  yield call(deleteFromSecureStore, "authData");
+  yield call(deleteFromStore, "profileSelected");
   yield put(clearProfile());
 }
 
+const checkBiometricsStatus = async (user) => {
+  let isCompatible = await LocalAuthentication.hasHardwareAsync(),
+    isEnrolled = await LocalAuthentication.isEnrolledAsync(),
+    granted = await getFromStore("biometricsGranted");
+
+  if (isCompatible && isEnrolled && granted === null) {
+    console.log("compatible");
+
+    Alert.alert("Inicio rápido", "¿Deseas activar la verificación biométrica para iniciar sesión?", [
+      {
+        text: "Aceptar",
+        onPress: async () => {
+          await authInstance.put("/auth/faceid", { authenticationMethods: ["faceId"] });
+          await saveInSecureStore("biometricsValues", user);
+          await saveInStore("biometricsGranted", true);
+        },
+      },
+      { text: "No", onPress: async () => await saveInStore("biometricsGranted", false) },
+    ]);
+  }
+};
+
 // SAGAS
+function* watchSetBiometricsValues() {
+  yield takeLatest(types.SET_BIOMETRCIS_VALUES.INIT, setBiometricsValues);
+}
+
+function* setBiometricsValues({ setBiometrics, user }) {
+  try {
+    yield authInstance.put("/auth/faceid", { authenticationMethods: ["faceId"] });
+    yield saveInSecureStore("biometricsValues", user);
+    yield saveInStore("biometricsGranted", true);
+
+    if (setBiometrics) yield call(setBiometrics, true);
+
+    yield put(actions.setBiometricsValuesSuccess());
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 function* watchLoadUser() {
   yield takeEvery(types.LOAD_USER_INIT, loadUser);
 }
 
 function* loadUser() {
-  const authData = yield call([SecureStore, "getItemAsync"], "authData");
+  const authData = yield call(getFromSecureStore, "authData");
   if (!authData) {
-    yield call([AsyncStorage, "removeItem"], "profileSelected");
+    yield call(deleteFromStore, "profileSelected");
     return yield put(actions.logoutUserSuccess());
   }
 
-  const { expires } = JSON.parse(authData);
+  const { expires } = authData;
   if (new Date(expires) <= new Date()) {
     yield call(clearUserData);
     return yield put(actions.logoutUserSuccess());
   }
 
-  const authType = yield call([SecureStore, "getItemAsync"], "authType");
+  const authType = yield call(getFromSecureStore, "authType");
   if (authType === "recover") {
     yield call(clearUserData);
     return yield put(actions.logoutUserSuccess());
@@ -58,7 +99,7 @@ function* loadUser() {
   try {
     const res = yield authInstance.get("/users/session");
     const user = camelize(res.data.user);
-    yield call([AsyncStorage, "setItem"], "@userVerification", JSON.stringify(user));
+    yield call(saveInStore, "@userVerification", user);
 
     yield put(actions.loadUserSuccess(user));
 
@@ -67,6 +108,8 @@ function* loadUser() {
 
     yield call(getData);
     yield put(actions.loginUserSuccess());
+
+    yield call(checkBiometricsStatus, user);
   } catch (error) {
     yield put(actions.logoutUser());
   }
@@ -83,6 +126,24 @@ function* registerUser({ values }) {
       yield call(setAuthToken, res.data, "login");
       yield put(actions.registerUserSuccess());
       yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
+    }
+  } catch (error) {
+    yield put(actions.authError(error.message));
+  }
+}
+
+function* watchLoginBiometrics() {
+  yield takeLatest(types.LOGIN_BIOMETRICS_INIT, loginBiometrics);
+}
+
+function* loginBiometrics({ email }) {
+  try {
+    const res = yield authInstance.post("/auth/login-faceid", { mobile: true, email });
+
+    if (res.status === 200) {
+      yield call(setAuthToken, res.data, "login");
+
+      yield put(actions.loadUser());
     }
   } catch (error) {
     yield put(actions.authError(error.message));
@@ -250,6 +311,7 @@ export function* authSaga() {
     fork(watchLoadUser),
     fork(watchRegisterUser),
     fork(watchLoginUser),
+    fork(watchLoginBiometrics),
     fork(watchRecoverPassword),
     fork(watchResetPassword),
     fork(watchValidateEmail),
@@ -258,5 +320,6 @@ export function* authSaga() {
     fork(watchLogoutUser),
     fork(watchGetAffiliates),
     fork(watchLoginGoogle),
+    fork(watchSetBiometricsValues),
   ]);
 }

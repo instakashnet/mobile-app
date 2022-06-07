@@ -47,9 +47,16 @@ function* toggleNotification({ notifType, enabled }) {
   }
 }
 
-function* setNotificationRates({ rates }) {
+
+function* setNotificationRates({ values }) {
+  const notifValues = {
+    ...values,
+    rateSell: +values.rateSell,
+    rateBuy: +values.rateBuy,
+  };
+
   try {
-    const res = yield authInstance.post("/notifications/rate-notifications", rates);
+    const res = yield authInstance.post("/notifications/rate-notifications", notifValues);
     if (res.status === 200) {
       yield put(actions.setNotificationRatesSuccess());
       yield call(getNotifications);

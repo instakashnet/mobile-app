@@ -1,6 +1,6 @@
-import styled from "styled-components/native";
-import { Button as PaperButton } from "react-native-paper";
 import { Dimensions } from "react-native";
+import { Button as PaperButton } from "react-native-paper";
+import styled from "styled-components/native";
 
 const defaultStyles = (theme) => `
   width: 100%;

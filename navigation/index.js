@@ -1,9 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
+import { hideAsync } from "expo-splash-screen";
 import React, { useEffect } from "react";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-// SCREENS
 import { SplashScreen } from "../features/auth/screens/splash.screen";
 // HOOKS
 import { useNotifications } from "../hooks/use-notifications.hook";
@@ -30,9 +30,13 @@ export const Navigator = () => {
   // EFFECTS
   useEffect(() => {
     dispatch(loadUser());
+
+    (async () => {
+      await hideAsync();
+    })();
   }, [dispatch]);
 
   if (isLoading) return <SplashScreen />;
 
-  return <NavigationContainer ref={navigationRef}>{!isSignedIn ? <AuthNavigator /> : <DrawerNavigator />}</NavigationContainer>;
+  return <NavigationContainer ref={navigationRef}>{isSignedIn ? <DrawerNavigator /> : <AuthNavigator />}</NavigationContainer>;
 };

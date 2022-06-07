@@ -1,25 +1,21 @@
-import React from "react";
-
-// REDUX
-import { useDispatch, useSelector } from "react-redux";
-import { addProfile, clearProfileError } from "../../../store/actions";
-
 // FORMIK
 import { useFormik } from "formik";
-import { addProfileSchema } from "../validations/schemas";
-
+import React from "react";
+// REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { Checkbox } from "../../../components/forms/checkbox.component";
+import { Input } from "../../../components/forms/input.component";
+import { Text } from "../../../components/typography/text.component";
+import { Alert } from "../../../components/UI/alert.component";
+import { Button } from "../../../components/UI/button.component";
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 // COMPONENTS
 import { SafeArea } from "../../../components/utils/safe-area.component";
-import { Text } from "../../../components/typography/text.component";
-import { Input } from "../../../components/forms/input.component";
 import { Spacer } from "../../../components/utils/spacer.component";
-import { Checkbox } from "../../../components/forms/checkbox.component";
-import { Button } from "../../../components/UI/button.component";
-import { Alert } from "../../../components/UI/alert.component";
-import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
-
+import { addProfile, clearProfileError } from "../../../store/actions";
 // STYLED COMPONENTS
 import { AddProfileForm, BorderLine } from "../components/select-profile.styles";
+import { addProfileSchema } from "../validations/schemas";
 
 export const AddProfileScreen = () => {
   const dispatch = useDispatch();
@@ -67,7 +63,6 @@ export const AddProfileScreen = () => {
           />
           <Input
             name="address"
-            onBlur={formik}
             error={formik.touched.address && formik.errors.address}
             label="Dirección fiscal"
             onChange={formik.handleChange("address")}

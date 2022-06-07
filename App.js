@@ -6,7 +6,6 @@ import * as Updates from "expo-updates";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { connectToDevTools } from "react-devtools-core";
 import { Linking, Platform } from "react-native";
-import { AppearanceProvider } from "react-native-appearance";
 import "react-native-gesture-handler";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 // REDUX
@@ -33,13 +32,13 @@ if (__DEV__) {
     host: "localhost",
     port: 8097,
   });
+} else {
+  Sentry.init({
+    dsn: "https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263",
+    enableInExpoDevelopment: false,
+    debug: stage !== "prod",
+  });
 }
-
-Sentry.init({
-  dsn: "https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263",
-  enableInExpoDevelopment: true,
-  debug: stage !== "prod",
-});
 
 export default function App() {
   const [otaModal, setOtaModal] = useState(false),
@@ -87,8 +86,6 @@ export default function App() {
   useEffect(() => {
     if (appIsReady) {
       (async () => {
-        await SplashScreen.hideAsync();
-
         try {
           if (isOtaUpdate) {
             setOtaModal(true);
@@ -117,16 +114,14 @@ export default function App() {
 
   return appIsReady ? (
     <Provider store={store}>
-      <AppearanceProvider>
-        <StatusBar style="dark" backgroundColor="#0D8284" />
-        <ThemeProvider theme={theme}>
-          <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
-            <Navigator />
-            <UpdateModal isVisible={otaModal} />
-            <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} />
-          </PaperProvider>
-        </ThemeProvider>
-      </AppearanceProvider>
+      <StatusBar style="dark" backgroundColor="#0D8284" />
+      <ThemeProvider theme={theme}>
+        <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
+          <Navigator />
+          <UpdateModal isVisible={otaModal} />
+          <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} />
+        </PaperProvider>
+      </ThemeProvider>
     </Provider>
   ) : null;
 }
