@@ -1,8 +1,8 @@
-
 import { useFocusEffect } from "@react-navigation/native";
+import * as AppleAuthentication from "expo-apple-authentication";
 import { authenticateAsync } from "expo-local-authentication";
 import React, { useCallback } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 // ASSETS
@@ -18,12 +18,12 @@ import { Spacer } from "../../../components/utils/spacer.component";
 import { useBiometrics } from "../../../hooks/use-biometrics.hook";
 import { getFromStore } from "../../../shared/helpers/async-store";
 import { getFromSecureStore } from "../../../shared/helpers/secure-store";
-import { clearAuthError, loginBiometrics, loginGoogle, loginUser } from "../../../store/actions";
+import { clearAuthError, loginApple, loginBiometrics, loginGoogle, loginUser } from "../../../store/actions";
+import { AppleButton } from "../components/apple-button.component";
 // STYLED COMPONENTS
 import { AuthLine, AuthLinkWrapper, AuthScroll } from "../components/auth.styles";
 import { LoginForm } from "../components/forms/login-form.component";
 import { GoogleButton } from "../components/google-button.component";
-
 export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     { isBiometricsSupported } = useBiometrics(),
@@ -59,7 +59,18 @@ export const LoginScreen = ({ navigation }) => {
 
   // HANDLERS
   const onSubmit = (values) => dispatch(loginUser(values)),
-    onGoogleLogin = (token) => dispatch(loginGoogle(token));
+    onGoogleLogin = (token) => dispatch(loginGoogle(token)),
+    onAppleLogin = async () => {
+      try {
+        const credential = await AppleAuthentication.signInAsync({
+          requestedScopes: [AppleAuthentication.AppleAuthenticationScope.EMAIL],
+        });
+
+        dispatch(loginApple({ token: credential.identityToken, apple_id: credential.user }));
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
   return (
     <SafeArea>
@@ -72,7 +83,8 @@ export const LoginScreen = ({ navigation }) => {
               <Spacer variant="top" />
               <Text>Gana siempre con nosotros. Mejores tasas, mayor ahorro.</Text>
             </View>
-            {Platform.OS === "android" && <GoogleButton loginGoogle={onGoogleLogin} />}
+            <GoogleButton loginGoogle={onGoogleLogin} />
+            <AppleButton onPress={onAppleLogin} />
             <Spacer variant="top" />
             <View style={styles.loginInfo}>
               <AuthLine />

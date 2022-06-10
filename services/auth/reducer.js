@@ -15,6 +15,7 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.REGISTER_INIT:
     case types.LOGIN_INIT:
     case types.LOGIN_GOOGLE_INIT:
+    case types.LOGIN_APPLE.INIT:
     case types.RECOVER_PASSWORD_INIT:
     case types.VALIDATE_EMAIL_INIT:
     case types.REFRESH_CODE_INIT:

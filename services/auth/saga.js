@@ -183,6 +183,22 @@ function* loginGoogle({ token }) {
   }
 }
 
+function* watchLoginApple() {
+  yield takeLatest(types.LOGIN_APPLE.INIT, loginApple);
+}
+
+function* loginApple({ values }) {
+  try {
+    const res = yield authInstance.post("/auth/apple", values);
+
+    yield call(setAuthToken, res.data, "login");
+    yield put(actions.loadUser());
+  } catch (error) {
+    console.log(error);
+    yield put(actions.authError(error.message));
+  }
+}
+
 function* watchRecoverPassword() {
   yield takeLatest(types.RECOVER_PASSWORD_INIT, recoverPassword);
 }
@@ -311,6 +327,7 @@ export function* authSaga() {
     fork(watchLoadUser),
     fork(watchRegisterUser),
     fork(watchLoginUser),
+    fork(watchLoginApple),
     fork(watchLoginBiometrics),
     fork(watchRecoverPassword),
     fork(watchResetPassword),
