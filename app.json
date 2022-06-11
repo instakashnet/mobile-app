@@ -41,7 +41,7 @@
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
       "userInterfaceStyle": "light",
-      "buildNumber": "0.1.1",
+      "buildNumber": "0.1.2",
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to give you the ability to take the photo of your document.",
         "NSFaceIDUsageDescription": "Solicitamos tus datos biometricos para ofrecerte un incio de sesión de forma ràpida.",
