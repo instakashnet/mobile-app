@@ -15,6 +15,14 @@ export const bankIcons = [
     bankName: "scotiabank",
     uri: require("../../../assets/banks/scotiabank-icon.png"),
   },
+  {
+    bankName: "pichincha",
+    uri: require("../../../assets/banks/pichincha-icon.png"),
+  },
+  {
+    bankName: "banbif",
+    uri: require("../../../assets/banks/banbif-icon.png"),
+  },
 ];
 
 export const bankLogos = [
@@ -25,5 +33,21 @@ export const bankLogos = [
   {
     bankName: "interbank",
     uri: require("../../../assets/banks/interbank-logo.png"),
+  },
+  {
+    bankName: "bbva",
+    uri: require("../../../assets/banks/bbva-logo.png"),
+  },
+  {
+    bankName: "scotiabank",
+    uri: require("../../../assets/banks/scotiabank-logo.png"),
+  },
+  {
+    bankName: "pichincha",
+    uri: require("../../../assets/banks/pichincha-logo.png"),
+  },
+  {
+    bankName: "banbif",
+    uri: require("../../../assets/banks/banbif-logo.png"),
   },
 ];
