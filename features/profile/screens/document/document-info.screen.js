@@ -1,21 +1,28 @@
-import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
 import { View } from "react-native";
-
 // ASSETS
 import { DocumentCorrect } from "../../../../assets/illustrations/document/document-correct";
 import { DocumentIncorrect } from "../../../../assets/illustrations/document/document-incorrect";
-
+import { Text } from "../../../../components/typography/text.component";
+import { Button } from "../../../../components/UI/button.component";
 // COMPONENTS
 import { SafeArea } from "../../../../components/utils/safe-area.component";
-import { Button } from "../../../../components/UI/button.component";
-import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/utils/spacer.component";
 // STYLED COMPONENTS
-import { CoverBackground, ProfileScroll, WhiteTitle, ListItem, DocumentsWrapper, ProfileInfoWrapper } from "../../components/profile.styles";
+import { CoverBackground, DocumentsWrapper, ListItem, ProfileInfoWrapper, ProfileScroll, WhiteTitle } from "../../components/profile.styles";
 
 export const DocumentInfoScreen = ({ route, navigation }) => {
-  const { documentType } = route.params;
+  const { documentType } = route.params,
+    [hasPermission, setHasPermission] = useState(null);
+
+  // EFFECTS
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await requestCameraPermissionsAsync();
+  //     setHasPermission(status === "granted");
+  //   })();
+  // }, []);
 
   return (
     <SafeArea>
@@ -56,7 +63,7 @@ export const DocumentInfoScreen = ({ route, navigation }) => {
             ))}
           </View>
           <Spacer variant="top" />
-          <Button icon="camera" labelStyle={{ fontSize: 20, color: "#13AAAC" }} onPress={() => navigation.navigate("Camera", { documentType })}>
+          <Button icon="camera" labelStyle={{ fontSize: 20, color: "#13AAAC" }} onPress={() => navigation.navigate("Camera", { documentType, hasPermission })}>
             <Text variant="button" style={{ fontSize: 14 }}>
               Tomar foto
             </Text>

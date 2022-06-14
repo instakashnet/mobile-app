@@ -28,9 +28,9 @@ import {
 } from "../../components/camera.styles";
 
 export const CameraScreen = ({ navigation, route }) => {
-  const [hasPermission, setHasPermission] = useState(null),
-    [cameraReady, setIsCameraReady] = useState(false),
-    [frontPhoto, setFrontPhoto] = useState(null),
+  const [frontPhoto, setFrontPhoto] = useState(null),
+    [hasPermission, setHasPermission] = useState(null),
+    [imagePadding, setImagePadding] = useState(0),
     [preview, setPreview] = useState(null),
     [loading, setLoading] = useState(false),
     [ratio, setRatio] = useState("4:3"),
@@ -42,7 +42,6 @@ export const CameraScreen = ({ navigation, route }) => {
     { isProcessing, profileError } = useSelector((state) => state.profileReducer),
     { documentType } = route.params;
 
-  // EFFECTS
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -60,10 +59,9 @@ export const CameraScreen = ({ navigation, route }) => {
         // Calculate the width/height of each of the supported camera ratios
         // These width/height are measured in landscape mode
         // find the ratio that is closest to the screen ratio without going over
-        let distances = {},
-          realRatios = {},
-          minDistance = null;
-
+        let distances = {};
+        let realRatios = {};
+        let minDistance = null;
         for (const ratio of ratios) {
           const parts = ratio.split(":");
           const realRatio = parseInt(parts[0]) / parseInt(parts[1]);
@@ -81,12 +79,15 @@ export const CameraScreen = ({ navigation, route }) => {
         }
         // set the best match
         desiredRatio = minDistance;
+        //  calculate the difference between the camera width and the screen height
+        const remainder = Math.floor((height - realRatios[desiredRatio] * width) / 2);
+        // set the preview padding and preview ratio
+        setImagePadding(remainder);
         setRatio(desiredRatio);
         // Set a flag so we don't do this
         // calculation each time the screen refreshes
         setIsRatioSet(true);
       }
-      setIsCameraReady(true);
     },
     onSnap = async () => {
       setLoading(true);
@@ -127,6 +128,14 @@ export const CameraScreen = ({ navigation, route }) => {
     onOpenConfig = () => Linking.openSettings();
 
   // CONDITIONAL RETURNS
+  if (hasPermission === null) {
+    return (
+      <NoCameraWrapper>
+        <Text>Solicitando los permisos de la camara.</Text>
+      </NoCameraWrapper>
+    );
+  }
+
   if (hasPermission === false) {
     return (
       <NoCameraWrapper>
@@ -144,62 +153,68 @@ export const CameraScreen = ({ navigation, route }) => {
   }
 
   return (
-    <Camera ratio={ratio} ref={(camera) => (cameraRef.current = camera)} onCameraReady={setCameraReady} style={{ flex: 1 }} type={Camera.Constants.Type.back}>
+    <Camera
+      ratio={ratio}
+      ref={(camera) => (cameraRef.current = camera)}
+      onCameraReady={setCameraReady}
+      style={{ flex: 1, marginVertical: imagePadding }}
+      type={Camera.Constants.Type.back}
+    >
       <SafeArea>
-      <CameraWrapper>
-            <ButtonsWrapper>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <MaterialIcons name="arrow-back" color="#FFF" size={30} />
-              </TouchableOpacity>
-              <Tooltip icon={<MaterialIcons name="info-outline" color="#FFF" size={30} />}>
-                <Text variant="button">Te recordamos que la foto del documento debe ser nítida y la información totalmente legible.</Text>
-              </Tooltip>
-            </ButtonsWrapper>
+        <CameraWrapper>
+          <ButtonsWrapper>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <MaterialIcons name="arrow-back" color="#FFF" size={30} />
+            </TouchableOpacity>
+            <Tooltip icon={<MaterialIcons name="info-outline" color="#FFF" size={30} />}>
+              <Text variant="button">Te recordamos que la foto del documento debe ser nítida y la información totalmente legible.</Text>
+            </Tooltip>
+          </ButtonsWrapper>
 
-            <CameraItemsWrapper>
-              <InfoWrapper>
-                <Text variant="subtitle" style={{ color: "#FFF" }}>
-                  {documentType === "passport" ? "Foto pasaporte" : frontPhoto ? "Foto trasera" : "Foto frontal"}
-                </Text>
-              </InfoWrapper>
-              {preview ? (
-                <>
-                  <Image source={{ uri: preview }} style={{ width: 350, height: 275, marginVertical: 15 }} resizeMode="contain" />
-                  <InfoWrapper>
-                    <ActionButtons>
-                      <Button onPress={onConfirm}>
-                        <MaterialCommunityIcons name="check-circle" color="#0D8284" size={30} />
-                        <Spacer variant="left" />
-                        <Text variant="bold" style={{ color: "#FFF" }}>
-                          Se ve bien
-                        </Text>
-                      </Button>
-                      <Button variant="secondary" onPress={() => setPreview(null)}>
-                        <MaterialCommunityIcons name="backspace-reverse" color="#FFF" size={30} />
-                        <Spacer variant="left" />
-                        <Text variant="bold" style={{ color: "#FFF" }}>
-                          Repetir
-                        </Text>
-                      </Button>
-                    </ActionButtons>
-                  </InfoWrapper>
-                </>
-              ) : (
-                <CameraSquare />
-              )}
-            </CameraItemsWrapper>
-
-            {!loading && !isProcessing ? (
-              <TouchableOpacity onPress={onSnap}>
-                <Entypo name="circle" size={85} color="#FFF" />
-              </TouchableOpacity>
+          <CameraItemsWrapper>
+            <InfoWrapper>
+              <Text variant="subtitle" style={{ color: "#FFF" }}>
+                {documentType === "passport" ? "Foto pasaporte" : frontPhoto ? "Foto trasera" : "Foto frontal"}
+              </Text>
+            </InfoWrapper>
+            {preview ? (
+              <>
+                <Image source={{ uri: preview }} style={{ width: 350, height: 275, marginVertical: 15 }} resizeMode="contain" />
+                <InfoWrapper>
+                  <ActionButtons>
+                    <Button onPress={onConfirm}>
+                      <MaterialCommunityIcons name="check-circle" color="#0D8284" size={30} />
+                      <Spacer variant="left" />
+                      <Text variant="bold" style={{ color: "#FFF" }}>
+                        Se ve bien
+                      </Text>
+                    </Button>
+                    <Button variant="secondary" onPress={() => setPreview(null)}>
+                      <MaterialCommunityIcons name="backspace-reverse" color="#FFF" size={30} />
+                      <Spacer variant="left" />
+                      <Text variant="bold" style={{ color: "#FFF" }}>
+                        Repetir
+                      </Text>
+                    </Button>
+                  </ActionButtons>
+                </InfoWrapper>
+              </>
             ) : (
-              <LoaderWrapper>
-                <CameraLoader />
-                <Text style={{ color: "#FFF" }}>{loading ? "Cargando..." : "Subiendo..."}</Text>
-              </LoaderWrapper>
+              <CameraSquare />
             )}
-          </CameraWrapper>
+          </CameraItemsWrapper>
+
+          {!loading && !isProcessing ? (
+            <TouchableOpacity onPress={onSnap}>
+              <Entypo name="circle" size={85} color="#FFF" />
+            </TouchableOpacity>
+          ) : (
+            <LoaderWrapper>
+              <CameraLoader />
+              <Text style={{ color: "#FFF" }}>{loading ? "Cargando..." : "Subiendo..."}</Text>
+            </LoaderWrapper>
+          )}
+        </CameraWrapper>
       </SafeArea>
 
       <View style={{ backgroundColor: "#000", width: "100%", paddingBottom: 15, paddingTop: 10, alignItems: "center", justifyContent: "center", flex: 0.075 }}>

@@ -7,6 +7,7 @@ import { theme } from "../../theme";
 const CheckboxGroup = styled.View`
   flex-direction: row;
   align-items: center;
+  width: 91%;
 `;
 
 const TouchableCheckbox = styled(TouchableOpacity)`

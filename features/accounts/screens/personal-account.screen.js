@@ -1,19 +1,16 @@
 import React from "react";
-
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { addAccount, clearAccountsError } from "../../../store/actions";
-
+import { useDispatch, useSelector } from "react-redux";
 // COMPONENTS
 import { Text } from "../../../components/typography/text.component";
-import { SafeArea } from "../../../components/utils/safe-area.component";
-import { AddPersonalForm } from "../components/forms/add-personal-form.component";
-import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
-import { Spacer } from "../../../components/utils/spacer.component";
 import { Alert } from "../../../components/UI/alert.component";
-
+import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
+import { SafeArea } from "../../../components/utils/safe-area.component";
+import { Spacer } from "../../../components/utils/spacer.component";
+import { addAccount, clearAccountsError } from "../../../store/actions";
 // STYLED COMPONENTS
 import { AccountsWrapper } from "../components/accounts.styles";
+import { AddPersonalForm } from "../components/forms/add-personal-form.component";
 
 export const AddPersonalAccountScreen = ({ route }) => {
   const dispatch = useDispatch(),

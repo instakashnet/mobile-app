@@ -41,9 +41,9 @@
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
       "userInterfaceStyle": "light",
-      "buildNumber": "0.1.2",
+      "buildNumber": "0.1.4",
       "infoPlist": {
-        "NSCameraUsageDescription": "We need access to your camera to give you the ability to take the photo of your document.",
+        "NSCameraUsageDescription": "Necesitamos acceso a la camara de tu dispositivo únicamente para poder tomar las fotos correspondientes a tu documento de identidad.",
         "NSFaceIDUsageDescription": "Solicitamos tus datos biometricos para ofrecerte un incio de sesión de forma ràpida.",
         "CFBundleAllowMixedLocalizations": true,
         "CFBundleDevelopmentRegion": "es"
@@ -52,7 +52,7 @@
     "android": {
       "package": "net.instakash.app",
       "userInterfaceStyle": "light",
-      "versionCode": 40,
+      "versionCode": 41,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#20A2A5"

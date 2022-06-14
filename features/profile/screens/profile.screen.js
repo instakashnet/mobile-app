@@ -74,13 +74,6 @@ export const ProfileScreen = ({ navigation }) => {
             <RightArrow />
           </ItemWrapper>
         </NavItem>
-
-        <NavItem onPress={() => navigation.navigate("Notifications")}>
-          <ItemWrapper>
-            <Text>Notificaciones</Text>
-            <RightArrow />
-          </ItemWrapper>
-        </NavItem>
       </ProfileScroll>
     </SafeArea>
   );
