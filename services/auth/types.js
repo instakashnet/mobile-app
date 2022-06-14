@@ -7,6 +7,11 @@ export const LOAD_USER_SUCCESS = "auth/LOAD_USER_SUCCESS";
 export const LOGIN_INIT = "auth/LOGIN_INIT";
 export const LOGIN_SUCCESS = "auth/LOGIN_SUCCESS";
 
+export const LOGIN_APPLE = {
+  INIT: "@auth/LOGIN_APPLE_INIT",
+  SUCCESS: "@auth/LOGIN_APPLE_SUCCESS",
+};
+
 export const LOGIN_BIOMETRICS_INIT = "auth/LOGIN_BIOMETRICS_INIT";
 export const LOGIN_BIOMETRICS_SUCCESS = "auth/LOGIN_BIOMETRICS_SUCCESS";
 
