@@ -30,7 +30,7 @@ export const GoogleButton = ({ loginGoogle }) => {
   };
   return (
     <Button icon={() => <GoogleIcon />} disabled={!request} variant="secondary" onPress={onGoogleLogin}>
-      Ingresar con Google
+      Continuar con google
     </Button>
   );
 };

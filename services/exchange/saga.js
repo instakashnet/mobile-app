@@ -1,5 +1,6 @@
 import camelize from "camelize";
 import * as Notifications from "expo-notifications";
+import { Alert } from "react-native";
 import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { removeData } from "../../hooks/use-storage.hook";
 import * as RootNavigation from "../../navigation/root.navigation";
@@ -88,7 +89,12 @@ function* continueOrder({ values, orderId }) {
       yield call(removeData, "@selectedAcc");
     }
   } catch (error) {
-    yield put(actions.exchangeError(error.message));
+    if (error.code === "C4006") {
+      Alert.alert("Lo sentimos", "En este momento no podemos crear tu pedido hacia el banco que estás solicitando. Por favor intenta más tarde o contáctanos.", [
+        { text: "Aceptar" },
+      ]);
+      yield put(actions.exchangeError());
+    } else yield put(actions.exchangeError(error.message));
   }
 }
 

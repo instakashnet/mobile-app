@@ -47,11 +47,10 @@ export const resInterceptor = (instance) =>
       } else {
         let message;
         if (error.response) {
-          message = error.response.data.error
-            ? error.response.data.error.message
-            : "Ha ocurrido un error inesperado, por favor intenta de nuevo. Si el problema persiste contacte a soporte.";
-        }
+          message = error.response.data.error?.message || "Ha ocurrido un error inesperado, por favor intenta de nuevo. Si el problema persiste contacte a soporte.";
 
+          error.code = error.response.data.error?.code;
+        }
         error.message = message;
         return Promise.reject(error);
       }

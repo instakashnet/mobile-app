@@ -1,13 +1,11 @@
-import React from "react";
-import { TouchableOpacity, TouchableWithoutFeedback, Alert, Linking, Dimensions, Platform, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { theme } from "../../theme";
-
+import React from "react";
+import { Alert, Dimensions, Linking, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 // ASSETS
 import { Whatsapp } from "../../assets/icons/whatsapp";
-
 // COMPONENTS
 import { Text } from "../../components/typography/text.component";
+import { theme } from "../../theme";
 
 export const headerOptions = {
   backgroundColor: theme.colors.bg.light,
@@ -32,7 +30,7 @@ export const topBarOptions = {
 };
 
 const onOpenWhatsapp = async () => {
-  const URL = `whatsapp://send?text=Hola Instakash, deseo información&phone=51927013800`;
+  const URL = `whatsapp://send?text=Hola Instakash, deseo información&phone=51929324006`;
 
   try {
     await Linking.openURL(URL);

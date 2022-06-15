@@ -36,6 +36,15 @@ export const loginGoogleSuccess = () => ({
   type: types.LOGIN_GOOGLE_SUCCESS,
 });
 
+export const loginApple = (values) => ({
+  type: types.LOGIN_APPLE.INIT,
+  values,
+});
+
+export const loginAppleSuccess = () => ({
+  type: types.LOGIN_APPLE.SUCCESS,
+});
+
 export const loginBiometrics = (email) => ({
   type: types.LOGIN_BIOMETRICS_INIT,
   email,

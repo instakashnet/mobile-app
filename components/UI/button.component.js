@@ -14,7 +14,7 @@ const defaultStyles = (theme) => `
 const defaultAttrs = (theme, labelStyle = {}) => ({
   labelStyle: {
     color: theme.colors.text.body,
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: theme.fonts.button,
     letterSpacing: 0,
     ...labelStyle,
@@ -33,6 +33,10 @@ const secondary = (theme) => ({
   color: theme.colors.buttons.secondary,
 });
 
+const black = (theme) => ({
+  color: "#000",
+});
+
 const error = (theme) => ({
   color: theme.colors.bg.light,
   labelStyle: {
@@ -47,6 +51,7 @@ const variants = {
   primary,
   secondary,
   error,
+  black,
 };
 
 export const Button = styled(PaperButton).attrs(({ theme, variant, labelStyle }) => {

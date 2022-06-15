@@ -31,7 +31,7 @@
       "releaseChannel": "prod",
       "distribution": "internal"
     },
-    "staging": {
+    "testing": {
       "releaseChannel": "staging"
     },
     "production": {
