@@ -1,5 +1,6 @@
 import { all, call, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import * as RootNavigation from "../../navigation/root.navigation";
+import { goBack } from "../../navigation/root.navigation";
 import { authInstance } from "../auth.service";
 import * as actions from "./actions";
 import * as types from "./types";
@@ -47,7 +48,6 @@ function* toggleNotification({ notifType, enabled }) {
   }
 }
 
-
 function* setNotificationRates({ values }) {
   const notifValues = {
     ...values,
@@ -60,6 +60,8 @@ function* setNotificationRates({ values }) {
     if (res.status === 200) {
       yield put(actions.setNotificationRatesSuccess());
       yield call(getNotifications);
+
+      yield call(goBack);
     }
   } catch (error) {
     yield put(actions.notificationsError(error.message));

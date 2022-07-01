@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Text } from "../../../../components/typography/text.component";
 // COMPONENTS
 import { Spacer } from "../../../../components/utils/spacer.component";
@@ -76,7 +76,7 @@ export const CalculatorForm = ({ formik, isFocused, rates, coupon, couponRates, 
 
       <TimerInfo>
         <Text variant="button">La tasa se actualizará en:</Text>
-        <CountdownTimer countdown={countdown} duration={300} onFinish={handleTimeout} />
+        <CountdownTimer countdown={countdown} duration={180} onFinish={handleTimeout} />
       </TimerInfo>
       <Spacer variant="top" />
       <CalculatorWrapper>
