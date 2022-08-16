@@ -48,7 +48,7 @@ export const TransactionCodeScreen = ({ navigation }) => {
 
   let now = new Date().getTime(),
     orderExpire = new Date(order?.expiredAt).getTime(),
-    expireTime = (orderExpire - now) / 10000;
+    expireTime = (orderExpire - now) / 1000;
 
   return (
     <SafeArea>
