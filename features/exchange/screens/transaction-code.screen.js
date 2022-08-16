@@ -4,6 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TimeBellIcon } from "../../../assets/icons/time-bell";
 import { Text } from "../../../components/typography/text.component";
+import { cancelOrder } from "../../../store/actions";
 // COMPONENTS
 import { Alert } from "../../../components/UI/alert.component";
 import { Button } from "../../../components/UI/button.component";
@@ -29,14 +30,15 @@ export const TransactionCodeScreen = ({ navigation }) => {
   // EFFECTS
   useFocusEffect(
     useCallback(() => {
-      if (!order) return navigation.popToTop();
+      if (!order.id) return navigation.popToTop();
 
       return () => dispatch(clearExchangeError());
     }, [order])
   );
 
   // HANDLERS
-  const handleOrderTimeout = () => dispatch(openModal()),
+  const onCancelOrder = () => dispatch(cancelOrder("created", order.id, "exchange")),
+    handleOrderTimeout = () => dispatch(openModal()),
     handleTimeoutCancel = () => {
       onCancelOrder();
       setCountdown(Math.random());

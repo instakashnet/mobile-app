@@ -1,5 +1,4 @@
-import React from "react";
-import { KeyboardAvoidingView, Platform } from "react-native";
+import { KeyboardAvoidingView } from "react-native";
 
 export const KeyboardView = ({ offset = 0, children }) => {
   return (

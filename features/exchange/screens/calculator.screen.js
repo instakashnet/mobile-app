@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { useFormik } from "formik";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { TimeBellIcon } from "../../../assets/icons/time-bell";
@@ -149,7 +149,7 @@ export const CalculatorScreen = ({ navigation }) => {
             <TimeBellIcon />
             <Text variant="subtitle">¡Se acabó el tiempo!</Text>
             <Spacer variant="top" />
-            <Text style={{ textAlign: "center" }}>Los 5 minutos de cambio garantizado han finalizado. El tipo de cambio se actualizará y puede haber variado.</Text>
+            <Text style={{ textAlign: "center" }}>Los 3 minutos de cambio garantizado han finalizado. El tipo de cambio se actualizará y puede haber variado.</Text>
             <Spacer variant="top" size={2} />
             <Button onPress={onGetRates}>Aceptar</Button>
           </>

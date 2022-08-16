@@ -32,7 +32,7 @@ function* getLastOrder() {
 
     if (res.status === 200) {
       const orderData = camelize(res.data);
-      yield put(actions.getLastOrderSuccess(orderData.lastOrder));
+      yield put(actions.getLastOrderSuccess(orderData.lastOrder || {}));
 
       if (orderData.hasOrder && orderData.lastOrder?.status === 2) yield call([RootNavigation, "replace"], "Transfer");
     }
