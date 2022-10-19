@@ -19,7 +19,11 @@ export const useNotifications = () => {
   useEffect(() => {
     (async () => {
       if (notificationPermissions && isSignedIn) {
-        const token = (await getExpoPushTokenAsync()).data;
+        const token = (
+          await getExpoPushTokenAsync({
+            experienceId: "@rogerrc12/instakash-app",
+          })
+        ).data;
         dispatch(savePushToken(token));
       }
     })();

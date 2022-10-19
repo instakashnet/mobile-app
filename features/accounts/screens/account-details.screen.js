@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Alert } from "react-native";
+import { Alert, View } from "react-native";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -9,11 +9,11 @@ import { deleteAccount } from "../../../store/actions";
 import { bankLogos } from "../relative-paths/images";
 
 // COMPONENTS
-import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Text } from "../../../components/typography/text.component";
-import { Spacer } from "../../../components/utils/spacer.component";
 import { Button } from "../../../components/UI/button.component";
-import { AccountsWrapper, DetailsCard, DetailsWrapper, DetailsInfo, BankLogo, Line, Title } from "../components/accounts.styles";
+import { SafeArea } from "../../../components/utils/safe-area.component";
+import { Spacer } from "../../../components/utils/spacer.component";
+import { AccountsWrapper, BankLogo, DetailsCard, DetailsInfo, DetailsWrapper, Line, Title } from "../components/accounts.styles";
 
 export const AccountDetailsScreen = ({ route, navigation }) => {
   const dispatch = useDispatch(),
@@ -57,9 +57,9 @@ export const AccountDetailsScreen = ({ route, navigation }) => {
               <Text variant="title">{account.currency.Symbol}</Text>
             </View>
           </DetailsInfo>
-          <Spacer variant="vertical" size={5}>
-            <Line />
-          </Spacer>
+          <Spacer variant="top" size={2} />
+          <Line />
+          <Spacer variant="top" size={2} />
           <DetailsWrapper>
             <View>
               <Text>Tipo de cuenta</Text>
@@ -73,19 +73,42 @@ export const AccountDetailsScreen = ({ route, navigation }) => {
             </View>
           </DetailsWrapper>
           <Spacer variant="top" size={2} />
-          {account.thirdParty && (
-            <DetailsWrapper>
-              <View>
-                <Text>Nombre</Text>
-                <Text variant="bold">{account.thirdParty.name || account.thirdParty.razonSocial}</Text>
-              </View>
-              <View>
-                <Text style={{ textAlign: "right" }}>Documento</Text>
-                <Text style={{ textAlign: "right" }} variant="bold">
-                  {account.thirdParty.documentType} {account.thirdParty.documentNumber}
-                </Text>
-              </View>
-            </DetailsWrapper>
+          {/* {account.thirdParty && (
+            <>
+              <Spacer variant="vertical" size={5}>
+                <Line />
+              </Spacer>
+              <DetailsWrapper>
+                <View>
+                  <Text>Nombre</Text>
+                  <Text variant="bold">{account.thirdParty.name || account.thirdParty.razonSocial}</Text>
+                </View>
+                <View>
+                  <Text style={{ textAlign: "right" }}>Documento</Text>
+                  <Text style={{ textAlign: "right" }} variant="bold">
+                    {account.thirdParty.documentType} {account.thirdParty.documentNumber}
+                  </Text>
+                </View>
+              </DetailsWrapper>
+            </>
+          )} */}
+          {account.joint && (
+            <>
+              <Line />
+              <Spacer variant="top" size={2} />
+              <DetailsWrapper>
+                <View style={{ flex: 1 }}>
+                  <Text>Nombre</Text>
+                  <Text variant="bold">{`${account.jointAccount.firstName} ${account.jointAccount.lastName}`}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ textAlign: "right" }}>Documento</Text>
+                  <Text style={{ textAlign: "right" }} variant="bold">
+                    {account.jointAccount.documentType} {account.jointAccount.documentNumber}
+                  </Text>
+                </View>
+              </DetailsWrapper>
+            </>
           )}
         </DetailsCard>
         <Spacer variant="top" size={4} />

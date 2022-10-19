@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import { View } from "react-native";
 
 // FORMIK
 import { useFormik } from "formik";
 import { addTPAccountSchema } from "../../validations/schemas";
 
 // COMPONENTS
-import { Text } from "../../../../components/typography/text.component";
-import { Radio } from "../../../../components/forms/radio.component";
-import { Spacer } from "../../../../components/utils/spacer.component";
-import { Input } from "../../../../components/forms/input.component";
-import { Select } from "../../../../components/forms/select.component";
-import { Button } from "../../../../components/UI/button.component";
-import { ThirdInfo } from "./third-info.component";
 import { Checkbox } from "../../../../components/forms/checkbox.component";
+import { Input } from "../../../../components/forms/input.component";
+import { Radio } from "../../../../components/forms/radio.component";
+import { Select } from "../../../../components/forms/select.component";
+import { Text } from "../../../../components/typography/text.component";
+import { Button } from "../../../../components/UI/button.component";
+import { Spacer } from "../../../../components/utils/spacer.component";
+import { ThirdInfo } from "./third-info.component";
 
 // STYLED COMPONENTS
-import { BankIcon, DocumentWrapper } from "../accounts.styles";
+import { BankIcon, RadioWrapper } from "../accounts.styles";
 
 export const AddThirdForm = ({ banks, currencies, currencyId, onAddAccount, isProcessing }) => {
   const [selectedBank, setSelectedBank] = useState(null);
@@ -91,14 +90,14 @@ export const AddThirdForm = ({ banks, currencies, currencyId, onAddAccount, isPr
     <>
       <Spacer variant="top" size={4} />
       <Text variant="subtitle">¿A quien le pertenece esta cuenta?</Text>
-      <DocumentWrapper>
+      <RadioWrapper>
         <Radio value={formik.values.thirdPartyAccType} onPress={() => onTypePress("natural")} status={formik.values.thirdPartyAccType === "natural" ? "checked" : "unchecked"}>
           <Text>Persona</Text>
         </Radio>
         <Radio value={formik.values.thirdPartyAccType} onPress={() => onTypePress("juridica")} status={formik.values.thirdPartyAccType === "juridica" ? "checked" : "unchecked"}>
           <Text>Empresa</Text>
         </Radio>
-      </DocumentWrapper>
+      </RadioWrapper>
       <ThirdInfo onSelect={onSelectChange} formik={formik} />
       <Select
         name="bankId"

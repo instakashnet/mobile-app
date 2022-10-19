@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Platform } from "react-native";
+import { Platform, View } from "react-native";
 
 // COMPONENTS
 import { Input } from "../../../../components/forms/input.component";

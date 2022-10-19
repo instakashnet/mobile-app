@@ -1,13 +1,14 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 // UTILS
-import { headerOptions, headerLeft, headerBackLeft, headerRight, headerTitle } from "../utils/navigator.options";
+import { headerBackLeft, headerLeft, headerOptions, headerRight, headerTitle } from "../utils/navigator.options";
 // NAVIGATORS
-import { AddAccountTabs } from "../tabs/add-account-tabs.navigatior";
+// import { AddAccountTabs } from "../tabs/add-account-tabs.navigatior";
 // SCREENS
-import { AccountsScreen } from "../../features/accounts/screens/accounts.screen";
 import { AccountDetailsScreen } from "../../features/accounts/screens/account-details.screen";
+import { AccountsScreen } from "../../features/accounts/screens/accounts.screen";
 import { EditAccountScreen } from "../../features/accounts/screens/edit-account.screen";
+import { AddPersonalAccountScreen } from "../../features/accounts/screens/personal-account.screen";
 
 const AccountsStack = createStackNavigator();
 
@@ -18,7 +19,7 @@ export const AccountsNavigator = () => {
       <AccountsStack.Screen
         name="AddAccount"
         options={({ navigation }) => ({ headerTitle: () => headerTitle("Agregar cuenta"), headerLeft: () => headerBackLeft(navigation) })}
-        component={AddAccountTabs}
+        component={AddPersonalAccountScreen}
       />
       <AccountsStack.Screen
         name="AccountDetails"

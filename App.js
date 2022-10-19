@@ -37,6 +37,7 @@ if (__DEV__) {
     dsn: "https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263",
     enableInExpoDevelopment: false,
     debug: stage !== "prod",
+    enableOutOfMemoryTracking: false,
   });
 }
 
@@ -75,29 +76,37 @@ export default function App() {
           setIsStoreUpdate(storeUpdate);
           setIsOtaUpdate(otaUpdate);
         }
-      } catch (e) {
-        console.warn(e);
-      } finally {
+
         setAppIsReady(true);
+      } catch (e) {
+        Sentry.Native.captureException(e);
+        console.error(e);
       }
     })();
   }, []);
 
   useEffect(() => {
-    if (appIsReady) {
-      (async () => {
-        try {
-          if (isOtaUpdate) {
-            setOtaModal(true);
+    const checkUpdates = async () => {
+      if (isOtaUpdate) {
+        setOtaModal(true);
 
-            await Updates.fetchUpdateAsync();
-            await Updates.reloadAsync();
-          } else await checkTrackingPermissions();
+        try {
+          await Updates.fetchUpdateAsync();
+        } catch (error) {
+          throw error;
+        } finally {
+          await Updates.reloadAsync();
+        }
+      } else {
+        try {
+          await checkTrackingPermissions();
         } catch (error) {
           throw error;
         }
-      })();
-    }
+      }
+    };
+
+    if (appIsReady) checkUpdates();
   }, [appIsReady]);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-import styled from "styled-components/native";
 import { Dimensions } from "react-native";
+import styled from "styled-components/native";
 
 export const AccountsScroll = styled.ScrollView.attrs({
   contentContainerStyle: {
@@ -78,6 +78,7 @@ export const BankLogo = styled.Image.attrs({
 })`
   width: 85px;
   height: 27px;
+  margin-bottom: ${({ theme }) => theme.space[1]};
 `;
 
 export const BankIcon = styled.Image.attrs({
@@ -87,9 +88,10 @@ export const BankIcon = styled.Image.attrs({
   height: 20px;
 `;
 
-export const DocumentWrapper = styled.View`
+export const RadioWrapper = styled.View`
   flex-direction: row;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
 `;
 

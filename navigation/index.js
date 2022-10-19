@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SplashScreen } from "../features/auth/screens/splash.screen";
 // HOOKS
 import { useNotifications } from "../hooks/use-notifications.hook";
-import { loadUser } from "../store/actions";
+import { getSchedule, loadUser } from "../store/actions";
 import { DrawerNavigator } from "./drawer.navigator";
 import { navigationRef } from "./root.navigation";
 // NAVIGATORS
@@ -25,18 +25,21 @@ export const Navigator = () => {
   const dispatch = useDispatch(),
     { isLoading, isSignedIn } = useSelector((state) => state.authReducer);
 
+  const hideSplashScreen = async () => await hideAsync();
+
+  // HOOKS
   useNotifications();
 
-  // EFFECTS
   useEffect(() => {
+    dispatch(getSchedule());
     dispatch(loadUser());
-
-    (async () => {
-      await hideAsync();
-    })();
   }, [dispatch]);
 
   if (isLoading) return <SplashScreen />;
 
-  return <NavigationContainer ref={navigationRef}>{isSignedIn ? <DrawerNavigator /> : <AuthNavigator />}</NavigationContainer>;
+  return (
+    <NavigationContainer ref={navigationRef} onReady={hideSplashScreen}>
+      {isSignedIn ? <DrawerNavigator /> : <AuthNavigator />}
+    </NavigationContainer>
+  );
 };

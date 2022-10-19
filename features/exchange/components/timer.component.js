@@ -1,10 +1,11 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { Timer, TimerWrapper } from "./calculator.styles";
 
-export const CountdownTimer = ({ duration, onFinish, countdown }) => {
+export const CountdownTimer = ({ duration, onFinish, countDownId }) => {
   const [countRunnig, setCountRunning] = useState(false);
+  const [id, setId] = useState(countDownId);
 
   useFocusEffect(
     useCallback(() => {
@@ -14,18 +15,16 @@ export const CountdownTimer = ({ duration, onFinish, countdown }) => {
     }, [])
   );
 
+  useEffect(() => {
+    const newId = new Date().getTime().toString();
+
+    setId(newId);
+  }, [duration]);
+
   return (
     <TimerWrapper>
-      <CountdownCircleTimer key={countdown.toString()} isPlaying duration={duration} size={18} strokeWidth={2.5} colors="#0D8284" />
-      <Timer
-        id={countdown.toString()}
-        running={countRunnig}
-        until={Math.round(Number(duration))}
-        size={14}
-        onFinish={onFinish}
-        timeToShow={["M", "S"]}
-        timeLabels={{ m: "", s: "" }}
-      />
+      <CountdownCircleTimer key={countDownId} isPlaying duration={duration} size={18} strokeWidth={2.5} colors="#0D8284" />
+      <Timer id={countDownId} running={countRunnig} until={duration} size={14} onFinish={onFinish} timeToShow={["M", "S"]} timeLabels={{ m: "", s: "" }} />
     </TimerWrapper>
   );
 };

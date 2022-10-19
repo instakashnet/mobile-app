@@ -23,7 +23,7 @@ export async function checkAppUpdate() {
   if (update.isAvailable) {
     otaUpdate = update.isAvailable;
   } else {
-    if (Application.nativeApplicationVersion !== "0.2.5") storeUpdate = true;
+    if (Application.nativeApplicationVersion !== "0.2.6") storeUpdate = true;
   }
 
   return { storeUpdate, otaUpdate };

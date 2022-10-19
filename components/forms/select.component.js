@@ -1,4 +1,3 @@
-
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
@@ -67,7 +66,7 @@ export const Select = ({ label, value, onChange, name, options, error, isFlex })
             <InputIOS error={!!error} onPress={() => setPickerShown(true)}>
               <Text>{!value ? label : options.find((o) => o.value === value).label}</Text>
             </InputIOS>
-            <PickerIcon />
+            <PickerIcon onPress={() => setPickerShown(true)} />
           </>
         ) : (
           <InputAndroid>

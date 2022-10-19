@@ -11,16 +11,15 @@ import { AccountCard, BankLogo } from "./accounts.styles";
 export const AccountItem = ({ account, onPress }) => {
   return (
     <AccountCard onPress={onPress}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View>
         <BankLogo bankName={account.bank.name.toLowerCase()} source={bankLogos.find((icon) => icon.bankName === account.bank.name.toLowerCase()).uri} />
-        <Text variant="bold">Ver cuenta</Text>
+        <Text>{account.alias}</Text>
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: "auto" }}>
         <View>
-          <Text variant="bold">{account.thirdParty ? "De terceros" : ""}</Text>
-          <Text>{account.alias}</Text>
+          <Text variant="bold">{account.thirdParty ? "De terceros" : account.joint ? "Mancomunada" : ""}</Text>
         </View>
-        <Text variant="subtitle">
+        <Text variant="bold">
           ***
           {account.accountNumber
             ? account.accountNumber.substring(account.accountNumber.length - 4, account.accountNumber.length)

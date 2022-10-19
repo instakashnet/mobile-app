@@ -22,8 +22,17 @@ import { bankLogos } from "../relative-paths/images";
 export const TransferScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
     { order } = useSelector((state) => state.exchangeReducer),
-    [countdown, setCountdown] = useState(1);
+    [expTime, setExpTime] = useState(0),
+    [countDownId, setCountDownId] = useState(undefined);
 
+  const onCancelOrder = () => dispatch(cancelOrder("created", order.id, "exchange")),
+    handleOrderTimeout = () => dispatch(openModal()),
+    handleTimeoutCancel = () => {
+      onCancelOrder();
+      dispatch(closeModal());
+    };
+
+  // EFFECTS
   useFocusEffect(
     useCallback(() => {
       if (!order) return navigation.popToTop();
@@ -32,17 +41,17 @@ export const TransferScreen = ({ navigation }) => {
     }, [order])
   );
 
-  const onCancelOrder = () => dispatch(cancelOrder("created", order.id, "exchange")),
-    handleOrderTimeout = () => dispatch(openModal()),
-    handleTimeoutCancel = () => {
-      setCountdown(Math.random());
-      onCancelOrder();
-      dispatch(closeModal());
-    };
+  useFocusEffect(
+    useCallback(() => {
+      let now = new Date().getTime();
 
-  let now = new Date().getTime(),
-    orderExpire = new Date(order?.expiredAt || "").getTime(),
-    expireTime = (orderExpire - now) / 1000;
+      let orderExpire = new Date(order?.expiredAt || "").getTime();
+      let expireTime = (orderExpire - now) / 1000;
+      if (expireTime <= 0) return onCancelOrder();
+
+      setExpTime(expireTime);
+    }, [order])
+  );
 
   return (
     <SafeArea>
@@ -101,7 +110,7 @@ export const TransferScreen = ({ navigation }) => {
               </Button>
               <TimerInfo>
                 <Text variant="button">Tiempo para completar la operación:</Text>
-                <CountdownTimer countdown={countdown} onFinish={handleOrderTimeout} duration={expireTime} />
+                <CountdownTimer onFinish={handleOrderTimeout} countDownId={countDownId} duration={expTime} />
               </TimerInfo>
             </TransferWrapper>
           </KeyboardScrollAware>

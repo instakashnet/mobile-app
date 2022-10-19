@@ -8,7 +8,7 @@
     "facebookAdvertiserIDCollectionEnabled": true,
     "name": "Instakash",
     "slug": "instakash-app",
-    "version": "0.2.5",
+    "version": "0.2.6",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -41,18 +41,27 @@
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
       "userInterfaceStyle": "light",
-      "buildNumber": "0.1.4",
+      "buildNumber": "0.1.6",
       "infoPlist": {
         "NSCameraUsageDescription": "Necesitamos acceso a la camara de tu dispositivo únicamente para poder tomar las fotos correspondientes a tu documento de identidad.",
         "NSFaceIDUsageDescription": "Solicitamos tus datos biometricos para ofrecerte un incio de sesión de forma ràpida.",
         "CFBundleAllowMixedLocalizations": true,
-        "CFBundleDevelopmentRegion": "es"
+        "CFBundleDevelopmentRegion": "es",
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
+        "SKAdNetworkItems": [
+          {
+            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
+          },
+          {
+            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
+          }
+        ]
       }
     },
     "android": {
       "package": "net.instakash.app",
       "userInterfaceStyle": "light",
-      "versionCode": 41,
+      "versionCode": 42,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#20A2A5"
@@ -82,6 +91,11 @@
         "USE_BIOMETRIC",
         "USE_FINGERPRINT"
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d79c74ef-7ba4-44fa-b647-92650d67b200"
+      }
     }
   }
 }

@@ -1,11 +1,12 @@
 import camelize from "camelize";
 import * as Notifications from "expo-notifications";
 import { Alert } from "react-native";
-import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { all, call, fork, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import { removeData } from "../../hooks/use-storage.hook";
 import * as RootNavigation from "../../navigation/root.navigation";
 import { exchangeInstance } from "../exchange.service";
 import { getUserData } from "../profile/actions";
+import { closeModal } from "../utils/actions";
 import * as actions from "./actions";
 import * as types from "./types";
 
@@ -34,7 +35,10 @@ function* getLastOrder() {
       const orderData = camelize(res.data);
       yield put(actions.getLastOrderSuccess(orderData.lastOrder || {}));
 
-      if (orderData.hasOrder && orderData.lastOrder?.status === 2) yield call([RootNavigation, "replace"], "Transfer");
+      if (orderData.hasOrder && orderData.lastOrder?.status === 2) {
+        yield put(closeModal());
+        yield call([RootNavigation, "replace"], "Transfer");
+      }
     }
   } catch (error) {
     yield put(actions.exchangeError());
@@ -46,8 +50,15 @@ function* watchCreateOrder() {
 }
 
 function* createOrder({ values }) {
+  const coupon = yield select((state) => state.exchangeReducer.coupon);
+
+  const exchangeValues = {
+    ...values,
+    couponName: coupon?.name,
+  };
+
   try {
-    const res = yield exchangeInstance.post("/order/step-2", values);
+    const res = yield exchangeInstance.post("/order/step-2", exchangeValues);
     if (res.status === 201) {
       yield call(removeData, "@selectedBank");
       yield call(removeData, "@selectedAcc");
@@ -131,6 +142,8 @@ function* cancelOrder({ orderType, orderId, screenType }) {
       yield put(actions.cancelOrderSuccess());
     }
   } catch (error) {
+    yield call([RootNavigation, "replace"], "Calculator");
+
     yield put(actions.exchangeError(error.message));
   }
 }

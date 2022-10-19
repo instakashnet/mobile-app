@@ -9,18 +9,18 @@ export const Rates = ({ couponRates, rates }) => {
       {couponRates && (
         <RatesWrapper>
           <Text variant="caption" style={{ textDecorationLine: "line-through" }}>
-            Antes: {rates.buy}
+            Antes: {rates?.buy}
           </Text>
           <Spacer variant="left" size={6} />
           <Text variant="caption" style={{ textDecorationLine: "line-through" }}>
-            Antes: {rates.sell}
+            Antes: {rates?.sell}
           </Text>
         </RatesWrapper>
       )}
       <RatesWrapper>
-        <Price>Compramos: {couponRates ? couponRates.buy : rates.buy}</Price>
+        <Price>Compramos: {couponRates ? couponRates.buy : rates?.buy}</Price>
         <BorderLine />
-        <Price>Vendemos: {couponRates ? couponRates.sell : rates.sell}</Price>
+        <Price>Vendemos: {couponRates ? couponRates.sell : rates?.sell}</Price>
       </RatesWrapper>
     </>
   );

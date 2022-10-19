@@ -6,21 +6,37 @@ import { addAccountSchema } from "../../validations/schemas";
 
 // COMPONENTS
 import { Checkbox } from "../../../../components/forms/checkbox.component";
-import { Text } from "../../../../components/typography/text.component";
-import { Spacer } from "../../../../components/utils/spacer.component";
-import { Select } from "../../../../components/forms/select.component";
 import { Input } from "../../../../components/forms/input.component";
+import { Radio } from "../../../../components/forms/radio.component";
+import { Select } from "../../../../components/forms/select.component";
+import { Text } from "../../../../components/typography/text.component";
 import { Button } from "../../../../components/UI/button.component";
+import { Spacer } from "../../../../components/utils/spacer.component";
 
 // STYLED COMPONENTS
-import { BankIcon } from "../accounts.styles";
+import { BankIcon, RadioWrapper } from "../accounts.styles";
+import { JointInfo } from "./joint-info.component";
 
 export const AddPersonalForm = ({ currencies, currencyId, onAddAccount, isProcessing, banks }) => {
   const [selectedBank, setSelectedBank] = useState(false);
 
   // FORMIK
   const formik = useFormik({
-      initialValues: { bankId: "", isDirect: true, currencyId: "", account_number: "", cci: "", acc_type: "", alias: "", interbank: false, accept: false },
+      initialValues: {
+        bankId: "",
+        isDirect: true,
+        currencyId: "",
+        account_number: "",
+        cci: "",
+        acc_type: "",
+        alias: "",
+        joint: false,
+        documentTypeJoint: "",
+        documentNUmberJoint: "",
+        firstNameJoint: "",
+        lastNameJoint: "",
+        accept: false,
+      },
       validationSchema: addAccountSchema,
       onSubmit: (values) => onAddAccount(values),
     }),
@@ -57,6 +73,8 @@ export const AddPersonalForm = ({ currencies, currencyId, onAddAccount, isProces
       let bank = banks.find((b) => b.id === value);
       formik.setFieldValue("isDirect", bank.active);
       setSelectedBank(bank);
+
+      if (bank.name.toLowerCase() !== "interbank") formik.setFieldValue("joint", false);
     }
   };
 
@@ -110,11 +128,24 @@ export const AddPersonalForm = ({ currencies, currencyId, onAddAccount, isProces
         onBlur={formik.handleBlur("alias")}
         infoText="Ej. nombre + banco + moneda."
       />
-      {selectedBank && selectedBank.name.toLowerCase() === "interbank" && (
+      <Spacer variant="top" />
+      <Text variant="button" style={{ alignSelf: "flex-start" }}>
+        ¿Es una cuenta mancomunada?
+      </Text>
+      <RadioWrapper>
+        <Radio onPress={() => formik.setFieldValue("joint", true)} value={formik.values.joint} status={formik.values.joint ? "checked" : "unchecked"}>
+          <Text>Si</Text>
+        </Radio>
+        <Radio onPress={() => formik.setFieldValue("joint", false)} value={formik.values.joint} status={!formik.values.joint ? "checked" : "unchecked"}>
+          <Text>No</Text>
+        </Radio>
+      </RadioWrapper>
+      {formik.values.joint && <JointInfo onSelect={onSelect} formik={formik} />}
+      {/* {selectedBank && selectedBank.name.toLowerCase() === "interbank" && (
         <Checkbox status={formik.values.interbank} onPress={() => formik.setFieldValue("interbank", !formik.values.interbank)}>
-          <Text variant="caption">¿Esta es una cuenta de provincia?.</Text>
+         
         </Checkbox>
-      )}
+      )} */}
       <Spacer variant="top" />
       <Checkbox status={formik.values.accept} onPress={() => formik.setFieldValue("accept", !formik.values.accept)}>
         <Text variant="caption">Declaro que toda la información colocada es correcta, actual y asumo total responsabilidad de su veracidad.</Text>

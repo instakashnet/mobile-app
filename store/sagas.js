@@ -8,7 +8,8 @@ import { notificationsSaga } from "../services/notifications/saga";
 import { profileSaga } from "../services/profile/saga";
 import { settingsSaga } from "../services/settings/saga";
 import { socketSaga } from "../services/socket/saga";
+import utilsSaga from "../services/utils/saga";
 
 export function* rootSaga() {
-  yield all([authSaga(), profileSaga(), exchangeSaga(), accountsSaga(), activitySaga(), settingsSaga(), socketSaga(), notificationsSaga()]);
+  yield all([authSaga(), profileSaga(), exchangeSaga(), accountsSaga(), activitySaga(), settingsSaga(), socketSaga(), notificationsSaga(), utilsSaga()]);
 }

@@ -12,7 +12,7 @@ import { Text } from "../../../components/typography/text.component";
 import { Alert } from "../../../components/UI/alert.component";
 // COMPONENTS
 import { DismissKeyboard } from "../../../components/utils/dismiss-keyobard.component";
-import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
+import { KeyboardView } from "../../../components/utils/keyboard-view.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { useBiometrics } from "../../../hooks/use-biometrics.hook";
@@ -74,8 +74,8 @@ export const LoginScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <DismissKeyboard>
-        <KeyboardScrollAware>
+      <KeyboardView offset={90}>
+        <DismissKeyboard>
           <AuthScroll>
             <Spacer variant="top" />
             <View style={styles.logoWrapper}>
@@ -103,8 +103,8 @@ export const LoginScreen = ({ navigation }) => {
               </Link>
             </AuthLinkWrapper>
           </AuthScroll>
-        </KeyboardScrollAware>
-      </DismissKeyboard>
+        </DismissKeyboard>
+      </KeyboardView>
       <Alert type="error" onClose={clearAuthError} visible={!!authError}>
         {authError}
       </Alert>

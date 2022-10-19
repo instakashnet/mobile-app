@@ -16,6 +16,28 @@ export const addAccountSchema = Yup.object().shape({
     otherwise: Yup.string().notRequired(),
   }),
   bankId: Yup.number().required("Debes seleccionar un banco."),
+  documentNumberJoint: Yup.string().when("joint", {
+    is: true,
+    then: Yup.string()
+      .required("Debes colocar un nro. de documento.")
+      .matches(/^[0-9]{8,13}$/, "Número de documento ingresado inválido."),
+    otherwise: Yup.string().notRequired(),
+  }),
+  documentTypeJoint: Yup.string().when("joint", {
+    is: true,
+    then: Yup.string().required("Debes seleccionar un tipo de documento."),
+    otherwise: Yup.string().notRequired(),
+  }),
+  firstNameJoint: Yup.string().when("joint", {
+    is: true,
+    then: Yup.string().required("Debes colocar un nombre completo."),
+    otherwise: Yup.string().notRequired(),
+  }),
+  lastNameJoint: Yup.string().when("joint", {
+    is: true,
+    then: Yup.string().required("Debes colocar un nombre completo."),
+    otherwise: Yup.string().notRequired(),
+  }),
   currencyId: Yup.string().required("Debes seleccionar una moneda."),
   alias: Yup.string().required("Debes ingresar un alias.").min(5, "Debe ser mínimo de 5 caracteres.").max(40, "No deben ser más de 40 caracteres."),
   acc_type: Yup.string().required("Debes seleccionar un tipo de cuenta."),

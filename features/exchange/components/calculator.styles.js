@@ -118,7 +118,7 @@ export const TimerInfo = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-vertical: ${({ theme }) => theme.space[1]};
+  padding-top: ${({ theme }) => theme.space[2]};
   width: 100%;
 `;
 

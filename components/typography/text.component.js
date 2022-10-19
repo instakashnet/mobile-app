@@ -48,6 +48,7 @@ const underline = (theme) => `
     font-family: ${theme.fonts.button};
     color: ${theme.colors.text.title};
     text-decoration-line: underline;
+    text-decpo
 `;
 
 const error = (theme) => `
