@@ -12,6 +12,7 @@ import { Spacer } from "../../../components/utils/spacer.component";
 import { clearExchangeError, closeModal, getLastOrder, getRates, openModal } from "../../../store/actions";
 // STYLED COMPONENTS
 import { Text } from "../../../components/typography/text.component";
+import { useCountdown } from "../../../hooks/use-countdown.hook";
 import { TimerInfo } from "../components/calculator.styles";
 import { Rates } from "../components/calculator/rates.component";
 import { ExchangeForm } from "../components/exchange.styles";
@@ -27,14 +28,18 @@ export const CalculatorScreen = ({ navigation }) => {
     user = useSelector((state) => state.authReducer.user),
     profile = useSelector((state) => state.profileReducer.profile),
     [couponRates, setCouponRates] = useState(null),
-    [expTime, setExpTime] = useState(0),
-    [countDownId, setCountDownId] = useState(undefined),
     [modalType, setModalType] = useState("");
+
+  let ratesTime = new Date().getTime() + 60000 * 5;
+  const [timeLeft, setEndTime] = useCountdown(ratesTime);
 
   // HANDLERS
   const onResetCalculator = () => {
+    let newTime = new Date().getTime() + 60000 * 5;
+
     dispatch(getRates());
     dispatch(closeModal());
+    setEndTime(newTime);
     // if (user.isReferal) dispatch(validateCoupon("NUEVOREFERIDO1", profile.type));
   };
 
@@ -45,11 +50,6 @@ export const CalculatorScreen = ({ navigation }) => {
 
   const handleCloseModal = () => dispatch(closeModal());
 
-  const resetCountId = () => {
-    const id = new Date().getTime().toString();
-    setCountDownId(id);
-  };
-
   // EFFECTS
   useFocusEffect(
     useCallback(() => {
@@ -59,11 +59,6 @@ export const CalculatorScreen = ({ navigation }) => {
       return () => dispatch(clearExchangeError());
     }, [dispatch])
   );
-
-  useEffect(() => {
-    setExpTime(300);
-    resetCountId();
-  }, [rates]);
 
   useEffect(() => {
     if (isClosed) {
@@ -87,9 +82,10 @@ export const CalculatorScreen = ({ navigation }) => {
         <ExchangeForm>
           <Text variant="title">Comienza el cambio</Text>
           <Rates couponRates={couponRates} rates={rates} />
+          <Spacer variant="top" size={4} />
           <TimerInfo>
             <Text variant="button">La tasa se actualizará en:</Text>
-            <CountdownTimer duration={expTime} countDownId={countDownId} onFinish={handleModal.bind(null, "timeout")} />
+            <CountdownTimer timeLeft={timeLeft} onFinish={handleModal.bind(null, "timeout")} />
           </TimerInfo>
           <Spacer variant="top" />
           <CalculatorForm user={user} coupon={coupon} rates={rates} couponRates={couponRates} profile={profile} handleModal={handleModal} />

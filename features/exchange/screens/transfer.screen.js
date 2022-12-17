@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { TimeBellIcon } from "../../../assets/icons/time-bell";
@@ -10,8 +10,9 @@ import { Modal } from "../../../components/UI/modal.component";
 import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
+import { useCountdown } from "../../../hooks/use-countdown.hook";
 import { formatAmount } from "../../../shared/helpers/functions";
-import { cancelOrder, clearExchangeError, closeModal, openModal } from "../../../store/actions";
+import { cancelOrder, clearExchangeError, openModal } from "../../../store/actions";
 import { TimerInfo } from "../components/calculator.styles";
 import { StepsProgressWrapper } from "../components/exchange.styles";
 import { ProgressIndicator } from "../components/progress-indicator.component";
@@ -21,16 +22,13 @@ import { bankLogos } from "../relative-paths/images";
 
 export const TransferScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
-    { order } = useSelector((state) => state.exchangeReducer),
-    [expTime, setExpTime] = useState(0),
-    [countDownId, setCountDownId] = useState(undefined);
+    { order } = useSelector((state) => state.exchangeReducer);
+  let orderExpire = new Date(order?.expiredAt || "").getTime();
+
+  const [timeLeft] = useCountdown(orderExpire);
 
   const onCancelOrder = () => dispatch(cancelOrder("created", order.id, "exchange")),
-    handleOrderTimeout = () => dispatch(openModal()),
-    handleTimeoutCancel = () => {
-      onCancelOrder();
-      dispatch(closeModal());
-    };
+    handleOrderTimeout = () => dispatch(openModal());
 
   // EFFECTS
   useFocusEffect(
@@ -48,8 +46,6 @@ export const TransferScreen = ({ navigation }) => {
       let orderExpire = new Date(order?.expiredAt || "").getTime();
       let expireTime = (orderExpire - now) / 1000;
       if (expireTime <= 0) return onCancelOrder();
-
-      setExpTime(expireTime);
     }, [order])
   );
 
@@ -110,7 +106,7 @@ export const TransferScreen = ({ navigation }) => {
               </Button>
               <TimerInfo>
                 <Text variant="button">Tiempo para completar la operación:</Text>
-                <CountdownTimer onFinish={handleOrderTimeout} countDownId={countDownId} duration={expTime} />
+                <CountdownTimer timeLeft={timeLeft} onFinish={handleOrderTimeout} />
               </TimerInfo>
             </TransferWrapper>
           </KeyboardScrollAware>
@@ -120,7 +116,7 @@ export const TransferScreen = ({ navigation }) => {
             <Spacer variant="top" />
             <Text style={{ textAlign: "center" }}>Los 15 minutos para completar la operación han finalizado. Deberás crear una nueva operación para hacer tu cambio.</Text>
             <Spacer variant="top" size={2} />
-            <Button onPress={handleTimeoutCancel}>Aceptar</Button>
+            <Button onPress={onCancelOrder}>Aceptar</Button>
           </Modal>
         </>
       ) : null}
