@@ -136,7 +136,9 @@ function* cancelOrder({ orderType, orderId, screenType }) {
       yield call(removeData, "@selectedBank");
 
       if (screenType === "order") yield call([RootNavigation, "replace"], "MyOrders");
-      if (screenType === "exchange") yield call([RootNavigation, "replace"], "Calculator");
+      if (screenType === "exchange") {
+        yield call([RootNavigation, "replace"], "Calculator");
+      }
 
       yield call([Notifications, "cancelAllScheduledNotificationsAsync"]);
       yield put(actions.cancelOrderSuccess());
@@ -145,6 +147,8 @@ function* cancelOrder({ orderType, orderId, screenType }) {
     yield call([RootNavigation, "replace"], "Calculator");
 
     yield put(actions.exchangeError(error.message));
+  } finally {
+    if (screenType === "exchange") yield put(closeModal());
   }
 }
 

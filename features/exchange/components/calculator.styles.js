@@ -1,4 +1,3 @@
-import CountDown from "react-native-countdown-component";
 import InputCurrency from "react-native-currency-input";
 import { TextInput } from "react-native-paper";
 import styled from "styled-components/native";
@@ -118,7 +117,7 @@ export const TimerInfo = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-top: ${({ theme }) => theme.space[2]};
+  padding: ${({ theme }) => theme.space[2]};
   width: 100%;
 `;
 
@@ -128,8 +127,3 @@ export const TimerWrapper = styled.View`
   align-items: center;
   justify-content: center;
 `;
-
-export const Timer = styled(CountDown).attrs(({ theme }) => ({
-  digitStyle: { backgroundColor: "transparent", width: 26 },
-  digitTxtStyle: { color: theme.colors.text.body, fontFamily: theme.fonts.title, color: theme.colors.text.body, fontSize: 16 },
-}))``;

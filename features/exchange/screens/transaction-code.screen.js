@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { TimeBellIcon } from "../../../assets/icons/time-bell";
@@ -13,19 +13,28 @@ import { Modal } from "../../../components/UI/modal.component";
 import { KeyboardScrollAware } from "../../../components/utils/keyboard-scroll.component";
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
-import { clearExchangeError, closeModal, openModal, processCode } from "../../../store/actions";
+import { clearExchangeError, openModal, processCode } from "../../../store/actions";
 import { TimerInfo } from "../components/calculator.styles";
 import { StepsProgressWrapper } from "../components/exchange.styles";
 import { TransferCodeForm } from "../components/forms/transfer-code-form.component";
 import { ProgressIndicator } from "../components/progress-indicator.component";
 import { CountdownTimer } from "../components/timer.component";
 // STYLED COMPONENTS
+import { useCountdown } from "../../../hooks/use-countdown.hook";
 import { TransferWrapper } from "../components/transfer-code.styles";
 
 export const TransactionCodeScreen = ({ navigation }) => {
   const dispatch = useDispatch(),
-    [countdown, setCountdown] = useState(1),
     { order, isProcessing, isLoading, exchangeError } = useSelector((state) => state.exchangeReducer);
+
+  let orderExpire = new Date(order?.expiredAt || "").getTime();
+
+  const [timeLeft] = useCountdown(orderExpire);
+
+  // HANDLERS
+  const onCancelOrder = () => dispatch(cancelOrder("created", order.id, "exchange")),
+    handleOrderTimeout = () => dispatch(openModal()),
+    onSubmit = (values) => dispatch(processCode(values, order.id, "exchange"));
 
   // EFFECTS
   useFocusEffect(
@@ -36,19 +45,15 @@ export const TransactionCodeScreen = ({ navigation }) => {
     }, [order])
   );
 
-  // HANDLERS
-  const onCancelOrder = () => dispatch(cancelOrder("created", order.id, "exchange")),
-    handleOrderTimeout = () => dispatch(openModal()),
-    handleTimeoutCancel = () => {
-      onCancelOrder();
-      setCountdown(Math.random());
-      dispatch(closeModal());
-    },
-    onSubmit = (values) => dispatch(processCode(values, order.id, "exchange"));
+  useFocusEffect(
+    useCallback(() => {
+      let now = new Date().getTime();
 
-  let now = new Date().getTime(),
-    orderExpire = new Date(order?.expiredAt).getTime(),
-    expireTime = (orderExpire - now) / 1000;
+      let orderExpire = new Date(order?.expiredAt || "").getTime();
+      let expireTime = (orderExpire - now) / 1000;
+      if (expireTime <= 0) return onCancelOrder();
+    }, [order])
+  );
 
   return (
     <SafeArea>
@@ -67,7 +72,7 @@ export const TransactionCodeScreen = ({ navigation }) => {
               <TransferCodeForm isProcessing={isProcessing} direct={!!order?.bankFromClientActive} onCancel={() => navigation.goBack()} onSubmit={onSubmit} />
               <TimerInfo>
                 <Text variant="button">Tiempo para completar la operación:</Text>
-                <CountdownTimer countdown={countdown} onFinish={handleOrderTimeout} duration={expireTime} />
+                <CountdownTimer timeLeft={timeLeft} onFinish={handleOrderTimeout} />
               </TimerInfo>
             </TransferWrapper>
           </KeyboardScrollAware>
@@ -80,7 +85,7 @@ export const TransactionCodeScreen = ({ navigation }) => {
             <Spacer variant="top" />
             <Text style={{ textAlign: "center" }}>Los 15 minutos para completar la operación han finalizado. Deberás crear una nueva operación para hacer tu cambio.</Text>
             <Spacer variant="top" size={2} />
-            <Button onPress={handleTimeoutCancel}>Aceptar</Button>
+            <Button onPress={onCancelOrder}>Aceptar</Button>
           </Modal>
         </>
       ) : null}
