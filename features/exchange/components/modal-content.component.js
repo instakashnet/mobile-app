@@ -35,7 +35,8 @@ export const ModalContent = ({ modalType, navigate, onGetRates, onClose }) => {
         Estás ingresando fuera de nuestro horario laboral. Puedes registrar tus operaciones, pero tu cambio se efectuará dentro del siguiente horario:
       </Text>
       <Spacer variant="top" size={2} />
-      <Text variant="bold">Lunes a Sábado: 9AM a 7PM</Text>
+      <Text variant="bold">Lunes a Viernes: 9AM a 7PM</Text>
+      <Text variant="bold">Sábados: 9AM a 2PM</Text>
       <Text variant="bold">Domingos y Feriados: Cerrados</Text>
       <Spacer variant="top" size={2} />
       <Button onPress={onClose}>Aceptar</Button>
