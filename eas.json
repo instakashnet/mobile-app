@@ -4,38 +4,22 @@
   },
   "build": {
     "development": {
-      "releaseChannel": "dev",
+      "channel": "dev",
       "distribution": "internal",
       "developmentClient": true,
       "android": {
         "buildType": "apk"
       }
     },
-    "simulator-dev": {
-      "ios": {
-        "simulator": true
-      },
-      "android": {
-        "buildType": "apk"
-      },
-      "releaseChannel": "dev",
-      "distribution": "internal"
-    },
-    "simulator-prod": {
-      "ios": {
-        "simulator": true
-      },
-      "android": {
-        "buildType": "apk"
-      },
-      "releaseChannel": "prod",
-      "distribution": "internal"
-    },
     "testing": {
-      "releaseChannel": "staging"
+      "android": {
+        "buildType": "apk"
+      },
+      "channel": "testing",
+      "distribution": "internal"
     },
     "production": {
-      "releaseChannel": "prod"
+      "channel": "production"
     }
   },
   "submit": {

@@ -2,23 +2,20 @@ import * as Font from "expo-font";
 import * as Notifications from "expo-notifications";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import * as Updates from "expo-updates";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connectToDevTools } from "react-devtools-core";
-import { Linking, Platform } from "react-native";
 import "react-native-gesture-handler";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 // REDUX
 import { Provider } from "react-redux";
 import * as Sentry from "sentry-expo";
 import { ThemeProvider } from "styled-components/native";
-import { StoreModal } from "./components/modals/store-modal.component";
 // COMPONENTS
-import { UpdateModal } from "./components/modals/update-modal.component";
 import { Navigator } from "./navigation";
 import { injectStore } from "./services/interceptors";
+import { checkTrackingPermissions } from "./shared/helpers/permissions";
+import Updater from "./shared/updater.component";
 // PERMISSIONS
-import { checkAppUpdate, checkTrackingPermissions } from "./shared/helpers/permissions";
 import { store } from "./store";
 import { handleNotificationsInit } from "./store/actions";
 import { theme } from "./theme";
@@ -42,19 +39,10 @@ if (__DEV__) {
 }
 
 export default function App() {
-  const [otaModal, setOtaModal] = useState(false),
-    [isOtaUpdate, setIsOtaUpdate] = useState(false),
-    [isStoreUpdate, setIsStoreUpdate] = useState(false),
-    [appIsReady, setAppIsReady] = useState(false),
+  const [appIsReady, setAppIsReady] = useState(false),
     [notification, setNotification] = useState(null),
     notificationListener = useRef(null),
     responseListener = useRef(null);
-
-  // HANDLERS
-  const goToStore = useCallback(
-    () => Linking.openURL(Platform.OS === "android" ? "https://play.google.com/store/apps/details?id=net.instakash.app" : "https://apps.apple.com/pe/app/instakash/id1601561803"),
-    [Linking, Platform]
-  );
 
   // EFFECTS
   useEffect(() => {
@@ -70,13 +58,6 @@ export default function App() {
           "roboto-regular": require("./fonts/roboto/roboto-regular.ttf"),
         });
 
-        if (stage !== "dev") {
-          const { storeUpdate, otaUpdate } = await checkAppUpdate();
-
-          setIsStoreUpdate(storeUpdate);
-          setIsOtaUpdate(otaUpdate);
-        }
-
         setAppIsReady(true);
       } catch (e) {
         Sentry.Native.captureException(e);
@@ -86,27 +67,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const checkUpdates = async () => {
-      if (isOtaUpdate) {
-        setOtaModal(true);
-
-        try {
-          await Updates.fetchUpdateAsync();
-        } catch (error) {
-          throw error;
-        } finally {
-          await Updates.reloadAsync();
-        }
-      } else {
-        try {
-          await checkTrackingPermissions();
-        } catch (error) {
-          throw error;
-        }
+    const checkPermissions = async () => {
+      try {
+        await checkTrackingPermissions();
+      } catch (error) {
+        throw error;
       }
     };
 
-    if (appIsReady) checkUpdates();
+    if (appIsReady) checkPermissions();
   }, [appIsReady]);
 
   useEffect(() => {
@@ -127,8 +96,8 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
           <Navigator />
-          <UpdateModal isVisible={otaModal} />
-          <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} />
+          <Updater />
+          {/* <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} /> */}
         </PaperProvider>
       </ThemeProvider>
     </Provider>

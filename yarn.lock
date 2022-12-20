@@ -7160,6 +7160,13 @@ react-native-tab-view@^3.1.1:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.2.1.tgz#1da975203ef30996c412f9c2808bb81e12c3376f"
   integrity sha512-/3htrnDJ8hXXO6M5tDKgGPan5NhiVG4oN6SH8LgQtbAO2y+YI104sjlbPOxhLUBpbj43tOQerUtJF7ENcHEPaw==
 
+react-native-use-timestamp@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-use-timestamp/-/react-native-use-timestamp-2.0.0.tgz#8fa8bd6fe81cb4a4e614961a59464cb9e17f4a40"
+  integrity sha512-cpeZEcpKtNo9viGi6U1cLvzCVt0mfLVEscCpIv0iUbYw/zfBy81U8eANROPoAsfkHqXetX4GAAqrr/n3isuakg==
+  dependencies:
+    use-timestamp "^1.0.0"
+
 react-native-web@0.17.7:
   version "0.17.7"
   resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.17.7.tgz#038899dbc94467a0ca0be214b88a30e0c117b176"
@@ -8521,6 +8528,11 @@ use-latest-callback@^0.1.5:
   integrity sha512-Xv2a1P/yReAjAbhylMfFplFKj9GssgTwN7RlcTxBujFQcloStWNDQdc4g4NRWH9xS4i/FDk04vQBptAXoF3VcA==
   dependencies:
     object-assign "^4.1.1"
+
+use-timestamp@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-timestamp/-/use-timestamp-1.0.0.tgz#7cbc6c29f9bc49f36f948150c41143491474f8df"
+  integrity sha512-6Qr29TPdsOWYiMaPPnslsV8TFG/E8rAWAz0R0JJB7GM9ULaePqQZ+vAphnHFKI74a53NDyaCnGPhiH0V7Z9bCg==
 
 use@^3.1.0:
   version "3.1.1"
