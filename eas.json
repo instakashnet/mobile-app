@@ -6,15 +6,9 @@
     "development": {
       "channel": "dev",
       "distribution": "internal",
-      "developmentClient": true,
-      "android": {
-        "buildType": "apk"
-      }
+      "developmentClient": true
     },
     "testing": {
-      "android": {
-        "buildType": "apk"
-      },
       "channel": "testing",
       "distribution": "internal"
     },
