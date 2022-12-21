@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useInaccurateTimestamp } from "react-native-use-timestamp";
+import { StoreModal } from "../components/modals/store-modal.component";
 import { UpdateModal } from "../components/modals/update-modal.component";
 import { checkForUpdates } from "./helpers/check-updates";
 
@@ -10,6 +11,7 @@ export default function Updater() {
   const now = useInaccurateTimestamp({ every: INTERVAL_RENDER });
   const isMounted = useRef(true);
   const [updateIsAvailable, setUpdateAvailable] = useState(false);
+  const [updateType, setUpdateType] = useState(null);
 
   const lastUpdate = useRef(0);
 
@@ -28,8 +30,11 @@ export default function Updater() {
     lastUpdate.current = now;
 
     checkForUpdates()
-      .then(() => {
-        isMounted.current && setUpdateAvailable(true);
+      .then((type) => {
+        if (isMounted.current) {
+          setUpdateAvailable(true);
+          setUpdateType(type);
+        }
       })
       .catch((_reason) => {
         /* you can inspect _reason */
@@ -37,5 +42,5 @@ export default function Updater() {
       });
   }, [now]);
 
-  return <UpdateModal isVisible={updateIsAvailable} />;
+  return updateType === "version" ? <StoreModal isVisible={updateIsAvailable} /> : updateType === "update" ? <UpdateModal isVisible={updateIsAvailable} /> : null;
 }

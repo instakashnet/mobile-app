@@ -10,7 +10,7 @@
     "name": "Instakash",
     "slug": "instakash-app",
     "runtimeVersion": {
-      "policy": "nativeVersion"
+      "policy": "appVersion"
     },
     "version": "1.0.0",
     "platforms": ["ios", "android"],
@@ -47,7 +47,7 @@
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
       "userInterfaceStyle": "light",
-      "buildNumber": "1",
+
       "infoPlist": {
         "NSCameraUsageDescription": "Necesitamos acceso a la camara de tu dispositivo únicamente para poder tomar las fotos correspondientes a tu documento de identidad.",
         "NSFaceIDUsageDescription": "Solicitamos tus datos biometricos para ofrecerte un incio de sesión de forma ràpida.",
@@ -67,7 +67,7 @@
     "android": {
       "package": "net.instakash.app",
       "userInterfaceStyle": "light",
-      "versionCode": 1,
+
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#20A2A5"
