@@ -30,7 +30,7 @@ export default function Updater() {
     lastUpdate.current = now;
 
     checkForUpdates()
-      .then((type) => {
+      .then((type) => {            
         if (isMounted.current) {
           setUpdateAvailable(true);
           setUpdateType(type);

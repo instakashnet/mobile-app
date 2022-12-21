@@ -17,7 +17,7 @@ export const AuthScreen = ({ navigation }) => {
     index: 0,
     items: [
       {
-        title: "Ahorra cambiando tus divisas",
+        title: "Ahorra cambiando tus dólares y soles",
         image: require("../../../assets/illustrations/platform/dollars-phone.png"),
         component: <Text>Por cada cambio que realices estarás ahorrando. Descubre todo lo haz ahorrado en tu tabla de actividades.</Text>,
       },

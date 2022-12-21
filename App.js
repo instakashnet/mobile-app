@@ -38,6 +38,9 @@ if (__DEV__) {
   });
 }
 
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false),
     [notification, setNotification] = useState(null),
@@ -48,8 +51,6 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        // Keep the splash screen visible while we fetch resources
-        await SplashScreen.preventAutoHideAsync();
         // Pre-load fonts, make any API calls you need to do here
         await Font.loadAsync({
           "lato-regular": require("./fonts/lato/lato-regular.ttf"),
@@ -57,11 +58,11 @@ export default function App() {
           "lato-black": require("./fonts/lato/lato-black.ttf"),
           "roboto-regular": require("./fonts/roboto/roboto-regular.ttf"),
         });
-
-        setAppIsReady(true);
       } catch (e) {
         Sentry.Native.captureException(e);
-        console.error(e);
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
       }
     })();
   }, []);

@@ -7,6 +7,11 @@
     "development": {
       "channel": "dev",
       "distribution": "internal",
+      "developmentClient": true
+    },
+    "development-simulator": {
+      "channel": "dev",
+      "distribution": "internal",
       "developmentClient": true,
       "ios": {
         "simulator": true
@@ -15,6 +20,12 @@
     "testing": {
       "channel": "testing",
       "distribution": "internal"
+    },
+    "testing-prod": {
+      "channel": "production",
+      "android": {
+        "buildType": "apk"
+      }
     },
     "production": {
       "channel": "production",
@@ -25,7 +36,7 @@
     "production": {
       "android": {
         "serviceAccountKeyPath": "keys/android/pc-api-9072173090455432304-835-aec2f96507ad.json",
-        "track": "internal",
+        "track": "alpha",
         "releaseStatus": "draft"
       },
       "ios": {
