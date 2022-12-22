@@ -1,35 +1,22 @@
 import { AWS_ACCESS_KEY, AWS_SECRET_KEY, FB_APP_ID, GOOGLE_PLACES_API } from "@env";
 import * as Updates from "expo-updates";
 
-const ENV = {
-  dev: {
-    apiUrl: "https://api.dev.instakash.net",
-    googlePlacesKey: GOOGLE_PLACES_API,
-    awsAccessKey: AWS_ACCESS_KEY,
-    awsSecretKey: AWS_SECRET_KEY,
-    websocketUrl: "wss://ws.dev.instakash.net",
-    bucketName: "instakash-docs-dev",
-    fbAppId: FB_APP_ID,
-    stage: "dev",
-  },
-  prod: {
-    apiUrl: "https://api.instakash.net",
-    googlePlacesKey: GOOGLE_PLACES_API,
-    awsAccessKey: AWS_ACCESS_KEY,
-    awsSecretKey: AWS_SECRET_KEY,
-    websocketUrl: "wss://ws.instakash.net",
-    bucketName: "instakash-docs",
-    fbAppId: FB_APP_ID,
-    stage: "prod",
-  },
+let ENV = {
+  stage: "dev",
+  apiUrl: "https://api.dev.instakash.net",
+  websocketUrl: "wss://ws.dev.instakash.net",
+  bucketName: "instakash-docs-dev",
+  googlePlacesKey: GOOGLE_PLACES_API,
+  awsAccessKey: AWS_ACCESS_KEY,
+  awsSecretKey: AWS_SECRET_KEY,
+  fbAppId: FB_APP_ID,
 };
 
-export const getVariables = () => {
-  if (Updates.channel.startsWith("production")) {
-    // matches prod-v1, prod-v2, prod-v3
-    return ENV.prod;
-  } else {
-    // assume any other release channel is development
-    return ENV.dev;
-  }
-};
+if (Updates.channel === "production") {
+  ENV.stage = "prod";
+  ENV.apiUrl = "https://api.instakash.net";
+  ENV.websocketUrl = "wss://ws.instakash.net";
+  ENV.bucketName = "instakash-docs";
+}
+
+export default ENV;

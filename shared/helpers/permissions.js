@@ -4,12 +4,10 @@ import * as Facebook from "expo-facebook";
 import * as Notifications from "expo-notifications";
 import { getTrackingPermissionsAsync, requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import * as Updates from "expo-updates";
-import { getVariables } from "../../variables";
-
-const { fbAppId } = getVariables();
+import ENV from "../../variables";
 
 const fbAppOptions = {
-  appId: fbAppId,
+  appId: ENV.fbAppId,
   appName: "kash-app",
   autoLogAppEvents: true,
 };

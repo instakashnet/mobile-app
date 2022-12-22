@@ -5,25 +5,23 @@ import { useFormik } from "formik";
 import { editAdditionalsSchema } from "../../validations/schemas";
 
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
-import { updateProfile, clearProfileError } from "../../../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { clearProfileError, updateProfile } from "../../../../store/actions";
 
 // COMPONENTS
-import { SafeArea } from "../../../../components/utils/safe-area.component";
-import { KeyboardView } from "../../../../components/utils/keyboard-view.component";
-import { DismissKeyboard } from "../../../../components/utils/dismiss-keyobard.component";
-import { Text } from "../../../../components/typography/text.component";
 import { DateInput } from "../../../../components/forms/date-input.component";
 import { Input } from "../../../../components/forms/input.component";
-import { Button } from "../../../../components/UI/button.component";
+import { Text } from "../../../../components/typography/text.component";
 import { Alert } from "../../../../components/UI/alert.component";
+import { Button } from "../../../../components/UI/button.component";
+import { DismissKeyboard } from "../../../../components/utils/dismiss-keyobard.component";
+import { KeyboardView } from "../../../../components/utils/keyboard-view.component";
+import { SafeArea } from "../../../../components/utils/safe-area.component";
 
 // STYLED COMPONENTS
-import { FormWrapper, HeaderProfile, GooglePlacesInput, ProfileInfoWrapper } from "../../components/profile.styles";
+import { FormWrapper, GooglePlacesInput, HeaderProfile, ProfileInfoWrapper } from "../../components/profile.styles";
 
 // VARIABLES
-import { getVariables } from "../../../../variables";
-const { googlePlacesKey } = getVariables();
 
 export const EditAdditionalScreen = ({ route }) => {
   const dispatch = useDispatch(),
@@ -77,7 +75,7 @@ export const EditAdditionalScreen = ({ route }) => {
                 debounce={500}
                 nearbyPlacesAPI="GooglePlacesSearch"
                 placeholder="Dirección corta"
-                query={{ key: googlePlacesKey, language: "es" }}
+                query={{ key: ENV.googlePlacesKey, language: "es" }}
                 enablePoweredByContainer={false}
                 onFail={(error) => console.log(error)}
                 onPress={(data) => formik.setFieldValue("address", data.description)}

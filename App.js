@@ -19,10 +19,9 @@ import Updater from "./shared/updater.component";
 import { store } from "./store";
 import { handleNotificationsInit } from "./store/actions";
 import { theme } from "./theme";
-import { getVariables } from "./variables";
+import ENV from "./variables";
 
 injectStore(store);
-const { stage } = getVariables();
 
 if (__DEV__) {
   connectToDevTools({
@@ -33,7 +32,7 @@ if (__DEV__) {
   Sentry.init({
     dsn: "https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263",
     enableInExpoDevelopment: false,
-    debug: stage !== "prod",
+    debug: ENV.stage !== "prod",
     enableOutOfMemoryTracking: false,
   });
 }

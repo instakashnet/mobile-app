@@ -2,16 +2,15 @@ import * as SecureStore from "expo-secure-store";
 import { END, eventChannel } from "redux-saga";
 import { call, cancel, cancelled, fork, put, select, take, takeEvery } from "redux-saga/effects";
 import { loadUserSuccess } from "../../store/actions";
-import { getVariables } from "../../variables";
+import ENV from "../../variables";
 import { WEBSOCKET } from "./types";
 
-const { websocketUrl } = getVariables();
 let ws;
 
 const createChannel = (token, service) =>
   eventChannel((emit) => {
     const connectToWs = () => {
-      ws = new WebSocket(`${websocketUrl}/ws?token=${token}&service=${service}`);
+      ws = new WebSocket(`${ENV.websocketUrl}/ws?token=${token}&service=${service}`);
 
       ws.onopen = () => {
         console.log("Connection opened.");

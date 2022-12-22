@@ -4,23 +4,21 @@ import { RNS3 } from "react-native-aws3";
 import { all, call, delay, fork, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import * as RootNavigation from "../../navigation/root.navigation";
 import { replaceSpace } from "../../shared/helpers/functions";
-import { getVariables } from "../../variables";
+import ENV from "../../variables";
 import { authInstance } from "../auth.service";
 import { loadUserSuccess } from "../auth/actions";
 import * as actions from "./actions";
 import * as types from "./types";
-
-const { awsAccessKey, awsSecretKey, bucketName } = getVariables();
 
 // UTILS
 const uploadToS3 = async (imageObj, uploadType) => {
   try {
     const res = await RNS3.put(imageObj, {
       keyPrefix: `${uploadType}/${format(new Date(), "yyyyMM/dd")}/`,
-      bucket: bucketName,
+      bucket: ENV.bucketName,
       region: "us-east-2",
-      accessKey: awsAccessKey,
-      secretKey: awsSecretKey,
+      accessKey: ENV.awsAccessKey,
+      secretKey: ENV.awsSecretKey,
       successActionStatus: 201,
       acl: "public-read",
     });
