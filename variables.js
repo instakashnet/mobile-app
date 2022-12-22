@@ -25,7 +25,7 @@ const ENV = {
 };
 
 export const getVariables = () => {
-  if (Updates.releaseChannel.startsWith("prod")) {
+  if (Updates.channel.startsWith("production")) {
     // matches prod-v1, prod-v2, prod-v3
     return ENV.prod;
   } else {
