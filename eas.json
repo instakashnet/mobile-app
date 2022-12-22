@@ -1,48 +1,42 @@
 {
   "cli": {
-    "version": ">= 0.38.3"
+    "version": ">= 0.38.3",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
-      "releaseChannel": "dev",
+      "channel": "dev",
+      "distribution": "internal",
+      "developmentClient": true
+    },
+    "development-simulator": {
+      "channel": "dev",
       "distribution": "internal",
       "developmentClient": true,
+      "ios": {
+        "simulator": true
+      }
+    },
+    "testing": {
+      "channel": "testing",
+      "distribution": "internal"
+    },
+    "testing-prod": {
+      "channel": "production",
       "android": {
         "buildType": "apk"
       }
     },
-    "simulator-dev": {
-      "ios": {
-        "simulator": true
-      },
-      "android": {
-        "buildType": "apk"
-      },
-      "releaseChannel": "dev",
-      "distribution": "internal"
-    },
-    "simulator-prod": {
-      "ios": {
-        "simulator": true
-      },
-      "android": {
-        "buildType": "apk"
-      },
-      "releaseChannel": "prod",
-      "distribution": "internal"
-    },
-    "testing": {
-      "releaseChannel": "staging"
-    },
     "production": {
-      "releaseChannel": "prod"
+      "channel": "production",
+      "autoIncrement": true
     }
   },
   "submit": {
     "production": {
       "android": {
         "serviceAccountKeyPath": "keys/android/pc-api-9072173090455432304-835-aec2f96507ad.json",
-        "track": "internal",
+        "track": "alpha",
         "releaseStatus": "draft"
       },
       "ios": {

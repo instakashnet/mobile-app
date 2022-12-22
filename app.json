@@ -1,5 +1,7 @@
 {
   "expo": {
+    "owner": "instakash",
+    "originalFullName": "@rogerrc12/instakash",
     "scheme": "instakash",
     "facebookScheme": "fb285266469843350",
     "facebookAppId": "285266469843350",
@@ -8,7 +10,10 @@
     "facebookAdvertiserIDCollectionEnabled": true,
     "name": "Instakash",
     "slug": "instakash-app",
-    "version": "0.2.6",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "version": "1.0.0",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -33,7 +38,9 @@
     "plugins": ["sentry-expo", "expo-notifications", "expo-facebook", "expo-community-flipper"],
     "updates": {
       "enabled": true,
-      "checkAutomatically": "ON_ERROR_RECOVERY"
+      "fallbackToCacheTimeout": 15000,
+      "checkAutomatically": "ON_ERROR_RECOVERY",
+      "url": "https://u.expo.dev/d79c74ef-7ba4-44fa-b647-92650d67b200"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -41,7 +48,6 @@
       "associatedDomains": ["applinks:app.instakash.net"],
       "bundleIdentifier": "instakash.app",
       "userInterfaceStyle": "light",
-      "buildNumber": "0.1.6",
       "infoPlist": {
         "NSCameraUsageDescription": "Necesitamos acceso a la camara de tu dispositivo únicamente para poder tomar las fotos correspondientes a tu documento de identidad.",
         "NSFaceIDUsageDescription": "Solicitamos tus datos biometricos para ofrecerte un incio de sesión de forma ràpida.",
@@ -61,7 +67,6 @@
     "android": {
       "package": "net.instakash.app",
       "userInterfaceStyle": "light",
-      "versionCode": 42,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#20A2A5"

@@ -1,28 +1,37 @@
+import React, { useCallback } from "react";
 import { Modal } from "react-native-paper";
-import React from "react";
 import styled from "styled-components/native";
 
 // COMPONENTS
+import { Linking, Platform } from "react-native";
+// import { useDispatch } from "react-redux";
+// import { closeModal } from "../../store/actions";
+// import { Link } from "../typography/link.component";
 import { Text } from "../typography/text.component";
-import { Spacer } from "../utils/spacer.component";
 import { Button } from "../UI/button.component";
-import { Link } from "../typography/link.component";
+import { Spacer } from "../utils/spacer.component";
 
-export const StoreModal = ({ isVisible, onUpdate, closeModal }) => {
+export const StoreModal = ({ isVisible }) => {
+  // const dispatch = useDispatch();
+  const goToStore = useCallback(
+    () => Linking.openURL(Platform.OS === "android" ? "https://play.google.com/store/apps/details?id=net.instakash.app" : "https://apps.apple.com/pe/app/instakash/id1601561803"),
+    [Linking, Platform]
+  );
+
   return (
     <StyledModal dismissable={false} visible={isVisible}>
       <Spacer variant="top" size={2} />
-      <Text variant="title">Nueva versión</Text>
+      <Text variant="title">Nueva versión disponible</Text>
       <Spacer variant="top" />
       <Text style={{ textAlign: "center" }}>Hay una nueva versión disponible. Descargala para que puedas disfrutar de todas nuestras actualizaciones y mejoras.</Text>
       <Spacer variant="top" size={2} />
-      <Button onPress={onUpdate}>Actualizar</Button>
+      <Button onPress={goToStore}>Ir a la store</Button>
       <Spacer variant="top" />
-      <Link onPress={closeModal}>
+      {/* <Link onPress={() => dispatch(closeModal())}>
         <Text variant="bold" style={{ fontSize: 14 }}>
           Más tarde
         </Text>
-      </Link>
+      </Link> */}
     </StyledModal>
   );
 };
