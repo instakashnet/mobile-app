@@ -1,6 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
 import * as AppleAuthentication from "expo-apple-authentication";
-import { authenticateAsync } from "expo-local-authentication";
 import React, { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 // REDUX
@@ -16,9 +15,7 @@ import { KeyboardView } from "../../../components/utils/keyboard-view.component"
 import { SafeArea } from "../../../components/utils/safe-area.component";
 import { Spacer } from "../../../components/utils/spacer.component";
 import { useBiometrics } from "../../../hooks/use-biometrics.hook";
-import { getFromStore } from "../../../shared/helpers/async-store";
-import { getFromSecureStore } from "../../../shared/helpers/secure-store";
-import { clearAuthError, loginApple, loginBiometrics, loginGoogle, loginUser } from "../../../store/actions";
+import { clearAuthError, loginApple, loginGoogle, loginUser } from "../../../store/actions";
 import { AppleButton } from "../components/apple-button.component";
 // STYLED COMPONENTS
 import { AuthLine, AuthLinkWrapper, AuthScroll } from "../components/auth.styles";
@@ -35,27 +32,27 @@ export const LoginScreen = ({ navigation }) => {
     }, [dispatch])
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      (async () => {
-        const granted = await getFromStore("biometricsGranted");
+  // useEffect(() => {
+  //   const biometricsLogin = async () => {
+  //     const granted = await getFromStore("biometricsGranted");
 
-        if (isBiometricsSupported && granted) {
-          const user = await getFromSecureStore("biometricsValues");
+  //     if (isBiometricsSupported && granted) {
+  //       const user = await getFromSecureStore("biometricsValues");
 
-          if (user) {
-            const biometrics = await authenticateAsync({
-              promptMessage: "Inicio rápido de sesión",
-              cancelLabel: "Cancelar",
-              fallbackLabel: "Usar código",
-            });
+  //       if (user) {
+  //         const biometrics = await authenticateAsync({
+  //           promptMessage: "Inicio rápido de sesión",
+  //           cancelLabel: "Cancelar",
+  //           fallbackLabel: "Usar código",
+  //         });
 
-            if (biometrics.success) dispatch(loginBiometrics(user.email));
-          }
-        }
-      })();
-    }, [isBiometricsSupported, dispatch])
-  );
+  //         if (biometrics.success) dispatch(loginBiometrics(user.email));
+  //       }
+  //     }
+  //   };
+
+  //   biometricsLogin();
+  // }, [isBiometricsSupported, dispatch]);
 
   // HANDLERS
   const onSubmit = (values) => dispatch(loginUser(values)),

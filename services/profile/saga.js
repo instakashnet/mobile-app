@@ -16,12 +16,14 @@ const uploadToS3 = async (imageObj, uploadType) => {
     const res = await RNS3.put(imageObj, {
       keyPrefix: `${uploadType}/${format(new Date(), "yyyyMM/dd")}/`,
       bucket: ENV.bucketName,
-      region: "us-east-2",
+      region: "us-east-1",
       accessKey: ENV.awsAccessKey,
       secretKey: ENV.awsSecretKey,
       successActionStatus: 201,
       acl: "public-read",
     });
+
+    console.log(res);
 
     return res;
   } catch (error) {
@@ -134,6 +136,8 @@ function* uploadDocument({ values, uploadType }) {
       const res = yield call(uploadToS3, imageObj, user.documentType.toLowerCase());
       uploaded = res.status === 201;
     }
+
+    console.log({ uploaded });
 
     if (uploaded) {
       yield delay(4000);
