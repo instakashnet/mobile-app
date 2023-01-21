@@ -1,4 +1,3 @@
-import { AWS_ACCESS_KEY, AWS_SECRET_KEY, FB_APP_ID, GOOGLE_PLACES_API } from "@env";
 import * as Updates from "expo-updates";
 
 let ENV = {
@@ -6,10 +5,10 @@ let ENV = {
   apiUrl: "https://api.dev.instakash.net",
   websocketUrl: "wss://ws.dev.instakash.net",
   bucketName: "instakash-docs-dev-us-east-1",
-  googlePlacesKey: GOOGLE_PLACES_API,
-  awsAccessKey: AWS_ACCESS_KEY,
-  awsSecretKey: AWS_SECRET_KEY,
-  fbAppId: FB_APP_ID,
+  googlePlacesKey: "AIzaSyC_fg3cQN2wcXRAdoUVup0X3JXSw4lOdGc",
+  awsAccessKey: "AKIASK3IUQPBETGMFCF7",
+  awsSecretKey: "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",
+  fbAppId: "285266469843350",
 };
 
 if (Updates.channel === "production") {

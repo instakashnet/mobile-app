@@ -19,7 +19,7 @@ import { KeyboardView } from "../../../../components/utils/keyboard-view.compone
 import { SafeArea } from "../../../../components/utils/safe-area.component";
 
 // STYLED COMPONENTS
-import { FormWrapper, GooglePlacesInput, HeaderProfile, ProfileInfoWrapper } from "../../components/profile.styles";
+import { FormWrapper, HeaderProfile, ProfileInfoWrapper } from "../../components/profile.styles";
 
 // VARIABLES
 
@@ -71,21 +71,14 @@ export const EditAdditionalScreen = ({ route }) => {
                 maximumDate={new Date()}
                 onChange={onDateChange}
               />
-              <GooglePlacesInput
-                debounce={500}
-                nearbyPlacesAPI="GooglePlacesSearch"
-                placeholder="Dirección corta"
-                query={{ key: ENV.googlePlacesKey, language: "es" }}
-                enablePoweredByContainer={false}
-                onFail={(error) => console.log(error)}
-                onPress={(data) => formik.setFieldValue("address", data.description)}
-                renderRightButton={() => null}
-                textInputProps={{
-                  value: formik.values.address,
-                  onChangeText: (value) => addressMounted && formik.setFieldValue("address", value),
-                  placeholderTextColor: "#676767",
-                  allowFontScaling: false,
-                }}
+
+              <Input
+                name="address"
+                error={formik.touched.address && formik.errors.address}
+                value={formik.values.address}
+                label="Dirección de residencia"
+                onChange={formik.handleChange("address")}
+                onBlur={formik.handleBlur("address")}
               />
               <Input
                 name="job"
