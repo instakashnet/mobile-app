@@ -1,9 +1,10 @@
-import * as types from "./types";
+import * as types from './types';
 
 const initialState = {
   isProcessing: false,
   isLoading: false,
   user: {},
+  token: null,
   isSignedIn: false,
   isSignOut: false,
   authError: null,
@@ -36,9 +37,16 @@ export const authReducer = (state = initialState, action = {}) => {
     case types.LOGIN_SUCCESS:
       return { ...state, isProcessing: false, isSignedIn: true };
     case types.LOAD_USER_INIT:
+    case types.LOAD_SESSION.INIT:
       return { ...state, isLoading: true };
+    case types.LOAD_SESSION.SUCCESS:
+      return { ...state, isLoading: false, isProcessing: false, token: action.token };
     case types.LOAD_USER_SUCCESS:
       return { ...state, user: action.user, isLoading: false, isProcessing: false };
+
+    case types.SET_AUTH_TOKEN:
+      return { ...state, token: action.token };
+
     case types.GET_AFFILIATES_INIT:
       return { ...state, affiliates: [] };
     case types.GET_AFFILIATES_SUCCESS:

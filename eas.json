@@ -13,16 +13,16 @@
       "channel": "dev",
       "distribution": "internal",
       "developmentClient": true,
+      "android": {
+        "buildType": "apk"
+      },
       "ios": {
         "simulator": true
       }
     },
     "testing": {
       "channel": "testing",
-      "distribution": "internal"
-    },
-    "testing-prod": {
-      "channel": "production",
+      "distribution": "internal",
       "android": {
         "buildType": "apk"
       }
@@ -35,7 +35,7 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "keys/android/pc-api-9072173090455432304-835-aec2f96507ad.json",
+        "serviceAccountKeyPath": "keys/android/pc-api-9072173090455432304-835-8c4a1bfabb2d.json",
         "track": "alpha",
         "releaseStatus": "draft"
       },

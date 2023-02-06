@@ -1,35 +1,12 @@
-import camelize from "camelize";
-import { format } from "date-fns";
-import { RNS3 } from "react-native-aws3";
-import { all, call, delay, fork, put, select, takeEvery, takeLatest } from "redux-saga/effects";
-import * as RootNavigation from "../../navigation/root.navigation";
-import { replaceSpace } from "../../shared/helpers/functions";
-import ENV from "../../variables";
-import { authInstance } from "../auth.service";
-import { loadUserSuccess } from "../auth/actions";
-import * as actions from "./actions";
-import * as types from "./types";
-
-// UTILS
-const uploadToS3 = async (imageObj, uploadType) => {
-  try {
-    const res = await RNS3.put(imageObj, {
-      keyPrefix: `${uploadType}/${format(new Date(), "yyyyMM/dd")}/`,
-      bucket: ENV.bucketName,
-      region: "us-east-1",
-      accessKey: ENV.awsAccessKey,
-      secretKey: ENV.awsSecretKey,
-      successActionStatus: 201,
-      acl: "public-read",
-    });
-
-    console.log(res);
-
-    return res;
-  } catch (error) {
-    throw error;
-  }
-};
+import camelize from 'camelize';
+import { all, call, fork, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import * as RootNavigation from '../../navigation/root.navigation';
+import { getBlob } from '../../shared/helpers/functions';
+import { authInstance } from '../auth.service';
+import { loadUserSuccess } from '../auth/actions';
+import { baseInstance } from '../base.service';
+import * as actions from './actions';
+import * as types from './types';
 
 // SAGAS
 function* watchGetProfiles() {
@@ -38,7 +15,7 @@ function* watchGetProfiles() {
 
 function* getProfiles() {
   try {
-    const res = yield authInstance.get("/users/profiles");
+    const res = yield authInstance.get('/users/profiles');
     if (res.status === 200) yield put(actions.getProfilesSuccess(res.data.profiles));
   } catch (error) {
     yield put(actions.profileError(error.message));
@@ -51,7 +28,7 @@ function* watchGetUserData() {
 
 function* getUserData() {
   try {
-    const res = yield authInstance.get("/users/session");
+    const res = yield authInstance.get('/users/user-data');
     const user = camelize(res.data.user);
     yield put(loadUserSuccess(user));
     yield put(actions.getUserDataSuccess());
@@ -67,10 +44,29 @@ function* watchAddProfiles() {
 
 function* addProfile({ values }) {
   try {
-    const res = yield authInstance.post("/users/profiles", values);
+    const res = yield authInstance.post('/users/profiles', values);
     if (res.status === 200) {
       yield put(actions.addProfileSuccess());
-      yield call([RootNavigation, "popToTop"]);
+      yield call([RootNavigation, 'popToTop']);
+    }
+  } catch (error) {
+    yield put(actions.profileError(error.message));
+  }
+}
+
+function* watchAddAddress() {
+  yield takeLatest(types.ADD_ADDRESS.INIT, addAddress);
+}
+
+function* addAddress({ values }) {
+  try {
+    const res = yield authInstance.put('/users/profiles-address', values);
+
+    if (res.status === 200) {
+      yield getUserData();
+
+      yield call([RootNavigation, 'navigate'], 'AddInfo');
+      yield put(actions.addAddressSuccess());
     }
   } catch (error) {
     yield put(actions.profileError(error.message));
@@ -83,11 +79,11 @@ function* watchUpdateprofile() {
 
 function* updateProfile({ values }) {
   try {
-    const res = yield authInstance.put("/users/profiles", values);
+    const res = yield authInstance.put('/users/profiles', values);
     if (res.status === 200) {
       yield getUserData();
 
-      yield call([RootNavigation, "goBack"]);
+      yield call([RootNavigation, 'navigate'], 'ValidateDocument');
       yield put(actions.updateProfileSuccess());
     }
   } catch (error) {
@@ -101,11 +97,11 @@ function* watchUpdateUsername() {
 
 function* updateUsername({ values }) {
   try {
-    const res = yield authInstance.put("/users/username", { username: values?.username.toUpperCase() });
+    const res = yield authInstance.put('/users/username', { username: values?.username.toUpperCase() });
     if (res.status === 200) {
       yield getUserData();
 
-      yield call([RootNavigation, "goBack"]);
+      yield call([RootNavigation, 'goBack']);
       yield put(actions.updateUsernameSuccess());
     }
   } catch (error) {
@@ -118,33 +114,42 @@ function* watchUploadDocument() {
 }
 
 function* uploadDocument({ values, uploadType }) {
-  let uploaded;
+  const frontBlob = yield getBlob(values.frontPhoto);
+  const backBlob = values.backPhoto ? yield getBlob(values.backPhoto) : null;
 
   try {
-    const resToken = yield authInstance.get("/users/generate-token"),
-      user = yield select((state) => state.authReducer.user),
-      photos = uploadType === "dni" ? [values.frontPhoto, values.backPhoto] : [values.frontPhoto];
+    const resToken = yield authInstance.get('/users/generate-token'),
+      urls = yield baseInstance.get('/documents-service/v1/presigned-url/uploads', {
+        headers: {
+          'photo-token': resToken.data.accessToken,
+        },
+      });
 
-    for (let i = 0; i < photos.length; i++) {
-      const docSide = uploadType === "passport" ? "front" : i > 0 ? "back" : "front",
-        imageObj = {
-          uri: photos[i],
-          name: `${user.documentType?.toUpperCase()}-${user.documentIdentification}-${replaceSpace(user.name.toUpperCase())}-${docSide}-&Token&${resToken.data.accessToken}.jpg`,
-          type: "image/jpeg",
-        };
-
-      const res = yield call(uploadToS3, imageObj, user.documentType.toLowerCase());
-      uploaded = res.status === 201;
+    if (uploadType === 'pasaporte') {
+      yield fetch(urls.data.presignedFrontUrl, {
+        method: 'PUT',
+        body: frontBlob,
+        'Content-Type': 'image/jpeg',
+      });
+    } else {
+      yield Promise.all([
+        fetch(urls.data.presignedFrontUrl, {
+          method: 'PUT',
+          body: frontBlob,
+          'Content-Type': 'image/jpeg',
+        }),
+        fetch(urls.data.presignedBackUrl, {
+          method: 'PUT',
+          body: backBlob,
+          'Content-Type': 'image/jpeg',
+        }),
+      ]);
     }
 
-    console.log({ uploaded });
-
-    if (uploaded) {
-      yield delay(4000);
-      yield put(actions.uploadDocumentSuccess());
-      yield call([RootNavigation, "navigate"], "DocumentUploaded");
-    } else throw error;
+    yield call([RootNavigation, 'navigate'], 'DocumentUploaded');
+    yield put(actions.uploadDocumentSuccess());
   } catch (error) {
+    console.log(error);
     yield put(actions.profileError(error.message));
   }
 }
@@ -155,11 +160,11 @@ function* watchChangePhone() {
 
 function* changePhone({ values }) {
   try {
-    const res = yield authInstance.put("/users/change-phone", values);
+    const res = yield authInstance.put('/users/change-phone', values);
     if (res.status === 200) {
       yield getUserData();
 
-      yield call([RootNavigation, "goBack"]);
+      yield call([RootNavigation, 'goBack']);
       yield put(actions.changePhoneSuccess());
     }
   } catch (error) {
@@ -173,11 +178,11 @@ function* watchChangeEmail() {
 
 function* changeEmail({ values }) {
   try {
-    const res = yield authInstance.put("/users/change-email", values);
+    const res = yield authInstance.put('/users/change-email', values);
     if (res.status === 200) {
       yield getUserData();
 
-      yield call([RootNavigation, "goBack"]);
+      yield call([RootNavigation, 'goBack']);
       yield put(actions.changeEmailSuccess());
     }
   } catch (error) {
@@ -195,7 +200,7 @@ function* selectProfile({ profile }) {
 
   const profileData = { ...camelProfile, ...user };
   yield put(actions.selectProfileSuccess(profileData));
-  yield call([RootNavigation, "navigate"], "Calculator");
+  yield call([RootNavigation, 'navigate'], 'Calculator');
 }
 
 export function* profileSaga() {
@@ -209,5 +214,6 @@ export function* profileSaga() {
     fork(watchUpdateprofile),
     fork(watchUploadDocument),
     fork(watchUpdateUsername),
+    fork(watchAddAddress),
   ]);
 }

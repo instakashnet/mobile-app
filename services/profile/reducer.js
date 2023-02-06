@@ -1,4 +1,4 @@
-import * as types from "./types";
+import * as types from './types';
 
 const initialState = {
   profiles: [],
@@ -25,6 +25,7 @@ export const profileReducer = (state = initialState, action = {}) => {
     case types.UPDATE_USERNAME_INIT:
     case types.CHANGE_PHONE_INIT:
     case types.CHANGE_EMAIL_INIT:
+    case types.ADD_ADDRESS.INIT:
       return { ...state, isProcessing: true, profileError: null };
     case types.ADD_PROFILE_SUCCESS:
     case types.UPDATE_PROFILE_SUCCESS:
@@ -32,6 +33,7 @@ export const profileReducer = (state = initialState, action = {}) => {
     case types.UPDATE_USERNAME_SUCCESS:
     case types.CHANGE_PHONE_SUCCESS:
     case types.CHANGE_EMAIL_SUCCESS:
+    case types.ADD_ADDRESS.SUCCESS:
       return { ...state, isProcessing: false };
 
     case types.SELECT_PROFILE_SUCCESS:

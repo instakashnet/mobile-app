@@ -1,13 +1,13 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import React from "react";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
 // SCREENS
-import { EditCodeScreen } from "../../features/affiliates/screens/edit-code.screen";
+import { EditCodeScreen } from '../../features/affiliates/screens/edit-code.screen';
 // NAVIGATORS
-import { AffiliatesTabs } from "../tabs/affiliates-tabs.navigator";
+import { AffiliatesTabs } from '../tabs/affiliates-tabs.navigator';
 // UTILS
-import { headerBackLeft, headerLeft, headerOptions, headerRight, headerTitle } from "../utils/navigator.options";
+import { headerLeft, headerOptions, headerRight, headerTitle } from '../utils/navigator.options';
 
-const AffiliateStack = createStackNavigator();
+const AffiliateStack = createNativeStackNavigator();
 
 export const AffiliatesNavigator = () => {
   return (
@@ -16,11 +16,11 @@ export const AffiliatesNavigator = () => {
         ...headerOptions,
         headerLeft: () => headerLeft(navigation),
         headerRight,
-        headerTitle: () => headerTitle("Comparte tu código"),
+        headerTitle: () => headerTitle('Comparte tu código'),
       })}
     >
-      <AffiliateStack.Screen name="AffiliateTabs" component={AffiliatesTabs} />
-      <AffiliateStack.Screen name="EditCode" options={({ navigation }) => ({ headerLeft: () => headerBackLeft(navigation) })} component={EditCodeScreen} />
+      <AffiliateStack.Screen name='AffiliateTabs' component={AffiliatesTabs} />
+      <AffiliateStack.Screen name='EditCode' options={{ headerLeft: null }} component={EditCodeScreen} />
     </AffiliateStack.Navigator>
   );
 };

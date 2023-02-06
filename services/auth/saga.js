@@ -1,55 +1,51 @@
-import camelize from "camelize";
-import * as LocalAuthentication from "expo-local-authentication";
-import { Alert } from "react-native";
-import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
-import * as RootNavigation from "../../navigation/root.navigation";
-import { deleteFromStore, getFromStore, saveInStore } from "../../shared/helpers/async-store";
-import { deleteFromSecureStore, getFromSecureStore, saveInSecureStore } from "../../shared/helpers/secure-store";
-import { openModal } from "../../store/actions";
-import { getBanks, getCurrencies } from "../accounts/actions";
-import { authInstance } from "../auth.service";
-import { clearProfile } from "../profile/actions";
-import * as actions from "./actions";
-import * as types from "./types";
+import camelize from 'camelize';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { Alert } from 'react-native';
+import { all, call, fork, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import * as RootNavigation from '../../navigation/root.navigation';
+import { deleteFromStore, getFromStore, saveInStore } from '../../shared/helpers/async-store';
+import { deleteFromSecureStore, getFromSecureStore, saveInSecureStore } from '../../shared/helpers/secure-store';
+import { openModal } from '../../store/actions';
+import { authInstance } from '../auth.service';
+import { clearProfile } from '../profile/actions';
+import * as actions from './actions';
+import * as types from './types';
 
 // UTILS
 function* setAuthToken(data, type) {
   const date = new Date();
   const expDate = new Date(date.setSeconds(date.getSeconds() + data.expiresIn));
 
-  yield call(saveInSecureStore, "authData", { token: data.accessToken, expires: expDate });
-  yield call(saveInSecureStore, "authType", type);
+  yield call(saveInSecureStore, 'authData', { token: data.accessToken, expires: expDate });
+  yield call(saveInSecureStore, 'authType', type);
+
+  yield put(actions.setAuthToken(data.accessToken));
 }
 
-function* getData() {
-  yield put(getCurrencies());
-  yield put(getBanks());
-}
+// -
 
 function* clearUserData() {
-  yield call(deleteFromSecureStore, "authData");
-  yield call(deleteFromStore, "profileSelected");
+  yield call(deleteFromSecureStore, 'authData');
+  yield call(deleteFromStore, 'profileSelected');
   yield put(clearProfile());
 }
 
 const checkBiometricsStatus = async (user) => {
   let isCompatible = await LocalAuthentication.hasHardwareAsync(),
     isEnrolled = await LocalAuthentication.isEnrolledAsync(),
-    granted = await getFromStore("biometricsGranted");
+    granted = await getFromStore('biometricsGranted');
 
   if (isCompatible && isEnrolled && granted === null) {
-    console.log("compatible");
-
-    Alert.alert("Inicio rápido", "¿Deseas activar la verificación biométrica para iniciar sesión?", [
+    Alert.alert('Inicio rápido', '¿Deseas activar la verificación biométrica para iniciar sesión?', [
       {
-        text: "Aceptar",
+        text: 'Aceptar',
         onPress: async () => {
-          await authInstance.put("/auth/faceid", { authenticationMethods: ["faceId"] });
-          await saveInSecureStore("biometricsValues", user);
-          await saveInStore("biometricsGranted", true);
+          await authInstance.put('/auth/faceid', { authenticationMethods: ['faceId'] });
+          await saveInSecureStore('biometricsValues', user);
+          await saveInStore('biometricsGranted', true);
         },
       },
-      { text: "No", onPress: async () => await saveInStore("biometricsGranted", false) },
+      { text: 'No', onPress: async () => await saveInStore('biometricsGranted', false) },
     ]);
   }
 };
@@ -61,9 +57,9 @@ function* watchSetBiometricsValues() {
 
 function* setBiometricsValues({ setBiometrics, user }) {
   try {
-    yield authInstance.put("/auth/faceid", { authenticationMethods: ["faceId"] });
-    yield saveInSecureStore("biometricsValues", user);
-    yield saveInStore("biometricsGranted", true);
+    yield authInstance.put('/auth/faceid', { authenticationMethods: ['faceId'] });
+    yield saveInSecureStore('biometricsValues', user);
+    yield saveInStore('biometricsGranted', true);
 
     if (setBiometrics) yield call(setBiometrics, true);
 
@@ -73,14 +69,15 @@ function* setBiometricsValues({ setBiometrics, user }) {
   }
 }
 
-function* watchLoadUser() {
-  yield takeEvery(types.LOAD_USER_INIT, loadUser);
+function* watchLoadSession() {
+  yield takeEvery(types.LOAD_SESSION.INIT, loadSession);
 }
 
-function* loadUser() {
-  const authData = yield call(getFromSecureStore, "authData");
+function* loadSession() {
+  const authData = yield call(getFromSecureStore, 'authData');
+
   if (!authData) {
-    yield call(deleteFromStore, "profileSelected");
+    yield call(deleteFromStore, 'profileSelected');
     return yield put(actions.logoutUserSuccess());
   }
 
@@ -90,25 +87,31 @@ function* loadUser() {
     return yield put(actions.logoutUserSuccess());
   }
 
-  const authType = yield call(getFromSecureStore, "authType");
-  if (authType === "recover") {
+  const authType = yield call(getFromSecureStore, 'authType');
+  if (authType === 'recover') {
     yield call(clearUserData);
     return yield put(actions.logoutUserSuccess());
   }
 
   try {
-    const res = yield authInstance.get("/users/session");
-    const user = camelize(res.data.user);
-    yield call(saveInStore, "@userVerification", user);
+    const res = yield authInstance.get('/users/session');
 
+    if (!res.data?.verified) {
+      yield put(actions.loadSessionSuccess(authData.token));
+      return yield call([RootNavigation, 'push'], 'EmailVerification', { type: 'otp' });
+    }
+
+    if (!res.data?.completed) {
+      yield put(actions.loadSessionSuccess(authData.token));
+      return yield call([RootNavigation, 'push'], 'CompleteProfile');
+    }
+
+    const userRes = yield authInstance.get('/users/user-data');
+    const user = camelize(userRes.data.user);
+
+    yield call(saveInStore, '@userVerification', user);
     yield put(actions.loadUserSuccess(user));
-
-    if (!user.verified) return yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
-    if (!user.completed) return yield call([RootNavigation, "push"], "CompleteProfile");
-
-    yield call(getData);
     yield put(actions.loginUserSuccess());
-
     yield call(checkBiometricsStatus, user);
   } catch (error) {
     yield put(actions.logoutUser());
@@ -123,9 +126,9 @@ function* registerUser({ values }) {
   try {
     const res = yield authInstance.post(`/auth/signup`, values);
     if (res.status === 201) {
-      yield call(setAuthToken, res.data, "login");
+      yield call(setAuthToken, res.data, 'login');
       yield put(actions.registerUserSuccess());
-      yield call([RootNavigation, "push"], "EmailVerification", { type: "otp" });
+      yield call([RootNavigation, 'push'], 'EmailVerification', { type: 'otp' });
     }
   } catch (error) {
     yield put(actions.authError(error.message));
@@ -138,12 +141,12 @@ function* watchLoginBiometrics() {
 
 function* loginBiometrics({ email }) {
   try {
-    const res = yield authInstance.post("/auth/login-faceid", { mobile: true, email });
+    const res = yield authInstance.post('/auth/login-faceid', { mobile: true, email });
 
     if (res.status === 200) {
-      yield call(setAuthToken, res.data, "login");
+      yield call(setAuthToken, res.data, 'login');
 
-      yield put(actions.loadUser());
+      yield put(actions.loadSession());
     }
   } catch (error) {
     yield put(actions.authError(error.message));
@@ -158,8 +161,8 @@ function* loginUser({ values }) {
   try {
     const res = yield authInstance.post(`/auth/signin`, values);
     if (res.status === 200) {
-      yield call(setAuthToken, res.data, "login");
-      yield put(actions.loadUser());
+      yield call(setAuthToken, res.data, 'login');
+      yield put(actions.loadSession());
     }
   } catch (error) {
     yield put(actions.authError(error.message));
@@ -172,10 +175,10 @@ function* watchLoginGoogle() {
 
 function* loginGoogle({ token }) {
   try {
-    const res = yield authInstance.post("/auth/google", { token });
+    const res = yield authInstance.post('/auth/google', { token });
     if (res.status === 201) {
-      yield call(setAuthToken, res.data, "login");
-      yield put(actions.loadUser());
+      yield call(setAuthToken, res.data, 'login');
+      yield put(actions.loadSession());
       yield put(actions.loginGoogleSuccess());
     }
   } catch (error) {
@@ -189,10 +192,10 @@ function* watchLoginApple() {
 
 function* loginApple({ values }) {
   try {
-    const res = yield authInstance.post("/auth/apple", values);
+    const res = yield authInstance.post('/auth/apple', values);
 
-    yield call(setAuthToken, res.data, "login");
-    yield put(actions.loadUser());
+    yield call(setAuthToken, res.data, 'login');
+    yield put(actions.loadSession());
   } catch (error) {
     console.log(error);
     yield put(actions.authError(error.message));
@@ -205,11 +208,11 @@ function* watchRecoverPassword() {
 
 function* recoverPassword({ values }) {
   try {
-    const res = yield authInstance.post("/users/recover-password", values);
+    const res = yield authInstance.post('/users/recover-password', values);
     if (res.status === 201) {
-      yield call(setAuthToken, res.data, "recover");
+      yield call(setAuthToken, res.data, 'recover');
       yield put(actions.recoverPasswordSuccess());
-      yield call([RootNavigation, "push"], "EmailVerification", { type: "pwd" });
+      yield call([RootNavigation, 'push'], 'EmailVerification', { type: 'pwd' });
     }
   } catch (error) {
     yield put(actions.authError(error.message));
@@ -222,13 +225,13 @@ function* watchValidateEmail() {
 
 function* validateEmail({ values, codeType }) {
   try {
-    const res = yield authInstance.post("/auth/verify-code", { verificationCode: `${values.otp1}${values.otp2}${values.otp3}${values.otp4}`, operation: codeType.toUpperCase() });
+    const res = yield authInstance.post('/auth/verify-code', { verificationCode: `${values.otp1}${values.otp2}${values.otp3}${values.otp4}`, operation: codeType.toUpperCase() });
     if (res.status === 200) {
-      yield call(setAuthToken, res.data, codeType === "pwd" ? "recover" : "login");
-      if (codeType === "pwd") {
-        yield call([RootNavigation, "push"], "ResetPassword");
+      yield call(setAuthToken, res.data, codeType === 'pwd' ? 'recover' : 'login');
+      if (codeType === 'pwd') {
+        yield call([RootNavigation, 'push'], 'ResetPassword');
         yield put(actions.validateEmailSuccess());
-      } else yield put(actions.loadUser());
+      } else yield put(actions.loadSession());
     }
   } catch (error) {
     yield put(actions.authError(error.message));
@@ -241,7 +244,7 @@ function* watchRefreshCode() {
 
 function* refreshCode() {
   try {
-    const res = yield authInstance.get("/auth/refresh-code");
+    const res = yield authInstance.get('/auth/refresh-code');
     if (res.status === 200) {
       yield put(openModal());
       yield put(actions.refreshCodeSuccess());
@@ -257,16 +260,16 @@ function* watchResetPassword() {
 
 function* resetPassword({ values }) {
   try {
-    const res = yield authInstance.post("/users/reset-password", values);
+    const res = yield authInstance.post('/users/reset-password', values);
     if (res.status === 201) {
       yield put(actions.resetPasswordSuccess());
-      yield call([Alert, "alert"], "Exitoso", "Tu contraseña fue cambiada correctamente. Ahora puedes iniciar sesión con tu nueva contraseña.", [
+      yield call([Alert, 'alert'], 'Exitoso', 'Tu contraseña fue cambiada correctamente. Ahora puedes iniciar sesión con tu nueva contraseña.', [
         {
-          text: "Aceptar",
+          text: 'Aceptar',
         },
       ]);
       yield put(actions.logoutUser());
-      yield call([RootNavigation, "push"], "Login");
+      yield call([RootNavigation, 'push'], 'Login');
     }
   } catch (error) {
     yield put(actions.authError(error.message));
@@ -280,12 +283,12 @@ function* watchCompleteProfile() {
 function* completeProfile({ values }) {
   const profileValues = {
     ...values,
-    phone: values.phone.replace("+", ""),
+    phone: values.phone.replace('+', ''),
   };
 
   try {
-    const res = yield authInstance.post("/users/profiles", profileValues);
-    if (res.status === 200) yield put(actions.loadUser());
+    const res = yield authInstance.post('/users/profiles', profileValues);
+    if (res.status === 200) yield put(actions.loadSession());
   } catch (error) {
     yield put(actions.authError(error.message));
   }
@@ -297,7 +300,7 @@ function* watchGetAffiliates() {
 
 function* getAffiliates() {
   try {
-    const res = yield authInstance.get("/users/affiliates");
+    const res = yield authInstance.get('/users/affiliates');
     const affiliates = camelize(res.data.affiliates);
     if (res.status === 200) yield put(actions.getAffiliatesSuccess(affiliates));
   } catch (error) {
@@ -311,7 +314,7 @@ function* watchLogoutUser() {
 
 function* logoutUser({ logType }) {
   try {
-    yield authInstance.post("/auth/logout");
+    yield authInstance.post('/auth/logout');
   } catch (error) {
     yield put(actions.authError());
   }
@@ -319,12 +322,12 @@ function* logoutUser({ logType }) {
   yield put(actions.logoutUserSuccess());
   yield call(clearUserData);
 
-  if (logType === "auth") yield call([RootNavigation, "push"], "Auth");
+  if (logType === 'auth') yield call([RootNavigation, 'push'], 'Auth');
 }
 
 export function* authSaga() {
   yield all([
-    fork(watchLoadUser),
+    fork(watchLoadSession),
     fork(watchRegisterUser),
     fork(watchLoginUser),
     fork(watchLoginApple),

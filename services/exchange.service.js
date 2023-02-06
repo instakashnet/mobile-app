@@ -1,12 +1,12 @@
-import axios from "axios";
-import { reqInterceptor, resInterceptor } from "./interceptors";
+import axios from 'axios';
+import { reqInterceptor, resInterceptor } from './interceptors';
 
 // VARIABLES
-import ENV from "../variables";
+import ENV from '../variables';
 
 export const exchangeInstance = axios.create({
   baseURL: `${ENV.apiUrl}/exchange-service/api/v1/client`,
-  timeout: 45000,
+  timeout: 40000,
 });
 
 reqInterceptor(exchangeInstance);

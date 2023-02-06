@@ -1,10 +1,10 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import React from "react";
-import { ExchangeAlertsScreen } from "../../features/notifications/screens/alerts.screen";
-import { NotificationsScreen } from "../../features/notifications/screens/notifications.screen";
-import { headerBackLeft, headerOptions, headerRight, headerTitle } from "../utils/navigator.options";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { ExchangeAlertsScreen } from '../../features/notifications/screens/alerts.screen';
+import { NotificationsScreen } from '../../features/notifications/screens/notifications.screen';
+import { headerBackLeft, headerOptions, headerRight, headerTitle } from '../utils/navigator.options';
 
-const NotificationsStack = createStackNavigator();
+const NotificationsStack = createNativeStackNavigator();
 
 export const NotificationsNavigator = () => {
   return (
@@ -14,10 +14,10 @@ export const NotificationsNavigator = () => {
         headerLeft: () => headerBackLeft(navigation),
         headerRight,
       })}
-      initialRouteName="Notifications"
+      initialRouteName='Notifications'
     >
-      <NotificationsStack.Screen name="BaseNotifications" options={{ headerTitle: () => headerTitle("Notificaciones") }} component={NotificationsScreen} />
-      <NotificationsStack.Screen name="ExchangeAlerts" options={{ headerTitle: () => headerTitle("Alertas de tipo de cambio") }} component={ExchangeAlertsScreen} />
+      <NotificationsStack.Screen name='BaseNotifications' options={{ headerTitle: () => headerTitle('Notificaciones') }} component={NotificationsScreen} />
+      <NotificationsStack.Screen name='ExchangeAlerts' options={{ headerTitle: () => headerTitle('Tipo de cambio'), headerLeft: null }} component={ExchangeAlertsScreen} />
     </NotificationsStack.Navigator>
   );
 };

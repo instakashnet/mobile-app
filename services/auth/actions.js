@@ -1,4 +1,18 @@
-import * as types from "./types";
+import * as types from './types';
+
+export const setAuthToken = (token) => ({
+  type: types.SET_AUTH_TOKEN,
+  token,
+});
+
+export const loadSession = () => ({
+  type: types.LOAD_SESSION.INIT,
+});
+
+export const loadSessionSuccess = (token) => ({
+  type: types.LOAD_SESSION.SUCCESS,
+  token,
+});
 
 export const loadUser = () => ({
   type: types.LOAD_USER_INIT,

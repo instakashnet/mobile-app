@@ -1,17 +1,16 @@
-import { NavigationContainer } from "@react-navigation/native";
-import * as Notifications from "expo-notifications";
-import { hideAsync } from "expo-splash-screen";
-import React, { useEffect } from "react";
+import { NavigationContainer } from '@react-navigation/native';
+import * as Notifications from 'expo-notifications';
+import { hideAsync } from 'expo-splash-screen';
+import React, { useEffect } from 'react';
 // REDUX
-import { useDispatch, useSelector } from "react-redux";
-import { SplashScreen } from "../features/auth/screens/splash.screen";
+import { useDispatch, useSelector } from 'react-redux';
 // HOOKS
-import { useNotifications } from "../hooks/use-notifications.hook";
-import { getSchedule, loadUser } from "../store/actions";
-import { DrawerNavigator } from "./drawer.navigator";
-import { navigationRef } from "./root.navigation";
+import { useNotifications } from '../hooks/use-notifications.hook';
+import { getSchedule, loadSession } from '../store/actions';
+import { DrawerNavigator } from './drawer.navigator';
+import { navigationRef } from './root.navigation';
 // NAVIGATORS
-import { AuthNavigator } from "./stacks/auth.navigator";
+import { AuthNavigator } from './stacks/auth.navigator';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -23,7 +22,7 @@ Notifications.setNotificationHandler({
 
 export const Navigator = () => {
   const dispatch = useDispatch(),
-    { isLoading, isSignedIn } = useSelector((state) => state.authReducer);
+    { isSignedIn } = useSelector((state) => state.authReducer);
 
   const hideSplashScreen = async () => await hideAsync();
 
@@ -32,10 +31,8 @@ export const Navigator = () => {
 
   useEffect(() => {
     dispatch(getSchedule());
-    dispatch(loadUser());
+    dispatch(loadSession());
   }, [dispatch]);
-
-  if (isLoading) return <SplashScreen />;
 
   return (
     <NavigationContainer ref={navigationRef} onReady={hideSplashScreen}>

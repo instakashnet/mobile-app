@@ -1,12 +1,12 @@
-import { Linking, Alert } from "react-native";
-import * as WebBrowser from "expo-web-browser";
+import { Linking, Alert } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 
 // NUMBER FUNCTIONS
 export const formatAmount = (amount) => Number(amount).toFixed(2);
 
 // COLOR FUNCTIONS
 export const lightenColor = (color, amount) => {
-  color = color.indexOf("#") >= 0 ? color.substring(1, color.length) : color;
+  color = color.indexOf('#') >= 0 ? color.substring(1, color.length) : color;
   amount = parseInt((255 * amount) / 100);
   return (color = `#${addLight(color.substring(0, 2), amount)}${addLight(color.substring(2, 4), amount)}${addLight(color.substring(4, 6), amount)}`);
 };
@@ -20,12 +20,12 @@ const addLight = (color, amount) => {
 
 export const openURL = async (url) => {
   const supported = await Linking.canOpenURL(url);
-  if (!supported) return Alert.alert("Error", `Hay un error al intentar abrir la ruta: ${url}`);
+  if (!supported) return Alert.alert('Error', `Hay un error al intentar abrir la ruta: ${url}`);
 
   await WebBrowser.openBrowserAsync(url);
 };
 
-export const replaceSpace = (text) => text.split(" ").join("_");
+export const replaceSpace = (text) => text.split(' ').join('_');
 
 export const validateInterplaza = (accountNumber) => {
   const firstAccNumber = accountNumber.substring(0, 1);
@@ -33,4 +33,10 @@ export const validateInterplaza = (accountNumber) => {
   let interplaza = false;
   if (firstAccNumber >= 3 && firstAccNumber <= 7) interplaza = true;
   return interplaza;
+};
+
+export const getBlob = async (fileUri) => {
+  const resp = await fetch(fileUri);
+  const imageBody = await resp.blob();
+  return imageBody;
 };

@@ -1,7 +1,6 @@
-import styled from "styled-components/native";
-import { Dimensions } from "react-native";
-import { Text } from "../../../components/typography/text.component";
-import { ActivityIndicator } from "react-native-paper";
+import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 
 export const NoCameraWrapper = styled.View`
   flex: 1;
@@ -11,63 +10,69 @@ export const NoCameraWrapper = styled.View`
 `;
 
 export const CameraWrapper = styled.View`
-  flex: 1;
-  width: ${Dimensions.get("window").width}px;
+  flex: 0.6;
+  width: 100%;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-horizontal: ${({ theme }) => theme.space[4]};
-  padding-vertical: ${({ theme }) => theme.space[2]};
 `;
 
-export const CameraItemsWrapper = styled.View`
+export const VerticalOverlay = styled.View`
+  flex: 0.5;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+`;
+
+export const TopOverlay = styled.View`
+  flex: 0.15;
+  background-color: rgba(0, 0, 0, 0.7);
+`;
+
+export const BottomOverlay = styled.View`
+  flex: 0.25;
+  background-color: rgba(0, 0, 0, 0.7);
+`;
+
+export const HorizontalWrapper = styled.View`
+  background-color: rgba(0, 0, 0, 0.7);
   flex: 1;
-  align-items: center;
-  justify-content: center;
+  padding: 12px;
 `;
 
 export const CameraSquare = styled.View`
-  width: ${Dimensions.get("window").width / 1.1}px;
-  height: 215px;
-  border-width: 6px;
+  width: ${Dimensions.get('window').width / 1.2}px;
+  border-width: 4px;
   border-color: #fff;
-  border-radius: 10px;
-  position: relative;
-  margin-vertical: ${({ theme }) => theme.space[3]};
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  border-radius: 12px;
 `;
 
 export const InfoWrapper = styled.View`
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: ${({ theme }) => theme.space[2]};
-  border-radius: 10px;
   align-items: center;
   justify-content: center;
-  min-width: ${Dimensions.get("window").width / 1.5}px;
 `;
 
 export const LoaderWrapper = styled.View`
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-vertical: ${({ theme }) => theme.space[2]};
-  padding-horizontal: ${({ theme }) => theme.space[4]};
-  border-radius: 10px;
   align-items: center;
   justify-content: center;
+  margin-top: ${({ theme }) => theme.space[2]};
 `;
 
 export const CameraLoader = styled(ActivityIndicator).attrs({
   size: 45,
   animating: true,
-  color: "#FFF",
+  color: '#FFF',
 })`
   margin-bottom: ${({ theme }) => theme.space[2]};
 `;
 
-export const ButtonsWrapper = styled.View`
+export const HeaderWrapper = styled.View`
   width: 100%;
+  height: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding-horizontal: 20px;
 `;
 
 export const ActionButtons = styled.View`

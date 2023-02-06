@@ -1,4 +1,4 @@
-import * as types from "./types";
+import * as types from './types';
 
 const initialState = {
   banks: [],
@@ -23,12 +23,8 @@ export const accountsReducer = (state = initialState, action = {}) => {
     case types.EDIT_ACCOUNT_INIT:
     case types.DELETE_ACCOUNT_INIT:
       return { ...state, isProcessing: true, accountsError: null };
-    case types.GET_BANKS_SUCCESS:
-      return { ...state, isLoading: false, banks: action.banks };
-    case types.GET_CURRENCIES_SUCCESS:
-      return { ...state, isLoading: false, currencies: action.currencies };
     case types.GET_ACCOUNTS_SUCCESS:
-      return { ...state, isLoading: false, accounts: action.accounts };
+      return { ...state, isLoading: false, accounts: action.data.accounts, banks: action.data.banks, currencies: action.data.currencies };
     case types.GET_KASH_ACCOUNT_SUCCESS:
       return { ...state, isLoading: false, kashBalance: action.balance };
     case types.ADD_ACCOUNT_SUCCESS:

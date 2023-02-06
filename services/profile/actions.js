@@ -1,4 +1,4 @@
-import * as types from "./types";
+import * as types from './types';
 
 export const getProfiles = () => ({
   type: types.GET_PROFILES_INIT,
@@ -24,6 +24,15 @@ export const addProfile = (values) => ({
 
 export const addProfileSuccess = () => ({
   type: types.ADD_PROFILE_SUCCESS,
+});
+
+export const addAddress = (values) => ({
+  type: types.ADD_ADDRESS.INIT,
+  values,
+});
+
+export const addAddressSuccess = () => ({
+  type: types.ADD_ADDRESS.SUCCESS,
 });
 
 export const updateProfile = (values) => ({

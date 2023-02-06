@@ -1,11 +1,11 @@
-import * as SecureStore from "expo-secure-store";
+import * as SecureStore from 'expo-secure-store';
 
 export const saveInSecureStore = async (key, value) => {
   try {
     const formattedValue = JSON.stringify(value);
     await SecureStore.setItemAsync(key, formattedValue);
 
-    return "saved";
+    return 'saved';
   } catch (error) {
     throw error;
   }
@@ -29,7 +29,7 @@ export const deleteFromSecureStore = async (key) => {
   try {
     await SecureStore.deleteItemAsync(key);
 
-    return "deleted";
+    return 'deleted';
   } catch (error) {
     throw error;
   }

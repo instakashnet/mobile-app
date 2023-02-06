@@ -1,12 +1,12 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import styled from "styled-components/native";
-import { TextInput, HelperText } from "react-native-paper";
-import { theme } from "../../theme";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
+import { TextInput, HelperText } from 'react-native-paper';
+import { theme } from '../../theme';
 
 const StyledInput = styled(TextInput).attrs(({ theme }) => ({
   theme: { ...theme, colors: { primary: theme.colors.brand.primary, error: theme.colors.ui.error } },
-  mode: "outlined",
+  mode: 'outlined',
   outlineColor: theme.colors.ui.border,
   dense: true,
 }))`
@@ -42,7 +42,7 @@ export const Input = ({ name, onChange, right, infoText, iconName, onPress, erro
     <FormGroup error={!!error || infoText} isFlex={isFlex}>
       <StyledInput {...inputProps} onChangeText={onChange} {...rest} />
       {(!!error || infoText) && !isFlex && (
-        <HelperText style={{ textAlign: "left" }} type={!!error ? "error" : "info"} visible>
+        <HelperText style={{ textAlign: 'left' }} type={!!error ? 'error' : 'info'} visible>
           {error ? error : infoText}
         </HelperText>
       )}
