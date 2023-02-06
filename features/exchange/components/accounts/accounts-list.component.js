@@ -22,8 +22,13 @@ export const AccountsList = ({ accounts, accountSelected, onSelect }) => {
             <Spacer variant='left' />
             <BankIcon source={bankIcons.find((icon) => icon.bankName === account.bank.name.toLowerCase()).uri} />
             <View>
-              <Text variant='button'>{account.alias}</Text>
-              <Text variant='button'>{account.accountNumber || account.cci}</Text>
+              <Text variant='caption'>{account.alias}</Text>
+              <Text variant='button'>
+                ****
+                {account.accountNumber
+                  ? account.accountNumber.substring(account.accountNumber.length - 4, account.accountNumber.length)
+                  : account.cci.substring(account.cci.length - 4, account.cci.length)}
+              </Text>
             </View>
             <Text variant='subtitle' style={styles.flag}>
               {account.currency.Symbol.toUpperCase()}

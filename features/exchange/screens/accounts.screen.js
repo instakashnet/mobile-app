@@ -2,7 +2,7 @@ import { useFocusEffect } from '@react-navigation/native';
 // FORMIK
 import { useFormik } from 'formik';
 import React, { useCallback, useState } from 'react';
-import { View, Alert as RNAlert } from 'react-native';
+import { Alert as RNAlert } from 'react-native';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../../../components/forms/input.component';
@@ -18,14 +18,13 @@ import { getData } from '../../../hooks/use-storage.hook';
 // HELPERS
 import { openURL, validateInterplaza } from '../../../shared/helpers/functions';
 import { cancelOrder, clearExchangeError, continueOrder } from '../../../store/actions';
-import { BankDescription, BankIcon } from '../components/accounts.styles';
+import SelectedAccount from '../components/accounts/selected-account.component';
 // STYLE COMPONENTS
 import { ExchangeForm, ExchangeScroll, StepsProgressWrapper } from '../components/exchange.styles';
 import { SelectAccount } from '../components/forms/select-account.component';
 import { HeaderProfile } from '../components/header-profile.component';
 import { ProgressIndicator } from '../components/progress-indicator.component';
 // ASSETS
-import { bankIcons } from '../relative-paths/images';
 import { accountsSchema } from '../validations/schemas';
 
 export const AccountsScreen = ({ navigation }) => {
@@ -140,17 +139,7 @@ export const AccountsScreen = ({ navigation }) => {
             selected={!!accFromSelected}
             onSelect={onSelect.bind(null, 'accFrom')}
           >
-            {accFromSelected ? (
-              <BankDescription>
-                <BankIcon bankName={accFromSelected.bank.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === accFromSelected.bank.name.toLowerCase()).uri} />
-                <View>
-                  <Text variant='bold'>{accFromSelected.alias}</Text>
-                  <Text variant='button'>{accFromSelected.accountNumber || accFromSelected.cci}</Text>
-                </View>
-              </BankDescription>
-            ) : (
-              <Text variant='body'>Selecciona cuenta origen</Text>
-            )}
+            {accFromSelected ? <SelectedAccount account={accFromSelected} /> : <Text variant='body'>Cuenta de origen</Text>}
           </SelectAccount>
           <Spacer vartian='top' size={3} />
           <SelectAccount
@@ -159,17 +148,7 @@ export const AccountsScreen = ({ navigation }) => {
             selected={!!accToSelected}
             onSelect={onSelect.bind(null, 'accTo')}
           >
-            {accToSelected ? (
-              <BankDescription>
-                <BankIcon bankName={accToSelected.bank.name.toLowerCase()} source={bankIcons.find((icon) => icon.bankName === accToSelected.bank.name.toLowerCase()).uri} />
-                <View>
-                  <Text variant='bold'>{accToSelected.alias}</Text>
-                  <Text variant='button'>{accToSelected.accountNumber || accToSelected.cci}</Text>
-                </View>
-              </BankDescription>
-            ) : (
-              <Text variant='body'>Selecciona cuenta destino</Text>
-            )}
+            {accToSelected ? <SelectedAccount account={accToSelected} /> : <Text variant='body'>Cuenta destino</Text>}
           </SelectAccount>
           <Spacer vartian='top' size={2} />
           {formik.values.origin && (

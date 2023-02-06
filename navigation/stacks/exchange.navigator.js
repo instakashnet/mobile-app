@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 // REDUX
 import { useSelector } from 'react-redux';
+import { AddPersonalAccountScreen } from '../../features/accounts/screens/personal-account.screen';
 import { AccountSelectScreen } from '../../features/exchange/screens/account-select.screen';
 import { AccountsScreen } from '../../features/exchange/screens/accounts.screen';
 // SCREENS
@@ -10,8 +11,6 @@ import { CompletedScreen } from '../../features/exchange/screens/completed.scree
 import { TransactionCodeScreen } from '../../features/exchange/screens/transaction-code.screen';
 import { TransferScreen } from '../../features/exchange/screens/transfer.screen';
 import { SelectProfileNavigator } from '../stacks/select-profile.navigator';
-// NAVIGATORS
-import { AddAccountTabs } from '../tabs/add-account-tabs.navigatior';
 // UTILS
 import { headerOptions, headerRight, headerTitle } from '../utils/navigator.options';
 
@@ -27,7 +26,7 @@ export const ExchangeNavigator = () => {
         ...headerOptions,
         headerRight,
         headerTitle: () => headerTitle('Cambia tus divisas'),
-        headerBackTitle: 'Volver',
+        headerBackTitle: '',
         gestureEnabled: false,
       }}
     >
@@ -35,8 +34,8 @@ export const ExchangeNavigator = () => {
         <>
           <ExchangeStack.Screen name='Calculator' options={{ animationEnabled: false, headerBackVisible: false }} component={CalculatorScreen} />
           <ExchangeStack.Screen name='Accounts' options={{ headerBackVisible: false }} component={AccountsScreen} />
-          <ExchangeStack.Screen name='AccountSelect' options={{ presentation: 'modal', headerRight: null }} component={AccountSelectScreen} />
-          <ExchangeStack.Screen name='AddAccount' options={{ headerTitle: () => headerTitle('Agregar cuenta'), headerRight: null }} component={AddAccountTabs} />
+          <ExchangeStack.Screen name='AccountSelect' options={{ headerRight: null }} component={AccountSelectScreen} />
+          <ExchangeStack.Screen name='AddAccount' options={{ headerTitle: () => headerTitle('Agregar cuenta'), headerRight: null }} component={AddPersonalAccountScreen} />
           <ExchangeStack.Screen name='Transfer' options={{ headerTitle: () => headerTitle('Transfiere'), headerBackVisible: false }} component={TransferScreen} />
           <ExchangeStack.Screen
             name='TransactionCode'
