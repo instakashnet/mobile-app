@@ -28,14 +28,15 @@ if (__DEV__) {
     host: 'localhost',
     port: 8097,
   });
-} else {
-  Sentry.init({
-    dsn: 'https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263',
-    enableInExpoDevelopment: false,
-    debug: ENV.stage !== 'prod',
-    enableOutOfMemoryTracking: false,
-  });
 }
+
+Sentry.init({
+  dsn: 'https://02a80f87130549feb3357ae057e0c268@o1108528.ingest.sentry.io/6136263',
+  enableInExpoDevelopment: false,
+  debug: ENV.stage !== 'prod',
+  enableOutOfMemoryTracking: false,
+  tracesSampleRate: process.env.REACT_APP_STAGE === 'prod' ? 0.25 : 0.8,
+});
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -90,8 +91,6 @@ export default function App() {
     };
   }, []);
 
-  const hideSplashScreen = async () => await SplashScreen.hideAsync();
-
   return appIsReady ? (
     <Provider store={store}>
       <StatusBar style='dark' backgroundColor='#0D8284' />
@@ -99,7 +98,6 @@ export default function App() {
         <PaperProvider theme={{ ...DefaultTheme, dark: false }}>
           <Navigator />
           <Updater />
-          {/* <StoreModal isVisible={isStoreUpdate} onUpdate={goToStore} closeModal={() => setIsStoreUpdate(false)} /> */}
         </PaperProvider>
       </ThemeProvider>
     </Provider>
