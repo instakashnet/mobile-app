@@ -46,13 +46,13 @@ export const AddPersonalForm = ({ currencies, onAddAccount, isProcessing, banks 
   const banksOptions = banks.map((bank) => ({
       label: bank.name.toUpperCase(),
       value: bank.id,
-      icon: () => (
-        <BankIcon
-          bankName={bank.name.toLowerCase()}
-          defaultSource={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri}
-          source={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri}
-        />
-      ),
+      // icon: () => (
+      //   <BankIcon
+      //     bankName={bank.name.toLowerCase()}
+      //     defaultSource={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri}
+      //     source={bankIcons.find((icon) => icon.bankName === bank.name.toLowerCase()).uri}
+      //   />
+      // ),
     })),
     currencyOptions = currencies.map((currency) => ({
       label: `${currency.Symbol} ${currency.name}`,

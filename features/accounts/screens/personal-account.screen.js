@@ -23,7 +23,6 @@ export const AddPersonalAccountScreen = () => {
     <SafeArea>
       <KeyboardScrollAware>
         <AccountsWrapper>
-          <Text>Agrega una cuenta donde recibirás tu cambio.</Text>
           <Spacer variant='top' />
           <AddPersonalForm banks={banks} isProcessing={isProcessing} onAddAccount={onAddAccount} currencies={currencies} />
         </AccountsWrapper>
