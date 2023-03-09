@@ -113,9 +113,8 @@ function* watchUploadDocument() {
   yield takeLatest(types.UPLOAD_DOCUMENT_INIT, uploadDocument);
 }
 
-function* uploadDocument({ values, uploadType }) {
+function* uploadDocument({ values }) {
   const frontBlob = yield getBlob(values.frontPhoto);
-  const backBlob = values.backPhoto ? yield getBlob(values.backPhoto) : null;
 
   try {
     const resToken = yield authInstance.get('/users/generate-token'),
@@ -125,26 +124,11 @@ function* uploadDocument({ values, uploadType }) {
         },
       });
 
-    if (uploadType === 'pasaporte') {
-      yield fetch(urls.data.presignedFrontUrl, {
-        method: 'PUT',
-        body: frontBlob,
-        'Content-Type': 'image/jpeg',
-      });
-    } else {
-      yield Promise.all([
-        fetch(urls.data.presignedFrontUrl, {
-          method: 'PUT',
-          body: frontBlob,
-          'Content-Type': 'image/jpeg',
-        }),
-        fetch(urls.data.presignedBackUrl, {
-          method: 'PUT',
-          body: backBlob,
-          'Content-Type': 'image/jpeg',
-        }),
-      ]);
-    }
+    yield fetch(urls.data.presignedFrontUrl, {
+      method: 'PUT',
+      body: frontBlob,
+      'Content-Type': 'image/jpeg',
+    });
 
     yield call([RootNavigation, 'navigate'], 'DocumentUploaded');
     yield put(actions.uploadDocumentSuccess());

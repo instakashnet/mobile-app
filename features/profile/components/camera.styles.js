@@ -18,38 +18,51 @@ export const CameraWrapper = styled.View`
 `;
 
 export const VerticalOverlay = styled.View`
-  flex: 0.5;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(1, 1, 1, 0.8);
+  height: ${((Dimensions.get('window').width - 20 * 2) * 2) / 3}px;
+  width: 3%;
 `;
 
 export const TopOverlay = styled.View`
-  flex: 0.15;
-  background-color: rgba(0, 0, 0, 0.7);
+  flex: 40;
+  width: 100%;
+  background-color: rgba(1, 1, 1, 0.8);
 `;
 
 export const BottomOverlay = styled.View`
-  flex: 0.25;
-  background-color: rgba(0, 0, 0, 0.7);
+  flex: 32;
+  background-color: rgba(1, 1, 1, 0.8);
 `;
 
-export const HorizontalWrapper = styled.View`
-  background-color: rgba(0, 0, 0, 0.7);
-  flex: 1;
-  padding: 12px;
+export const BottomInfoWrapper = styled.View`
+  width: ${Dimensions.get('window').width}px;
+  background-color: #000;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  padding-bottom: 40px;
+  margin-top: auto;
 `;
 
-export const CameraSquare = styled.View`
-  width: ${Dimensions.get('window').width / 1.2}px;
-  border-width: 4px;
+export const SquareWrapper = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+`;
+
+export const Square = styled.View`
+  top: 0;
+  left: 0;
   border-color: #fff;
-  height: 100%;
-  border-radius: 12px;
+  border-width: 3px;
+  width: 94%;
+  height: ${((Dimensions.get('window').width - 20 * 2) * 2) / 3}px;
+  border-radius: 5px;
 `;
 
 export const InfoWrapper = styled.View`
   align-items: center;
-  justify-content: center;
+  margin-top: 20px;
 `;
 
 export const LoaderWrapper = styled.View`
@@ -61,14 +74,13 @@ export const LoaderWrapper = styled.View`
 export const CameraLoader = styled(ActivityIndicator).attrs({
   size: 45,
   animating: true,
-  color: '#FFF',
+  color: '#0d8284',
 })`
   margin-bottom: ${({ theme }) => theme.space[2]};
 `;
 
 export const HeaderWrapper = styled.View`
   width: 100%;
-  height: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

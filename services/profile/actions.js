@@ -63,10 +63,9 @@ export const selectProfileSuccess = (profile) => ({
   profile,
 });
 
-export const uploadDocument = (values, uploadType) => ({
+export const uploadDocument = (values) => ({
   type: types.UPLOAD_DOCUMENT_INIT,
   values,
-  uploadType,
 });
 
 export const uploadDocumentSuccess = () => ({

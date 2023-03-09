@@ -2,7 +2,7 @@
   "expo": {
     "owner": "instakash",
     "originalFullName": "@rogerrc12/instakash",
-    "scheme": "instakash",
+    "scheme": "net.instakash.app",
     "facebookScheme": "fb285266469843350",
     "facebookAppId": "285266469843350",
     "facebookDisplayName": "My kash business",

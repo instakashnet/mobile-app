@@ -55,11 +55,7 @@ export const DocumentInfoScreen = ({ navigation }) => {
             ))}
           </View>
           <Spacer variant='top' />
-          <Button
-            icon='camera'
-            labelStyle={{ fontSize: 20, color: '#13AAAC' }}
-            onPress={() => navigation.navigate('Camera', { documentType: user?.documentType.toLowerCase(), photoSide: 'frontal' })}
-          >
+          <Button icon='camera' labelStyle={{ fontSize: 20, color: '#13AAAC' }} onPress={() => navigation.navigate('Camera', { documentType: user?.documentType.toLowerCase() })}>
             <Text variant='button' style={{ fontSize: 14 }}>
               Tomar foto
             </Text>

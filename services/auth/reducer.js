@@ -1,3 +1,4 @@
+import { UPLOAD_DOCUMENT_SUCCESS } from '../profile/types';
 import * as types from './types';
 
 const initialState = {
@@ -46,6 +47,9 @@ export const authReducer = (state = initialState, action = {}) => {
 
     case types.SET_AUTH_TOKEN:
       return { ...state, token: action.token };
+
+    case UPLOAD_DOCUMENT_SUCCESS:
+      return { ...state, user: { ...state.user, documentValidation: 'pending' } };
 
     case types.GET_AFFILIATES_INIT:
       return { ...state, affiliates: [] };

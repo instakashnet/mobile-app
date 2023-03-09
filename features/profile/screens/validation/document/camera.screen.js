@@ -3,7 +3,7 @@ import { Camera } from 'expo-camera';
 import { useIsFocused } from '@react-navigation/native';
 // import { manipulateAsync, SaveFormat, FlipType } from 'expo-image-manipulator';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, Linking, Platform, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Linking, Platform, TouchableOpacity, View, StyleSheet, Alert } from 'react-native';
 // REDUX
 import { useSelector } from 'react-redux';
 import { Link } from '../../../../../components/typography/link.component';
@@ -12,32 +12,30 @@ import { Tooltip } from '../../../../../components/UI/tooltip.component';
 // COMPONENTS
 import { SafeArea } from '../../../../../components/utils/safe-area.component';
 import { Spacer } from '../../../../../components/utils/spacer.component';
+
 // STYLED COMPONENTS
 import {
   HeaderWrapper,
   CameraLoader,
-  CameraSquare,
-  VerticalOverlay,
-  CameraWrapper,
   InfoWrapper,
   LoaderWrapper,
+  BottomInfoWrapper,
   NoCameraWrapper,
   TopOverlay,
+  SquareWrapper,
+  VerticalOverlay,
+  Square,
   BottomOverlay,
 } from '../../../components/camera.styles';
+import { usePrepareRatio } from '../../../../../hooks/use-prepare-ratio.hook';
 
-export const CameraScreen = ({ navigation, route }) => {
+export const CameraScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null),
-    [imagePadding, setImagePadding] = useState(0),
     [loading, setLoading] = useState(false),
-    [ratio, setRatio] = useState('4:3'),
-    [isRatioSet, setIsRatioSet] = useState(false),
-    { height, width } = Dimensions.get('window'),
-    screenRatio = height / width,
     cameraRef = useRef(),
     isFocused = useIsFocused(),
-    user = useSelector((state) => state.authReducer.user),
-    { photoSide } = route.params;
+    { ratio, setCameraReady } = usePrepareRatio();
+  user = useSelector((state) => state.authReducer.user);
 
   useEffect(() => {
     (async () => {
@@ -47,62 +45,20 @@ export const CameraScreen = ({ navigation, route }) => {
   }, []);
 
   // HANDLERS
-  const prepareRatio = async () => {
-      let desiredRatio = '4:3'; // Start with the system default
-      // This issue only affects Android
-      if (Platform.OS === 'android') {
-        const ratios = await cameraRef.current.getSupportedRatiosAsync();
-
-        // Calculate the width/height of each of the supported camera ratios
-        // These width/height are measured in landscape mode
-        // find the ratio that is closest to the screen ratio without going over
-        let distances = {};
-        let realRatios = {};
-        let minDistance = null;
-        for (const ratio of ratios) {
-          const parts = ratio.split(':');
-          const realRatio = parseInt(parts[0]) / parseInt(parts[1]);
-          realRatios[ratio] = realRatio;
-          // ratio can't be taller than screen, so we don't want an abs()
-          const distance = screenRatio - realRatio;
-          distances[ratio] = realRatio;
-          if (minDistance == null) {
-            minDistance = ratio;
-          } else {
-            if (distance >= 0 && distance < distances[minDistance]) {
-              minDistance = ratio;
-            }
-          }
-        }
-        // set the best match
-        desiredRatio = minDistance;
-        //  calculate the difference between the camera width and the screen height
-        const remainder = Math.floor((height - realRatios[desiredRatio] * width) / 2);
-        // set the preview padding and preview ratio
-        setImagePadding(remainder);
-        setRatio(desiredRatio);
-        // Set a flag so we don't do this
-        // calculation each time the screen refreshes
-        setIsRatioSet(true);
-      }
-    },
-    onSnap = async () => {
+  const onSnap = async () => {
       setLoading(true);
 
       try {
         if (cameraRef.current) {
           const photo = await cameraRef.current.takePictureAsync({ quality: 1, skipProcessing: true });
 
-          navigation.navigate('PhotoPreview', { photo, documentType: user?.documentType.toLowerCase(), photoSide });
+          navigation.navigate('PhotoPreview', { photo, documentType: user?.documentType.toLowerCase() });
         }
       } catch (error) {
         console.log(error);
       } finally {
         setLoading(false);
       }
-    },
-    setCameraReady = async () => {
-      if (!isRatioSet) await prepareRatio();
     },
     onOpenConfig = () => Linking.openSettings();
 
@@ -133,13 +89,7 @@ export const CameraScreen = ({ navigation, route }) => {
 
   return (
     isFocused && (
-      <Camera
-        ratio={ratio}
-        ref={(camera) => (cameraRef.current = camera)}
-        onCameraReady={setCameraReady}
-        style={{ flex: 1, width: '100%', height: '100%' }}
-        type={Camera.Constants.Type.back}
-      >
+      <Camera ratio={ratio} ref={(camera) => (cameraRef.current = camera)} onCameraReady={setCameraReady} style={StyleSheet.absoluteFill} type={Camera.Constants.Type.back}>
         <TopOverlay>
           <SafeArea>
             <HeaderWrapper>
@@ -151,24 +101,22 @@ export const CameraScreen = ({ navigation, route }) => {
               </Tooltip>
             </HeaderWrapper>
           </SafeArea>
+          <Text style={{ color: '#FFF', marginBottom: 20, textAlign: 'center' }} variant='bold'>
+            Toma una foto de tu {user?.documentType}
+          </Text>
         </TopOverlay>
-
-        <CameraWrapper>
+        <SquareWrapper>
           <VerticalOverlay />
-          <CameraSquare />
+          <Square />
           <VerticalOverlay />
-        </CameraWrapper>
-
-        <BottomOverlay style={{ flex: 0.25 }}>
+        </SquareWrapper>
+        <BottomOverlay>
           <SafeArea>
             <InfoWrapper>
               {!loading ? (
-                <>
-                  <Text style={{ color: '#FFF', marginTop: 15 }}>{user?.documentType === 'pasaporte' ? 'Foto pasaporte' : `Foto ${photoSide}`}</Text>
-                  <TouchableOpacity activeOpacity={0.5} onPress={onSnap}>
-                    <MaterialCommunityIcons name='circle-slice-8' size={75} color='#FFF' />
-                  </TouchableOpacity>
-                </>
+                <TouchableOpacity activeOpacity={0.5} onPress={onSnap}>
+                  <MaterialCommunityIcons name='circle-slice-8' size={75} color='#FFF' />
+                </TouchableOpacity>
               ) : (
                 <LoaderWrapper>
                   <CameraLoader />
@@ -176,13 +124,13 @@ export const CameraScreen = ({ navigation, route }) => {
                 </LoaderWrapper>
               )}
             </InfoWrapper>
-
-            <View style={{ width: Dimensions.get('window').width, backgroundColor: '#000', alignItems: 'center', justifyContent: 'center', marginTop: 'auto', padding: 15 }}>
-              <Text variant='bold' style={{ color: '#FFF' }}>
-                Ajusta el documento dentro del marco
-              </Text>
-            </View>
           </SafeArea>
+
+          <BottomInfoWrapper>
+            <Text variant='bold' style={{ color: '#FFF' }}>
+              Ajusta el documento dentro del marco
+            </Text>
+          </BottomInfoWrapper>
         </BottomOverlay>
       </Camera>
     )

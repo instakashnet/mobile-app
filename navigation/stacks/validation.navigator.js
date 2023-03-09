@@ -53,7 +53,7 @@ export default function ValidationNavigator() {
                 component={DocumentInfoScreen}
               />
               <ValidationStack.Screen name='Camera' options={{ headerShown: false }} component={CameraScreen} />
-              <ValidationStack.Screen name='PhotoPreview' options={{ headerShown: false }} component={PhotoPreviewScreen} />
+              <ValidationStack.Screen name='PhotoPreview' options={{ headerShown: true, headerTitle: '', headerRight: null }} component={PhotoPreviewScreen} />
               <ValidationStack.Screen name='DocumentUploaded' options={{ headerLeft: null, headerTitle: '', headerLeft: null }} component={DocumentUploadedScreen} />
             </>
           )}
