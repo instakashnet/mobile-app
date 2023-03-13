@@ -24,11 +24,11 @@ export const DocumentValidationScreen = ({ navigation }) => {
         <Text variant='subtitle'>¡Estamos validando!</Text>
         <Spacer variant='top' />
         <Text>
-          Actualmente las fotos subidas de tu documento se encuentran en proceso de validación. En aproximadamente 5 minutos te llegará un correo electrónico con un mensaje para
-          indicarle el resultado de la verificación. Mientras tanto puedes hacer tus cambios por montos no mayores a 5 mil USD.
+          Actualmente tu documento se encuentran en proceso de validación. En aproximadamente 5 minutos te llegará un correo electrónico con un mensaje para indicarle el resultado
+          de la verificación.
         </Text>
         <Spacer variant='top' size={3} />
-        <Button onPress={() => navigation.navigate('Exchange')}>Hacer un cambio</Button>
+        <Button onPress={() => navigation.goBack()}>Regresar</Button>
       </ProfileInfoWrapper>
     </SafeArea>
   );
