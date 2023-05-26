@@ -34,14 +34,6 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      [
-        "react-native-vision-camera",
-        {
-          "cameraPermissionText": "$(PRODUCT_NAME) necesita acceso a tu camara para la verificación de identidad."
-        }
-      ]
-    ]
+    }
   }
 }
