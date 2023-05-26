@@ -1,0 +1,42 @@
+import React from 'react'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import CustomDrawer from '../components/UI/drawer/CustomDrawer'
+import { useLogoutMutation } from '../services/auth'
+import { removeSecureData } from '../lib/SecureStore'
+import TabsNavigator from './TabsNavigator'
+import { useDispatch } from 'react-redux'
+import { setLogout } from '../store/slices/authSlice'
+import VerificationNavigator from './VerificationNavigator'
+
+const Drawer = createDrawerNavigator()
+
+export default function DrawerNavigator() {
+  const [logout] = useLogoutMutation()
+  const dispatch = useDispatch()
+
+  const handleLogout = async () => {
+    try {
+      dispatch(setLogout())
+
+      await removeSecureData('refreshToken')
+      await logout()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <Drawer.Navigator
+      initialRouteName='Main'
+      drawerContent={(props) => <CustomDrawer {...props} onLogout={handleLogout} />}
+      screenOptions={{
+        drawerType: 'front',
+        drawerStyle: { width: '80%' },
+        headerShown: false
+      }}
+    >
+      <Drawer.Screen name='Main' component={TabsNavigator} />
+      <Drawer.Screen name='Verification' component={VerificationNavigator} />
+    </Drawer.Navigator>
+  )
+}

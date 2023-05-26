@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "owner": "instakash",
+    "scheme": "net.instakash.app",
+    "name": "Instakash",
+    "slug": "instakash-app",
+    "jsEngine": "hermes",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "jsEngine": "jsc",
+      "supportsTablet": false,
+      "bundleIdentifier": "instakash.app",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "jsEngine": "jsc",
+      "package": "net.instakash.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "softwareKeyboardLayoutMode": "pan"
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "$(PRODUCT_NAME) necesita acceso a tu camara para la verificación de identidad."
+        }
+      ]
+    ]
+  }
+}
