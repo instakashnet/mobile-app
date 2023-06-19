@@ -9,7 +9,7 @@ const VARIANTS = {
   secondary: {
     buttonColor: '#FFF',
     textColor: '#0a686a',
-    borderColor: '#F0F0F0'
+    borderColor: '#9ecdce'
   }
 }
 
@@ -25,7 +25,7 @@ export default function Button({ variant = 'primary', disabled = false, children
       mode='contained'
       buttonColor={disabled ? colors.primary100 : selectedVariant?.buttonColor}
       textColor={selectedVariant?.textColor}
-      contentStyle={{ height: 40, borderWidth: 1, borderColor: selectedVariant?.borderColor || 'transparent' }}
+      contentStyle={{ height: 42, borderWidth: 1, borderColor: selectedVariant?.borderColor || 'transparent' }}
       labelStyle={{ fontFamily: fonts.button.fontFamily }}
       theme={{ roundness: 1 }}
       {...rest}

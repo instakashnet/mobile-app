@@ -1,18 +1,19 @@
-import { FlatList, View } from 'react-native'
+import { FlatList } from 'react-native'
 import React from 'react'
 import OrderItem from './OrderItem'
 import { Text } from 'react-native-paper'
-import { useOrders } from '../../hooks/useOrders'
+import { useNavigation } from '@react-navigation/native'
 
-export default function OrdersList({ limit = 0 }) {
-  const { orders } = useOrders(limit)
+export default function OrdersList({ data = [], listProps = {} }) {
+  const navigation = useNavigation()
 
-  return orders.length > 0 ? (
+  return data.length > 0 ? (
     <FlatList
-      contentContainerStyle={{ width: '100%', height: 200 }}
-      data={orders}
+      showsVerticalScrollIndicator={false}
+      data={data}
       keyExtractor={(item) => item.id?.toString()}
-      renderItem={({ item }) => <OrderItem order={item} />}
+      renderItem={({ item }) => <OrderItem order={item} onSelect={() => navigation.navigate('OrderDetails', { order: item })} />}
+      {...listProps}
     />
   ) : (
     <Text className='p-4 text-center'>Aun no tienes cambios registrados</Text>

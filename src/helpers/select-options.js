@@ -42,3 +42,22 @@ export const occupationOptions = [
   { label: 'Trabajador independiente', value: 'Trabajador independiente' },
   { label: 'Otro', value: 'otro' }
 ]
+
+export const fundsOriginOptions = [
+  { label: 'Ahorros', value: 'ahorros' },
+  {
+    label: 'Alquiler de bienes inmuebles',
+    value: 'alquiler de bienes inmuebles'
+  },
+  {
+    label: 'Alquiler de bienes muebles',
+    value: 'alquiler de bienes muebles'
+  },
+  { label: 'Venta de bienes inmuebles', value: 'venta de bienes inmuebles' },
+  { label: 'Venta de bienes muebles', value: 'venta de bienes muebles' },
+  { label: 'Donación o sorteo', value: 'donación o sorteo' },
+  { label: 'Trabajo independiente', value: 'trabajo independiente' },
+  { label: 'Regalía', value: 'regalía' },
+  { label: 'Préstamos', value: 'préstamos' },
+  { label: 'Otros', value: 'otros' }
+]

@@ -12,7 +12,7 @@ import { useTheme } from 'react-native-paper'
 const Stack = createNativeStackNavigator()
 
 export default function AuthNavigator() {
-  const { colors } = useTheme()
+  const { colors, fonts } = useTheme()
 
   return (
     <Stack.Navigator
@@ -20,14 +20,12 @@ export default function AuthNavigator() {
         contentStyle: {
           backgroundColor: colors.white300
         },
-        header: (props) => {
-          return <TitleHeader {...props} />
-        }
+        header: (props) => <TitleHeader {...props} />
       }}
     >
       <Stack.Screen options={{ headerShown: false, animation: 'none' }} name='Onboarding' component={OnboardingScreen} />
       <Stack.Screen name='Register' options={{ headerTitle: 'Registrarse' }} component={RegisterScreen} />
-      <Stack.Screen name='Login' options={{ headerTitle: 'Iniciar sesión' }} component={LoginScreen} />
+      <Stack.Screen name='Login' options={{ headerTitle: 'Iniciar sesión', headerBackTitleVisible: false }} component={LoginScreen} />
       <Stack.Screen name='VerifyCode' options={{ headerTitle: 'Verificación', headerLeft: null }} component={VerifyCodeScreen} />
       <Stack.Screen name='RecoverPassword' options={{ headerTitle: 'Reiniciar contraseña' }} component={RecoverPasswordScreen} />
       <Stack.Screen

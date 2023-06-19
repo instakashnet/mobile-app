@@ -1,7 +1,6 @@
 import React from 'react'
-import SafeArea from '../../components/utils/SafeArea'
 import { Text } from 'react-native-paper'
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import Container from '../../components/utils/Container'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../store/slices/authSlice'
@@ -9,18 +8,19 @@ import CopyButton from '../../components/UI/CopyButton'
 import { useGetUserKashQuery } from '../../services/userData'
 import KashEarned from '../../components/user/KashEarned'
 import Table from '../../components/UI/Table'
+import { referrals } from '../../../mocks/referrals'
 
 const columns = [
-  { label: 'email', attrs: [] },
-  { label: 'completado', attrs: [] }
+  { label: 'Usuario', attrs: [] },
+  { label: 'Completado', attrs: [] }
 ]
 
-export default function ReferralScreen() {
+export default function ReferralScreen({ navigation }) {
   const user = useSelector(selectUser)
   const { data = {}, isLoading } = useGetUserKashQuery(true)
 
   return (
-    <SafeArea>
+    <ScrollView>
       <Container>
         <Text variant='titleLarge' className='mb-2 text-gray-700'>
           Refiere a un amigo
@@ -36,16 +36,21 @@ export default function ReferralScreen() {
         <Text variant='button' className='mb-2'>
           KASH acumulados
         </Text>
-        <KashEarned kashInfo={data} loading={isLoading} onPress={() => {}} />
+        <KashEarned
+          kashInfo={data}
+          loading={isLoading}
+          onPress={() => navigation.navigate('WithdrawKash', { kashAmount: data?.kash })}
+          canWithdraw
+        />
         <View className='mt-6' />
         <Text variant='button' className='mb-2'>
           Mis referidos
         </Text>
 
         <View className='bg-white rounded-lg w-full p-2'>
-          <Table columns={columns} />
+          <Table rows={referrals} />
         </View>
       </Container>
-    </SafeArea>
+    </ScrollView>
   )
 }

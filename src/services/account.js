@@ -15,7 +15,7 @@ export const accountApi = baseApi.injectEndpoints({
       transformResponse: (response) => {
         const formattedBanks = response.accounts?.map((account) => ({
           id: account.id,
-          accNumber: account.account_number,
+          accNumber: account.accountNumber,
           cci: account.cci,
           bank: {
             name: account.bank?.name,

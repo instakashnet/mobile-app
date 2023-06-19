@@ -6,6 +6,7 @@ import { useTheme } from 'react-native-paper'
 import { TabBarLabel } from './options'
 import HomeNavigator from './HomeNavigator'
 import ActivityNavigator from './ActivityNavigator'
+import ExchangeNavigator from './ExchangeNavigator'
 
 const Tabs = createBottomTabNavigator()
 
@@ -18,9 +19,9 @@ export default function TabsNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 80,
-          paddingTop: 12,
-          paddingBottom: 20,
+          height: 74,
+          paddingTop: 14,
+          paddingBottom: 12,
           backgroundColor: '#fff'
         },
         tabBarActiveTintColor: colors.primary700,
@@ -42,6 +43,14 @@ export default function TabsNavigator() {
           tabBarIcon: ({ focused, color }) => <Ionicons name={focused ? 'wallet' : 'wallet-outline'} size={22} color={color} />
         }}
         component={AccountsNavigator}
+      />
+      <Tabs.Screen
+        name='Exchange'
+        options={{
+          tabBarLabel: ({ focused }) => <TabBarLabel focused={focused} label='Cambiar' />,
+          tabBarIcon: ({ color }) => <Ionicons name='swap-horizontal-outline' size={22} color={color} />
+        }}
+        component={ExchangeNavigator}
       />
       <Tabs.Screen
         name='Operations'

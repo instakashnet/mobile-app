@@ -6,7 +6,7 @@ import { Text } from 'react-native-paper'
 import { formatAmount } from '../../helpers/formatters'
 import Card from '../UI/Card'
 
-export default function KashEarned({ kashInfo, loading, onPress }) {
+export default function KashEarned({ kashInfo, loading, canWithdraw, onPress }) {
   return (
     <Card classes={['flex-row', 'items-center']}>
       <KashIcon width={55} />
@@ -15,7 +15,7 @@ export default function KashEarned({ kashInfo, loading, onPress }) {
         <Text>{formatAmount(kashInfo?.kash, '$')}</Text>
       </View>
       <Button variant='secondary' buttonColor='#f1f1f1' className='ml-auto' onPress={onPress}>
-        Ver más
+        {canWithdraw ? 'Retirar' : 'Ver más'}
       </Button>
     </Card>
   )

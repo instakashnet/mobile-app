@@ -7,10 +7,10 @@ export default function StatusBadge({ status = {} }) {
   // const bgColor = useMemo(() => lightenColor(status.color, 180), [status.color])
 
   return (
-    <TouchableOpacity activeOpacity={0.7} className='rounded-lg border-[1px] px-2 py-1' style={{ borderColor: status.color }}>
+    <View activeOpacity={0.7} className='rounded-lg border-[1px] px-2 py-1' style={{ borderColor: status.color }}>
       <Text variant='caption' style={{ color: status.color }}>
         {status.name}
       </Text>
-    </TouchableOpacity>
+    </View>
   )
 }

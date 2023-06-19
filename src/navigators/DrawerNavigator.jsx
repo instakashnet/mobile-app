@@ -7,6 +7,7 @@ import TabsNavigator from './TabsNavigator'
 import { useDispatch } from 'react-redux'
 import { setLogout } from '../store/slices/authSlice'
 import VerificationNavigator from './VerificationNavigator'
+import ConfigurationNavigator from './ConfigurationNavigator'
 
 const Drawer = createDrawerNavigator()
 
@@ -37,6 +38,7 @@ export default function DrawerNavigator() {
     >
       <Drawer.Screen name='Main' component={TabsNavigator} />
       <Drawer.Screen name='Verification' component={VerificationNavigator} />
+      <Drawer.Screen name='Configuration' component={ConfigurationNavigator} />
     </Drawer.Navigator>
   )
 }

@@ -71,7 +71,6 @@ export const authApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response) => {
         const user = jwtDecode(response.idToken)
-        console.log(user)
         return { accessToken: response.accessToken, user: user.personData }
       },
       invalidatesTags: ['Session']

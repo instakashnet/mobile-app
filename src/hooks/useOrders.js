@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { formatAmount, formatDate } from '../helpers/formatters'
-import { useUpdate } from './useUpdate'
-import { useGetUserOrdersQuery } from '../services/userData'
+import { useLazyGetUserOrdersQuery } from '../services/userData'
 
 export function useOrders(limit = 5) {
   const [mappedOrders, setMappedOrders] = useState([])
-  const { data = [], isLoading, refetch } = useGetUserOrdersQuery({ from: 0, limit })
+  const [getOrders, { isFetching }] = useLazyGetUserOrdersQuery()
 
-  useUpdate(() => {
-    if (data.length > 0) {
-      let orders = data.map((order) => ({
+  const getuserOrders = async (ordersLimit) => {
+    try {
+      const response = await getOrders({ from: 0, limit: ordersLimit }).unwrap()
+      const orders = response.map((order) => ({
         id: order.id,
         date: order.completedAt ?? order.created,
         dateString: order.completedAt
@@ -30,8 +30,14 @@ export function useOrders(limit = 5) {
       }))
 
       setMappedOrders(orders)
+    } catch (error) {
+      setMappedOrders([])
     }
-  }, [data])
+  }
 
-  return { orders: mappedOrders, refetch, isLoading }
+  useEffect(() => {
+    getuserOrders(limit)
+  }, [limit])
+
+  return { orders: mappedOrders, getuserOrders, isLoading: isFetching }
 }

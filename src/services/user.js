@@ -1,6 +1,6 @@
-import { AUTH_ROUTE, baseApi } from '../api/api'
+import { AUTH_ROUTE, BASE_URL, EXCHANGE_ROUTE, baseApi } from '../api/api'
 
-const userApi = baseApi.injectEndpoints({
+const userApi = baseApi?.injectEndpoints({
   endpoints: (builder) => ({
     addAddress: builder.mutation({
       query: (values) => ({
@@ -17,9 +17,41 @@ const userApi = baseApi.injectEndpoints({
         body: values
       }),
       invalidatesTags: ['Session']
+    }),
+    uploadPhoto: builder.mutation({
+      queryFn: async (args, _, extra, baseQuery) => {
+        const tokenRes = await baseQuery(AUTH_ROUTE + '/v1/client/users/generate-token')
+        if (tokenRes?.error) return { error: tokenRes?.error }
+
+        const urlsRes = await baseQuery({
+          url: BASE_URL + '/documents-service/v1/presigned-url/uploads',
+          headers: { 'photo-token': tokenRes.data.accessToken }
+        })
+        if (urlsRes?.error) return { error: urlsRes?.error }
+        const photoUrl = urlsRes.data.presignedFrontUrl
+
+        const uploadRes = await baseQuery({
+          url: photoUrl,
+          method: 'PUT',
+          body: args.photo,
+          headers: { 'Content-Type': 'image/jpeg' }
+        })
+
+        if (uploadRes.error) return { error }
+
+        return { data: 'photo uploaded successfully' }
+      }
+    }),
+    withdrawKash: builder.mutation({
+      query: (values) => ({
+        url: EXCHANGE_ROUTE + '/v1/client/withdrawals/user',
+        method: 'POST',
+        body: values
+      }),
+      invalidatesTags: (result, error, arg) => (result ? [{ type: 'Withdrawals', id: arg.id }, 'UserKash'] : [])
     })
   }),
   overrideExisting: true
 })
 
-export const { useAddAddressMutation, useAddAdditionalInfoMutation } = userApi
+export const { useAddAddressMutation, useAddAdditionalInfoMutation, useWithdrawKashMutation, useUploadPhotoMutation } = userApi

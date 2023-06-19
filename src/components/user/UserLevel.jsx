@@ -5,8 +5,10 @@ import Button from '../UI/Button'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useGetUserLevelQuery } from '../../services/userData'
 import { formatAmount } from '../../helpers/formatters'
+import { useNavigation } from '@react-navigation/native'
 
 export default function UserLevel() {
+  const navigation = useNavigation()
   const { colors } = useTheme()
   const { data = {}, isLoading } = useGetUserLevelQuery()
   const percentageLeft = useMemo(() => {
@@ -22,9 +24,6 @@ export default function UserLevel() {
 
   return (
     <View className='bg-white p-6'>
-      <Text variant='titleLarge' className='text-[36px] leading-[50px]'>
-        {formatAmount(data.totalAmountOrders, '$')}
-      </Text>
       <View className='flex-row items-center justify-between'>
         <Text>Cambiado en el mes</Text>
         <Text>
@@ -38,7 +37,9 @@ export default function UserLevel() {
         Nivel: <Text>{data.levelName}</Text>
       </Text>
       <View className='mt-3' />
-      <Button icon={() => <FontAwesome5 name='exchange-alt' size={18} color='#fff' />}>Cambiar</Button>
+      <Button onPress={() => navigation.navigate('Exchange')} icon={() => <FontAwesome5 name='exchange-alt' size={18} color='#fff' />}>
+        Cambiar
+      </Button>
     </View>
   )
 }

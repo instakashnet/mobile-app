@@ -4,6 +4,7 @@ import Card from '../UI/Card'
 import { Text } from 'react-native-paper'
 import { PieChart } from 'react-native-chart-kit'
 import { useOperationsData } from '../../hooks/useOperationsData'
+import { formatAmount } from '../../helpers/formatters'
 
 const chartConfig = {
   backgroundColor: '#194ad1',
@@ -16,20 +17,20 @@ const chartConfig = {
   }
 }
 
-export default function OrdersChart() {
-  const { operationsData } = useOperationsData([])
+export default function OrdersChart({ data = {} }) {
+  const { operationsData } = useOperationsData(data)
 
   return (
-    <>
+    <Card classes={['items-center', 'justify-center']}>
       <Text variant='button' className='text-xl'>
         Cambios del mes
       </Text>
       <Text>Comparativa entre tus compras y ventas</Text>
-      <View className='mx-auto items-center justify-center relative'>
+      <View className='mx-auto items-center justify-center relative min-w-[130px] min-h-[130px]'>
         <PieChart
           data={operationsData}
-          width={250}
-          height={250}
+          width={200}
+          height={200}
           chartConfig={chartConfig}
           style={{ marginVertical: 8, borderRadius: 16 }}
           accessor='population'
@@ -38,7 +39,7 @@ export default function OrdersChart() {
           absolute
           hasLegend={false}
         />
-        <View className='w-[130px] h-[130px] bg-white rounded-full absolute left-[67px] top-[67px] items-center justify-center'>
+        <View className='bg-white rounded-full absolute items-center justify-center'>
           <Text variant='titleLarge' className='text-5xl leading-[55px]'>
             0
           </Text>
@@ -48,13 +49,13 @@ export default function OrdersChart() {
       <View className='flex-row items-center justify-between'>
         <View className='mx-6'>
           <Text variant='button'>Compra</Text>
-          <Text>$500.00</Text>
+          <Text>{formatAmount(data.buy?.amount, '$')}</Text>
         </View>
         <View className='mx-6'>
           <Text variant='button'>Venta</Text>
-          <Text>$1500.00</Text>
+          <Text>{formatAmount(data.sell?.amount, '$')}</Text>
         </View>
       </View>
-    </>
+    </Card>
   )
 }

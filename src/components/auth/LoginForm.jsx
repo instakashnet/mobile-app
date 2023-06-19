@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { Pressable, View } from 'react-native'
 import Input from '../UI/Input'
 import { useNavigation } from '@react-navigation/native'
-import { Text, IconButton } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 import { Checkbox } from 'react-native-paper'
 import Button from '../UI/Button'
 import { useForm } from 'react-hook-form'
@@ -12,13 +12,11 @@ import Helper from '../UI/Helper'
 import { storeData } from '../../lib/AsyncStorage'
 import { useLazyGetSessionQuery, useLoginMutation } from '../../services/auth'
 import { useDispatch } from 'react-redux'
-import { showAlert } from '../../store/slices/alert'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { setCredentials, setToken } from '../../store/slices/authSlice'
+import PasswordInput from '../UI/PasswordInput'
 
 export default function LoginForm() {
   const navigation = useNavigation()
-  const [showPassword, setShowPassword] = useState(false)
   const [remember, setRemember] = useState(false)
   const dispatch = useDispatch()
   const [login, { isLoading }] = useLoginMutation()
@@ -69,24 +67,14 @@ export default function LoginForm() {
         error={errors.email}
       />
       <Helper error={errors.email?.message} />
-      <View className='mt-2' />
-      <View className='w-full relative'>
-        <Input name='password' control={control} label='Contraseña' error={errors.password} secureTextEntry={!showPassword} />
-        <IconButton
-          icon={showPassword ? 'eye-off' : 'eye'}
-          iconColor='#ccc'
-          onPress={() => setShowPassword((prev) => !prev)}
-          className='absolute right-[5px] top-[-1px] z-10'
-        />
-      </View>
-      {errors.password?.message && <Helper error={errors.password?.message} />}
-      <View className='mt-2' />
-      <Pressable className='flex-row items-center top-[-4px]' onPress={() => setRemember((prev) => !prev)}>
+      <PasswordInput control={control} name='password' label='contaseña' error={errors.password} />
+      <Helper error={errors.password?.message} />
+      <Pressable className='flex-row items-center top-[-6px]' onPress={() => setRemember((prev) => !prev)}>
         <Checkbox.Android status={remember ? 'checked' : 'unchecked'} color='#0d8284' />
         <Text className='flex-wrap flex-1'>Recordarme</Text>
       </Pressable>
       <View className='mt-4' />
-      <Button onPress={!isValid ? null : handleSubmit(onSubmit)} disabled={!isValid} loading={isLoading}>
+      <Button onPress={handleSubmit(onSubmit)} disabled={!isValid} loading={isLoading}>
         Ingresar
       </Button>
     </View>

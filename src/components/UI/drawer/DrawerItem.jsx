@@ -13,12 +13,8 @@ export default function DrawerItem({ iconName, routeName, onNavigate, focusedRou
 
   return (
     <RNDrawerItem
-      icon={({ size }) => <Ionicons style={{ marginRight: -20 }} name={iconName} size={size} color={getActiveColor(route).color} />}
-      label={() => (
-        <Text variant='bodyLarge' style={{ color: getActiveColor(route).color }}>
-          {routeName}
-        </Text>
-      )}
+      icon={() => <Ionicons style={{ marginRight: -20 }} name={iconName} size={20} color={getActiveColor(route).color} />}
+      label={() => <Text style={{ color: getActiveColor(route).color }}>{routeName}</Text>}
       onPress={onNavigate}
       style={[styles.drawerItem, { backgroundColor: getActiveColor(route).bg }]}
     />
@@ -27,6 +23,7 @@ export default function DrawerItem({ iconName, routeName, onNavigate, focusedRou
 
 const styles = StyleSheet.create({
   drawerItem: {
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
+    marginBottom: 0
   }
 })

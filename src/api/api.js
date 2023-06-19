@@ -3,8 +3,9 @@ import { Alert } from 'react-native'
 import { setToken, setLogout } from '../store/slices/authSlice'
 import { getSecureData, removeSecureData } from '../lib/SecureStore'
 import { showAlert } from '../store/slices/alert'
+import camelize from 'camelize'
 
-const BASE_URL = 'https://api.dev.instakash.net'
+export const BASE_URL = 'https://api.dev.instakash.net'
 export const AUTH_ROUTE = '/auth-service/api'
 export const EXCHANGE_ROUTE = '/exchange-service/api'
 export const ACCOUNT_ROUTE = '/accounts-service/api'
@@ -12,10 +13,10 @@ export const ACCOUNT_ROUTE = '/accounts-service/api'
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   credentials: 'include',
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers, { getState, endpoint }) => {
     const token = getState().auth.token
 
-    if (token) headers.set('x-access-token', token)
+    if (token && endpoint !== 'getRefresh') headers.set('x-access-token', token)
 
     return headers
   },
@@ -57,12 +58,14 @@ const baseQueryInterceptor = async (args, api, options) => {
   if (result?.error && !result?.meta?.request.url.includes('logout') && !result?.meta?.request?.url.includes('refresh'))
     api.dispatch(showAlert({ type: 'error', message: result?.error?.message }))
 
+  if (result.data) result.data = camelize(result.data)
+
   return result
 }
 
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryInterceptor,
-  tagTypes: ['Session', 'UserLevel', 'Orders', 'Accounts'],
+  tagTypes: ['Session', 'UserLevel', 'UserKash', 'Withdrawals', 'UserExchangeData', 'Orders', 'Accounts', 'Profiles'],
   endpoints: () => ({})
 })

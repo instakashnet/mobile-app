@@ -1,0 +1,36 @@
+import { useWithdrawals } from '../../hooks/useWithdrawals'
+import Card from '../UI/Card'
+import { Pressable } from 'react-native'
+import { Text, useTheme } from 'react-native-paper'
+import WithdrawalItem from './WithdrawalItem'
+
+export default function WithdrawsListView({ navigation }) {
+  const { withdrawals } = useWithdrawals(5)
+  const { colors } = useTheme()
+
+  console.log(withdrawals)
+
+  return (
+    <Card classes={['py-0']}>
+      {withdrawals.length > 0 ? (
+        <>
+          {withdrawals.map((withdrawal, idx) => (
+            <WithdrawalItem
+              key={withdrawal.id}
+              withdrawal={withdrawal}
+              last={idx + 1 >= withdrawal.length}
+              onSelect={() => navigation.navigate('WithdrawalDetails', { withdrawal })}
+            />
+          ))}
+          <Pressable className='w-full p-3' onPress={() => navigation.navigate('Withdrawals')}>
+            <Text className='text-center' variant='button' style={{ color: colors.primary700 }}>
+              Ver mas
+            </Text>
+          </Pressable>
+        </>
+      ) : (
+        <Text className='text-center'>No has realizado ningún retiro de KASH.</Text>
+      )}
+    </Card>
+  )
+}

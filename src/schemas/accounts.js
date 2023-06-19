@@ -19,7 +19,7 @@ export const addAccountSchema = Yup.object({
   }),
   bankId: Yup.number('Selecciona un banco.').required('Selecciona un banco.'),
   currencyId: Yup.number('Selecciona una moneda.').required('Selecciona una moneda.'),
-  alias: Yup.string().required('Ingresa un alias, ej.: Tu nombre + banco + moneda.').min(7, 'Debe ser mínimo de 7 caracteres.'),
+  alias: Yup.string().required('Ingresa un alias, ej.: Tu nombre + banco + moneda.').min(5, 'Debe ser mínimo de 5 caracteres.'),
   accType: Yup.string('Selecciona un tipo de cuenta.').required('Selecciona un tipo de cuenta.'),
   firstNameJoint: Yup.string().when('joint', {
     is: true,

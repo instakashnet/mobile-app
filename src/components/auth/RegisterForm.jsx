@@ -75,12 +75,15 @@ export default function RegisterForm() {
       <Input label='Código de referido' name='affiliate' error={errors.affiliate} control={control} />
       <View className='mt-4' />
       <Checkbox name='allowPromotionalEmail' control={control}>
-        <Text className='flex-wrap flex-1'>Autorizo recibir notícias y promociones de parte de Instakash.</Text>
+        <Text variant='caption' className='flex-wrap flex-1'>
+          Autorizo recibir notícias y promociones de parte de Instakash.
+        </Text>
       </Checkbox>
-      <View className='mt-4' />
+      <View className='mt-2' />
       <Checkbox name='acceptTerms' error={errors.acceptTerms} control={control}>
-        <Text className='flex-wrap flex-1'>
-          Declaro que he leído y acepto tus <Link>Términos y condiciones</Link> y las <Link>Políticas de privacidad</Link>.
+        <Text variant='caption' className='flex-wrap flex-1'>
+          Declaro que he leído y acepto tus <Link className='text-xs'>Términos y condiciones</Link> y las{' '}
+          <Link className='text-xs'>Políticas de privacidad</Link>.
         </Text>
       </Checkbox>
       <View className='mt-8' />

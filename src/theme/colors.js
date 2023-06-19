@@ -1,6 +1,6 @@
 export const colors = {
   // PRIMARY
-  primary50: '#F0F7F8',
+  primary50: '#E9F6F6',
   primary100: '#9ecdce',
   primary300: '#6eb4b5',
   primary500: '#0d8284',
@@ -25,6 +25,8 @@ export const colors = {
   gray700: '#525252',
 
   error: '#FF4B55',
+  info: '#007bff',
+  warning: '#ffc107',
 
   neutralVariant50: '#c2c2c2'
 }

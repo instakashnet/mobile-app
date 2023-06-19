@@ -1,10 +1,9 @@
 import React from 'react'
 import SafeArea from '../../components/utils/SafeArea'
-import StepsBar from '../../components/verification/StepsBar'
+import StepsBar from '../../components/utils/StepsBar'
 import { Text } from 'react-native-paper'
 import Container from '../../components/utils/Container'
 import { View } from 'react-native'
-import AddressForm from '../../components/verification/AddressForm'
 import { steps } from '../../utils/verification-steps'
 import OccupationForm from '../../components/verification/OccupationForm'
 

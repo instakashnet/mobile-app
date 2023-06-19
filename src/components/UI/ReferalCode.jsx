@@ -12,7 +12,7 @@ export default function ReferalCode() {
   return (
     <View>
       <Text>Código de referido</Text>
-      <View className='px-4 py-2 mt-2 rounded-lg flex-row items-center justify-between' style={{ backgroundColor: colors.primary50 }}>
+      <View className='px-4 py-2 mt-1 rounded-lg flex-row items-center justify-between' style={{ backgroundColor: colors.primary50 }}>
         <Text style={{ color: '#999' }}>{user?.username}</Text>
         <CopyButton />
       </View>

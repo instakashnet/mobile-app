@@ -5,7 +5,7 @@ import InstructionsScreen from '../screens/verification/InstructionsScreen'
 import AddressScreen from '../screens/verification/AddressScreen'
 import OccupationScreen from '../screens/verification/OccupationScreen'
 import DocumentNavigator from './DocumentNavigator'
-import DocumentCameraScreen from '../screens/verification/document/DocumentCameraScreen'
+import VerifyingScreen from '../screens/verification/VerifyingScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -15,8 +15,8 @@ export default function VerificationNavigator() {
       <Stack.Screen name='Instructions' component={InstructionsScreen} />
       <Stack.Screen name='Address' component={AddressScreen} />
       <Stack.Screen name='Occupation' component={OccupationScreen} />
-      <Stack.Screen name='Document' component={DocumentNavigator} />
-      <Stack.Screen name='DocumentCamera' component={DocumentCameraScreen} />
+      <Stack.Screen name='Document' options={{ headerShown: false }} component={DocumentNavigator} />
+      <Stack.Screen name='Verifying' component={VerifyingScreen} />
     </Stack.Navigator>
   )
 }

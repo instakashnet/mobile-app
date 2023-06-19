@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native'
+import { Pressable, ScrollView, View } from 'react-native'
 import React from 'react'
 import Icon from '../../../assets/images/svgs/Icon'
 import { Text } from 'react-native-paper'
@@ -8,13 +8,12 @@ import GoogleIcon from '../../../assets/images/svgs/GoogleIcon'
 import AppleIcon from '../../../assets/images/svgs/AppleIcon'
 import Button from '../../components/UI/Button'
 import KeyboardView from '../../components/utils/KeyboardView'
-import DismissKeyboard from '../../components/utils/DismissKeyboard'
 
 export default function LoginScreen({ navigation }) {
   return (
     <KeyboardView>
-      <DismissKeyboard>
-        <View className='flex-1 items-center  p-6'>
+      <ScrollView keyboardDismissMode='on-drag'>
+        <View className='flex-1 items-center justify-center p-6'>
           <Icon width={75} />
           <View>
             <Text className='mt-4' variant='titleLarge'>
@@ -43,13 +42,13 @@ export default function LoginScreen({ navigation }) {
             </Button>
           </View>
 
-          <Pressable className='mt-auto items-center' onPress={() => navigation.navigate('Register')}>
+          <Pressable className='mt-4 items-center' onPress={() => navigation.navigate('Register')}>
             <Text>
               ¿Aún no tienes una cuenta? <Link>Regístrate</Link>
             </Text>
           </Pressable>
         </View>
-      </DismissKeyboard>
+      </ScrollView>
     </KeyboardView>
   )
 }

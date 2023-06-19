@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
-import { DataTable } from 'react-native-paper'
+import { View } from 'react-native'
+import { DataTable, Text } from 'react-native-paper'
+import StatusBadge from './StatusBadge'
 
 const optionsPerPage = [3, 5]
 
@@ -19,24 +21,25 @@ export default function Table({ columns = [], rows = [] }) {
         ))}
       </DataTable.Header>
 
-      <DataTable.Row>
-        <DataTable.Cell>Frozen yogurt</DataTable.Cell>
-        <DataTable.Cell numeric>159</DataTable.Cell>
-        <DataTable.Cell numeric>6.0</DataTable.Cell>
-      </DataTable.Row>
-
-      <DataTable.Row>
-        <DataTable.Cell>Ice cream sandwich</DataTable.Cell>
-        <DataTable.Cell numeric>237</DataTable.Cell>
-        <DataTable.Cell numeric>8.0</DataTable.Cell>
-      </DataTable.Row>
+      {rows.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage).map((row) => (
+        <DataTable.Row key={row.id} className='h-16'>
+          <DataTable.Cell>
+            <View>
+              <Text variant='button'>{row.name}</Text>
+              <Text variant='caption'>{row.email}</Text>
+            </View>
+          </DataTable.Cell>
+          <DataTable.Cell numeric>
+            <StatusBadge status={row.status} />
+          </DataTable.Cell>
+        </DataTable.Row>
+      ))}
 
       <DataTable.Pagination
         page={page}
-        numberOfPages={3}
+        numberOfPages={Math.ceil(rows.length / itemsPerPage)}
         onPageChange={(page) => setPage(page)}
-        label='1-3 of 6'
-        optionsPerPage={optionsPerPage}
+        label={`${page * itemsPerPage + 1}-${page * itemsPerPage + itemsPerPage} de ${rows.length}`}
         itemsPerPage={itemsPerPage}
         setItemsPerPage={setItemsPerPage}
         showFastPagination
