@@ -41,7 +41,8 @@
         {
           "cameraPermission": "$(PRODUCT_NAME) necesita permisos para poder usar tu cámara."
         }
-      ]
+      ],
+      "expo-notifications"
     ]
   }
 }

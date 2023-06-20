@@ -13,11 +13,11 @@ export default function OnboardingScreen({ navigation }) {
       <View className='flex-1 items-center mt-6 p-6'>
         <Logo width={200} />
         <OnboardingSwiper />
-        <View className='mt-auto w-full items-center'>
-          <Button className='w-full mt-4' onPress={() => navigation.navigate('Register')}>
+        <View className='mt-auto w-full'>
+          <Button onPress={() => navigation.navigate('Register')}>
             Registrate
           </Button>
-          <Pressable className='mt-4' onPress={() => navigation.navigate('Login')}>
+          <Pressable className='mt-4 self-center' onPress={() => navigation.navigate('Login')}>
             <Text>
               ¿Ya tienes una cuenta? <Link>Ingresa</Link>
             </Text>

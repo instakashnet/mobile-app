@@ -75,6 +75,13 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ['Session']
     }),
+    savePushToken: builder.mutation({
+      query: (values) => ({
+        url: AUTH_ROUTE + '/v1/client/auth/push-token',
+        method: "POST",
+        body: values
+      })
+    }),
     logout: builder.mutation({
       query: () => ({
         url: AUTH_ROUTE + '/v1/client/auth/logout',
@@ -107,5 +114,6 @@ export const {
   useVerifyCodeMutation,
   useLazyGetSessionQuery,
   useGetRefreshMutation,
-  useLogoutMutation
+  useLogoutMutation,
+  useSavePushTokenMutation
 } = authApi

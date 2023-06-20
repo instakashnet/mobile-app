@@ -5,7 +5,6 @@ import KashEarned from '../../components/user/KashEarned'
 import Link from '../../components/utils/Link'
 import { Text } from 'react-native-paper'
 import { useOrders } from '../../hooks/useOrders'
-// import OrdersList from '../../components/orders/OrdersList'
 import OrderItem from '../../components/orders/OrderItem'
 import Container from '../../components/utils/Container'
 import { useGetUserKashQuery } from '../../services/userData'
@@ -46,8 +45,6 @@ export default function HomeScreen({ navigation }) {
           ) : (
             <Text className='text-center'>No has realizado ningún cambio.</Text>
           )}
-
-          {/* <OrdersList data={orders} /> */}
         </Card>
       </Container>
     </ScrollView>

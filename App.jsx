@@ -28,6 +28,8 @@ export default function App() {
           'poppins-regular': Poppins.Poppins_400Regular,
           'poppins-semibold': Poppins.Poppins_600SemiBold
         })
+
+
       } catch (error) {
         console.log(error)
       } finally {
