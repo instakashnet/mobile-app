@@ -4,10 +4,9 @@ import Icon from '../../../assets/images/svgs/Icon'
 import { Text } from 'react-native-paper'
 import LoginForm from '../../components/auth/LoginForm'
 import Link from '../../components/utils/Link'
-import GoogleIcon from '../../../assets/images/svgs/GoogleIcon'
-import AppleIcon from '../../../assets/images/svgs/AppleIcon'
-import Button from '../../components/UI/Button'
 import KeyboardView from '../../components/utils/KeyboardView'
+import GoogleLogin from '../../components/auth/GoogleLogin'
+import AppleLogin from '../../components/auth/AppleLogin'
 
 export default function LoginScreen({ navigation }) {
   return (
@@ -26,21 +25,11 @@ export default function LoginScreen({ navigation }) {
               <Link>Olvidé mi contraseña</Link>
             </Pressable>
           </View>
-          <View className='w-full mt-10'>
-            <Button variant='secondary' onPress={() => console.log('logging google..')} icon={() => <GoogleIcon width={20} />}>
-              <Text variant='button' style={{ color: '#525252' }}>
-                Ingresar con google
-              </Text>
-            </Button>
-          </View>
+          <View className='mt-10' />
+          <GoogleLogin />
 
-          <View className='w-full mt-4'>
-            <Button variant='secondary' onPress={() => console.log('logging apple..')} icon={() => <AppleIcon width={20} />}>
-              <Text variant='button' style={{ color: '#525252' }}>
-                Ingresar con apple
-              </Text>
-            </Button>
-          </View>
+          <View className='mt-4' />
+          <AppleLogin />
 
           <Pressable className='mt-4 items-center' onPress={() => navigation.navigate('Register')}>
             <Text>

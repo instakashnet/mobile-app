@@ -1,34 +1,30 @@
 module.exports = {
+  root: true,
   env: {
-    browser: true,
-    es2021: true,
+    es6: true,
+    node: true,
   },
-  extends: [
-    'plugin:react/recommended',
-    'standard',
-    'prettier',
-    'prettier/react',
-  ],
-  overrides: [],
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-  },
-  plugins: ['react', 'react-native', 'prettier'],
+  plugins: ['react', 'react-native', 'react-hooks'],
+  extends: ['universe/native', 'plugin:react-hooks/recommended', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
-    // allow .js files to contain JSX code
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    // prevent eslint to complain about the "styles" variable being used before it was defined
-    // "no-use-before-define": ["error", { "variables": false }],
-
-    // ignore errors for the react-navigation package
-    'react/prop-types': [
-      'error',
-      { ignore: ['navigation', 'navigation.navigate'] },
+    'react/react-in-jsx-scope': 'off',
+    'react/display-name': 'off',
+    'react/prop-types': 'off',
+    'no-unused-vars': ['warn', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
+    'no-unused-expressions': 'warn',
+    indent: ['error', 2, { SwitchCase: 1 }],
+    quotes: ['error', 'single', { avoidEscape: true }],
+    'import/order': [
+      'warn',
+      {
+        groups: [['builtin', 'external']],
+        'newlines-between': 'always',
+      },
     ],
   },
-};
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+}

@@ -1,112 +1,140 @@
-import { AUTH_ROUTE, baseApi } from '../api/api'
 import jwtDecode from 'jwt-decode'
+
+import { AUTH_ROUTE, baseApi } from '../api/api'
 import { storeSecureData } from '../lib/SecureStore'
-import { setLogout } from '../store/slices/authSlice'
+import { setCredentials, setLogout, setToken } from '../store/slices/authSlice'
+
+const onLoginStarted = async (_, { dispatch, queryFulfilled }) => {
+  try {
+    const { data } = await queryFulfilled
+    dispatch(setToken(data.accessToken))
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const authApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     login: builder.mutation({
-      query: (values) => {
+      query: values => {
         return {
           url: AUTH_ROUTE + '/v1/client/auth/signin',
           method: 'POST',
-          body: values
+          body: values,
         }
       },
-      invalidatesTags: ['Session']
+      onQueryStarted: onLoginStarted,
+      invalidatesTags: ['Session'],
+    }),
+    loginGoogle: builder.mutation({
+      query: values => ({
+        url: AUTH_ROUTE + '/v1/client/auth/google',
+        method: 'POST',
+        body: values,
+      }),
+      onQueryStarted: onLoginStarted,
     }),
     register: builder.mutation({
-      query: (values) => ({
+      query: values => ({
         url: AUTH_ROUTE + '/v1/client/auth/signup',
         method: 'POST',
-        body: values
-      })
+        body: values,
+      }),
     }),
     verifyCode: builder.mutation({
-      query: (values) => ({
+      query: values => ({
         url: AUTH_ROUTE + '/v1/client/auth/verify-code',
         method: 'POST',
-        body: values
-      })
+        body: values,
+      }),
     }),
     recoverPassword: builder.mutation({
-      query: (values) => ({
+      query: values => ({
         url: AUTH_ROUTE + '/v1/client/users/recover-password',
         method: 'POST',
-        body: values
-      })
+        body: values,
+      }),
     }),
     resetPassword: builder.mutation({
-      query: (values) => ({
+      query: values => ({
         url: AUTH_ROUTE + '/v1/client/users/reset-password',
         method: 'POST',
-        body: values
-      })
+        body: values,
+      }),
     }),
     completeRegistration: builder.mutation({
-      query: (values) => ({
+      query: values => ({
         url: AUTH_ROUTE + '/v1/client/users/profiles',
         method: 'POST',
-        body: values
+        body: values,
       }),
-      invalidatesTags: ['Session']
+      invalidatesTags: ['Session'],
     }),
     getSession: builder.query({
       query: () => AUTH_ROUTE + '/v1/client/users/session',
-      transformResponse: async (response) => {
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled
+          console.log(data)
+          dispatch(setCredentials({ accessToken: data.accessToken, user: data.user }))
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      transformResponse: async response => {
         const user = jwtDecode(response.idToken)
         await storeSecureData('refreshToken', response.accessToken)
 
         return { accessToken: response.accessToken, user: user.personData }
       },
-      providesTags: ['Session']
+      providesTags: ['Session'],
     }),
     getRefresh: builder.mutation({
-      query: (refreshToken) => ({
+      query: refreshToken => ({
         url: AUTH_ROUTE + '/v1/client/auth/refresh',
         method: 'POST',
         headers: {
-          'refresh-token': refreshToken
-        }
+          'refresh-token': refreshToken,
+        },
       }),
-      transformResponse: (response) => {
+      transformResponse: response => {
         const user = jwtDecode(response.idToken)
         return { accessToken: response.accessToken, user: user.personData }
       },
-      invalidatesTags: ['Session']
+      invalidatesTags: ['Session'],
     }),
     savePushToken: builder.mutation({
-      query: (values) => ({
+      query: values => ({
         url: AUTH_ROUTE + '/v1/client/auth/push-token',
-        method: "POST",
-        body: values
-      })
+        method: 'POST',
+        body: values,
+      }),
     }),
     logout: builder.mutation({
       query: () => ({
         url: AUTH_ROUTE + '/v1/client/auth/logout',
-        method: 'POST'
+        method: 'POST',
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled
           console.log(data)
           dispatch(setLogout())
-          // setTimeout(() => {
-          //   dispatch(baseApi.util.resetApiState())
-          // }, 1000)
-          dispatch(baseApi.util.resetApiState())
+          setTimeout(() => {
+            dispatch(baseApi.util.resetApiState())
+          }, 1000)
         } catch (error) {
           console.error(error)
         }
-      }
-    })
+      },
+    }),
   }),
-  overrideExisting: true
+  overrideExisting: true,
 })
 
 export const {
   useLoginMutation,
+  useLoginGoogleMutation,
   useRegisterMutation,
   useCompleteRegistrationMutation,
   useRecoverPasswordMutation,
@@ -115,5 +143,5 @@ export const {
   useLazyGetSessionQuery,
   useGetRefreshMutation,
   useLogoutMutation,
-  useSavePushTokenMutation
+  useSavePushTokenMutation,
 } = authApi
