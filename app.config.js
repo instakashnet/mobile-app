@@ -67,6 +67,7 @@ module.exports = {
     eas: {
       projectId: 'd79c74ef-7ba4-44fa-b647-92650d67b200',
     },
+    googleWebClientId: process.env.GOOGLE_WEB_CLIENT_ID,
   },
   runtimeVersion: {
     policy: 'sdkVersion',

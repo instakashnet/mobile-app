@@ -1,13 +1,14 @@
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 import { Text } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
+import Constants from 'expo-constants'
 
 import { useLazyGetSessionQuery, useLoginGoogleMutation } from '../../services/auth.js'
 import GoogleIcon from '../../../assets/images/svgs/GoogleIcon'
 import Button from '../UI/Button'
 
 GoogleSignin.configure({
-  webClientId: '638094177367-34hn531ql7iij56qrj6r812idrjeisl2.apps.googleusercontent.com',
+  webClientId: Constants.expoConfig.extra.googleWebClientId,
 })
 
 export default function GoogleLogin() {
