@@ -10,6 +10,16 @@ export async function storeData(key, value) {
   }
 }
 
+export async function mergeData(key, value) {
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.mergeItem(key, jsonValue)
+  } catch (e) {
+    // remove error
+    throw e
+  }
+}
+
 export async function getData(key) {
   try {
     const jsonValue = await AsyncStorage.getItem(key)

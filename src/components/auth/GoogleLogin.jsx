@@ -1,13 +1,14 @@
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 import { Text } from 'react-native-paper'
-import { Platform } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { useLazyGetSessionQuery, useLoginGoogleMutation } from '../../services/auth.js'
 import GoogleIcon from '../../../assets/images/svgs/GoogleIcon'
 import Button from '../UI/Button'
 
-GoogleSignin.configure()
+GoogleSignin.configure({
+  webClientId: '638094177367-34hn531ql7iij56qrj6r812idrjeisl2.apps.googleusercontent.com',
+})
 
 export default function GoogleLogin() {
   const [loginGoogle, { isLoading }] = useLoginGoogleMutation()
@@ -15,16 +16,17 @@ export default function GoogleLogin() {
   const navigation = useNavigation()
 
   const onSignIn = async () => {
-    console.log('singing in...')
-
     try {
       await GoogleSignin.hasPlayServices()
       const userInfo = await GoogleSignin.signIn()
-      const response = await loginGoogle({ token: userInfo.idToken, origin: Platform.OS }).unwrap()
+      console.log({ userInfo })
+      const response = await loginGoogle({ token: userInfo.idToken, origin: 'web' }).unwrap()
 
       if (!response.completed) navigation.navigate('Complete')
       await getSession().unwrap()
     } catch (error) {
+      console.log(error)
+
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {

@@ -12,13 +12,13 @@ import store from './src/store'
 import 'react-native-gesture-handler'
 import { translateDatepicker } from './src/utils/translate-datepicker'
 import Alert from './src/components/UI/Alert'
-import { useAPpUpdate } from './src/hooks/useAppUpdate'
+import { useAppUpdate } from './src/hooks/useAppUpdate'
 
 translateDatepicker()
 
 export default function App() {
   const [appisReady, setAppIsReady] = useState(false)
-  useAPpUpdate()
+  useAppUpdate()
 
   useEffect(() => {
     async function loadResourcesAsync() {

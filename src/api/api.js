@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Alert } from 'react-native'
+import camelize from 'camelize'
+import Toast from 'react-native-toast-message'
+
 import { setToken, setLogout } from '../store/slices/authSlice'
 import { getSecureData, removeSecureData } from '../lib/SecureStore'
-import { showAlert } from '../store/slices/alert'
-import camelize from 'camelize'
 
 export const BASE_URL = 'https://api.dev.instakash.net'
 export const AUTH_ROUTE = '/auth-service/api'
@@ -20,7 +21,7 @@ const baseQuery = fetchBaseQuery({
 
     return headers
   },
-  timeout: 40000
+  timeout: 40000,
 })
 
 const baseQueryInterceptor = async (args, api, options) => {
@@ -32,10 +33,10 @@ const baseQueryInterceptor = async (args, api, options) => {
       {
         url: BASE_URL + AUTH_ROUTE + '/v1/client/auth/refresh',
         method: 'POST',
-        headers: { 'refresh-token': refreshToken }
+        headers: { 'refresh-token': refreshToken },
       },
       api,
-      options
+      options,
     )
 
     if (refreshResult?.data) {
@@ -56,7 +57,11 @@ const baseQueryInterceptor = async (args, api, options) => {
   }
 
   if (result?.error && !result?.meta?.request.url.includes('logout') && !result?.meta?.request?.url.includes('refresh'))
-    api.dispatch(showAlert({ type: 'error', message: result?.error?.message }))
+    Toast.show({
+      type: 'error',
+      text1: 'Parece que algo salió mal',
+      text2: result?.error?.message,
+    })
 
   if (result.data) result.data = camelize(result.data)
 
@@ -66,6 +71,6 @@ const baseQueryInterceptor = async (args, api, options) => {
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryInterceptor,
-  tagTypes: ['Session', 'UserLevel', 'UserKash', 'Withdrawals', 'UserExchangeData', 'Orders', 'Accounts', 'Profiles'],
-  endpoints: () => ({})
+  tagTypes: ['Session', 'UserLevel', 'UserKash', 'Withdrawals', 'UserExchangeData', 'Orders', 'Accounts', 'Profiles', 'Notifications'],
+  endpoints: () => ({}),
 })

@@ -30,7 +30,7 @@ module.exports = {
     package: 'net.instakash.app',
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#0A686A',
     },
     softwareKeyboardLayoutMode: 'pan',
     googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
@@ -52,6 +52,13 @@ module.exports = {
       'expo-updates',
       {
         username: 'rogerrc12',
+      },
+    ],
+    [
+      'expo-notifications',
+      {
+        icon: './assets/notification-icon.png',
+        color: '#0A686A',
       },
     ],
     'expo-notifications',

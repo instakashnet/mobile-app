@@ -1,7 +1,8 @@
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
-import AuthNavigator from './AuthNavigator'
 import { adaptNavigationTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
+
+import AuthNavigator from './AuthNavigator'
 import { selectIsSignedIn } from '../store/slices/authSlice'
 import DrawerNavigator from './DrawerNavigator'
 import SafeArea from '../components/utils/SafeArea'
@@ -9,12 +10,11 @@ import { useRefresh } from '../hooks/useRefresh'
 import { useUpdate } from '../hooks/useUpdate'
 import { useLazyGetBanksQuery, useLazyGetCurrenciesQuery } from '../services/account'
 import { setBanks, setCurrencies } from '../store/slices/app-data'
-import { useNotifications } from '../hooks/useNotifications'
+import { useNotificationsPermissions } from '../hooks/notifications/useNotificationsPermissions'
 import { useSavePushTokenMutation } from '../services/auth'
-import { useEffect } from 'react'
 
 const { LightTheme } = adaptNavigationTheme({
-  reactNavigationLight: DefaultTheme
+  reactNavigationLight: DefaultTheme,
 })
 
 export default function MainNavigation({ onLayout }) {
@@ -23,7 +23,7 @@ export default function MainNavigation({ onLayout }) {
   const [getBanks] = useLazyGetBanksQuery()
   const [getCurrencies] = useLazyGetCurrenciesQuery()
   const [saveToken] = useSavePushTokenMutation()
-  const { permissionStatus, getPushToken } = useNotifications()
+  const { permissionStatus, getPushToken } = useNotificationsPermissions()
   useRefresh()
 
   useUpdate(() => {
@@ -49,12 +49,11 @@ export default function MainNavigation({ onLayout }) {
             console.log(error)
           }
         }
-  
-        updateToken()        
+
+        updateToken()
       }
     }
   }, [isSignedIn, permissionStatus])
-
 
   return (
     <NavigationContainer theme={LightTheme} onReady={onLayout}>

@@ -1,9 +1,10 @@
 import { Pressable, ScrollView, View } from 'react-native'
 import React from 'react'
+import { Text } from 'react-native-paper'
+
 import UserLevel from '../../components/user/UserLevel'
 import KashEarned from '../../components/user/KashEarned'
 import Link from '../../components/utils/Link'
-import { Text } from 'react-native-paper'
 import { useOrders } from '../../hooks/useOrders'
 import OrderItem from '../../components/orders/OrderItem'
 import Container from '../../components/utils/Container'
@@ -18,19 +19,19 @@ export default function HomeScreen({ navigation }) {
     <ScrollView>
       <UserLevel />
       <Container>
-        <Text variant='button' className='mb-2'>
+        <Text variant="button" className="mb-2">
           Refiere y gana
         </Text>
         <KashEarned kashInfo={data} loading={isLoading} onPress={() => navigation.navigate('ReferralScreen')} />
-        <View className='mt-6' />
-        <View className='flex-row items-center justify-between'>
+        <View className="mt-6" />
+        <View className="flex-row items-center justify-between">
           <Text>Pedidos realizados</Text>
           <Pressable onPress={() => navigation.navigate('Operations', { screen: 'AllOperations' })}>
             <Link>Ver todas</Link>
           </Pressable>
         </View>
-        <View className='mt-3' />
-        <Card classes={['py-0']}>
+        <View className="mt-3" />
+        <Card classes={['py-4']}>
           {orders.length > 0 ? (
             <>
               {orders.map((order, idx) => (
@@ -43,7 +44,7 @@ export default function HomeScreen({ navigation }) {
               ))}
             </>
           ) : (
-            <Text className='text-center'>No has realizado ningún cambio.</Text>
+            <Text className="text-center">No has realizado ningún cambio.</Text>
           )}
         </Card>
       </Container>

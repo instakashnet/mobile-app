@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode'
 
 import { AUTH_ROUTE, baseApi } from '../api/api'
-import { storeSecureData } from '../lib/SecureStore'
+import { removeSecureData, storeSecureData } from '../lib/SecureStore'
 import { setCredentials, setLogout, setToken } from '../store/slices/authSlice'
 
 const onLoginStarted = async (_, { dispatch, queryFulfilled }) => {
@@ -29,6 +29,14 @@ export const authApi = baseApi.injectEndpoints({
     loginGoogle: builder.mutation({
       query: values => ({
         url: AUTH_ROUTE + '/v1/client/auth/google',
+        method: 'POST',
+        body: values,
+      }),
+      onQueryStarted: onLoginStarted,
+    }),
+    loginApple: builder.mutation({
+      query: values => ({
+        url: AUTH_ROUTE + '/v1/client/auth/apple',
         method: 'POST',
         body: values,
       }),
@@ -75,7 +83,6 @@ export const authApi = baseApi.injectEndpoints({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled
-          console.log(data)
           dispatch(setCredentials({ accessToken: data.accessToken, user: data.user }))
         } catch (error) {
           console.log(error)
@@ -117,9 +124,9 @@ export const authApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled
-          console.log(data)
           dispatch(setLogout())
+          await removeSecureData('refreshToken')
+          await queryFulfilled
           setTimeout(() => {
             dispatch(baseApi.util.resetApiState())
           }, 1000)
@@ -135,6 +142,7 @@ export const authApi = baseApi.injectEndpoints({
 export const {
   useLoginMutation,
   useLoginGoogleMutation,
+  useLoginAppleMutation,
   useRegisterMutation,
   useCompleteRegistrationMutation,
   useRecoverPasswordMutation,

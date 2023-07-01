@@ -12,8 +12,7 @@ module.exports = {
     'react/prop-types': 'off',
     'no-unused-vars': ['warn', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
     'no-unused-expressions': 'warn',
-    indent: ['error', 2, { SwitchCase: 1 }],
-    quotes: ['error', 'single', { avoidEscape: true }],
+    indent: ['warn', 2, { SwitchCase: 1 }],
     'import/order': [
       'warn',
       {

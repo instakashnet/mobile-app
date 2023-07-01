@@ -13,7 +13,7 @@ import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen'
 const Stack = createNativeStackNavigator()
 
 export default function AuthNavigator() {
-  const { colors, fonts } = useTheme()
+  const { colors } = useTheme()
 
   return (
     <Stack.Navigator
@@ -33,7 +33,7 @@ export default function AuthNavigator() {
         options={{ headerTitle: 'Reiniciar contraseña', headerLeft: null }}
         component={ResetPasswordScreen}
       />
-      <Stack.Screen name="Complete" options={{ headerTitle: 'Completar registro' }} component={CompleteScreen} />
+      <Stack.Screen name="Complete" options={{ headerTitle: 'Completar registro', headerLeft: null }} component={CompleteScreen} />
     </Stack.Navigator>
   )
 }

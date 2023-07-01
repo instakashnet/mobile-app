@@ -15,6 +15,6 @@ export function useAppUpdate() {
   }
 
   useEffect(() => {
-    checkForUpdate()
+    if (!__DEV__) checkForUpdate()
   }, [])
 }
