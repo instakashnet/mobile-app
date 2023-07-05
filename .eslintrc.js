@@ -8,6 +8,16 @@ module.exports = {
   extends: ['universe/native', 'plugin:react-hooks/recommended', 'prettier'],
   rules: {
     'react/react-in-jsx-scope': 'off',
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'always-multiline',
+        imports: 'always-multiline',
+        objects: 'always-multiline',
+      },
+    ],
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'no-unused-vars': ['warn', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],

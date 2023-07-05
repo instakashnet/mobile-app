@@ -12,6 +12,7 @@ import { useLazyGetBanksQuery, useLazyGetCurrenciesQuery } from '../services/acc
 import { setBanks, setCurrencies } from '../store/slices/app-data'
 import { useNotificationsPermissions } from '../hooks/notifications/useNotificationsPermissions'
 import { useSavePushTokenMutation } from '../services/auth'
+import LoadingScreen from '../screens/LoadingScreen'
 
 const { LightTheme } = adaptNavigationTheme({
   reactNavigationLight: DefaultTheme,
@@ -24,7 +25,7 @@ export default function MainNavigation({ onLayout }) {
   const [getCurrencies] = useLazyGetCurrenciesQuery()
   const [saveToken] = useSavePushTokenMutation()
   const { permissionStatus, getPushToken } = useNotificationsPermissions()
-  useRefresh()
+  const { isSessionLoading } = useRefresh()
 
   useUpdate(() => {
     const getAppData = async () => {
@@ -54,6 +55,8 @@ export default function MainNavigation({ onLayout }) {
       }
     }
   }, [isSignedIn, permissionStatus])
+
+  if (isSessionLoading) return <LoadingScreen />
 
   return (
     <NavigationContainer theme={LightTheme} onReady={onLayout}>

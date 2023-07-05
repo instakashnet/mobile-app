@@ -1,5 +1,6 @@
 import { ScrollView, View } from 'react-native'
 import React from 'react'
+
 import Container from '../../components/utils/Container'
 import UserSavings from '../../components/user/UserSavings'
 import { useGetUserExchangeDataQuery } from '../../services/userData'
@@ -13,9 +14,9 @@ export default function ActivityScreen() {
     <ScrollView>
       <Container>
         <OrdersChart data={exchangeData} />
-        <View className='mt-4' />
+        <View className="mt-4" />
         <ActivityTabs />
-        <View className='mt-4' />
+        <View className="mt-4" />
         <UserSavings buy={exchangeData.buy?.amount} sell={exchangeData.sell?.amount} />
       </Container>
     </ScrollView>

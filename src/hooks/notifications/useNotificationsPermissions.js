@@ -3,6 +3,14 @@ import * as Device from 'expo-device'
 import { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+})
+
 export function useNotificationsPermissions() {
   const [permissionStatus, setPermissionStatus] = useState(null)
 
@@ -41,7 +49,7 @@ export function useNotificationsPermissions() {
           projectId: 'd79c74ef-7ba4-44fa-b647-92650d67b200',
         })
       ).data
-      console.log(token)
+      console.log({ token })
       return token
     } catch (error) {
       console.log(error)

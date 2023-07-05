@@ -6,18 +6,20 @@ const notificationsApi = baseApi.injectEndpoints({
       query: () => AUTH_ROUTE + `/v1/client/notifications`,
       transformResponse: response => response.notification,
       providesTags: ['Notifications'],
+      keepUnusedDataFor: 15,
     }),
     saveNotification: builder.mutation({
       query: notification => ({
         url: AUTH_ROUTE + `/v1/client/notifications/${notification.type}`,
         method: 'PUT',
-        body: notification,
+        body: { active: notification.enabled },
       }),
       invalidatesTags: ['Notifications'],
     }),
     getRatesNotifications: builder.query({
       query: () => AUTH_ROUTE + `/v1/client/notifications/rates`,
       transformResponse: response => response.notification,
+      providesTags: ['RatesNotifications'],
     }),
     saveRatesNotifications: builder.mutation({
       query: notificationValues => ({
@@ -25,10 +27,15 @@ const notificationsApi = baseApi.injectEndpoints({
         method: 'POST',
         body: notificationValues,
       }),
+      invalidatesTags: ['RatesNotifications'],
     }),
   }),
   overrideExisting: true,
 })
 
-export const { useGetNotificationsQuery, useGetRatesNotificationsQuery, useSaveRatesNotificationsMutation, useSaveNotificationMutation } =
-  notificationsApi
+export const {
+  useLazyGetNotificationsQuery,
+  useGetRatesNotificationsQuery,
+  useSaveRatesNotificationsMutation,
+  useSaveNotificationMutation,
+} = notificationsApi

@@ -1,29 +1,27 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Text, Checkbox } from 'react-native-paper'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useDispatch } from 'react-redux'
 
 import Input from '../UI/Input'
 import Button from '../UI/Button'
 import { loginValidationSchema } from '../../schemas/auth'
 import Helper from '../UI/Helper'
-import { storeData } from '../../lib/AsyncStorage'
+import { storeData, getData } from '../../lib/AsyncStorage'
 import { useLazyGetSessionQuery, useLoginMutation } from '../../services/auth'
-import { setCredentials, setToken } from '../../store/slices/authSlice'
 import PasswordInput from '../UI/PasswordInput'
 
 export default function LoginForm() {
   const navigation = useNavigation()
   const [remember, setRemember] = useState(false)
-  const dispatch = useDispatch()
   const [login, { isLoading }] = useLoginMutation()
   const [getSession] = useLazyGetSessionQuery()
 
   const {
     control,
+    setValue,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
@@ -34,6 +32,17 @@ export default function LoginForm() {
     mode: 'all',
     resolver: yupResolver(loginValidationSchema),
   })
+
+  useEffect(() => {
+    const getRememberUser = async () => {
+      const data = await getData('userEmail')
+      if (data?.email) {
+        setRemember(true)
+        setValue('email', data.email)
+      }
+    }
+    getRememberUser()
+  }, [setValue])
 
   const onSubmit = useCallback(
     async values => {
@@ -48,7 +57,7 @@ export default function LoginForm() {
         console.error(error)
       }
     },
-    [remember],
+    [remember, login, getSession, navigation],
   )
 
   return (

@@ -1,20 +1,30 @@
 import * as Updates from 'expo-updates'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export function useAppUpdate() {
-  const checkForUpdate = async () => {
-    try {
-      const update = await Updates.checkForUpdateAsync()
-      if (update.isAvailable) {
-        await Updates.fetchUpdateAsync()
-        await Updates.reloadAsync()
+  const [isUpdateAvailable, setIsUpdateAiailable] = useState(false)
+
+  useEffect(() => {
+    const checkForUpdate = async () => {
+      try {
+        const { isAvailable } = await Updates.checkForUpdateAsync()
+        setIsUpdateAiailable(isAvailable)
+      } catch (e) {
+        console.log('No se ha podido validar actualizaciones', e)
       }
+    }
+
+    checkForUpdate()
+  }, [])
+
+  const updateApp = async () => {
+    try {
+      await Updates.fetchUpdateAsync()
+      await Updates.reloadAsync()
     } catch (e) {
-      console.log(e)
+      console.log('No se ha podido actualizar la app', e)
     }
   }
 
-  useEffect(() => {
-    if (!__DEV__) checkForUpdate()
-  }, [])
+  return { isUpdateAvailable, updateApp }
 }

@@ -14,9 +14,7 @@ export function useOrders(limit = 5) {
         const orders = response.map(order => ({
           id: order.id,
           date: order.completedAt ?? order.created,
-          dateString: order.completedAt
-            ? formatDate(order.completedAt, { month: 'short', day: 'numeric' })
-            : formatDate(order.created, { month: 'short', day: 'numeric' }),
+          dateString: order.completedAt ? formatDate(order.completedAt, 'DD MMM') : formatDate(order.created, 'DD MMM'),
           orderId: order.uuid,
           amountToSend: formatAmount(order.amountSent, order.currencySentSymbol),
           amountToReceive: formatAmount(order.amountReceived, order.currencyReceivedSymbol),

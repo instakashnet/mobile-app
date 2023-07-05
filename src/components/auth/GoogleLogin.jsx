@@ -1,14 +1,15 @@
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 import { Text } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import Constants from 'expo-constants'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { Platform } from 'react-native'
 
 import { useLazyGetSessionQuery, useLoginGoogleMutation } from '../../services/auth.js'
 import GoogleIcon from '../../../assets/images/svgs/GoogleIcon'
 import Button from '../UI/Button'
+import ENV from '../../../variables'
 
 GoogleSignin.configure({
-  webClientId: Constants.expoConfig.extra.googleWebClientId,
+  webClientId: ENV.googleWebClientId,
 })
 
 export default function GoogleLogin() {
@@ -18,25 +19,18 @@ export default function GoogleLogin() {
 
   const onSignIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices()
-      const userInfo = await GoogleSignin.signIn()
-      console.log({ userInfo })
-      const response = await loginGoogle({ token: userInfo.idToken, origin: 'web' }).unwrap()
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+      const { idToken } = await GoogleSignin.signIn()
 
-      if (!response.completed) navigation.navigate('Complete')
-      await getSession().unwrap()
+      if (idToken) {
+        const response = await loginGoogle({ token: idToken, origin: Platform.OS }).unwrap()
+        if (!response.completed) navigation.navigate('Complete')
+        await getSession().unwrap()
+      } else {
+        console.log('No se pudo iniciar sesión con google por falta de idToken')
+      }
     } catch (error) {
       console.log(error)
-
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
     }
   }
 

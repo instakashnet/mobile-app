@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { useLazyGetCouponDataQuery } from '../services/exchange'
+
+import { useLazyGetCouponDataQuery } from '../../services/exchange'
 
 export function useExchangeCoupon() {
   const [coupon, setCoupon] = useState(null)

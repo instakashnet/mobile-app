@@ -59,7 +59,7 @@ const baseQueryInterceptor = async (args, api, options) => {
   if (result?.error && !result?.meta?.request.url.includes('logout') && !result?.meta?.request?.url.includes('refresh'))
     Toast.show({
       type: 'error',
-      text1: 'Parece que algo salió mal',
+      // text1: 'Algo salió mal',
       text2: result?.error?.message,
     })
 
@@ -71,6 +71,17 @@ const baseQueryInterceptor = async (args, api, options) => {
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryInterceptor,
-  tagTypes: ['Session', 'UserLevel', 'UserKash', 'Withdrawals', 'UserExchangeData', 'Orders', 'Accounts', 'Profiles', 'Notifications'],
+  tagTypes: [
+    'Session',
+    'UserLevel',
+    'UserKash',
+    'Withdrawals',
+    'UserExchangeData',
+    'Orders',
+    'Accounts',
+    'Profiles',
+    'Notifications',
+    'RatesNotifications',
+  ],
   endpoints: () => ({}),
 })

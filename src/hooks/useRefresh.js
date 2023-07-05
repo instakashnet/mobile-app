@@ -1,11 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+
 import { getSecureData } from '../lib/SecureStore'
 import { useGetRefreshMutation } from '../services/auth'
-import { useDispatch } from 'react-redux'
 import { setCredentials, setLogout } from '../store/slices/authSlice'
 
 export function useRefresh() {
-  const [refreshSession, { isLoading }] = useGetRefreshMutation()
+  const [isLoading, setIsLoading] = useState(true)
+  const [refreshSession] = useGetRefreshMutation()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -19,11 +21,13 @@ export function useRefresh() {
       } catch (error) {
         console.log(error)
         dispatch(setLogout())
+      } finally {
+        setIsLoading(false)
       }
     }
 
     setRefreshSession()
-  }, [])
+  }, [dispatch, refreshSession])
 
   return { isSessionLoading: isLoading }
 }

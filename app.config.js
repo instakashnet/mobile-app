@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 module.exports = {
   owner: 'instakash',
-  scheme: 'net.instakash.app',
+  scheme: 'instakash.app',
   name: 'Instakash',
   slug: 'instakash-app',
   jsEngine: 'hermes',
@@ -13,7 +13,7 @@ module.exports = {
   splash: {
     image: './assets/images/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#0A686A',
   },
   assetBundlePatterns: ['**/*'],
   ios: {
@@ -28,19 +28,25 @@ module.exports = {
   android: {
     jsEngine: 'jsc',
     package: 'net.instakash.app',
+    googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#0A686A',
     },
     softwareKeyboardLayoutMode: 'pan',
-    googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
-    permissions: ['android.permission.CAMERA', 'android.permission.RECORD_AUDIO'],
+    permissions: [
+      'android.permission.CAMERA',
+      'android.permission.RECORD_AUDIO',
+      'android.permission.READ_EXTERNAL_STORAGE',
+      'android.permission.WRITE_EXTERNAL_STORAGE',
+      'android.permission.RECEIVE_BOOT_COMPLETED',
+    ],
   },
   web: {
     favicon: './assets/images/favicon.png',
   },
   plugins: [
-    '@react-native-google-signin/google-signin',
+    'sentry-expo',
     'expo-apple-authentication',
     [
       'expo-camera',
@@ -57,26 +63,35 @@ module.exports = {
     [
       'expo-notifications',
       {
-        icon: './assets/notification-icon.png',
+        icon: './assets/images/notification-icon.png',
         color: '#0A686A',
       },
     ],
     'expo-notifications',
+    '@react-native-google-signin/google-signin',
   ],
-  extra: {
-    eas: {
-      projectId: 'd79c74ef-7ba4-44fa-b647-92650d67b200',
-    },
-    googleWebClientId: process.env.GOOGLE_WEB_CLIENT_ID,
-  },
   runtimeVersion: {
     policy: 'sdkVersion',
   },
   updates: {
     url: 'https://u.expo.dev/d79c74ef-7ba4-44fa-b647-92650d67b200',
   },
+  extra: {
+    googleWebClientId: '714696989879-qam3q40tc0buh8ffde830n22fhr9tusb.apps.googleusercontent.com',
+    sentryDsn: 'https://10877a090fe44c9fbcd669266f7b2bce@o1108528.ingest.sentry.io/4505433789169664',
+    eas: {
+      projectId: 'd79c74ef-7ba4-44fa-b647-92650d67b200',
+    },
+  },
+  hooks: {
+    postPublish: [
+      {
+        file: 'sentry-expo/upload-sourcemaps',
+        config: {
+          organization: process.env.SENTRY_ORGANIZATION,
+          project: process.env.SENTRY_PROJECT,
+        },
+      },
+    ],
+  },
 }
-
-// {
-//   "expo":
-// }
