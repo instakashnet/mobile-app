@@ -3,8 +3,10 @@ import 'dotenv/config'
 module.exports = {
   owner: 'instakash',
   scheme: 'instakash.app',
+  originalFullName: '@rogerrc12/instakash',
   name: 'Instakash',
   slug: 'instakash-app',
+  platforms: ['ios', 'android'],
   jsEngine: 'hermes',
   version: '1.1.0',
   orientation: 'portrait',
@@ -74,6 +76,9 @@ module.exports = {
     policy: 'sdkVersion',
   },
   updates: {
+    enabled: true,
+    fallbackToCacheTimeout: 15000,
+    checkAutomatically: 'ON_ERROR_RECOVERY',
     url: 'https://u.expo.dev/d79c74ef-7ba4-44fa-b647-92650d67b200',
   },
   extra: {

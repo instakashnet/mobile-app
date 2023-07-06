@@ -1,30 +1,59 @@
 import * as Updates from 'expo-updates'
+import { nativeApplicationVersion } from 'expo-application'
+import semver from 'semver'
 import { useEffect, useState } from 'react'
+import { Linking, Platform } from 'react-native'
+
+const APP_VERSION = '1.1.0'
 
 export function useAppUpdate() {
-  const [isUpdateAvailable, setIsUpdateAiailable] = useState(false)
+  const [isUpdateAvailable, setIsUpdateAvailable] = useState(false)
+  const [updateType, setUpdateType] = useState(null)
 
   useEffect(() => {
-    const checkForUpdate = async () => {
+    const checkForUpdates = async () => {
       try {
-        const { isAvailable } = await Updates.checkForUpdateAsync()
-        setIsUpdateAiailable(isAvailable)
-      } catch (e) {
-        console.log('No se ha podido validar actualizaciones', e)
+        if (__DEV__) return
+
+        const update = await Updates.checkForUpdateAsync()
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync()
+          setUpdateType('minor')
+          setIsUpdateAvailable(true)
+        } else {
+          if (semver.gt(APP_VERSION, nativeApplicationVersion)) {
+            setUpdateType('major')
+            setIsUpdateAvailable(true)
+          }
+        }
+      } catch (error) {
+        console.error('Failed to check for updates:', error)
       }
     }
 
-    checkForUpdate()
+    checkForUpdates()
   }, [])
 
-  const updateApp = async () => {
+  const handleUpdate = async () => {
     try {
-      await Updates.fetchUpdateAsync()
-      await Updates.reloadAsync()
-    } catch (e) {
-      console.log('No se ha podido actualizar la app', e)
+      if (updateType === 'minor') {
+        await Updates.reloadAsync()
+      } else {
+        await Linking.openURL(
+          Platform.OS === 'android'
+            ? 'https://play.google.com/store/apps/details?id=net.instakash.app'
+            : 'https://apps.apple.com/pe/app/instakash/id1601561803',
+        )
+      }
+    } catch (error) {
+      console.error('Failed to fetch or reload update:', error)
     }
   }
 
-  return { isUpdateAvailable, updateApp }
+  const handleCancelUpdate = () => {
+    setIsUpdateAvailable(false)
+    setUpdateType(null)
+  }
+
+  return { isUpdateAvailable, updateType, handleUpdate, handleCancelUpdate }
 }

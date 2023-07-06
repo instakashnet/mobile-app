@@ -7,23 +7,20 @@ import * as Poppins from '@expo-google-fonts/poppins'
 import * as Font from 'expo-font'
 import 'expo-dev-client'
 
-import { Alert } from 'react-native'
-
 import { theme } from './src/theme'
 import MainNavigation from './src/navigators/Main'
 import store from './src/store'
 import 'react-native-gesture-handler'
 import { translateDatepicker } from './src/utils/translate-datepicker'
 import Toast from './src/components/UI/Toast'
-import { useAppUpdate } from './src/hooks/useAppUpdate'
 import { initSentry } from './src/lib/Sentry'
+import UpdateModal from './src/components/modals/UpdateModal'
 
 translateDatepicker()
 if (!__DEV__) initSentry()
 
 export default function App() {
   const [appisReady, setAppIsReady] = useState(false)
-  const { isUpdateAvailable, updateApp } = useAppUpdate()
 
   useEffect(() => {
     async function loadResourcesAsync() {
@@ -44,16 +41,8 @@ export default function App() {
   }, [])
 
   const onLayoutRootView = useCallback(async () => {
-    if (appisReady) {
-      await SplashScreen.hideAsync()
-      if (isUpdateAvailable) {
-        Alert.alert('Actualización disponbile', 'Hay una actualización disponible, ¿deseas actualizar la aplicación?', [
-          { text: 'Actualizar', onPress: updateApp },
-          { text: 'Cancelar' },
-        ])
-      }
-    }
-  }, [appisReady, isUpdateAvailable, updateApp])
+    if (appisReady) await SplashScreen.hideAsync()
+  }, [appisReady])
 
   return (
     appisReady && (
@@ -61,6 +50,7 @@ export default function App() {
         <PaperProvider theme={theme}>
           <MainNavigation onLayout={onLayoutRootView} />
           <Toast />
+          <UpdateModal />
         </PaperProvider>
         <StatusBar style="auto" />
       </Provider>
