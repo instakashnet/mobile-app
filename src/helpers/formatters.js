@@ -12,3 +12,12 @@ export function formatDate(dateString, formatString = '') {
 
   return date.format(formatString)
 }
+
+export function formatTimeTo12Hour(time) {
+  let hours = time.getHours()
+  const minutes = time.getMinutes()
+  const period = hours >= 12 ? 'PM' : 'AM'
+  hours = hours % 12 || 12
+  const formattedTime = hours + ':' + (minutes < 10 ? '0' : '') + minutes + period
+  return formattedTime
+}

@@ -5,7 +5,7 @@ import { useLazyGetRatesQuery } from '../../services/exchange'
 
 export function useRates() {
   const [rates, setRates] = useState({ buy: 0, sell: 0 })
-  const [getRates, { isLoading }] = useLazyGetRatesQuery('')
+  const [getRates, { isFetching }] = useLazyGetRatesQuery('')
 
   const getCurrentRates = useCallback(async () => {
     try {
@@ -22,5 +22,5 @@ export function useRates() {
     }, [getCurrentRates]),
   )
 
-  return { rates, isLoading, getRates: getCurrentRates }
+  return { rates, isLoading: isFetching, getRates: getCurrentRates }
 }

@@ -1,13 +1,13 @@
 import { View, Pressable } from 'react-native'
 import React, { useState } from 'react'
-import { Text, useTheme } from 'react-native-paper'
+import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons'
 
 import Input from '../UI/controlledInputs/Input'
 // import DiscountCouponIcon from '../../../assets/images/svgs/DiscountCouponIcon'
 import Helper from '../UI/Helper'
 
-export default function CouponInput({ coupon, onAdd, onRemove, setValue }) {
+export default function CouponInput({ coupon, onAdd, onRemove, setValue, loading }) {
   const { colors } = useTheme()
   const [couponName, setCouponName] = useState('')
 
@@ -32,11 +32,19 @@ export default function CouponInput({ coupon, onAdd, onRemove, setValue }) {
         <DiscountCouponIcon width={22} />
       </View> */}
         <Input label="Ingresa un cupón" value={couponName} onChange={setCouponName} className="pr-20 pb-2" />
-        <Pressable className="z-10 absolute right-4 top-0 py-2 my-2 pl-2 border-l-[1px] border-gray-400" onPress={handleAdd}>
-          <Text variant="button" className="text-xs" style={{ color: colors.primary700 }}>
-            Agregar
-          </Text>
-        </Pressable>
+        {loading ? (
+          <ActivityIndicator
+            className="z-10 absolute right-3 top-[-2px] py-2 my-2 pl-2 border-l-[1px] border-gray-400"
+            size="small"
+            color={colors.primary700}
+          />
+        ) : (
+          <Pressable className="z-10 absolute right-4 top-0 py-2 my-2 pl-2 border-l-[1px] border-gray-400" onPress={handleAdd}>
+            <Text variant="button" className="text-xs" style={{ color: colors.primary700 }}>
+              Agregar
+            </Text>
+          </Pressable>
+        )}
       </View>
       <Helper helper="Agrega un cupón de descuento para obtener un mejor tipo de cambio." />
     </>

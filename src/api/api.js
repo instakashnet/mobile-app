@@ -27,7 +27,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryInterceptor = async (args, api, options) => {
   let result = await baseQuery(args, api, options)
 
-  if (result?.error?.status === 418) {
+  if (result?.error?.status === 418 && !args?.url?.includes('logout')) {
     const refreshToken = await getSecureData('refreshToken')
     const refreshResult = await baseQuery(
       {

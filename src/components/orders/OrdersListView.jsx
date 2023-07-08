@@ -4,10 +4,13 @@ import { Pressable } from 'react-native'
 import OrderItem from './OrderItem'
 import Card from '../UI/Card'
 import { useOrders } from '../../hooks/useOrders'
+import OrderItemLoader from './ItemLoader'
 
 export default function OrdersListView({ navigation }) {
-  const { orders } = useOrders(3)
+  const { orders, isLoading } = useOrders(3)
   const { colors } = useTheme()
+
+  if (isLoading) return Array.from({ length: 3 }).map((_, i) => <OrderItemLoader key={i} />)
 
   return (
     <Card classes={['py-4']}>

@@ -1,5 +1,5 @@
 import { Text } from 'react-native-paper'
-import { Linking, Pressable, View, NativeModules, Platform } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
 import Container from '../../components/utils/Container'
@@ -7,27 +7,19 @@ import NotificationItem from '../../components/configuration/NotificationItem'
 import { useNotificationsPermissions } from '../../hooks/notifications/useNotificationsPermissions'
 import { useNotifications } from '../../hooks/notifications/useNotifications'
 import { useAppStateChange } from '../../hooks/useAppStateChange'
+import { openAppSetting } from '../../utils/handlers'
 
 function NotificationsScreen({ navigation }) {
   const { permissionStatus, getPermissions } = useNotificationsPermissions()
   const { notifications, saveNotification } = useNotifications(permissionStatus)
   useAppStateChange(getPermissions)
 
-  const openNotificationSettings = async () => {
-    if (Platform.OS === 'ios') {
-      const isSupported = await Linking.canOpenURL('app-settings:')
-      if (isSupported) await Linking.openSettings()
-    } else {
-      NativeModules.IntentAndroid.openSettings()
-    }
-  }
-
   const handleChangeNotif = (type, enabled) => saveNotification({ type, enabled })
 
   return (
     <Container>
       <Text>Gestiona tus notificaciones y selecciona aquellas que deseas recibir</Text>
-      <Pressable className="flex-row items-center justify-between mt-10" onPress={openNotificationSettings}>
+      <Pressable className="flex-row items-center justify-between mt-10" onPress={openAppSetting}>
         <Text variant="titleSmall">Notificaciones generales</Text>
         <Ionicons name="chevron-forward-outline" size={24} color="black" />
       </Pressable>

@@ -10,9 +10,10 @@ import OrderItem from '../../components/orders/OrderItem'
 import Container from '../../components/utils/Container'
 import { useGetUserKashQuery } from '../../services/userData'
 import Card from '../../components/UI/Card'
+import OrderItemLoader from '../../components/orders/ItemLoader'
 
 export default function HomeScreen({ navigation }) {
-  const { orders = [] } = useOrders(3)
+  const { orders = [], isLoading: ordersLoading } = useOrders(3)
   const { data = {}, isLoading } = useGetUserKashQuery()
 
   return (
@@ -32,7 +33,9 @@ export default function HomeScreen({ navigation }) {
         </View>
         <View className="mt-3" />
         <Card classes={['py-4']}>
-          {orders.length > 0 ? (
+          {ordersLoading ? (
+            Array.from({ length: 3 }).map((_, i) => <OrderItemLoader key={i} />)
+          ) : orders.length > 0 ? (
             <>
               {orders.map((order, idx) => (
                 <OrderItem

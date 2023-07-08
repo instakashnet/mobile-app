@@ -42,7 +42,7 @@ const RATES_TIME = 300000
 export default function CalculatorScreen({ navigation }) {
   const user = useSelector(selectUser)
   const [createExchange, { isLoading: isProcessing }] = useCreateExchangeMutation()
-  const { coupon, removeCoupon, addCoupon } = useExchangeCoupon()
+  const { coupon, removeCoupon, addCoupon, isLoading: loadingCoupon } = useExchangeCoupon()
   const { exchangeType, handleSwipeExchangeType } = useExchangeType()
   const { timerId, countdown, completeHandler } = useCountdown(RATES_TIME)
   const { profile } = useProfile()
@@ -142,7 +142,7 @@ export default function CalculatorScreen({ navigation }) {
         <Card classes={['py-4']}>
           <Title className="text-center">Comienza tu cambio</Title>
           <View className="mt-3" />
-          <Rates rates={rates} type={exchangeType} coupon={coupon} />
+          <Rates rates={rates} type={exchangeType} coupon={coupon} loading={isLoading} />
           <View className="flex-row items-center justify-between">
             <Text variant="caption">El tipo de cambio se actualiza en:</Text>
             <Timer timerId={timerId} countdown={countdown} onFinish={() => completeHandler(handleTimerFinish)} />
@@ -154,7 +154,7 @@ export default function CalculatorScreen({ navigation }) {
             <CurrencyInput onAmountChange={handleAmountChange} iso={typeCurrencies?.receive} name="amount_received" control={control} />
           </View>
           <View className="mt-6" />
-          <CouponInput onRemove={removeCoupon} coupon={coupon} onAdd={handleAddCoupon} setValue={setValue} />
+          <CouponInput onRemove={removeCoupon} coupon={coupon} onAdd={handleAddCoupon} setValue={setValue} loading={loadingCoupon} />
         </Card>
         <View className="mt-4" />
         <Button onPress={handleSubmit(onSubmit)} loading={isProcessing} disabled={isProcessing}>

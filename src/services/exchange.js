@@ -1,30 +1,34 @@
 import { EXCHANGE_ROUTE, baseApi } from '../api/api'
 
 const exchangeApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getRates: builder.query({
       query: () => EXCHANGE_ROUTE + '/v1/client/rates',
-      transformResponse: (result) => {
+      transformResponse: result => {
         return { buy: Number(result[0]?.buy || 0), sell: Number(result[0]?.sell || 0), id: result[0]?.id }
-      }
+      },
+    }),
+    getSchedule: builder.query({
+      query: () => EXCHANGE_ROUTE + '/v1/client/schedules',
+      keepUnusedDataFor: 60,
     }),
     getCouponData: builder.query({
-      query: ({ couponName, profileType }) => EXCHANGE_ROUTE + `/v1/client/coupons/${couponName}/${profileType}`
+      query: ({ couponName, profileType }) => EXCHANGE_ROUTE + `/v1/client/coupons/${couponName}/${profileType}`,
     }),
     createExchange: builder.mutation({
-      query: (values) => ({
+      query: values => ({
         url: EXCHANGE_ROUTE + '/v1/client/order/step-2',
         method: 'POST',
-        body: values
-      })
+        body: values,
+      }),
     }),
     continueExchange: builder.mutation({
       query: ({ values, orderId }) => ({
         url: EXCHANGE_ROUTE + `/v1/client/order/step-3/${orderId}`,
         method: 'PUT',
-        body: values
+        body: values,
       }),
-      invalidateTags: ['Orders']
+      invalidateTags: ['Orders'],
     }),
     cancelExchange: builder.mutation({
       query: ({ orderId, cancelType }) => {
@@ -32,21 +36,21 @@ const exchangeApi = baseApi.injectEndpoints({
 
         return {
           url: EXCHANGE_ROUTE + URL,
-          method: 'DELETE'
+          method: 'DELETE',
         }
       },
-      invalidateTags: ['Orders']
+      invalidateTags: ['Orders'],
     }),
     completeExchange: builder.mutation({
       query: ({ orderId, values }) => ({
         url: EXCHANGE_ROUTE + `/v1/client/order/step-4/${orderId}`,
         method: 'PUT',
-        body: values
+        body: values,
       }),
-      invalidateTags: ['Orders']
-    })
+      invalidateTags: ['Orders'],
+    }),
   }),
-  overrideExisting: true
+  overrideExisting: true,
 })
 
 export const {
@@ -55,5 +59,6 @@ export const {
   useCreateExchangeMutation,
   useContinueExchangeMutation,
   useCancelExchangeMutation,
-  useCompleteExchangeMutation
+  useCompleteExchangeMutation,
+  useGetScheduleQuery,
 } = exchangeApi

@@ -1,10 +1,17 @@
 import { View } from 'react-native'
 import React from 'react'
-import { Text, useTheme } from 'react-native-paper'
+import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
 
-export default function Rates({ rates, type, coupon }) {
+export default function Rates({ rates, type, coupon, loading }) {
   const { colors } = useTheme()
   const ratesToShow = coupon?.rates || rates
+
+  if (loading)
+    return (
+      <View className="items-center justify-center mb-3">
+        <ActivityIndicator size="small" color={colors.primary700} />
+      </View>
+    )
 
   return (
     <View className="flex-row items-center gap-3 p-3 self-center">

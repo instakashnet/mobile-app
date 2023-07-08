@@ -2,30 +2,30 @@ export const documentOptions = [
   { label: 'DNI', value: 'DNI' },
   { label: 'CE', value: 'CE' },
   { label: 'PTP', value: 'PTP' },
-  { label: 'Pasaporte', value: 'Pasaporte' }
+  { label: 'Pasaporte', value: 'Pasaporte' },
 ]
 
 export const sexOptions = [
   { label: 'Hombre', value: 'male' },
   { label: 'Mujer', value: 'female' },
-  { label: 'Otro', value: 'other' }
+  { label: 'Otro', value: 'other' },
 ]
 
 export const accountTypesOptions = [
-  { label: 'Corriente', value: 'checkings' },
-  { label: 'Ahorros', value: 'savings' }
+  { label: 'Corriente', value: 'checking' },
+  { label: 'Ahorros', value: 'savings' },
 ]
 
 export const getBanksOptions = (banks = []) =>
-  banks.map((bank) => ({
+  banks.map(bank => ({
     label: bank.name,
-    value: bank.id
+    value: bank.id,
   }))
 
 export const getCurrenciesOptions = (currencies = []) =>
-  currencies.map((currency) => ({
+  currencies.map(currency => ({
     label: `${currency.name} (${currency.Symbol})`,
-    value: currency.id
+    value: currency.id,
   }))
 
 export const occupationOptions = [
@@ -40,18 +40,18 @@ export const occupationOptions = [
   { label: 'Miembro de las Fuerzas Armadas', value: 'Miembro de las Fuerzas Armadas' },
   { label: 'Obrero', value: 'Obrero' },
   { label: 'Trabajador independiente', value: 'Trabajador independiente' },
-  { label: 'Otro', value: 'otro' }
+  { label: 'Otro', value: 'otro' },
 ]
 
 export const fundsOriginOptions = [
   { label: 'Ahorros', value: 'ahorros' },
   {
     label: 'Alquiler de bienes inmuebles',
-    value: 'alquiler de bienes inmuebles'
+    value: 'alquiler de bienes inmuebles',
   },
   {
     label: 'Alquiler de bienes muebles',
-    value: 'alquiler de bienes muebles'
+    value: 'alquiler de bienes muebles',
   },
   { label: 'Venta de bienes inmuebles', value: 'venta de bienes inmuebles' },
   { label: 'Venta de bienes muebles', value: 'venta de bienes muebles' },
@@ -59,5 +59,5 @@ export const fundsOriginOptions = [
   { label: 'Trabajo independiente', value: 'trabajo independiente' },
   { label: 'Regalía', value: 'regalía' },
   { label: 'Préstamos', value: 'préstamos' },
-  { label: 'Otros', value: 'otros' }
+  { label: 'Otros', value: 'otros' },
 ]

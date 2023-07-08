@@ -5,8 +5,11 @@ import { Text } from 'react-native-paper'
 import SafeArea from '../../components/utils/SafeArea'
 import { SecureMoney } from '../../../assets/images/illustrations/secure-money'
 import Button from '../../components/UI/Button'
+import { usePollverificiation } from '../../hooks/usePollVerification'
 
 export default function VerifyingScreen({ navigation }) {
+  usePollverificiation()
+
   return (
     <SafeArea>
       <View className="flex-1 items-center justify-center p-6">
@@ -20,7 +23,15 @@ export default function VerifyingScreen({ navigation }) {
           </Text>
         </View>
         <View className="w-full">
-          <Button onPress={() => navigation.navigate('Main')}>Volver al inicio</Button>
+          <Button
+            onPress={() =>
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Main' }],
+              })
+            }>
+            Volver al inicio
+          </Button>
         </View>
       </View>
     </SafeArea>

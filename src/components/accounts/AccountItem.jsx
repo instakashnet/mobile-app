@@ -4,10 +4,11 @@ import { IconButton, Text, useTheme } from 'react-native-paper'
 
 import bankImages from '../../../data/bankImages'
 import { useDeleteAccountMutation } from '../../services/account'
+import Skeleton from '../UI/Skeleton'
 
-export default function AccountItem({ account, onSelect }) {
+export default function AccountItem({ account, onSelect, isLoading }) {
   const { colors } = useTheme()
-  const [deleteAccount, { isLoading }] = useDeleteAccountMutation()
+  const [deleteAccount, { isLoading: isProcessing }] = useDeleteAccountMutation()
 
   const handleDelete = () => {
     Alert.alert('Deseas eliminar esta cuenta?', 'Esta acción no puede ser revertida', [
@@ -15,6 +16,20 @@ export default function AccountItem({ account, onSelect }) {
       { text: 'Regresar' },
     ])
   }
+
+  if (isLoading)
+    return (
+      <View className="flex-row items-center justify-between w-full">
+        <Skeleton width={90} height={40} />
+        <View className="items-end">
+          <Skeleton width={120} height={20} />
+          <View className="flex-row items-center gap-2 mt-2">
+            <Skeleton width={20} height={20} marginRight={12} />
+            <Skeleton width={20} height={20} />
+          </View>
+        </View>
+      </View>
+    )
 
   return (
     <View className="w-full">
@@ -32,14 +47,14 @@ export default function AccountItem({ account, onSelect }) {
             Cuenta mancomunada
           </Text>
         )}
-        <View className="flex-row items-center justify-end w-full">
+        <View className="flex-row items-center self-end">
           <IconButton icon="square-edit-outline" className="mr-0" size={20} iconColor={colors.primary700} onPress={onSelect} />
           <IconButton
             className="mr-0"
             icon="delete-forever-outline"
             size={20}
             iconColor={colors.error}
-            onPress={isLoading ? null : handleDelete}
+            onPress={isProcessing ? null : handleDelete}
           />
         </View>
       </View>

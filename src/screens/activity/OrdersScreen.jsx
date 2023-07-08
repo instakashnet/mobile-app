@@ -32,6 +32,7 @@ export default function OrdersScreen() {
   return (
     <View className="flex-1 px-6">
       <OrdersList
+        isLoading={isLoading}
         data={orders}
         listProps={{
           refreshing: isLoading,
