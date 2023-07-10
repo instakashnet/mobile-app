@@ -13,7 +13,7 @@ import { setBanks, setCurrencies } from '../store/slices/app-data'
 import { useNotificationsPermissions } from '../hooks/notifications/useNotificationsPermissions'
 import { useSavePushTokenMutation } from '../services/auth'
 import LoadingScreen from '../screens/LoadingScreen'
-import ScheduleInfo from '../hoc/Schedule'
+import ScheduleModal from '../components/modals/ScheduleModal'
 
 const { LightTheme } = adaptNavigationTheme({
   reactNavigationLight: DefaultTheme,
@@ -66,9 +66,10 @@ export default function MainNavigation({ onLayout }) {
           <AuthNavigator />
         </SafeArea>
       ) : (
-        <ScheduleInfo>
+        <>
           <DrawerNavigator />
-        </ScheduleInfo>
+          <ScheduleModal />
+        </>
       )}
     </NavigationContainer>
   )

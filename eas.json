@@ -9,6 +9,9 @@
       "android": {
         "buildType": "apk"
       },
+      "ios": {
+        "simulator": true
+      },
       "channel": "development"
     },
     "testing": {

@@ -22,8 +22,8 @@ export default function ScheduleInfo({ children }) {
         <Modal
           visible={showModal}
           dismissable={false}
-          contentContainerStyle={{ backgroundColor: '#fff', padding: 30, borderRadius: 8 }}
-          style={{ marginHorizontal: 40 }}>
+          contentContainerStyle={{ borderRadius: 12, backgroundColor: '#fff', paddingHorizontal: 24, paddingVertical: 36 }}
+          className="px-8">
           <Text variant="titleLarge" className="text-center">
             Fuera de horario
           </Text>

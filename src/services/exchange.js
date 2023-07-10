@@ -7,6 +7,7 @@ const exchangeApi = baseApi.injectEndpoints({
       transformResponse: result => {
         return { buy: Number(result[0]?.buy || 0), sell: Number(result[0]?.sell || 0), id: result[0]?.id }
       },
+      keepUnusedDataFor: 0.0001,
     }),
     getSchedule: builder.query({
       query: () => EXCHANGE_ROUTE + '/v1/client/schedules',

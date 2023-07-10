@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Alert } from 'react-native'
 import camelize from 'camelize'
 import Toast from 'react-native-toast-message'
+import * as Sentry from 'sentry-expo'
 
 import { setToken, setLogout } from '../store/slices/authSlice'
 import { getSecureData, removeSecureData } from '../lib/SecureStore'
@@ -56,12 +57,15 @@ const baseQueryInterceptor = async (args, api, options) => {
       result.error.data.error?.message ?? 'Ha ocurrido un error inesperado. Por favor intente de nuevo más tarde o comuniquese con soporte.'
   }
 
-  if (result?.error && !result?.meta?.request.url.includes('logout') && !result?.meta?.request?.url.includes('refresh'))
+  if (result?.error && !result?.meta?.request.url.includes('logout') && !result?.meta?.request?.url.includes('refresh')) {
     Toast.show({
       type: 'error',
       // text1: 'Algo salió mal',
       text2: result?.error?.message,
     })
+
+    Sentry.Native.captureException(`Error en la API: ${result?.error?.message}. Endpoint: ${args?.url}`)
+  }
 
   if (result.data) result.data = camelize(result.data)
 

@@ -1,8 +1,8 @@
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
+import { ActivityIndicator, Text } from 'react-native-paper'
 import { Controller, useForm } from 'react-hook-form'
-import { useMemo } from 'react'
 import Toast from 'react-native-toast-message'
+import { useEffect } from 'react'
 
 import Container from '../../components/utils/Container'
 import Card from '../../components/UI/Card'
@@ -16,21 +16,29 @@ import { useGetRatesNotificationsQuery, useSaveRatesNotificationsMutation } from
 import { useRates } from '../../hooks/calculator/useRates'
 
 function RatesAlertsScreen() {
-  const { data = {} } = useGetRatesNotificationsQuery()
+  const { data, isLoading: alertsLoading } = useGetRatesNotificationsQuery()
   const [saveRatesAlert, { isLoading: isProcessing }] = useSaveRatesNotificationsMutation()
   const { rates, isLoading } = useRates()
 
-  const { control, handleSubmit } = useForm({
-    defaultValues: useMemo(
-      () => ({
-        isRateSell: data.sell?.active ?? false,
-        isRateBuy: data.buy?.active ?? false,
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      isRateSell: false,
+      isRateBuy: false,
+      rateSell: '0.0000',
+      rateBuy: '0.000',
+    },
+  })
+
+  useEffect(() => {
+    if (data) {
+      reset({
+        isRateSell: data?.sell?.active ?? false,
+        isRateBuy: data?.buy?.active ?? false,
         rateSell: data?.sell?.rate.toFixed(4) ?? '0.0000',
         rateBuy: data?.buy?.rate.toFixed(4) ?? '0.000',
-      }),
-      [data],
-    ),
-  })
+      })
+    }
+  }, [data, reset])
 
   const onSubmit = async values => {
     try {
@@ -43,6 +51,15 @@ function RatesAlertsScreen() {
       console.log(error)
     }
   }
+
+  if (alertsLoading)
+    return (
+      <Container>
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" color="green" />
+        </View>
+      </Container>
+    )
 
   return (
     <KeyboardView>
