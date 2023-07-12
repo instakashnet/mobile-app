@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Pressable, View } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { Text, Checkbox } from 'react-native-paper'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useNavigation } from '@react-navigation/native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Pressable, View } from 'react-native'
+import { Checkbox, Text } from 'react-native-paper'
 
-import Input from '../UI/Input'
-import Button from '../UI/Button'
+import { getData, storeData } from '../../lib/AsyncStorage'
 import { loginValidationSchema } from '../../schemas/auth'
-import Helper from '../UI/Helper'
-import { storeData, getData } from '../../lib/AsyncStorage'
 import { useLazyGetSessionQuery, useLoginMutation } from '../../services/auth'
+import Button from '../UI/Button'
+import Helper from '../UI/Helper'
+import Input from '../UI/Input'
 import PasswordInput from '../UI/PasswordInput'
 
 export default function LoginForm() {
@@ -50,7 +50,7 @@ export default function LoginForm() {
         const response = await login(values).unwrap()
         if (remember) await storeData('userEmail', { email: values.email })
 
-        if (!response.verified) return navigation.navigate('VerifyCode')
+        if (!response.verified) return navigation.navigate('VerifyCode', { verificationType: 'OTP' })
         if (!response.completed) return navigation.navigate('Complete')
         await getSession().unwrap()
       } catch (error) {

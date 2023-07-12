@@ -1,10 +1,10 @@
-import { ScrollView, TouchableOpacity, View } from 'react-native'
-import React, { useMemo } from 'react'
-import { List, useTheme } from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons'
+import React, { useMemo } from 'react'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { List, useTheme } from 'react-native-paper'
 
-import EmptyAccounts from '../../components/accounts/EmptyAccounts'
 import AccountsList from '../../components/accounts/AccountsList'
+import EmptyAccounts from '../../components/accounts/EmptyAccounts'
 import { useGetAccountsQuery } from '../../services/account'
 
 export default function AccountsScreen({ navigation }) {
@@ -12,8 +12,6 @@ export default function AccountsScreen({ navigation }) {
   const { data: accounts = [], isFetching } = useGetAccountsQuery('users')
   const dollarAccounts = useMemo(() => accounts.filter(acc => acc.currency.id === 1), [accounts])
   const solesAccounts = useMemo(() => accounts.filter(acc => acc.currency.id === 2), [accounts])
-
-  console.log({ accounts })
 
   return (
     <ScrollView contentContainerStyle={{ flex: 1 }}>

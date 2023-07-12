@@ -1,13 +1,13 @@
-import { Pressable, ScrollView, View } from 'react-native'
 import React from 'react'
+import { Pressable, ScrollView, View } from 'react-native'
 import { Text } from 'react-native-paper'
 
 import Icon from '../../../assets/images/svgs/Icon'
-import LoginForm from '../../components/auth/LoginForm'
-import Link from '../../components/utils/Link'
-import KeyboardView from '../../components/utils/KeyboardView'
-import GoogleLogin from '../../components/auth/GoogleLogin'
 import AppleLogin from '../../components/auth/AppleLogin'
+import GoogleLogin from '../../components/auth/GoogleLogin'
+import LoginForm from '../../components/auth/LoginForm'
+import KeyboardView from '../../components/utils/KeyboardView'
+import Link from '../../components/utils/Link'
 
 export default function LoginScreen({ navigation }) {
   return (

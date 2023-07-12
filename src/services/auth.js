@@ -48,6 +48,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: values,
       }),
+      onQueryStarted: onLoginStarted,
     }),
     verifyCode: builder.mutation({
       query: values => ({
