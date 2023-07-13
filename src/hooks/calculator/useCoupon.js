@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useLazyGetCouponDataQuery } from '../../services/exchange'
 
-export function useExchangeCoupon() {
+export function useCoupon() {
   const [coupon, setCoupon] = useState(null)
   const [getCouponData, { isLoading }] = useLazyGetCouponDataQuery()
 
@@ -12,6 +12,7 @@ export function useExchangeCoupon() {
     try {
       const response = await getCouponData({ couponName, profileType }).unwrap()
       const newRates = { buy: rates?.buy + response.discount, sell: rates?.sell - response.discount }
+
       setCoupon({ name: couponName, rates: newRates })
     } catch (error) {
       console.log(error)

@@ -1,4 +1,4 @@
-import { EXCHANGE_ROUTE, baseApi } from '../api/api'
+import { AUTH_ROUTE, baseApi, EXCHANGE_ROUTE } from '../api/api'
 
 const exchangeApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -15,6 +15,10 @@ const exchangeApi = baseApi.injectEndpoints({
     }),
     getCouponData: builder.query({
       query: ({ couponName, profileType }) => EXCHANGE_ROUTE + `/v1/client/coupons/${couponName}/${profileType}`,
+    }),
+    checkReferralStatus: builder.query({
+      query: () => AUTH_ROUTE + '/v1/client/users/referral-coupon',
+      keepUnusedDataFor: 0.0001,
     }),
     createExchange: builder.mutation({
       query: values => ({
@@ -57,6 +61,7 @@ const exchangeApi = baseApi.injectEndpoints({
 export const {
   useLazyGetRatesQuery,
   useLazyGetCouponDataQuery,
+  useCheckReferralStatusQuery,
   useCreateExchangeMutation,
   useContinueExchangeMutation,
   useCancelExchangeMutation,

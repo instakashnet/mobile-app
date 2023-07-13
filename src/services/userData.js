@@ -1,4 +1,5 @@
-import { AUTH_ROUTE, EXCHANGE_ROUTE, baseApi } from '../api/api'
+import { AUTH_ROUTE, baseApi, EXCHANGE_ROUTE } from '../api/api'
+import { setUser } from '../store/slices/authSlice'
 
 const userDataApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -39,7 +40,17 @@ const userDataApi = baseApi.injectEndpoints({
     }),
     getUserLevel: builder.query({
       query: () => AUTH_ROUTE + '/v1/client/users/current-level',
+      async onQueryStarted(_, { dispatch, getState, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+          const user = getState().auth.user
+          dispatch(setUser({ ...user, level: data.levelName }))
+        } catch (error) {
+          console.log(error)
+        }
+      },
       providesTags: ['UserLevel'],
+      keepUnusedDataFor: 0.001,
     }),
     getUserExchangeData: builder.query({
       query: () => EXCHANGE_ROUTE + '/v1/client/order/data/total-orders/user',
@@ -47,7 +58,7 @@ const userDataApi = baseApi.injectEndpoints({
     }),
     getUserOrders: builder.query({
       query: values => {
-        let URL = `/v1/client/order/user?from=${values.from}&limit=${values.limit}`
+        const URL = `/v1/client/order/user?from=${values.from}&limit=${values.limit}`
         return EXCHANGE_ROUTE + URL
       },
       transformResponse: response => {

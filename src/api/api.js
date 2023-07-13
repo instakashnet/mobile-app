@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Alert } from 'react-native'
 import camelize from 'camelize'
+import { Alert } from 'react-native'
 import Toast from 'react-native-toast-message'
 import * as Sentry from 'sentry-expo'
 
-import { setToken, setLogout } from '../store/slices/authSlice'
 import { getSecureData, removeSecureData } from '../lib/SecureStore'
+import { setLogout, setToken } from '../store/slices/authSlice'
 
 export const BASE_URL = 'https://api.dev.instakash.net'
 export const AUTH_ROUTE = '/auth-service/api'

@@ -1,16 +1,16 @@
-import { Pressable, ScrollView, View } from 'react-native'
 import React from 'react'
+import { Pressable, ScrollView, View } from 'react-native'
 import { Text } from 'react-native-paper'
 
-import UserLevel from '../../components/user/UserLevel'
+import OrderItemLoader from '../../components/orders/ItemLoader'
+import OrderItem from '../../components/orders/OrderItem'
+import Card from '../../components/UI/Card'
 import KashEarned from '../../components/user/KashEarned'
+import UserLevel from '../../components/user/UserLevel'
+import Container from '../../components/utils/Container'
 import Link from '../../components/utils/Link'
 import { useOrders } from '../../hooks/useOrders'
-import OrderItem from '../../components/orders/OrderItem'
-import Container from '../../components/utils/Container'
 import { useGetUserKashQuery } from '../../services/userData'
-import Card from '../../components/UI/Card'
-import OrderItemLoader from '../../components/orders/ItemLoader'
 
 export default function HomeScreen({ navigation }) {
   const { orders = [], isLoading: ordersLoading } = useOrders(3)

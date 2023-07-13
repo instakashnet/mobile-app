@@ -4,5 +4,5 @@ export const hoursMessages = {
   wednesday: 'Abiertos hoy de 9AM a 7PM',
   thursday: 'Abiertos hoy de 9AM a 7PM',
   friday: 'Abiertos hoy de 9AM a 7PM',
-  saturday: 'Abiertos hoy de 9AM a 2PM'
+  saturday: 'Abiertos hoy de 9AM a 2PM',
 }

@@ -1,54 +1,40 @@
 import React, { useRef } from 'react'
-import { ScrollView, View, Alert } from 'react-native'
-import { Text } from 'react-native-paper'
 import { useForm } from 'react-hook-form'
+import { Alert, ScrollView, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import { useSelector } from 'react-redux'
 
-import Container from '../../components/utils/Container'
-import Card from '../../components/UI/Card'
-import Title from '../../components/utils/Title'
+import { EXCHANGE_TYPES, RATES_TIME } from '../../../data/exchange'
+import ChangeProfileBtn from '../../components/calculator/ChangeProfileBtn'
+import CouponInput from '../../components/calculator/CouponInput'
 import CurrencyInput from '../../components/calculator/CurrencyInput'
 import Rates from '../../components/calculator/Rates'
-import Timer from '../../components/utils/Timer'
 import SwipeButton from '../../components/calculator/SwipeButton'
-import CouponInput from '../../components/calculator/CouponInput'
 import Button from '../../components/UI/Button'
-import { useCreateExchangeMutation } from '../../services/exchange'
-import ChangeProfileBtn from '../../components/calculator/ChangeProfileBtn'
-import { selectUser } from '../../store/slices/authSlice'
-import { useExchangeType } from '../../hooks/calculator/useExchangeType'
-import { useExchangeCoupon } from '../../hooks/calculator/useExchangeCoupon'
-import { useProfile } from '../../hooks/useProfile'
+import Card from '../../components/UI/Card'
+import Container from '../../components/utils/Container'
+import Timer from '../../components/utils/Timer'
+import Title from '../../components/utils/Title'
 import { calculateAmountToReceive } from '../../helpers/exchange-operations'
-import { useUpdate } from '../../hooks/useUpdate'
-import { useCountdown } from '../../hooks/useCountdown'
+import { useCoupon } from '../../hooks/calculator/useCoupon'
+import { useExchangeType } from '../../hooks/calculator/useExchangeType'
 import { useRates } from '../../hooks/calculator/useRates'
-
-const EXCHANGE_TYPES = [
-  {
-    type: 'sell',
-    send: 'PEN',
-    receive: 'USD',
-  },
-  {
-    type: 'buy',
-    send: 'USD',
-    receive: 'PEN',
-  },
-]
-
-const RATES_TIME = 300000
+import { useCountdown } from '../../hooks/useCountdown'
+import { useProfile } from '../../hooks/useProfile'
+import { useUpdate } from '../../hooks/useUpdate'
+import { useCreateExchangeMutation } from '../../services/exchange'
+import { selectUser } from '../../store/slices/authSlice'
 
 export default function CalculatorScreen({ navigation }) {
   const user = useSelector(selectUser)
   const [createExchange, { isLoading: isProcessing }] = useCreateExchangeMutation()
-  const { coupon, removeCoupon, addCoupon, isLoading: loadingCoupon } = useExchangeCoupon()
   const { exchangeType, handleSwipeExchangeType } = useExchangeType()
   const { timerId, countdown, completeHandler } = useCountdown(RATES_TIME)
   const { profile } = useProfile()
   const typeCurrencies = EXCHANGE_TYPES.find(type => type.type === exchangeType)
   const amountRef = useRef(1000)
   const { rates, getRates, isLoading } = useRates(coupon)
+  const { coupon, removeCoupon, addCoupon, isLoading: loadingCoupon } = useCoupon()
   const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       currency_sent_id: 2,
@@ -112,8 +98,6 @@ export default function CalculatorScreen({ navigation }) {
     }
   }
   const onResetCalculator = async reset => {
-    console.log('refetching')
-
     try {
       await getRates()
       removeCoupon()
@@ -154,7 +138,15 @@ export default function CalculatorScreen({ navigation }) {
             <CurrencyInput onAmountChange={handleAmountChange} iso={typeCurrencies?.receive} name="amount_received" control={control} />
           </View>
           <View className="mt-6" />
-          <CouponInput onRemove={removeCoupon} coupon={coupon} onAdd={handleAddCoupon} setValue={setValue} loading={loadingCoupon} />
+          <CouponInput
+            exchangeLevel={user?.level}
+            profileType={profile?.type}
+            onRemove={removeCoupon}
+            coupon={coupon}
+            onAdd={handleAddCoupon}
+            setValue={setValue}
+            loading={loadingCoupon}
+          />
         </Card>
         <View className="mt-4" />
         <Button onPress={handleSubmit(onSubmit)} loading={isProcessing} disabled={isProcessing}>
