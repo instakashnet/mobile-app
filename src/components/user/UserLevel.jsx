@@ -22,7 +22,6 @@ export default function UserLevel() {
 
     if (!isNaN(difference) && !isNaN(total)) totalLeft = ((difference / total) * 100) / 100
 
-    console.log({ totalLeft })
     return totalLeft
   }, [data])
 

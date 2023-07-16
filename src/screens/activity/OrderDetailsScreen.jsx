@@ -1,14 +1,14 @@
-import { Image, View } from 'react-native'
-import React from 'react'
-import { Text, useTheme } from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons'
+import React from 'react'
+import { Image, View } from 'react-native'
+import { Text, useTheme } from 'react-native-paper'
 
-import SafeArea from '../../components/utils/SafeArea'
-import StatusBadge from '../../components/UI/StatusBadge'
-import CopyButton from '../../components/UI/CopyButton'
 import OrderInfoSection from '../../components/orders/OrderInfoSection'
-import { formatDate } from '../../helpers/formatters'
 import Button from '../../components/UI/Button'
+import CopyButton from '../../components/UI/CopyButton'
+import StatusBadge from '../../components/UI/StatusBadge'
+import SafeArea from '../../components/utils/SafeArea'
+import { formatDate } from '../../helpers/formatters'
 
 export default function OrderDetailsScreen({ route, navigation }) {
   const order = route.params?.order
@@ -51,7 +51,7 @@ export default function OrderDetailsScreen({ route, navigation }) {
           <Text>{order?.accToSend}</Text>
         </OrderInfoSection>
         <View className="mt-auto">
-          {order?.status?.id === 2 && <Button>Completar operación</Button>}
+          {order?.status?.id === 2 && <Button onPress={() => navigation.navigate('Exchange')}>Completar operación</Button>}
           <Button className="mt-3" variant="secondary" onPress={() => navigation.goBack()}>
             Regresar
           </Button>

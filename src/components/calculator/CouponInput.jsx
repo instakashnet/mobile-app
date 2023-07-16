@@ -3,27 +3,18 @@ import React, { useState } from 'react'
 import { Pressable, View } from 'react-native'
 import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
 
+import DiscountCouponIcon from '../../../assets/images/svgs/DiscountCouponIcon'
 import { useReferral } from '../../hooks/calculator/useReferral'
-import Button from '../UI/Button'
 import Input from '../UI/controlledInputs/Input'
-// import DiscountCouponIcon from '../../../assets/images/svgs/DiscountCouponIcon'
 import Helper from '../UI/Helper'
+import DiscountsBanner from './DiscountsBanner'
 
 export default function CouponInput({ coupon, onAdd, onRemove, setValue, loading, profileType, exchangeLevel }) {
   const { colors } = useTheme()
   const [couponName, setCouponName] = useState('')
   const { data: referralStatus } = useReferral(profileType)
 
-  const handleAdd = async () => {
-    try {
-      await onAdd(couponName)
-      setValue('couponName', couponName)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const handleDiscountAdd = async name => {
+  const handleAdd = async name => {
     try {
       await onAdd(name)
       setValue('couponName', name)
@@ -39,30 +30,19 @@ export default function CouponInput({ coupon, onAdd, onRemove, setValue, loading
 
   return !coupon ? (
     <>
-      {referralStatus?.referral ? (
-        <>
-          <Text variant="button">Descuento de primer cambio</Text>
-          <Button variant="secondary" className="mt-3" onPress={() => handleDiscountAdd(referralStatus?.coupon)}>
-            Activar descuento
-          </Button>
-          <View className="border border-gray-200 my-4" />
-        </>
-      ) : (
-        <>
-          <Text variant="button">Eres {exchangeLevel}</Text>
-          {(exchangeLevel?.includes('SENIOR') || exchangeLevel?.includes('EXPERTO')) && (
-            <Button variant="secondary" className="mt-3" onPress={() => handleDiscountAdd('KASH' + exchangeLevel?.replace(' ', ''))}>
-              Activar descuento
-            </Button>
-          )}
-          <View className="border border-gray-200 my-4" />
-        </>
-      )}
-      <View className="w-full relative">
-        {/* <View className='absolute h-full w-full z-10 left-3 top-4'>
-        <DiscountCouponIcon width={22} />
-      </View> */}
-        <Input label="Ingresa un cupón" value={couponName} onChange={setCouponName} className="pr-20 pb-2" />
+      <DiscountsBanner isReferral={referralStatus.referral} level={exchangeLevel} onAddCoupon={handleAdd} />
+      <View className="w-full relative mt-4">
+        <View className="absolute h-full z-10 left-3 top-4" style={{ elevation: 5 }}>
+          <DiscountCouponIcon width={22} />
+        </View>
+        <Input
+          label="Ingresa un cupón"
+          value={couponName}
+          onChange={setCouponName}
+          className="pr-20 pl-10 pb-2"
+          autoComplete="off"
+          autoCapitalize="characters"
+        />
         {loading ? (
           <ActivityIndicator
             className="z-10 absolute right-3 top-[-2px] py-2 my-2 pl-2 border-l-[1px] border-gray-400"
@@ -70,7 +50,9 @@ export default function CouponInput({ coupon, onAdd, onRemove, setValue, loading
             color={colors.primary700}
           />
         ) : (
-          <Pressable className="z-10 absolute right-4 top-0 py-2 my-2 pl-2 border-l-[1px] border-gray-400" onPress={handleAdd}>
+          <Pressable
+            className="z-10 absolute right-4 top-0 py-2 my-2 pl-2 border-l-[1px] border-gray-400"
+            onPress={() => handleAdd(couponName)}>
             <Text variant="button" className="text-xs" style={{ color: colors.primary700 }}>
               Agregar
             </Text>

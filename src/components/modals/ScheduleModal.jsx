@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Text } from 'react-native-paper'
 
-import Modal from './Modal'
 import { useSchedule } from '../../hooks/useSchedule'
 import { useUpdate } from '../../hooks/useUpdate'
+import Modal from './Modal'
 
 function ScheduleModal() {
   const [showModal, setShowModal] = useState(false)

@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { useGetScheduleQuery } from '../services/exchange'
 import { formatTimeTo12Hour } from '../helpers/formatters'
+import { useGetScheduleQuery } from '../services/exchange'
+import { selectSchedule, setSchedule } from '../store/slices/appData'
 
 export function useSchedule() {
-  const [schedule, setSchedule] = useState(null)
+  const schedule = useSelector(selectSchedule)
+  const dispatch = useDispatch()
   const { data, isLoading } = useGetScheduleQuery()
 
   useEffect(() => {
@@ -44,9 +47,9 @@ export function useSchedule() {
         }
       })
 
-      setSchedule(scheduleValues)
+      dispatch(setSchedule(scheduleValues))
     }
-  }, [data])
+  }, [data, dispatch])
 
   return { schedule, isLoading }
 }

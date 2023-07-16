@@ -1,19 +1,20 @@
-import { Pressable, ScrollView, View } from 'react-native'
-import React, { useMemo } from 'react'
-import Logo from '../../../../assets/images/svgs/Logo'
-import SafeArea from '../../utils/SafeArea'
 import { Ionicons } from '@expo/vector-icons'
+import React, { useMemo } from 'react'
+import { Pressable, ScrollView, View } from 'react-native'
 import { Drawer, Text } from 'react-native-paper'
-import ReferalCode from '../ReferalCode'
-import Hours from '../Hours'
 import { useSelector } from 'react-redux'
+
+import Logo from '../../../../assets/images/svgs/Logo'
 import { selectUser } from '../../../store/slices/authSlice'
+import SafeArea from '../../utils/SafeArea'
+import Hours from '../Hours'
+import ReferalCode from '../ReferalCode'
 import DrawerItem from './DrawerItem'
 
 const ROUTENAMES = {
   main: 'main',
   accounts: 'accounts',
-  exchange: 'exchange'
+  exchange: 'exchange',
 }
 
 export default function CustomDrawer({ navigation, state, onLogout }) {
@@ -27,74 +28,74 @@ export default function CustomDrawer({ navigation, state, onLogout }) {
   }, [index])
 
   return (
-    <ScrollView className='bg-white'>
+    <ScrollView className="bg-white">
       <SafeArea>
-        <View className='h-full'>
-          <View className='flex-row items-center justify-between px-4 pt-4'>
+        <View className="h-full">
+          <View className="flex-row items-center justify-between px-4 pt-4">
             <Logo width={100} />
-            <Pressable className='p-2 pr-0' onPress={navigation.closeDrawer}>
-              <Ionicons name='close' size={25} />
+            <Pressable className="p-2 pr-0" onPress={navigation.closeDrawer}>
+              <Ionicons name="close" size={25} />
             </Pressable>
           </View>
           <Drawer.Section>
             <DrawerItem
-              iconName='home-outline'
+              iconName="home-outline"
               route={ROUTENAMES.main}
               onNavigate={() => navigation.navigate('Home')}
               focusedRoute={focusedRoute}
-              routeName='Inicio'
+              routeName="Inicio"
             />
             <DrawerItem
-              iconName='swap-horizontal-outline'
+              iconName="swap-horizontal-outline"
               route={ROUTENAMES.exchange}
               onNavigate={() => navigation.navigate('Exchange')}
               focusedRoute={focusedRoute}
-              routeName='Cambiar divisas'
+              routeName="Cambiar divisas"
             />
             <DrawerItem
-              iconName='bar-chart-outline'
+              iconName="bar-chart-outline"
               route={ROUTENAMES.exchange}
               onNavigate={() => navigation.navigate('Operations')}
               focusedRoute={focusedRoute}
-              routeName='Mis operaciones'
+              routeName="Mis operaciones"
             />
             <DrawerItem
-              iconName='wallet-outline'
+              iconName="wallet-outline"
               route={ROUTENAMES.exchange}
               onNavigate={() => navigation.navigate('Accounts')}
               focusedRoute={focusedRoute}
-              routeName='Mis cuentas'
+              routeName="Mis cuentas"
             />
           </Drawer.Section>
-          <Drawer.Section className='py-1'>
+          <Drawer.Section className="py-1">
             <DrawerItem
-              iconName='settings-outline'
+              iconName="settings-outline"
               route={ROUTENAMES.exchange}
               onNavigate={() => navigation.navigate('Configuration')}
               focusedRoute={focusedRoute}
-              routeName='Configuración'
+              routeName="Configuración"
             />
             {user?.validationLevel < 3 && (
               <DrawerItem
-                iconName='shield-checkmark-outline'
+                iconName="shield-checkmark-outline"
                 route={ROUTENAMES.exchange}
                 onNavigate={() => navigation.navigate('Verification')}
                 focusedRoute={focusedRoute}
-                routeName='Verificar identidad'
+                routeName="Verificar identidad"
               />
             )}
           </Drawer.Section>
-          <Drawer.Section className='flex-1'>
-            <View className='flex-1 px-4 my-4 justify-between'>
+          <Drawer.Section className="flex-1">
+            <View className="flex-1 px-4 my-4 justify-between">
               <Hours />
-              <View className='mt-6' />
+              <View className="mt-6" />
               <ReferalCode />
             </View>
           </Drawer.Section>
 
-          <Pressable className='flex-row items-center py-2 px-6 mt-1' onPress={onLogout}>
-            <Ionicons name='log-out-outline' size={25} color='#666' />
-            <Text className='ml-3 text-gray-600'>Cerrar sesión</Text>
+          <Pressable className="flex-row items-center py-2 px-6 mt-1" onPress={onLogout}>
+            <Ionicons name="log-out-outline" size={25} color="#666" />
+            <Text className="ml-3 text-gray-600">Cerrar sesión</Text>
           </Pressable>
         </View>
       </SafeArea>

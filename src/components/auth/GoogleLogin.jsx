@@ -1,12 +1,12 @@
-import { Text } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { useNavigation } from '@react-navigation/native'
 import { Platform } from 'react-native'
+import { Text } from 'react-native-paper'
 
-import { useLazyGetSessionQuery, useLoginGoogleMutation } from '../../services/auth.js'
 import GoogleIcon from '../../../assets/images/svgs/GoogleIcon'
-import Button from '../UI/Button'
 import ENV from '../../../variables'
+import { useLazyGetSessionQuery, useLoginGoogleMutation } from '../../services/auth.js'
+import Button from '../UI/Button'
 
 GoogleSignin.configure({
   webClientId: ENV.googleWebClientId,
@@ -24,7 +24,7 @@ export default function GoogleLogin() {
 
       if (idToken) {
         const response = await loginGoogle({ token: idToken, origin: Platform.OS }).unwrap()
-        if (!response.completed) navigation.navigate('Complete')
+        if (!response.completed) return navigation.navigate('Complete')
         await getSession().unwrap()
       } else {
         console.log('No se pudo iniciar sesión con google por falta de idToken')

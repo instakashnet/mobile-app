@@ -25,8 +25,10 @@ export const colors = {
   gray700: '#525252',
 
   error: '#FF4B55',
+  error100: '#FFEDEE',
   info: '#007bff',
+  info100: '#95cee8',
   warning: '#ffc107',
 
-  neutralVariant50: '#c2c2c2'
+  neutralVariant50: '#c2c2c2',
 }

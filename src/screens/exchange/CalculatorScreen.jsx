@@ -18,6 +18,7 @@ import Title from '../../components/utils/Title'
 import { calculateAmountToReceive } from '../../helpers/exchange-operations'
 import { useCoupon } from '../../hooks/calculator/useCoupon'
 import { useExchangeType } from '../../hooks/calculator/useExchangeType'
+import { useLastOrder } from '../../hooks/calculator/useLastOrder'
 import { useRates } from '../../hooks/calculator/useRates'
 import { useCountdown } from '../../hooks/useCountdown'
 import { useProfile } from '../../hooks/useProfile'
@@ -47,6 +48,7 @@ export default function CalculatorScreen({ navigation }) {
       couponName: '',
     },
   })
+  useLastOrder()
 
   useUpdate(() => {
     if (rates?.buy > 0 && rates?.sell > 0) {

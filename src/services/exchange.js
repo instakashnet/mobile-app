@@ -13,6 +13,12 @@ const exchangeApi = baseApi.injectEndpoints({
       query: () => EXCHANGE_ROUTE + '/v1/client/schedules',
       keepUnusedDataFor: 60,
     }),
+    getLastOrder: builder.query({
+      query: () => EXCHANGE_ROUTE + '/v1/client/order/last-order',
+      transformResponse: result => result.lastOrder,
+      keepUnusedDataFor: 0.0001,
+      providesTags: ['LastOrder'],
+    }),
     getCouponData: builder.query({
       query: ({ couponName, profileType }) => EXCHANGE_ROUTE + `/v1/client/coupons/${couponName}/${profileType}`,
     }),
@@ -44,7 +50,7 @@ const exchangeApi = baseApi.injectEndpoints({
           method: 'DELETE',
         }
       },
-      invalidateTags: ['Orders'],
+      invalidateTags: ['Orders', 'LastOrder'],
     }),
     completeExchange: builder.mutation({
       query: ({ orderId, values }) => ({
@@ -52,7 +58,7 @@ const exchangeApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: values,
       }),
-      invalidateTags: ['Orders'],
+      invalidateTags: ['Orders', 'LastOrder'],
     }),
   }),
   overrideExisting: true,
@@ -60,6 +66,7 @@ const exchangeApi = baseApi.injectEndpoints({
 
 export const {
   useLazyGetRatesQuery,
+  useGetLastOrderQuery,
   useLazyGetCouponDataQuery,
   useCheckReferralStatusQuery,
   useCreateExchangeMutation,

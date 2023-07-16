@@ -1,20 +1,20 @@
-import { Pressable, View } from 'react-native'
+import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Checkbox, Text } from 'react-native-paper'
+import { Pressable, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { Checkbox, Text } from 'react-native-paper'
 import { useSelector } from 'react-redux'
-import { yupResolver } from '@hookform/resolvers/yup'
 
-import Button from '../../components/UI/Button'
-import Select from '../../components/UI/Select'
-import Input from '../../components/UI/Input'
-import { selectBanks, selectCurrencies } from '../../store/slices/app-data'
-import Helper from '../../components/UI/Helper'
 import MancomunadaInputs from '../../components/accounts/MancomunadaInputs'
+import Button from '../../components/UI/Button'
+import Helper from '../../components/UI/Helper'
+import Input from '../../components/UI/Input'
+import Select from '../../components/UI/Select'
 import { accountTypesOptions, getBanksOptions, getCurrenciesOptions } from '../../helpers/select-options'
 import { addAccountSchema } from '../../schemas/accounts'
 import { useAddAccountMutation, useEditAccountMutation } from '../../services/account'
+import { selectBanks, selectCurrencies } from '../../store/slices/appData'
 
 export default function AccountFormScreen({ navigation, route }) {
   const [joint, setJoint] = useState(false)

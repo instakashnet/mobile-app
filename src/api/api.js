@@ -82,6 +82,7 @@ export const baseApi = createApi({
     'Withdrawals',
     'UserExchangeData',
     'Orders',
+    'LastOrder',
     'Accounts',
     'Profiles',
     'Notifications',
