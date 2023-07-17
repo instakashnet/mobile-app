@@ -1,5 +1,5 @@
-import { View, Image, Alert } from 'react-native'
 import React from 'react'
+import { Alert, Image, View } from 'react-native'
 import { IconButton, Text, useTheme } from 'react-native-paper'
 
 import bankImages from '../../../data/bankImages'
@@ -47,7 +47,7 @@ export default function AccountItem({ account, onSelect, isLoading }) {
             Cuenta mancomunada
           </Text>
         )}
-        <View className="flex-row items-center self-end">
+        <View className="flex-row items-center ml-auto self-end">
           <IconButton icon="square-edit-outline" className="mr-0" size={20} iconColor={colors.primary700} onPress={onSelect} />
           <IconButton
             className="mr-0"

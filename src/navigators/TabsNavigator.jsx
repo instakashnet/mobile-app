@@ -1,14 +1,14 @@
-import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React from 'react'
 import { useTheme } from 'react-native-paper'
 
+import SafeArea from '../components/utils/SafeArea'
 import AccountsNavigator from './AccountsNavigator'
-import { TabBarLabel } from './options'
-import HomeNavigator from './HomeNavigator'
 import ActivityNavigator from './ActivityNavigator'
 import ExchangeNavigator from './ExchangeNavigator'
-import SafeArea from '../components/utils/SafeArea'
+import HomeNavigator from './HomeNavigator'
+import { TabBarLabel } from './options'
 
 const Tabs = createBottomTabNavigator()
 

@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar'
-import { Provider } from 'react-redux'
-import { Provider as PaperProvider } from 'react-native-paper'
-import { useCallback, useEffect, useState } from 'react'
-import * as SplashScreen from 'expo-splash-screen'
+import 'expo-dev-client'
+import 'react-native-gesture-handler'
+
 import * as Poppins from '@expo-google-fonts/poppins'
 import * as Font from 'expo-font'
-import 'expo-dev-client'
+import * as SplashScreen from 'expo-splash-screen'
+import { StatusBar } from 'expo-status-bar'
+import { useCallback, useEffect, useState } from 'react'
+import { Provider as PaperProvider } from 'react-native-paper'
+import { Provider } from 'react-redux'
 
-import { theme } from './src/theme'
-import MainNavigation from './src/navigators/Main'
-import store from './src/store'
-import 'react-native-gesture-handler'
-import { translateDatepicker } from './src/utils/translate-datepicker'
+import UpdateModal from './src/components/modals/UpdateModal'
 import Toast from './src/components/UI/Toast'
 import { initSentry } from './src/lib/Sentry'
-import UpdateModal from './src/components/modals/UpdateModal'
+import MainNavigation from './src/navigators/Main'
+import store from './src/store'
+import { theme } from './src/theme'
+import { translateDatepicker } from './src/utils/translate-datepicker'
 
 translateDatepicker()
 if (!__DEV__) initSentry()

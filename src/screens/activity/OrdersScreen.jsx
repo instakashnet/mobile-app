@@ -1,15 +1,15 @@
-import { View, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
+import { ActivityIndicator, View } from 'react-native'
 
-import { useOrders } from '../../hooks/useOrders'
 import OrdersList from '../../components/orders/OrdersList'
+import { useOrders } from '../../hooks/useOrders'
 
 export default function OrdersScreen() {
   const [ordersCount, setOrdersCount] = useState(10)
   const { orders, getuserOrders, isLoading } = useOrders(10)
 
   const handleLoadMore = async () => {
-    if (orders?.length < ordersCount) return
+    if (orders?.length < ordersCount || isLoading) return
 
     try {
       const newCount = ordersCount + 5

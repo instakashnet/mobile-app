@@ -1,10 +1,10 @@
-import { Text, useTheme } from 'react-native-paper'
 import { Pressable } from 'react-native'
+import { Text, useTheme } from 'react-native-paper'
 
-import OrderItem from './OrderItem'
-import Card from '../UI/Card'
 import { useOrders } from '../../hooks/useOrders'
+import Card from '../UI/Card'
 import OrderItemLoader from './ItemLoader'
+import OrderItem from './OrderItem'
 
 export default function OrdersListView({ navigation }) {
   const { orders, isLoading } = useOrders(3)

@@ -6,7 +6,7 @@ import Card from '../UI/Card'
 import WithdrawalItem from './WithdrawalItem'
 
 export default function WithdrawsListView({ navigation }) {
-  const { withdrawals } = useWithdrawals(5)
+  const { withdrawals } = useWithdrawals(3)
   const { colors } = useTheme()
 
   return (

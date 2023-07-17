@@ -16,15 +16,12 @@ export default function AccountsScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={{ flex: 1 }}>
       <View className="flex-1 p-6">
-        {accounts.length <= 0 ? (
-          <EmptyAccounts navigate={navigation.navigate} />
-        ) : (
-          <List.Section>
-            <AccountsList isLoading={isFetching} title="Cuentas en soles S/." accounts={solesAccounts} />
-            <View className="mt-4" />
-            <AccountsList isLoading={isFetching} title="Cuentas en dólares $" accounts={dollarAccounts} />
-          </List.Section>
-        )}
+        {accounts.length <= 0 && !isFetching && <EmptyAccounts navigate={navigation.navigate} />}
+        <List.Section>
+          <AccountsList isLoading={isFetching} title="Cuentas en soles S/." accounts={solesAccounts} />
+          <View className="mt-4" />
+          <AccountsList isLoading={isFetching} title="Cuentas en dólares $" accounts={dollarAccounts} />
+        </List.Section>
       </View>
       {accounts.length > 0 && accounts.length < 20 && (
         <TouchableOpacity
