@@ -32,7 +32,7 @@ export default function AccountItem({ account, onSelect, isLoading }) {
     )
 
   return (
-    <View className="w-full">
+    <View className="w-full py-2 px-4 bg-white">
       <View className="flex-row items-center justify-between w-full">
         <Image source={bankImages[account?.bank.name?.toLowerCase()]?.image} resizeMode="contain" className="w-[85px] h-8" />
         <Text>

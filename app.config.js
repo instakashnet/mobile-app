@@ -51,6 +51,12 @@ module.exports = {
     favicon: './assets/images/favicon.png',
   },
   plugins: [
+    [
+      'expo-tracking-transparency',
+      {
+        userTrackingPermission: '$(PRODUCT_NAME) necesita tu información para poder ofrecerte todos los servicios de la app.',
+      },
+    ],
     'sentry-expo',
     'expo-apple-authentication',
     [
@@ -76,7 +82,7 @@ module.exports = {
     '@react-native-google-signin/google-signin',
   ],
   runtimeVersion: {
-    policy: 'sdkVersion',
+    policy: 'appVersion',
   },
   updates: {
     enabled: true,

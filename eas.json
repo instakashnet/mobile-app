@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 3.14.0"
+    "version": ">= 3.14.0",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -9,24 +10,41 @@
       "android": {
         "buildType": "apk"
       },
-
+      "ios": {
+        "simulator": true
+      },
       "channel": "development"
     },
     "testing": {
+      "channel": "testing",
       "distribution": "internal",
       "android": {
         "buildType": "apk"
-      },
-      "channel": "testing"
+      }
     },
     "staging": {
-      "channel": "staging"
+      "channel": "staging",
+      "android": {
+        "buildType": "apk"
+      }
     },
     "production": {
+      "autoIncrement": true,
       "channel": "production"
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "keys/android/pc-api-9072173090455432304-927-42d9ca04c63c.json",
+        "track": "alpha",
+        "releaseStatus": "draft"
+      },
+      "ios": {
+        "appleId": "admin@instakash.net",
+        "ascAppId": "1601561803",
+        "appleTeamId": "B6PKWF86W5"
+      }
+    }
   }
 }

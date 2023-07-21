@@ -1,19 +1,19 @@
+import { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import { ActivityIndicator, Text } from 'react-native-paper'
-import { Controller, useForm } from 'react-hook-form'
 import Toast from 'react-native-toast-message'
-import { useEffect } from 'react'
 
-import Container from '../../components/utils/Container'
+import Rates from '../../components/calculator/Rates'
+import Button from '../../components/UI/Button'
 import Card from '../../components/UI/Card'
 import Input from '../../components/UI/Input'
 import Switch from '../../components/UI/Swtich'
-import Button from '../../components/UI/Button'
-import Rates from '../../components/calculator/Rates'
-import KeyboardView from '../../components/utils/KeyboardView'
+import Container from '../../components/utils/Container'
 import DismissKeyboard from '../../components/utils/DismissKeyboard'
-import { useGetRatesNotificationsQuery, useSaveRatesNotificationsMutation } from '../../services/notifications'
+import KeyboardView from '../../components/utils/KeyboardView'
 import { useRates } from '../../hooks/calculator/useRates'
+import { useGetRatesNotificationsQuery, useSaveRatesNotificationsMutation } from '../../services/notifications'
 
 function RatesAlertsScreen() {
   const { data, isLoading: alertsLoading } = useGetRatesNotificationsQuery()

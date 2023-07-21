@@ -1,14 +1,14 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useTheme } from 'react-native-paper'
 
-import OnboardingScreen from '../screens/auth/OnboardingScreen'
-import LoginScreen from '../screens/auth/LoginScreen'
-import RegisterScreen from '../screens/auth/RegisterScreen'
-import { TitleHeader } from './options'
-import VerifyCodeScreen from '../screens/auth/VerifyCodeScreen'
 import CompleteScreen from '../screens/auth/CompleteScreen'
+import LoginScreen from '../screens/auth/LoginScreen'
+import OnboardingScreen from '../screens/auth/Onboarding/OnboardingScreen'
 import RecoverPasswordScreen from '../screens/auth/RecoverPasswordScreen'
+import RegisterScreen from '../screens/auth/RegisterScreen'
 import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen'
+import VerifyCodeScreen from '../screens/auth/VerifyCodeScreen'
+import { TitleHeader } from './options'
 
 const Stack = createNativeStackNavigator()
 
@@ -33,7 +33,7 @@ export default function AuthNavigator() {
         options={{ headerTitle: 'Reiniciar contraseña', headerLeft: null }}
         component={ResetPasswordScreen}
       />
-      <Stack.Screen name="Complete" options={{ headerTitle: 'Completar registro', headerLeft: null }} component={CompleteScreen} />
+      <Stack.Screen name="Complete" options={{ headerTitle: 'Completar perfil', headerLeft: null }} component={CompleteScreen} />
     </Stack.Navigator>
   )
 }

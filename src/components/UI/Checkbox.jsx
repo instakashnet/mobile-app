@@ -11,7 +11,7 @@ export default function Checkbox({ children, control, error, name }) {
       control={control}
       name={name}
       render={({ field: { value, onChange } }) => (
-        <Pressable className='flex-row items-center justify-center' onPress={() => onChange(!value)}>
+        <Pressable className="flex-row items-center justify-center" onPress={() => onChange(!value)}>
           <PaperCheckbox.Android status={value ? 'checked' : 'unchecked'} color={error ? colors.error : colors.primary700} />
           {children}
         </Pressable>

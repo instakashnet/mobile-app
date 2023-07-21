@@ -1,19 +1,21 @@
-import { View } from 'react-native'
+import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { View } from 'react-native'
+import { Text } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
-import Select from '../UI/Select'
-import Input from '../UI/Input'
-import Button from '../UI/Button'
 import { documentOptions, sexOptions } from '../../helpers/select-options'
-import Helper from '../UI/Helper'
 import { completeValidationSchema } from '../../schemas/auth'
-import PhoneInput from '../UI/PhoneInput'
 import { useCompleteRegistrationMutation, useLazyGetSessionQuery } from '../../services/auth'
 import { showAlert } from '../../store/slices/alert'
 import { setCredentials } from '../../store/slices/authSlice'
+import Button from '../UI/Button'
+import Checkbox from '../UI/Checkbox'
+import Helper from '../UI/Helper'
+import Input from '../UI/Input'
+import PhoneInput from '../UI/PhoneInput'
+import Select from '../UI/Select'
 
 export default function CompleteForm() {
   const [completeRegistration, { isLoading }] = useCompleteRegistrationMutation()
@@ -33,6 +35,7 @@ export default function CompleteForm() {
       phone: '',
       document_type: 'DNI',
       document_identification: '',
+      accept: false,
     },
     mode: 'onTouched',
     resolver: yupResolver(completeValidationSchema),
@@ -72,6 +75,13 @@ export default function CompleteForm() {
       <View className="mt-1" />
       <PhoneInput label="Teléfono" name="phone" error={errors.phone} control={control} maxLength={15} />
       <Helper error={errors.phone?.message} />
+      <View>
+        <Checkbox control={control} name="accept">
+          <Text variant="caption" className="mr-1">
+            Declaro que la información es correcta y me hago responsable por su legitimidad.
+          </Text>
+        </Checkbox>
+      </View>
       <View className="mt-4" />
       <Button onPress={handleSubmit(onSubmit)} disabled={!isValid} loading={isLoading}>
         Continuar

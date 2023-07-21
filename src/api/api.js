@@ -4,10 +4,11 @@ import { Alert } from 'react-native'
 import Toast from 'react-native-toast-message'
 import * as Sentry from 'sentry-expo'
 
+import ENV from '../../variables'
 import { getSecureData, removeSecureData } from '../lib/SecureStore'
 import { setLogout, setToken } from '../store/slices/authSlice'
 
-export const BASE_URL = 'https://api.dev.instakash.net'
+export const BASE_URL = ENV.apiUrl
 export const AUTH_ROUTE = '/auth-service/api'
 export const EXCHANGE_ROUTE = '/exchange-service/api'
 export const ACCOUNT_ROUTE = '/accounts-service/api'

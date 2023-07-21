@@ -56,6 +56,17 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: values,
       }),
+      onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled
+          if (args?.operation === 'PWD') dispatch(setToken(data.accessToken))
+        } catch (error) {
+          console.log(error)
+        }
+      },
+    }),
+    resendCode: builder.query({
+      query: () => AUTH_ROUTE + '/v1/client/auth/refresh-code',
     }),
     recoverPassword: builder.mutation({
       query: values => ({
@@ -149,6 +160,7 @@ export const {
   useRecoverPasswordMutation,
   useResetPasswordMutation,
   useVerifyCodeMutation,
+  useLazyResendCodeQuery,
   useLazyGetSessionQuery,
   useGetRefreshMutation,
   useLogoutMutation,

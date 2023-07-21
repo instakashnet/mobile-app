@@ -11,6 +11,7 @@ import { Provider } from 'react-redux'
 
 import UpdateModal from './src/components/modals/UpdateModal'
 import Toast from './src/components/UI/Toast'
+import { useTrackingTransparency } from './src/hooks/permissions/useTrackingTransparency'
 import { initSentry } from './src/lib/Sentry'
 import MainNavigation from './src/navigators/Main'
 import store from './src/store'
@@ -22,6 +23,7 @@ if (!__DEV__) initSentry()
 
 export default function App() {
   const [appisReady, setAppIsReady] = useState(false)
+  useTrackingTransparency()
 
   useEffect(() => {
     async function loadResourcesAsync() {

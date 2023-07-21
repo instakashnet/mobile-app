@@ -1,8 +1,8 @@
-import * as Updates from 'expo-updates'
 import { nativeApplicationVersion } from 'expo-application'
-import semver from 'semver'
+import * as Updates from 'expo-updates'
 import { useEffect, useState } from 'react'
 import { Linking, Platform } from 'react-native'
+import semver from 'semver'
 
 const APP_VERSION = '1.1.0'
 

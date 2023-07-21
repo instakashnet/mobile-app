@@ -30,7 +30,7 @@ export default function CouponInput({ coupon, onAdd, onRemove, setValue, loading
 
   return !coupon ? (
     <>
-      <DiscountsBanner isReferral={referralStatus.referral} level={exchangeLevel} onAddCoupon={handleAdd} />
+      {profileType !== 'juridica' && <DiscountsBanner isReferral={referralStatus.referral} level={exchangeLevel} onAddCoupon={handleAdd} />}
       <View className="w-full relative mt-4">
         <View className="absolute h-full z-10 left-3 top-4" style={{ elevation: 5 }}>
           <DiscountCouponIcon width={22} />
