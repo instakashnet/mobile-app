@@ -2,16 +2,18 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { adaptNavigationTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
-import ScheduleModal from '../components/modals/ScheduleModal'
-import SafeArea from '../components/utils/SafeArea'
-import { useNotificationsPermissions } from '../hooks/notifications/useNotificationsPermissions'
-import { useRefresh } from '../hooks/useRefresh'
-import { useUpdate } from '../hooks/useUpdate'
-import LoadingScreen from '../screens/LoadingScreen'
-import { useLazyGetBanksQuery, useLazyGetCurrenciesQuery } from '../services/account'
-import { useSavePushTokenMutation } from '../services/auth'
-import { setBanks, setCurrencies } from '../store/slices/appData'
-import { selectIsSignedIn } from '../store/slices/authSlice'
+import ScheduleModal from '@/components/modals/ScheduleModal'
+import SafeArea from '@/components/utils/SafeArea'
+import Updater from '@/hoc/Updater'
+import { useNotificationsPermissions } from '@/hooks/notifications/useNotificationsPermissions'
+import { useRefresh } from '@/hooks/useRefresh'
+import { useUpdate } from '@/hooks/useUpdate'
+import LoadingScreen from '@/screens/LoadingScreen'
+import { useLazyGetBanksQuery, useLazyGetCurrenciesQuery } from '@/services/account'
+import { useSavePushTokenMutation } from '@/services/auth'
+import { setBanks, setCurrencies } from '@/store/slices/appData'
+import { selectIsSignedIn } from '@/store/slices/authSlice'
+
 import AuthNavigator from './AuthNavigator'
 import DrawerNavigator from './DrawerNavigator'
 
@@ -61,16 +63,18 @@ export default function MainNavigation({ onLayout }) {
 
   return (
     <NavigationContainer theme={LightTheme} onReady={onLayout}>
-      {!isSignedIn ? (
-        <SafeArea>
-          <AuthNavigator />
-        </SafeArea>
-      ) : (
-        <>
-          <DrawerNavigator />
-          <ScheduleModal />
-        </>
-      )}
+      <Updater>
+        {!isSignedIn ? (
+          <SafeArea>
+            <AuthNavigator />
+          </SafeArea>
+        ) : (
+          <>
+            <DrawerNavigator />
+            <ScheduleModal />
+          </>
+        )}
+      </Updater>
     </NavigationContainer>
   )
 }

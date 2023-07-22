@@ -11,7 +11,7 @@ import { useProfile } from '../../../hooks/useProfile'
 import { useUpdate } from '../../../hooks/useUpdate'
 import { useCreateExchangeMutation } from '../../../services/exchange'
 
-export function useCalculator() {
+export function useCalculatorLogic() {
   const { rates, getRates, isLoading: ratesLoading } = useRates(coupon)
   const { profile } = useProfile()
   const [exchangeType, setExchangeType] = useState('sell')
@@ -70,6 +70,8 @@ export function useCalculator() {
 
     setExchangeType(newType)
     const newAmount = exchangeType === 'sell' ? amount * currentRates?.buy : amount / currentRates?.sell
+    setValue('currency_sent_id', newType === 'sell' ? 2 : 1)
+    setValue('currency_received_id', newType === 'sell' ? 1 : 2)
     setValue('amount_received', newAmount?.toFixed(2))
     setValue('type', newType)
   }
@@ -146,5 +148,6 @@ export function useCalculator() {
     handleAmountChange,
     handleTimerFinish,
     profile,
+    type: exchangeType,
   }
 }

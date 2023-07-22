@@ -1,38 +1,44 @@
 import { nativeApplicationVersion } from 'expo-application'
 import * as Updates from 'expo-updates'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Linking, Platform } from 'react-native'
 import semver from 'semver'
 
 const APP_VERSION = '1.1.0'
+const INTERVAL_OTA_CHECK = 1000 * 60 * (__DEV__ ? 1 : 60) * 24
 
 export function useAppUpdate() {
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false)
   const [updateType, setUpdateType] = useState(null)
 
-  useEffect(() => {
-    const checkForUpdates = async () => {
-      try {
-        if (__DEV__) return
+  const checkForUpdates = useCallback(async () => {
+    try {
+      if (__DEV__) return
+      if (isUpdateAvailable) return
 
-        const update = await Updates.checkForUpdateAsync()
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync()
-          setUpdateType('minor')
+      const update = await Updates.checkForUpdateAsync()
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync()
+        setUpdateType('minor')
+        setIsUpdateAvailable(true)
+      } else {
+        if (semver.gt(APP_VERSION, nativeApplicationVersion)) {
+          setUpdateType('major')
           setIsUpdateAvailable(true)
-        } else {
-          if (semver.gt(APP_VERSION, nativeApplicationVersion)) {
-            setUpdateType('major')
-            setIsUpdateAvailable(true)
-          }
         }
-      } catch (error) {
-        console.error('Failed to check for updates:', error)
       }
+    } catch (error) {
+      console.error('Failed to check for updates:', error)
     }
+  }, [isUpdateAvailable])
+
+  useEffect(() => {
+    const checkUpdatesInterval = setInterval(checkForUpdates, INTERVAL_OTA_CHECK)
 
     checkForUpdates()
-  }, [])
+
+    return () => clearInterval(checkUpdatesInterval)
+  }, [checkForUpdates])
 
   const handleUpdate = async () => {
     try {

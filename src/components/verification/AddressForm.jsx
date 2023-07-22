@@ -1,17 +1,17 @@
-import { View } from 'react-native'
-import React from 'react'
-import { Text } from 'react-native-paper'
-import { useSelector } from 'react-redux'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigation } from '@react-navigation/native'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { View } from 'react-native'
+import { Text } from 'react-native-paper'
+import { useSelector } from 'react-redux'
 
+import { addAddressSchema } from '../../schemas/verification'
+import { useAddAddressMutation } from '../../services/user'
 import { selectUser } from '../../store/slices/authSlice'
 import Button from '../UI/Button'
 import Helper from '../UI/Helper'
 import Input from '../UI/Input'
-import { useAddAddressMutation } from '../../services/user'
-import { addAddressSchema } from '../../schemas/verification'
 
 export default function AddressForm() {
   const user = useSelector(selectUser)
@@ -61,7 +61,7 @@ export default function AddressForm() {
       </Button>
       <View className="mt-3" />
       <Button variant="secondary" onPress={() => navigation.popToTop()}>
-        Continuar
+        Volver al inicio
       </Button>
     </>
   )

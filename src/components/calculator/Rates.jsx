@@ -1,5 +1,5 @@
-import { View } from 'react-native'
 import React from 'react'
+import { View } from 'react-native'
 import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
 
 export default function Rates({ rates, type, coupon, loading }) {

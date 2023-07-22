@@ -17,7 +17,7 @@ import Title from '../../../components/utils/Title'
 import { useLastOrder } from '../../../hooks/calculator/useLastOrder'
 import { useCountdown } from '../../../hooks/useCountdown'
 import { selectUser } from '../../../store/slices/authSlice'
-import { useCalculator } from './Calculator.logic'
+import { useCalculatorLogic } from './Calculator.logic'
 
 export default function CalculatorScreen({ navigation }) {
   const user = useSelector(selectUser)
@@ -39,7 +39,7 @@ export default function CalculatorScreen({ navigation }) {
     handleAmountChange,
     handleTimerFinish,
     typeCurrencies,
-  } = useCalculator()
+  } = useCalculatorLogic()
 
   useLastOrder()
 
