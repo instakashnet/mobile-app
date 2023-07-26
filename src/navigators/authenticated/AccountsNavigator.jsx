@@ -2,9 +2,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTheme } from 'react-native-paper'
 
-import AccountFormScreen from '../screens/accounts/AccountFormScreen'
-import AccountsScreen from '../screens/accounts/AccountsScreen'
-import { MainHeader, TitleHeader } from './options'
+import AccountFormScreen from '@/screens/accounts/AccountFormScreen'
+import AccountsScreen from '@/screens/accounts/AccountsScreen'
+import { MainHeader, TitleHeader } from '../options'
 
 const Stack = createNativeStackNavigator()
 

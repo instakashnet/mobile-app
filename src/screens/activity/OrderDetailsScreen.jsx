@@ -9,6 +9,7 @@ import CopyButton from '../../components/UI/CopyButton'
 import StatusBadge from '../../components/UI/StatusBadge'
 import SafeArea from '../../components/utils/SafeArea'
 import { formatDate } from '../../helpers/formatters'
+import bankImages from '../../../data/bankImages'
 
 export default function OrderDetailsScreen({ route, navigation }) {
   const order = route.params?.order
@@ -24,9 +25,7 @@ export default function OrderDetailsScreen({ route, navigation }) {
         <OrderInfoSection title="No. orden:">
           <View className="flex-row items-center">
             <Text className="mr-2">{order?.orderId}</Text>
-            <View className="p-1 rounded-lg bg-gray-200">
-              <CopyButton icon={<Ionicons name="copy" size={15} color="#444" />} textToCopy={order?.orderId} />
-            </View>
+            <CopyButton icon={<Ionicons name="copy" size={15} color="#444" />} textToCopy={order?.orderId} />
           </View>
         </OrderInfoSection>
         <View className="mt-6" />
@@ -43,12 +42,12 @@ export default function OrderDetailsScreen({ route, navigation }) {
         <OrderInfoSection title="Tipo de cambio:">
           <Text>{order?.rate}</Text>
         </OrderInfoSection>
+
         <View className="mt-6" />
         <Text variant="button">Cuenta a recibir:</Text>
         <View className="mt-2" />
-        <OrderInfoSection
-          title={<Image source={require('../../../assets/images/banks/interbank-logo.png')} className="w-20 h-6" resizeMode="contain" />}>
-          <Text>{order?.accToSend}</Text>
+        <OrderInfoSection title={<Image source={bankImages[order?.bankToReceive]?.image} className="w-20 h-6" resizeMode="contain" />}>
+          <Text>{order?.accToReceive}</Text>
         </OrderInfoSection>
         <View className="mt-auto">
           {order?.status?.id === 2 && <Button onPress={() => navigation.navigate('Exchange')}>Completar operación</Button>}

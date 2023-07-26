@@ -4,12 +4,10 @@ module.exports = {
     es6: true,
     node: true,
   },
-  plugins: ['react', 'react-native', 'react-hooks', 'simple-import-sort'],
+  plugins: ['react', 'react-native', 'react-hooks'],
   extends: ['universe/native', 'plugin:react-hooks/recommended', 'prettier'],
   rules: {
     'react/react-in-jsx-scope': 'off',
-    'simple-import-sort/imports': 'warn',
-    'simple-import-sort/exports': 'warn',
     'comma-dangle': [
       'error',
       {

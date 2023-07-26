@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import AddProfileScreen from '../screens/configuration/AddProfile/AddProfileScreen'
-import ChangePasswordScreen from '../screens/configuration/ChangePasswordScreen'
-import ConfigMenuScreen from '../screens/configuration/ConfigMenuScreen'
-import NotificationsScreen from '../screens/configuration/NotificationsScreen'
-import PersonalInfoScreen from '../screens/configuration/PersonalInfoScreen'
-import ProfilesScreen from '../screens/configuration/ProfilesScreen'
-import RatesAlertsScreen from '../screens/configuration/RatesAlertsScreen'
-import { TitleHeader } from './options'
+import AddProfileScreen from '@/screens/configuration/AddProfile/AddProfileScreen'
+import ChangePasswordScreen from '@/screens/configuration/ChangePasswordScreen'
+import ConfigMenuScreen from '@/screens/configuration/ConfigMenuScreen'
+import NotificationsScreen from '@/screens/configuration/NotificationsScreen'
+import PersonalInfoScreen from '@/screens/configuration/PersonalInfoScreen'
+import ProfilesScreen from '@/screens/configuration/ProfilesScreen'
+import RatesAlertsScreen from '@/screens/configuration/RatesAlertsScreen'
+import { TitleHeader } from '../options'
 
 const Stack = createNativeStackNavigator()
 

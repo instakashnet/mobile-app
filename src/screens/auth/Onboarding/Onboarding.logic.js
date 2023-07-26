@@ -17,11 +17,11 @@ export function useOnboarding() {
     checkFirstTime()
   }, [navigate])
 
-  const singUp = () => navigate('Register')
+  const signUp = () => navigate('Register')
   const login = () => navigate('Login')
 
   return {
-    singUp,
+    signUp,
     login,
   }
 }

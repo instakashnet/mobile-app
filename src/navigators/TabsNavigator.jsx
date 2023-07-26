@@ -4,10 +4,10 @@ import React from 'react'
 import { useTheme } from 'react-native-paper'
 
 import SafeArea from '../components/utils/SafeArea'
-import AccountsNavigator from './AccountsNavigator'
-import ActivityNavigator from './ActivityNavigator'
-import ExchangeNavigator from './ExchangeNavigator'
-import HomeNavigator from './HomeNavigator'
+import AccountsNavigator from './authenticated/AccountsNavigator'
+import ActivityNavigator from './authenticated/ActivityNavigator'
+import ExchangeNavigator from './authenticated/ExchangeNavigator'
+import HomeNavigator from './authenticated/HomeNavigator'
 import { TabBarLabel } from './options'
 
 const Tabs = createBottomTabNavigator()

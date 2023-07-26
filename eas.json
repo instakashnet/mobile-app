@@ -23,6 +23,7 @@
       }
     },
     "staging": {
+      "distribution": "internal",
       "channel": "staging",
       "android": {
         "buildType": "apk"

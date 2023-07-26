@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 
-import ActivityScreen from '../screens/activity/ActivityScreen'
-import OrderDetailsScreen from '../screens/activity/OrderDetailsScreen'
-import OrdersScreen from '../screens/activity/OrdersScreen'
-import WithdrawalDetailsScreen from '../screens/activity/WithdrawalDetailsScreen'
-import WithdrawalsScreen from '../screens/activity/WithdrawsScreen'
-import { MainHeader, TitleHeader } from './options'
+import ActivityScreen from '@/screens/activity/ActivityScreen'
+import OrderDetailsScreen from '@/screens/activity/OrderDetailsScreen'
+import OrdersScreen from '@/screens/activity/OrdersScreen'
+import WithdrawalDetailsScreen from '@/screens/activity/WithdrawalDetailsScreen'
+import WithdrawalsScreen from '@/screens/activity/WithdrawsScreen'
+import { MainHeader, TitleHeader } from '../options'
 
 const Stack = createNativeStackNavigator()
 

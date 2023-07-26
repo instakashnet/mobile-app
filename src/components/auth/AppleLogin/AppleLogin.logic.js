@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/core'
 import * as AppleAuthentication from 'expo-apple-authentication'
-import jwtDecode from 'jwt-decode'
 import { useEffect, useState } from 'react'
 
 import { useLazyGetSessionQuery, useLoginAppleMutation } from '../../../services/auth'
+import { getSecureData, removeSecureData, storeSecureData } from '@/lib/SecureStore'
 
 export function useAppleLogin() {
   const [loginApple, { isLoading }] = useLoginAppleMutation()
@@ -28,11 +28,33 @@ export function useAppleLogin() {
       const credential = await AppleAuthentication.signInAsync({
         requestedScopes: [AppleAuthentication.AppleAuthenticationScope.FULL_NAME, AppleAuthentication.AppleAuthenticationScope.EMAIL],
       })
+      let loginCredentials = { token: credential.identityToken, apple_id: credential.user }
+      const isFirstTime = !!credential.fullName.givenName && !!credential.email
+      if (isFirstTime) {
+        await storeSecureData('appleUserName', credential.fullName)
+        loginCredentials = {
+          ...loginCredentials,
+          first_name: credential.fullName.givenName,
+          last_name: credential.fullName.familyName,
+        }
+      } else {
+        const appleUserName = await getSecureData('appleUserName')
+        if (appleUserName) {
+          loginCredentials = {
+            ...loginCredentials,
+            first_name: appleUserName.givenName,
+            last_name: appleUserName.familyName,
+          }
+        }
+      }
 
-      console.log({ decodedToken: jwtDecode(credential.identityToken) })
-
-      const response = await loginApple({ token: credential.identityToken, apple_id: credential.user }).unwrap()
-      if (!response.completed) return navigate('Complete')
+      const response = await loginApple(loginCredentials).unwrap()
+      if (!response.completed) {
+        let userFullName = credential.fullName
+        if (!isFirstTime) userFullName = await getSecureData('appleUserName')
+        return navigate('CompleteApple', { appleUserName: userFullName })
+      }
+      await removeSecureData('appleUserName')
       await getSession().unwrap()
     } catch (e) {
       if (e.code === 'ERR_REQUEST_CANCELED') {

@@ -11,6 +11,7 @@ export function useOrders(limit = 5) {
     async ordersLimit => {
       try {
         const response = await getOrders({ from: 0, limit: ordersLimit }).unwrap()
+
         const orders = response.map(order => ({
           id: order.id,
           date: order.completedAt ?? order.created,
@@ -26,6 +27,7 @@ export function useOrders(limit = 5) {
           },
           accToSend: order.accountFromRaw,
           accToReceive: order.accountToRaw,
+          bankToReceive: order.bankSent?.toLowerCase(),
           type: order.type === 'sell' ? 'compra' : 'venta',
         }))
 

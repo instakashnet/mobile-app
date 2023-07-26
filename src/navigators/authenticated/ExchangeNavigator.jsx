@@ -1,15 +1,15 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 
-import { useProfile } from '../hooks/useProfile'
-import AccountFormScreen from '../screens/accounts/AccountFormScreen'
-import AddProfileScreen from '../screens/configuration/AddProfile/AddProfileScreen'
-import ProfilesScreen from '../screens/configuration/ProfilesScreen'
-import AccountsScreen from '../screens/exchange/AccountsScreen'
-import CalculatorScreen from '../screens/exchange/Calculator/CalculatorScreen'
-import SuccessScreen from '../screens/exchange/SuccessScreen'
-import TransferScreen from '../screens/exchange/TransferScreen'
-import { MainHeader, TitleHeader } from './options'
+import { useProfile } from '@/hooks/useProfile'
+import AccountFormScreen from '@/screens/accounts/AccountFormScreen'
+import AddProfileScreen from '@/screens/configuration/AddProfile/AddProfileScreen'
+import ProfilesScreen from '@/screens/configuration/ProfilesScreen'
+import AccountsScreen from '@/screens/exchange/AccountsScreen'
+import CalculatorScreen from '@/screens/exchange/Calculator/CalculatorScreen'
+import SuccessScreen from '@/screens/exchange/SuccessScreen'
+import TransferScreen from '@/screens/exchange/TransferScreen'
+import { MainHeader, TitleHeader } from '../options'
 
 const Stack = createNativeStackNavigator()
 

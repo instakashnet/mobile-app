@@ -54,7 +54,8 @@ module.exports = {
     [
       'expo-tracking-transparency',
       {
-        userTrackingPermission: '$(PRODUCT_NAME) necesita tu información para poder ofrecerte todos los servicios de la app.',
+        userTrackingPermission:
+          '$(PRODUCT_NAME) busca mejorar tu experiencia al utilizar nuestros servicios. Al permitir el seguimiento de tu actividad, podemos personalizar las ofertas y promociones específicas para tus cambios de divisas. Nunca compartimos tu información personal con anunciantes sin tu consentimiento explícito.',
       },
     ],
     'sentry-expo',

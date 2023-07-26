@@ -1,34 +1,19 @@
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
-import { adaptNavigationTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
-import ScheduleModal from '@/components/modals/ScheduleModal'
-import SafeArea from '@/components/utils/SafeArea'
-import Updater from '@/hoc/Updater'
-import { useNotificationsPermissions } from '@/hooks/notifications/useNotificationsPermissions'
-import { useRefresh } from '@/hooks/useRefresh'
-import { useUpdate } from '@/hooks/useUpdate'
-import LoadingScreen from '@/screens/LoadingScreen'
-import { useLazyGetBanksQuery, useLazyGetCurrenciesQuery } from '@/services/account'
-import { useSavePushTokenMutation } from '@/services/auth'
-import { setBanks, setCurrencies } from '@/store/slices/appData'
+import { useLazyGetBanksQuery, useLazyGetCurrenciesQuery } from '../services/account'
 import { selectIsSignedIn } from '@/store/slices/authSlice'
+import { useSavePushTokenMutation } from '@/services/auth'
+import { useNotificationsPermissions } from '@/hooks/notifications/useNotificationsPermissions'
+import { useUpdate } from '@/hooks/useUpdate'
+import { setBanks, setCurrencies } from '@/store/slices/appData'
 
-import AuthNavigator from './AuthNavigator'
-import DrawerNavigator from './DrawerNavigator'
-
-const { LightTheme } = adaptNavigationTheme({
-  reactNavigationLight: DefaultTheme,
-})
-
-export default function MainNavigation({ onLayout }) {
+export function useMainNavigatorLogic() {
   const isSignedIn = useSelector(selectIsSignedIn)
   const dispatch = useDispatch()
   const [getBanks] = useLazyGetBanksQuery()
   const [getCurrencies] = useLazyGetCurrenciesQuery()
   const [saveToken] = useSavePushTokenMutation()
   const { permissionStatus, getPushToken } = useNotificationsPermissions()
-  const { isSessionLoading } = useRefresh()
 
   useUpdate(() => {
     const getAppData = async () => {
@@ -59,22 +44,5 @@ export default function MainNavigation({ onLayout }) {
     }
   }, [isSignedIn, permissionStatus])
 
-  if (isSessionLoading) return <LoadingScreen />
-
-  return (
-    <NavigationContainer theme={LightTheme} onReady={onLayout}>
-      <Updater>
-        {!isSignedIn ? (
-          <SafeArea>
-            <AuthNavigator />
-          </SafeArea>
-        ) : (
-          <>
-            <DrawerNavigator />
-            <ScheduleModal />
-          </>
-        )}
-      </Updater>
-    </NavigationContainer>
-  )
+  return { isSignedIn }
 }

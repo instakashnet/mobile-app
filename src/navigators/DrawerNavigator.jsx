@@ -4,8 +4,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import CustomDrawer from '../components/UI/drawer/CustomDrawer'
 import { useLogoutMutation } from '../services/auth'
 import TabsNavigator from './TabsNavigator'
-import VerificationNavigator from './VerificationNavigator'
-import ConfigurationNavigator from './ConfigurationNavigator'
+import VerificationNavigator from './authenticated/VerificationNavigator'
+import ConfigurationNavigator from './authenticated/ConfigurationNavigator'
 
 const Drawer = createDrawerNavigator()
 

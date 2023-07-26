@@ -13,10 +13,10 @@ import UpdateModal from './src/components/modals/UpdateModal'
 import Toast from './src/components/UI/Toast'
 import { useTrackingTransparency } from './src/hooks/permissions/useTrackingTransparency'
 import { initSentry } from './src/lib/Sentry'
-import MainNavigation from './src/navigators/Main'
 import store from './src/store'
 import { theme } from './src/theme'
 import { translateDatepicker } from './src/utils/translate-datepicker'
+import Main from '@/Main'
 
 translateDatepicker()
 if (!__DEV__) initSentry()
@@ -51,7 +51,7 @@ export default function App() {
     appisReady && (
       <Provider store={store}>
         <PaperProvider theme={theme}>
-          <MainNavigation onLayout={onLayoutRootView} />
+          <Main onLayout={onLayoutRootView} />
           <Toast />
           <UpdateModal />
         </PaperProvider>

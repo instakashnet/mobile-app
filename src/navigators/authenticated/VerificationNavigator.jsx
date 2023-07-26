@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 
-import AddressScreen from '../screens/verification/AddressScreen'
-import InstructionsScreen from '../screens/verification/InstructionsScreen'
-import OccupationScreen from '../screens/verification/OccupationScreen'
-import VerifyingScreen from '../screens/verification/VerifyingScreen'
+import AddressScreen from '@/screens/verification/AddressScreen'
+import InstructionsScreen from '@/screens/verification/InstructionsScreen'
+import OccupationScreen from '@/screens/verification/OccupationScreen'
+import VerifyingScreen from '@/screens/verification/VerifyingScreen'
+import { TitleHeader } from '../options'
 import DocumentNavigator from './DocumentNavigator'
-import { TitleHeader } from './options'
 
 const Stack = createNativeStackNavigator()
 

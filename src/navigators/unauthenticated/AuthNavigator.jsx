@@ -1,14 +1,15 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useTheme } from 'react-native-paper'
 
-import CompleteScreen from '../screens/auth/CompleteScreen'
-import LoginScreen from '../screens/auth/LoginScreen'
-import OnboardingScreen from '../screens/auth/Onboarding/OnboardingScreen'
-import RecoverPasswordScreen from '../screens/auth/RecoverPasswordScreen'
-import RegisterScreen from '../screens/auth/RegisterScreen'
-import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen'
-import VerifyCodeScreen from '../screens/auth/VerifyCodeScreen'
-import { TitleHeader } from './options'
+import CompleteScreen from '@/screens/auth/CompleteScreen'
+import LoginScreen from '@/screens/auth/LoginScreen'
+import OnboardingScreen from '@/screens/auth/Onboarding/OnboardingScreen'
+import RecoverPasswordScreen from '@/screens/auth/RecoverPasswordScreen'
+import RegisterScreen from '@/screens/auth/RegisterScreen'
+import ResetPasswordScreen from '@/screens/auth/ResetPasswordScreen'
+import VerifyCodeScreen from '@/screens/auth/VerifyCodeScreen'
+import { TitleHeader } from '../options'
+import CompleteAppleScreen from '@/screens/auth/CompleteAppleScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -34,6 +35,7 @@ export default function AuthNavigator() {
         component={ResetPasswordScreen}
       />
       <Stack.Screen name="Complete" options={{ headerTitle: 'Completar perfil', headerLeft: null }} component={CompleteScreen} />
+      <Stack.Screen name="CompleteApple" options={{ headerTitle: 'Completar perfil', headerLeft: null }} component={CompleteAppleScreen} />
     </Stack.Navigator>
   )
 }
