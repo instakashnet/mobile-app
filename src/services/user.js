@@ -26,8 +26,8 @@ const userApi = baseApi?.injectEndpoints({
       query: formData => ({
         url: AUTH_ROUTE + '/v1/client/auth/upload-photo-verification',
         method: 'POST',
-        headers: { 'Content-Type': 'multipart/form-data' },
         body: formData,
+        formData: true,
       }),
       // queryFn: async (args, _, extra, baseQuery) => {
       //   const tokenRes = await baseQuery(AUTH_ROUTE + '/v1/client/users/generate-token')
