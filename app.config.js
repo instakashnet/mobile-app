@@ -3,9 +3,6 @@ import 'dotenv/config'
 module.exports = {
   owner: 'instakash',
   scheme: 'instakash.app',
-  // facebookScheme: 'fb285266469843350',
-  // facebookAppId: '285266469843350',
-  // facebookDisplayName: 'kash-app',
   originalFullName: '@rogerrc12/instakash',
   name: 'Instakash',
   slug: 'instakash-app',
@@ -31,7 +28,6 @@ module.exports = {
     },
   },
   android: {
-    jsEngine: 'jsc',
     package: 'net.instakash.app',
     googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
     adaptiveIcon: {
