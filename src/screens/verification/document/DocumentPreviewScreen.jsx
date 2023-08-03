@@ -1,13 +1,14 @@
-import { View, Image, SafeAreaView, Pressable, Platform, useWindowDimensions } from 'react-native'
+import { View, Image, useWindowDimensions } from 'react-native'
 import React, { useState } from 'react'
 import { Text, useTheme } from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Button from '../../../components/UI/Button'
-import { getImageBlob } from '../../../helpers/fetchers'
+// import { getImageBlob } from '../../../helpers/fetchers'
 import { useUploadPhotoMutation } from '../../../services/user'
 import { selectUser, setUser } from '../../../store/slices/authSlice'
+import Screen from '@/components/utils/Screen'
 
 export default function DocumentPreviewScreen({ route, navigation }) {
   const { width, height } = useWindowDimensions()
@@ -17,14 +18,18 @@ export default function DocumentPreviewScreen({ route, navigation }) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [uploadPhoto] = useUploadPhotoMutation()
 
-  const handleUploadPhoto = async (imageUrl = '') => {
+  const handleUploadPhoto = async image => {
     setIsProcessing(true)
 
     try {
-      const photoBlob = await getImageBlob(imageUrl)
-      await uploadPhoto({ photo: photoBlob }).unwrap()
-      dispatch(setUser({ ...user, documentValidation: 'pending' }))
-      navigation.replace('Verifying')
+      const base64Photo = `data:image/jpeg;base64,${image.base64}`
+      console.log({ base64Photo })
+      const formData = new FormData()
+      formData.append('photo', base64Photo)
+      // const photoBlob = await getImageBlob(imageUrl)
+      await uploadPhoto(formData).unwrap()
+      // dispatch(setUser({ ...user, documentValidation: 'pending' }))
+      // navigation.replace('Verifying')
     } catch (error) {
       console.log(error)
     } finally {
@@ -33,11 +38,8 @@ export default function DocumentPreviewScreen({ route, navigation }) {
   }
 
   return (
-    <View className="flex-1 bg-black p-6">
-      <SafeAreaView className="flex-1 w-full items-center justify-center">
-        <Pressable className="z-10 absolute left-4 top-4" onPress={navigation.goBack}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-chevron-back-outline' : 'md-arrow-back-outline'} color="#fff" size={25} />
-        </Pressable>
+    <View className="flex-1 bg-black">
+      <Screen containerClasses="items-center">
         <View style={{ width, height: height / 2.6, overflow: 'hidden' }}>
           <Image borderRadius={20} source={{ uri: route.params?.photo.uri }} style={{ width, height: '90%' }} resizeMode="contain" />
         </View>
@@ -45,7 +47,7 @@ export default function DocumentPreviewScreen({ route, navigation }) {
           Verifica que se vea la información del documento y sube la foto. Caso contrario, Vuelve a tomarla.
         </Text>
         <View className="w-full absolute bottom-10">
-          <Button loading={isProcessing} onPress={() => handleUploadPhoto(route.params?.photo.uri)}>
+          <Button loading={isProcessing} onPress={() => handleUploadPhoto(route.params?.photo)}>
             Subir foto
           </Button>
           <View className="mt-2" />
@@ -56,7 +58,7 @@ export default function DocumentPreviewScreen({ route, navigation }) {
             Volver a tomar
           </Button>
         </View>
-      </SafeAreaView>
+      </Screen>
     </View>
   )
 }

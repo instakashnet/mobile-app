@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import { useIsFocused } from '@react-navigation/native'
 
 import { useLazyGetUserQuery } from '../services/user'
 import { setUser } from '../store/slices/authSlice'
@@ -7,11 +8,14 @@ import { setUser } from '../store/slices/authSlice'
 export function usePollverificiation() {
   const [getUser] = useLazyGetUserQuery()
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     let interval
 
     const pollUserValidation = async () => {
+      console.log("User's document validation poller running")
+
       try {
         const userData = await getUser().unwrap()
 
@@ -25,8 +29,8 @@ export function usePollverificiation() {
       }
     }
 
-    interval = setInterval(pollUserValidation, 15000)
+    if (isFocused) interval = setInterval(pollUserValidation, 15000)
 
     return () => interval && clearInterval(interval)
-  }, [getUser, dispatch])
+  }, [getUser, dispatch, isFocused])
 }

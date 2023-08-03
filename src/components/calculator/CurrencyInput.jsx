@@ -6,12 +6,12 @@ import { Controller } from 'react-hook-form'
 const ISO_CURRENCIES = {
   USD: {
     symbol: '$',
-    label: 'dólares'
+    label: 'dólares',
   },
   PEN: {
     symbol: 'S/.',
-    label: 'soles'
-  }
+    label: 'soles',
+  },
 }
 
 export default function CurrencyInput({ iso, name, control, onAmountChange }) {
@@ -38,19 +38,19 @@ export default function CurrencyInput({ iso, name, control, onAmountChange }) {
       name={name}
       control={control}
       render={({ field: { value, onChange } }) => (
-        <View className='w-full bg-[#E9F6F6] rounded-lg py-2'>
-          <Text variant='caption' className='ml-4 mt-[2px] -mb-1' style={{ color: colors.primary700 }}>
+        <View className="w-full bg-[#E9F6F6] rounded-lg py-2">
+          <Text variant="caption" className="ml-4 mt-[2px] -mb-1" style={{ color: colors.primary700 }}>
             Envias {currency?.label}
           </Text>
-          <View className='w-full flex-row items-start'>
+          <View className="w-full flex-row items-start">
             <TextInput
               value={isNaN(value) ? value : String(value)}
-              onChangeText={(value) => formatCurrency(value, onChange)}
+              onChangeText={value => formatCurrency(value, onChange)}
               style={{ fontFamily: fonts.titleSmall.fontFamily }}
-              keyboardType='numeric'
-              className={`pb-1 px-4 min-h-[40px] text-[23px] text-[#0a686a] flex-[.97]`}
+              keyboardType="numeric"
+              className="pb-1 px-4 min-h-[40px] text-[23px] text-[#0a686a] flex-[.97]"
             />
-            <Text variant='titleLarge' className='right-2 text-[28px] leading-[32px]' style={{ color: colors.primary700 }}>
+            <Text variant="titleLarge" className="right-2 text-[28px] leading-[32px]" style={{ color: colors.primary700 }}>
               {currency?.symbol}
             </Text>
           </View>

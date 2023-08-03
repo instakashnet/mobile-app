@@ -1,9 +1,8 @@
-import { Platform, Pressable, SafeAreaView, StyleSheet, TouchableOpacity, View, useWindowDimensions } from 'react-native'
+import { SafeAreaView, StyleSheet, TouchableOpacity, View, useWindowDimensions } from 'react-native'
 import { Camera, CameraType, ImageType } from 'expo-camera'
 import React, { useRef } from 'react'
 import { manipulateAsync } from 'expo-image-manipulator'
 import { Text } from 'react-native-paper'
-import { Ionicons } from '@expo/vector-icons'
 import { useIsFocused } from '@react-navigation/native'
 import Mask from 'react-native-barcode-mask'
 
@@ -29,18 +28,24 @@ export default function DocumentCameraScreen({ navigation }) {
         const photo = await cameraRef.current?.takePictureAsync({
           exif: false,
           imageType: ImageType.jpg,
+          quality: 1,
+          comppress: true,
         })
 
-        const image = await manipulateAsync(photo?.uri, [
-          {
-            crop: {
-              width: photo?.width,
-              height: photo?.height / 2.85,
-              originX: 0,
-              originY: photo?.height / 2.85,
+        const image = await manipulateAsync(
+          photo?.uri,
+          [
+            {
+              crop: {
+                width: photo?.width,
+                height: photo?.height / 2.85,
+                originX: 0,
+                originY: photo?.height / 2.85,
+              },
             },
-          },
-        ])
+          ],
+          { base64: true },
+        )
 
         return navigation.navigate('DocumentPreview', { photo: image })
       }
@@ -72,9 +77,6 @@ export default function DocumentCameraScreen({ navigation }) {
     <Camera ratio="16:9" style={StyleSheet.absoluteFill} ref={cameraRef} type={CameraType.back}>
       <SafeAreaView className="flex-1">
         <Mask width={documentWidth} height={documentHeight} showAnimatedLine={false} />
-        <Pressable className="z-10 p-6" onPress={navigation.goBack}>
-          <Ionicons name={Platform.OS === 'ios' ? 'ios-chevron-back-outline' : 'md-arrow-back-outline'} color="#fff" size={25} />
-        </Pressable>
         <View className="flex-1 justify-end mb-[75px]">
           <Text variant="button" className="text-white text-center flex-wrap">
             Ubica el <Text className="text-yellow-300">documento</Text> dentro del marco.
