@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { Linking, Platform } from 'react-native'
 import semver from 'semver'
 
-const APP_VERSION = '1.1.0'
+import { APP_VERSION } from '@/constants/APP_VERSION'
+
 const INTERVAL_OTA_CHECK = 1000 * 60 * (__DEV__ ? 1 : 60) * 24
 
 export function useAppUpdate() {

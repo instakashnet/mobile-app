@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 import { Controller } from 'react-hook-form'
-import { Pressable } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
-import { DatePickerModal } from 'react-native-paper-dates'
 
 import { formatDate } from '../../helpers/formatters'
+import DatePicker from './DatePicker'
 
 export default function DateInput({ control, name, label, error }) {
-  const [open, setOpen] = useState(false)
+  const [showPicker, setShowPicker] = useState(false)
 
-  const handleDismiss = () => setOpen(false)
+  const handleShowPicker = () => {
+    console.log('show picker')
+    setShowPicker(true)
+  }
+
+  const handleHidePicker = () => setShowPicker(false)
 
   return (
     <Controller
@@ -18,26 +23,17 @@ export default function DateInput({ control, name, label, error }) {
       render={({ field: { value, onChange } }) => {
         return (
           <>
-            <Pressable
-              onPress={() => setOpen(true)}
+            <TouchableOpacity
+              onPress={handleShowPicker}
+              activeOpacity={0.8}
               className={`bg-white w-full h-[49px] px-4 rounded-lg border-2 ${
                 error ? 'border-red-300' : 'border-gray-300'
               } justify-center`}>
               <Text className={`text-[16px] ${value ? 'text-black' : 'text-gray-400'}`}>
                 {value ? formatDate(value, 'DD-MM-YYYY') : label}
               </Text>
-            </Pressable>
-            <DatePickerModal
-              locale="es"
-              mode="single"
-              visible={open}
-              onDismiss={handleDismiss}
-              date={value}
-              onConfirm={value => {
-                onChange(value.date)
-                handleDismiss()
-              }}
-            />
+            </TouchableOpacity>
+            <DatePicker show={showPicker} hidePicker={handleHidePicker} onChangeDate={onChange} />
           </>
         )
       }}

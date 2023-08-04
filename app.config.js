@@ -8,7 +8,7 @@ module.exports = {
   slug: 'instakash-app',
   platforms: ['ios', 'android'],
   jsEngine: 'hermes',
-  version: '1.1.0',
+  version: '1.1.1',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   userInterfaceStyle: 'light',
@@ -28,6 +28,7 @@ module.exports = {
     },
   },
   android: {
+    jsEngine: 'jsc',
     package: 'net.instakash.app',
     googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
     adaptiveIcon: {
