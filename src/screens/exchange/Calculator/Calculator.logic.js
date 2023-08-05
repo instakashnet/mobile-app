@@ -30,7 +30,7 @@ export function useCalculatorLogic() {
       type: exchangeType,
       amount_sent: 1000,
       amount_received: 0,
-      couponName: '',
+      couponId: null,
     },
   })
 

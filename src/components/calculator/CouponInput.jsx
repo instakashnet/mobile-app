@@ -16,8 +16,8 @@ export default function CouponInput({ coupon, onAdd, onRemove, setValue, loading
 
   const handleAdd = async name => {
     try {
-      await onAdd(name)
-      setValue('couponName', name)
+      const couponAdded = await onAdd(name)
+      setValue('couponId', couponAdded.couponId)
     } catch (error) {
       console.log(error)
     }
@@ -25,7 +25,7 @@ export default function CouponInput({ coupon, onAdd, onRemove, setValue, loading
 
   const handleRemove = () => {
     onRemove()
-    setValue('couponName', '')
+    setValue('couponId', null)
   }
 
   return !coupon ? (
