@@ -23,13 +23,11 @@ export default function DocumentPreviewScreen({ route, navigation }) {
 
     try {
       const base64Photo = `data:image/jpeg;base64,${image.base64}`
-      console.log({ base64Photo })
       const formData = new FormData()
       formData.append('photo', base64Photo)
-      // const photoBlob = await getImageBlob(imageUrl)
       await uploadPhoto(formData).unwrap()
-      // dispatch(setUser({ ...user, documentValidation: 'pending' }))
-      // navigation.replace('Verifying')
+      dispatch(setUser({ ...user, documentValidation: 'pending' }))
+      navigation.replace('Verifying')
     } catch (error) {
       console.log(error)
     } finally {

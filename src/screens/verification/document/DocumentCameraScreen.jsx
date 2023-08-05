@@ -28,7 +28,7 @@ export default function DocumentCameraScreen({ navigation }) {
         const photo = await cameraRef.current?.takePictureAsync({
           exif: false,
           imageType: ImageType.jpg,
-          quality: 1,
+          quality: 0.85,
           comppress: true,
         })
 
@@ -44,7 +44,7 @@ export default function DocumentCameraScreen({ navigation }) {
               },
             },
           ],
-          { base64: true },
+          { base64: true, format: 'jpeg' },
         )
 
         return navigation.navigate('DocumentPreview', { photo: image })
