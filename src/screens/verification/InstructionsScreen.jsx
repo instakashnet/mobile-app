@@ -17,12 +17,11 @@ export default function InstructionsScreen({ navigation }) {
   const [accepted, setAccepted] = useState(false)
 
   const handleBegin = () => {
+    if (user?.documentValidation === 'pending') return navigation.navigate('Verifying')
+
     if (user?.validationLevel === 0) return navigation.navigate('Address')
     else if (user?.validationLevel === 1) return navigation.navigate('Occupation')
-    else if (user?.validationLevel === 2) {
-      if (user?.documentValidation === 'pending') return navigation.navigate('Verifying')
-      return navigation.navigate('Document')
-    }
+    else if (user?.validationLevel === 2) return navigation.navigate('Document')
   }
 
   return (

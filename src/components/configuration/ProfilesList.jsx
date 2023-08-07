@@ -44,17 +44,12 @@ export default function ProfilesList({ profiles = [], onSelect, loading }) {
         ) : (
           profiles.map(profile => (
             <Fragment key={profile.id}>
-              <List.Item
-                className="p-0 bg-white"
-                title={
-                  <CompanyItem
-                    profile={profile}
-                    onSelect={onSelect}
-                    onToggleFav={() => handleToogleFavorite(profile.id, { isFavorite: !profile.isFavorite })}
-                    onDelete={() => handleRemoveProfile(profile.id)}
-                    processing={isProcessing || toggleProcessing}
-                  />
-                }
+              <CompanyItem
+                profile={profile}
+                onSelect={onSelect}
+                onToggleFav={() => handleToogleFavorite(profile.id, { isFavorite: !profile.isFavorite })}
+                onDelete={() => handleRemoveProfile(profile.id)}
+                processing={isProcessing || toggleProcessing}
               />
               <View className="w-full border-[1px] border-gray-100" />
             </Fragment>
