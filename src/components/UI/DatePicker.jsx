@@ -36,9 +36,9 @@ function DatePicker({ show, hidePicker, onChangeDate }) {
     )
   }
 
-  return Platform.OS === 'android' && show ? (
-    renderDatePicker()
-  ) : (
+  if (Platform.OS === 'android' && show) return renderDatePicker()
+
+  return (
     <Modal
       visible={show}
       animationType={Platform.OS === 'ios' ? 'slide' : 'fade'}
