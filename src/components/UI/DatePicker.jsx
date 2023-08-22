@@ -1,9 +1,9 @@
-import DateTimePicker from '@react-native-community/datetimepicker'
-import { useState } from 'react'
-import { View, Modal, Platform, TouchableOpacity } from 'react-native'
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
+import { useEffect, useState } from 'react'
+import { View, Modal, TouchableOpacity, Platform } from 'react-native'
 import { Text, useTheme } from 'react-native-paper'
 
-function DatePicker({ show, hidePicker, onChangeDate }) {
+function DatePicker({ hidePicker, onChangeDate, show }) {
   const [date, setDate] = useState(new Date())
   const { colors } = useTheme()
 
@@ -11,7 +11,7 @@ function DatePicker({ show, hidePicker, onChangeDate }) {
     const currentDate = selectedDate || date
     setDate(new Date(currentDate))
     if (Platform.OS === 'android') {
-      onChangeDate(date)
+      onChangeDate(currentDate)
       hidePicker()
     }
   }
@@ -21,30 +21,20 @@ function DatePicker({ show, hidePicker, onChangeDate }) {
     hidePicker()
   }
 
-  const renderDatePicker = () => {
-    return (
-      <DateTimePicker
-        testID="dateTimePicker"
-        value={date}
-        mode="date"
-        locale="es-ES"
-        is24Hour
-        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-        className="w-full self-center"
-        onChange={handleSelectDate}
-      />
-    )
-  }
+  useEffect(() => {
+    if (Platform.OS === 'android' && show) {
+      DateTimePickerAndroid.open({
+        value: date,
+        mode: 'date',
+        display: 'default',
+        is24Hour: true,
+        onChange: handleSelectDate,
+      })
+    }
+  }, [show])
 
-  if (Platform.OS === 'android' && show) return renderDatePicker()
-
-  return (
-    <Modal
-      visible={show}
-      animationType={Platform.OS === 'ios' ? 'slide' : 'fade'}
-      transparent
-      supportedOrientations={['portrait']}
-      onRequestClose={hidePicker}>
+  return Platform.OS === 'ios' ? (
+    <Modal visible={show} animationType="slide" transparent supportedOrientations={['portrait']} onRequestClose={hidePicker}>
       <View className="flex-1 bg-black/40">
         <View className="bg-white w-full h-[30%] absolute bottom-0 left-0">
           <View className="flex-row items-center justify-between py-4 px-8 border-b border-gray-300">
@@ -57,11 +47,20 @@ function DatePicker({ show, hidePicker, onChangeDate }) {
               </Text>
             </TouchableOpacity>
           </View>
-          {renderDatePicker()}
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            locale="es-ES"
+            is24Hour
+            display="spinner"
+            className="w-full self-center"
+            onChange={handleSelectDate}
+          />
         </View>
       </View>
     </Modal>
-  )
+  ) : null
 }
 
 export default DatePicker
