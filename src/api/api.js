@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import camelize from 'camelize'
 import { Alert } from 'react-native'
 import Toast from 'react-native-toast-message'
-import * as Sentry from 'sentry-expo'
 
 import ENV from '../../variables'
 import { getSecureData, removeSecureData } from '../lib/SecureStore'
@@ -64,8 +63,6 @@ const baseQueryInterceptor = async (args, api, options) => {
       // text1: 'Algo salió mal',
       text2: result?.error?.message,
     })
-
-    Sentry.Native.captureException(`Error en la API: ${result?.error?.message}. Endpoint: ${args?.url}`)
   }
 
   if (result.data) result.data = camelize(result.data)

@@ -1,5 +1,4 @@
 import { AUTH_ROUTE, BASE_URL, EXCHANGE_ROUTE, baseApi } from '../api/api'
-import { setUser } from '../store/slices/authSlice'
 
 const userApi = baseApi?.injectEndpoints({
   endpoints: builder => ({
@@ -24,28 +23,36 @@ const userApi = baseApi?.injectEndpoints({
       invalidatesTags: ['Session'],
     }),
     uploadPhoto: builder.mutation({
-      queryFn: async (args, _, extra, baseQuery) => {
-        const tokenRes = await baseQuery(AUTH_ROUTE + '/v1/client/users/generate-token')
-        if (tokenRes?.error) return { error: tokenRes?.error }
+      query: formData => ({
+        url: AUTH_ROUTE + '/v1/client/auth/upload-photo-verification',
+        method: 'POST',
+        body: formData,
+        formData: true,
+      }),
+      // queryFn: async (args, _, extra, baseQuery) => {
+      //   const tokenRes = await baseQuery(AUTH_ROUTE + '/v1/client/users/generate-token')
+      //   if (tokenRes?.error) return { error: tokenRes?.error }
 
-        const urlsRes = await baseQuery({
-          url: BASE_URL + '/documents-service/v1/presigned-url/uploads',
-          headers: { 'photo-token': tokenRes.data.accessToken },
-        })
-        if (urlsRes?.error) return { error: urlsRes?.error }
-        const photoUrl = urlsRes.data.presignedFrontUrl
+      //   const urlsRes = await baseQuery({
+      //     url: BASE_URL + '/documents-service/v1/presigned-url/uploads',
+      //     headers: { 'photo-token': tokenRes.data.accessToken },
+      //   })
+      //   if (urlsRes?.error) return { error: urlsRes?.error }
+      //   const photoUrl = urlsRes.data.presignedFrontUrl
 
-        const uploadRes = await baseQuery({
-          url: photoUrl,
-          method: 'PUT',
-          body: args.photo,
-          headers: { 'Content-Type': 'image/jpeg' },
-        })
+      //   const uploadRes = await baseQuery({
+      //     url: photoUrl,
+      //     method: 'PUT',
+      //     body: args.photo,
+      //     headers: {
+      //       'Content-Type': 'image/jpeg',
+      //     },
+      //   })
 
-        if (uploadRes.error) return { error: uploadRes.error }
+      //   if (uploadRes.error) return { error: uploadRes.error }
 
-        return { data: 'photo uploaded successfully' }
-      },
+      //   return { data: 'photo uploaded successfully' }
+      // },
     }),
     withdrawKash: builder.mutation({
       query: values => ({

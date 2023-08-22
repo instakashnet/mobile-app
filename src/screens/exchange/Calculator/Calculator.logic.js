@@ -30,7 +30,7 @@ export function useCalculatorLogic() {
       type: exchangeType,
       amount_sent: 1000,
       amount_received: 0,
-      couponName: '',
+      couponId: null,
     },
   })
 
@@ -100,7 +100,7 @@ export function useCalculatorLogic() {
     const sellRate = couponRates?.sell ?? rates?.sell
 
     if (typeCurrencies?.send === ISO) {
-      amountToReceive = exchangeType === 'sell' ? amount / sellRate : amount * sellRate
+      amountToReceive = exchangeType === 'sell' ? amount / sellRate : amount * buyRate
       amountRef.current = amount
       setValue('amount_received', amountToReceive?.toFixed(2))
     } else {
