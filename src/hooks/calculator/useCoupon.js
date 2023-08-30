@@ -12,8 +12,9 @@ export function useCoupon() {
     try {
       const response = await getCouponData({ couponName, profileType }).unwrap()
       const newRates = { buy: rates?.buy + response.discount, sell: rates?.sell - response.discount }
-
       setCoupon({ name: couponName, rates: newRates })
+
+      return response
     } catch (error) {
       console.log(error)
     }
