@@ -18,14 +18,12 @@ export function useGoogleLogin() {
   const handleGoogleLogin = async () => {
     try {
       await GoogleSignin.hasPlayServices()
-      const { idToken } = await GoogleSignin.signIn()
+      const googleResponse = await GoogleSignin.signIn()
 
-      if (idToken) {
-        const response = await loginGoogle({ token: idToken, origin: Platform.OS }).unwrap()
+      if (googleResponse.serverAuthCode) {
+        const response = await loginGoogle({ token: googleResponse.serverAuthCode, origin: Platform.OS }).unwrap()
         if (!response.completed) return navigate('Complete')
         await getSession().unwrap()
-      } else {
-        throw new Error('No se pudo iniciar sesión con google por falta de idToken')
       }
     } catch (error) {
       console.log(error)
