@@ -1,46 +1,32 @@
 import React, { useState } from 'react'
-import { Controller } from 'react-hook-form'
-import { Pressable } from 'react-native'
+import { useController } from 'react-hook-form'
+import { TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
-import { DatePickerModal } from 'react-native-paper-dates'
 
 import { formatDate } from '../../helpers/formatters'
+import DatePicker from './DatePicker'
 
 export default function DateInput({ control, name, label, error }) {
-  const [open, setOpen] = useState(false)
+  const [showPicker, setShowPicker] = useState(false)
+  const { field } = useController({ name, control })
 
-  const handleDismiss = () => setOpen(false)
+  const handleShowPicker = () => {
+    setShowPicker(true)
+  }
+
+  const handleHidePicker = () => setShowPicker(false)
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field: { value, onChange } }) => {
-        return (
-          <>
-            <Pressable
-              onPress={() => setOpen(true)}
-              className={`bg-white w-full h-[49px] px-4 rounded-lg border-2 ${
-                error ? 'border-red-300' : 'border-gray-300'
-              } justify-center`}>
-              <Text className={`text-[16px] ${value ? 'text-black' : 'text-gray-400'}`}>
-                {value ? formatDate(value, 'DD-MM-YYYY') : label}
-              </Text>
-            </Pressable>
-            <DatePickerModal
-              locale="es"
-              mode="single"
-              visible={open}
-              onDismiss={handleDismiss}
-              date={value}
-              onConfirm={value => {
-                onChange(value.date)
-                handleDismiss()
-              }}
-            />
-          </>
-        )
-      }}
-    />
+    <>
+      <TouchableOpacity
+        onPress={handleShowPicker}
+        activeOpacity={0.8}
+        className={`bg-white w-full h-[49px] px-4 rounded-lg border-2 ${error ? 'border-red-300' : 'border-gray-300'} justify-center`}>
+        <Text className={`text-[16px] ${field.value ? 'text-black' : 'text-gray-400'}`}>
+          {field.value ? formatDate(field.value, 'DD-MM-YYYY') : label}
+        </Text>
+      </TouchableOpacity>
+      <DatePicker show={showPicker} hidePicker={handleHidePicker} onChangeDate={field.onChange} />
+    </>
   )
 }

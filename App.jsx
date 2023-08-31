@@ -15,10 +15,8 @@ import { useTrackingTransparency } from './src/hooks/permissions/useTrackingTran
 import { initSentry } from './src/lib/Sentry'
 import store from './src/store'
 import { theme } from './src/theme'
-import { translateDatepicker } from './src/utils/translate-datepicker'
 import Main from '@/Main'
 
-translateDatepicker()
 if (!__DEV__) initSentry()
 
 export default function App() {
