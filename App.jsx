@@ -51,7 +51,6 @@ export default function App() {
         <PaperProvider theme={theme}>
           <Main onLayout={onLayoutRootView} />
           <Toast />
-          <UpdateModal />
         </PaperProvider>
         <StatusBar style="auto" />
       </Provider>

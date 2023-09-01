@@ -1,11 +1,10 @@
 import { nativeApplicationVersion } from 'expo-application'
+import semver from 'semver'
+import { Linking, Platform } from 'react-native'
 import * as Updates from 'expo-updates'
 import { useCallback, useEffect, useState } from 'react'
-import { Linking, Platform } from 'react-native'
-import semver from 'semver'
-import { APP_VERSION } from '@/constants/APP_VERSION'
 
-const INTERVAL_OTA_CHECK = 1000 * 60 * (__DEV__ ? 1 : 60) * 24
+import { APP_VERSION } from '@/constants/APP_VERSION'
 
 export function useAppUpdate() {
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false)
@@ -13,11 +12,13 @@ export function useAppUpdate() {
 
   const checkForUpdates = useCallback(async () => {
     try {
-      if (__DEV__) return
-      if (isUpdateAvailable) return
+      if (isUpdateAvailable) {
+        setIsUpdateAvailable(false)
+        return
+      }
 
-      const update = await Updates.checkForUpdateAsync()
-      if (update.isAvailable) {
+      // const update = await Updates.checkForUpdateAsync()
+      if (!true) {
         await Updates.fetchUpdateAsync()
         setUpdateType('minor')
         setIsUpdateAvailable(true)
@@ -30,14 +31,10 @@ export function useAppUpdate() {
     } catch (error) {
       console.error('Failed to check for updates:', error)
     }
-  }, [isUpdateAvailable])
+  }, [])
 
   useEffect(() => {
-    const checkUpdatesInterval = setInterval(checkForUpdates, INTERVAL_OTA_CHECK)
-
     checkForUpdates()
-
-    return () => clearInterval(checkUpdatesInterval)
   }, [checkForUpdates])
 
   const handleUpdate = async () => {
@@ -57,6 +54,7 @@ export function useAppUpdate() {
   }
 
   const handleCancelUpdate = () => {
+    console.log('handleCancelUpdate')
     setIsUpdateAvailable(false)
     setUpdateType(null)
   }
