@@ -1,6 +1,5 @@
 import React from 'react'
 import { Pressable, ScrollView, View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import OrderItemLoader from '../../components/orders/ItemLoader'
 import OrderItem from '../../components/orders/OrderItem'
@@ -11,6 +10,7 @@ import Container from '../../components/utils/Container'
 import Link from '../../components/utils/Link'
 import { useOrders } from '../../hooks/useOrders'
 import { useGetUserKashQuery } from '../../services/userData'
+import Text from '@/components/utils/Text'
 
 export default function HomeScreen({ navigation }) {
   const { orders = [], isLoading: ordersLoading } = useOrders(3)

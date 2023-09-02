@@ -2,7 +2,6 @@ import { SafeAreaView, StyleSheet, TouchableOpacity, View, useWindowDimensions }
 import { Camera, CameraType, ImageType } from 'expo-camera'
 import React, { useRef } from 'react'
 import { manipulateAsync } from 'expo-image-manipulator'
-import { Text } from 'react-native-paper'
 import { useIsFocused } from '@react-navigation/native'
 import Mask from 'react-native-barcode-mask'
 
@@ -11,6 +10,7 @@ import SafeArea from '../../../components/utils/SafeArea'
 import Container from '../../../components/utils/Container'
 import { openAppSetting } from '../../../utils/handlers'
 import { useCameraPermissions } from '../../../hooks/camera/useCameraPermissions'
+import Text from '@/components/utils/Text'
 // import { useCameraRatio } from '../../../hooks/useCameraRatio'
 
 export default function DocumentCameraScreen({ navigation }) {

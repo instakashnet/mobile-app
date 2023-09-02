@@ -1,13 +1,14 @@
 import { Ionicons } from '@expo/vector-icons'
 import * as Linking from 'expo-linking'
 import { Pressable, View } from 'react-native'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 
 import { useCompleteExchangeMutation } from '../../services/exchange'
 import Banner from '../UI/Banner'
 import Button from '../UI/Button'
 import Card from '../UI/Card'
 import CopyButton from '../UI/CopyButton'
+import Text from '../utils/Text'
 
 function EmailVoucherInfo({ order, onComplete, onPressBack }) {
   const { colors } = useTheme()

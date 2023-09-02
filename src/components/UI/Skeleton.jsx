@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { View, StyleSheet, Animated, Easing } from 'react-native'
+import { StyleSheet, Animated, Easing } from 'react-native'
 
 export default function Skeleton({
   width,

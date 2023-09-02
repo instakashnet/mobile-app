@@ -1,11 +1,11 @@
 import { View } from 'react-native'
 import React from 'react'
-import { Text } from 'react-native-paper'
 
 import SafeArea from '../../components/utils/SafeArea'
 import { SecureMoney } from '../../../assets/images/illustrations/secure-money'
 import Button from '../../components/UI/Button'
 import { usePollverificiation } from '../../hooks/usePollVerification'
+import Text from '@/components/utils/Text'
 
 export default function VerifyingScreen({ navigation }) {
   usePollverificiation()

@@ -1,4 +1,3 @@
-import { Text } from 'react-native-paper'
 import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
 
@@ -11,6 +10,7 @@ import PhoneInput from '@/components/UI/PhoneInput'
 import Checkbox from '@/components/UI/Checkbox'
 import Button from '@/components/UI/Button'
 import { useCompleteRegistrationMutation, useLazyGetSessionQuery } from '@/services/auth'
+import Text from '@/components/utils/Text'
 
 function CompleteAppleScreen({ route, navigation }) {
   const appleUserName = route.params?.appleUserName

@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react'
 import PagerView from 'react-native-pager-view'
 import { Image, Platform, View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import Title from '../utils/Title'
 import onboardingImages from '../../../data/onboardingImages'
+import Text from '../utils/Text'
 
 export default function OnboardingSwiper() {
   const [pageIndex, setPageIndex] = useState(0)

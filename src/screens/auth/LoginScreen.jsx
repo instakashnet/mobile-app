@@ -1,6 +1,5 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import Icon from '../../../assets/images/svgs/Icon'
 import AppleLogin from '../../components/auth/AppleLogin/AppleButton'
@@ -8,6 +7,7 @@ import GoogleLogin from '../../components/auth/GoogleLogin/GoogleButton'
 import LoginForm from '../../components/auth/Login/LoginForm'
 import Link from '../../components/utils/Link'
 import Screen from '../../components/utils/Screen'
+import Text from '@/components/utils/Text'
 
 export default function LoginScreen({ navigation }) {
   return (

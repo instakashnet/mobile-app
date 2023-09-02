@@ -1,10 +1,11 @@
 import { Pressable, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons'
 
 import Card from '../UI/Card'
 import { CompanyProfileIcon } from '../../../assets/images/illustrations/company-profile'
+import Text from '../utils/Text'
 
 export default function CompanyItem({ profile = {}, border, onToggleFav, onSelect, onDelete, processing }) {
   const { colors } = useTheme()

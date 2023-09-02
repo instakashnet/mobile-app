@@ -1,4 +1,3 @@
-import { Text } from 'react-native-paper'
 import { Pressable, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
@@ -8,6 +7,7 @@ import { useNotificationsPermissions } from '../../hooks/notifications/useNotifi
 import { useNotifications } from '../../hooks/notifications/useNotifications'
 import { useAppStateChange } from '../../hooks/useAppStateChange'
 import { openAppSetting } from '../../utils/handlers'
+import Text from '@/components/utils/Text'
 
 function NotificationsScreen({ navigation }) {
   const { permissionStatus, getPermissions } = useNotificationsPermissions()

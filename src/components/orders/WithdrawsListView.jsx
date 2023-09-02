@@ -1,9 +1,10 @@
 import { Pressable } from 'react-native'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 
 import { useWithdrawals } from '../../hooks/useWithdrawals'
 import Card from '../UI/Card'
 import WithdrawalItem from './WithdrawalItem'
+import Text from '../utils/Text'
 
 export default function WithdrawsListView({ navigation }) {
   const { withdrawals } = useWithdrawals(3)

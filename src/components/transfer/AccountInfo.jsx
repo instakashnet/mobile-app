@@ -1,11 +1,12 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { Image, View } from 'react-native'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 
 import bankImages from '../../../data/bankImages'
 import Card from '../UI/Card'
 import CopyButton from '../UI/CopyButton'
+import Text from '../utils/Text'
 
 export default function AccountInfo({ bank, currency, account }) {
   const { colors } = useTheme()

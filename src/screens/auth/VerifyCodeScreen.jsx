@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Pressable, View } from 'react-native'
-import { Text } from 'react-native-paper'
 import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
 
@@ -13,6 +12,7 @@ import Screen from '../../components/utils/Screen'
 import { verifyCodeValidationSchema } from '../../schemas/auth'
 import { useLazyResendCodeQuery, useVerifyCodeMutation } from '../../services/auth'
 import { showAlert } from '../../store/slices/alert'
+import Text from '@/components/utils/Text'
 
 export default function VerifyCodeScreen({ navigation, route }) {
   const dispatch = useDispatch()

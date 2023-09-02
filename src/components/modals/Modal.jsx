@@ -1,7 +1,8 @@
-import { Portal, Text, Modal as PaperModal } from 'react-native-paper'
+import { Portal, Modal as PaperModal } from 'react-native-paper'
 import { View } from 'react-native'
 
 import Button from '../UI/Button'
+import Text from '../utils/Text'
 
 function Modal({ title, children, actionButtons = [], visible, onDismiss }) {
   return (

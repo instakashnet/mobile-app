@@ -1,10 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import Card from '../UI/Card'
 import AccountInfo from './AccountInfo'
 import TransferAmountsInfo from './TransferAmountsInfo'
+import Text from '../utils/Text'
 
 export default function TransferInfo({ order }) {
   const currencyName = order?.currencySent === 'USD' ? 'dólares' : 'soles'

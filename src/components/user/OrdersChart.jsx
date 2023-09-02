@@ -1,7 +1,6 @@
 import { View } from 'react-native'
 import React from 'react'
 import { Text } from 'react-native-paper'
-import { PieChart } from 'react-native-chart-kit'
 
 import Card from '../UI/Card'
 import { useOperationsData } from '../../hooks/useOperationsData'

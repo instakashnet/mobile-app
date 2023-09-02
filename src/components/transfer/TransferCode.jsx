@@ -2,13 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import { transactionCodeSchema } from '../../schemas/exchange'
 import { useCompleteExchangeMutation } from '../../services/exchange'
 import Button from '../UI/Button'
 import Helper from '../UI/Helper'
 import Input from '../UI/Input'
+import Text from '../utils/Text'
 
 export default function TransferCode({ onPressBack, order, onComplete }) {
   const [completeExchange, { isLoading }] = useCompleteExchangeMutation()

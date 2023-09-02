@@ -1,9 +1,9 @@
 import { TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { Text } from 'react-native-paper'
 
 import DateItem from '../UI/DateItem'
 import StatusBadge from '../UI/StatusBadge'
+import Text from '../utils/Text'
 
 export default function OrderItem({ order, last, onSelect }) {
   return (

@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import EmailVoucherInfo from '../../components/transfer/EmailVoucherInfo'
 import TransferCode from '../../components/transfer/TransferCode'
@@ -13,6 +12,7 @@ import { resetNavigate } from '../../helpers/nav-actions'
 import { useCountdown } from '../../hooks/useCountdown'
 import { useCancelExchangeMutation } from '../../services/exchange'
 import { exchangeSteps } from '../../utils/exchange-steps'
+import Text from '@/components/utils/Text'
 
 export default function TransferScreen({ navigation, route }) {
   const order = route.params?.order

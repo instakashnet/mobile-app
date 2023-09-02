@@ -1,6 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
-import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
+
+import Text from '../utils/Text'
 
 export default function Rates({ rates, type, coupon, loading }) {
   const { colors } = useTheme()

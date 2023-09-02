@@ -1,7 +1,9 @@
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Pressable } from 'react-native'
-import { Banner as PaperBanner, Text, useTheme } from 'react-native-paper'
+import { Banner as PaperBanner, useTheme } from 'react-native-paper'
+
+import Text from '../utils/Text'
 
 const BANNER_TYPES = [
   {

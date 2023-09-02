@@ -1,6 +1,5 @@
 import { View } from 'react-native'
 import React from 'react'
-import { Text } from 'react-native-paper'
 
 import ProfileItem from '../../components/configuration/ProfileItem'
 import AddProfileBtn from '../../components/configuration/AddProfileBtn'
@@ -9,6 +8,7 @@ import { useGetUserProfilesQuery } from '../../services/userData'
 import CompanyItem from '../../components/configuration/CompanyItem'
 import { useProfile } from '../../hooks/useProfile'
 import Screen from '@/components/utils/Screen'
+import Text from '@/components/utils/Text'
 
 export default function ProfilesScreen({ navigation, route }) {
   const isConfig = route?.params?.isConfig

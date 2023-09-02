@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
-import { Text } from 'react-native-paper'
 
 import { DISCOUNTS } from '../../../data/discounts'
 import Banner from '../UI/Banner'
+import Text from '../utils/Text'
 
 function DiscountsBanner({ isReferral, level, onAddCoupon }) {
   const activeDiscount = useMemo(() => {

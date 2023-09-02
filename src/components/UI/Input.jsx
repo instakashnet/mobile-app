@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTheme } from 'react-native-paper'
-import { Platform, TextInput } from 'react-native'
+import { TextInput } from 'react-native'
 import { Controller } from 'react-hook-form'
 
 export default function Input({ control, name, label, error, multiline, ...rest }) {
@@ -23,7 +23,7 @@ export default function Input({ control, name, label, error, multiline, ...rest 
             style={{ fontFamily: fonts.bodyLarge.fontFamily }}
             multiline={multiline}
             onFocus={() => setFocus(true)}
-            onBlur={(props) => {
+            onBlur={props => {
               onBlur(props)
               setFocus(false)
             }}

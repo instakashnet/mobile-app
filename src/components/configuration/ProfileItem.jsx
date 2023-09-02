@@ -1,12 +1,13 @@
 import { Pressable, View } from 'react-native'
 import React from 'react'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons'
 
 import Card from '../UI/Card'
 import { MaleProfileIcon } from '../../../assets/images/illustrations/male-profile'
 import { FemaleProfileIcon } from '../../../assets/images/illustrations/female-profile'
 import Skeleton from '../UI/Skeleton'
+import Text from '../utils/Text'
 
 export default function ProfileItem({ profile = {}, onSelect, loading = true }) {
   const { colors } = useTheme()

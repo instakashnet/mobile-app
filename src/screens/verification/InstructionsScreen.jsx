@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, View } from 'react-native'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Checkbox, Text, useTheme } from 'react-native-paper'
+import { Checkbox, useTheme } from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons'
 
 import Container from '../../components/utils/Container'
@@ -10,6 +10,7 @@ import Card from '../../components/UI/Card'
 import InfoStep from '../../components/verification/InfoStep'
 import Button from '../../components/UI/Button'
 import { selectUser } from '../../store/slices/authSlice'
+import Text from '@/components/utils/Text'
 
 export default function InstructionsScreen({ navigation }) {
   const { colors } = useTheme()

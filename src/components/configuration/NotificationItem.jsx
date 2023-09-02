@@ -1,7 +1,7 @@
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import Switch from '../UI/Swtich'
+import Text from '../utils/Text'
 
 function NotificationItem({ label, name, value, onChange }) {
   return (

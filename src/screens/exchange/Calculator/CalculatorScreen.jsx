@@ -1,6 +1,5 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Text } from 'react-native-paper'
 import { useSelector } from 'react-redux'
 
 import { RATES_TIME } from '../../../../data/exchange'
@@ -18,6 +17,7 @@ import { useLastOrder } from '../../../hooks/calculator/useLastOrder'
 import { useCountdown } from '../../../hooks/useCountdown'
 import { selectUser } from '../../../store/slices/authSlice'
 import { useCalculatorLogic } from './Calculator.logic'
+import Text from '@/components/utils/Text'
 
 export default function CalculatorScreen({ navigation }) {
   const user = useSelector(selectUser)

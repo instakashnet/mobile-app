@@ -1,9 +1,9 @@
 import { FlatList } from 'react-native'
 import React from 'react'
-import { Text } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 
 import OrderItem from './OrderItem'
+import Text from '../utils/Text'
 // import OrderItemLoader from './ItemLoader'
 
 export default function OrdersList({ data = [], listProps = {} }) {

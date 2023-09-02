@@ -1,9 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 
 import { formatAmount } from '../../helpers/formatters'
 import Title from '../utils/Title'
+import Text from '../utils/Text'
 
 export default function TransferAmountsInfo({ amountToSend = 0, currencyToSend, amountToReceive = 0, currencyToReceive, rate }) {
   const { fonts, colors } = useTheme()

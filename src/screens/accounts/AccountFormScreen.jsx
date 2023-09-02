@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
-import { Checkbox, Text } from 'react-native-paper'
+import { Checkbox } from 'react-native-paper'
 
 import MancomunadaInputs from '../../components/accounts/MancomunadaInputs'
 import Banner from '../../components/UI/Banner'
@@ -11,6 +11,7 @@ import Select from '../../components/UI/Select'
 import Screen from '../../components/utils/Screen'
 import { accountTypesOptions } from '../../helpers/select-options'
 import { useAccountForm } from './AccountForm.logic'
+import Text from '@/components/utils/Text'
 
 export default function AccountFormScreen() {
   const {

@@ -1,10 +1,10 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import { EmptyAccount } from '../../../assets/images/illustrations/empty-account'
 import Button from '../UI/Button'
+import Text from '../utils/Text'
 
 export default function EmptyAccounts({ navigate }) {
   return (

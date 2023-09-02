@@ -1,11 +1,11 @@
 import { View } from 'react-native'
 import React from 'react'
-import { Text } from 'react-native-paper'
 
 import KashIcon from '../../../assets/images/svgs/KashIcon'
 import Button from '../UI/Button'
 import Card from '../UI/Card'
 import Skeleton from '../UI/Skeleton'
+import Text from '../utils/Text'
 
 export default function KashEarned({ kashInfo, loading = false, canWithdraw, onPress }) {
   if (loading)

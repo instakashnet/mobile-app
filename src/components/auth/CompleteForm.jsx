@@ -1,6 +1,5 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import { documentOptions, sexOptions } from '../../helpers/select-options'
 import Button from '../UI/Button'
@@ -10,6 +9,7 @@ import Input from '../UI/Input'
 import PhoneInput from '../UI/PhoneInput'
 import Select from '../UI/Select'
 import { useCompleteForm } from './CompleteForm.logic'
+import Text from '../utils/Text'
 
 export default function CompleteForm() {
   const {

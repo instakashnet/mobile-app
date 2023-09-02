@@ -2,12 +2,13 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
-import { ProgressBar, Text, useTheme } from 'react-native-paper'
+import { ProgressBar, useTheme } from 'react-native-paper'
 
 import { formatAmount } from '../../helpers/formatters'
 import { useGetUserLevelQuery } from '../../services/userData'
 import Button from '../UI/Button'
 import Skeleton from '../UI/Skeleton'
+import Text from '../utils/Text'
 
 export default function UserLevel() {
   const navigation = useNavigation()

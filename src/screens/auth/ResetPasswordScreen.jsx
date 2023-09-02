@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Alert, Pressable, View } from 'react-native'
-import { IconButton, Text } from 'react-native-paper'
+import { IconButton } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
 import Button from '../../components/UI/Button'
@@ -14,6 +14,7 @@ import { resetPasswordSchema } from '../../schemas/auth'
 import { useResetPasswordMutation } from '../../services/auth'
 import { showAlert } from '../../store/slices/alert'
 import { setLogout } from '../../store/slices/authSlice'
+import Text from '@/components/utils/Text'
 
 export default function ResetPasswordScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(false)

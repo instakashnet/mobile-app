@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { View } from 'react-native'
-import { ActivityIndicator, Text } from 'react-native-paper'
+import { ActivityIndicator } from 'react-native-paper'
 import Toast from 'react-native-toast-message'
 
 import Rates from '../../components/calculator/Rates'
@@ -14,6 +14,7 @@ import DismissKeyboard from '../../components/utils/DismissKeyboard'
 import KeyboardView from '../../components/utils/KeyboardView'
 import { useRates } from '../../hooks/calculator/useRates'
 import { useGetRatesNotificationsQuery, useSaveRatesNotificationsMutation } from '../../services/notifications'
+import Text from '@/components/utils/Text'
 
 function RatesAlertsScreen() {
   const { data, isLoading: alertsLoading } = useGetRatesNotificationsQuery()

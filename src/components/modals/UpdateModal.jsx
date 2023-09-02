@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text } from 'react-native-paper'
 
 import Modal from './Modal'
+import Text from '../utils/Text'
 
 export default function UpdateModal({ isAvailable, onCancel, title, type, onUpdate }) {
   return (

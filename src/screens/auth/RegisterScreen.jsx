@@ -1,10 +1,10 @@
 import React from 'react'
 import { Pressable } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import RegisterForm from '../../components/auth/RegisterForm'
 import Link from '../../components/utils/Link'
 import Screen from '../../components/utils/Screen'
+import Text from '@/components/utils/Text'
 
 export default function RegisterScreen({ navigation }) {
   return (

@@ -38,7 +38,7 @@ export default function CurrencyInput({ iso, name, control, onAmountChange }) {
       name={name}
       control={control}
       render={({ field: { value, onChange } }) => (
-        <View className="w-full bg-[#E9F6F6] rounded-lg py-2">
+        <View className="w-full bg-[#E9F6F6] rounded-lg py-1">
           <Text variant="caption" className="ml-4 mt-[2px] -mb-1" style={{ color: colors.primary700 }}>
             Envias {currency?.label}
           </Text>

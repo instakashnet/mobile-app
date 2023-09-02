@@ -3,7 +3,9 @@ import React, { useEffect, useRef } from 'react'
 import Countdown from 'react-countdown'
 import { View } from 'react-native'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
+
+import Text from './Text'
 
 export default function Timer({ timerId, countdown, onFinish }) {
   const isFocused = useIsFocused()

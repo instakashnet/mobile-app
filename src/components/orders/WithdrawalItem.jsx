@@ -1,9 +1,9 @@
 import { TouchableOpacity, View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import { formatAmount } from '../../helpers/formatters'
 import DateItem from '../UI/DateItem'
 import StatusBadge from '../UI/StatusBadge'
+import Text from '../utils/Text'
 
 function WithdrawalItem({ withdrawal, onSelect, last }) {
   console.log(withdrawal)

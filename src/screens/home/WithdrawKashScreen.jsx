@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Alert, View } from 'react-native'
-import { Text } from 'react-native-paper'
 import Toast from 'react-native-toast-message'
 
 import SelectAccount from '../../components/accounts/SelectAccount'
@@ -16,6 +15,7 @@ import KeyboardView from '../../components/utils/KeyboardView'
 import { formatAmount } from '../../helpers/formatters'
 import { withdrawKashSchema } from '../../schemas/kash'
 import { useWithdrawKashMutation } from '../../services/user'
+import Text from '@/components/utils/Text'
 
 function WithdrawKashScreen({ route, navigation }) {
   const kashAmount = route.params?.kashAmount || 0

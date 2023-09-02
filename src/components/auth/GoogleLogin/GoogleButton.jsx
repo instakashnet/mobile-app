@@ -1,5 +1,4 @@
-import { Text } from 'react-native-paper'
-
+import Text from '@/components/utils/Text'
 import GoogleIcon from '../../../../assets/images/svgs/GoogleIcon'
 import Button from '../../UI/Button'
 import { useGoogleLogin } from './GoogleLogin.logic'

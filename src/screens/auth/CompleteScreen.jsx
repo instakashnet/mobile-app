@@ -1,9 +1,9 @@
 import React from 'react'
-import { Text } from 'react-native-paper'
 
 import CompleteForm from '../../components/auth/CompleteForm'
 import Button from '../../components/UI/Button'
 import Screen from '../../components/utils/Screen'
+import Text from '@/components/utils/Text'
 
 export default function CompleteScreen({ navigation }) {
   return (

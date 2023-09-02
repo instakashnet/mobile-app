@@ -1,12 +1,13 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
-import { Checkbox, Text } from 'react-native-paper'
+import { Checkbox } from 'react-native-paper'
 
 import Button from '../../UI/Button'
 import Helper from '../../UI/Helper'
 import Input from '../../UI/Input'
 import PasswordInput from '../../UI/PasswordInput'
 import { useLogin } from './Login.logic'
+import Text from '@/components/utils/Text'
 
 export default function LoginForm() {
   const {

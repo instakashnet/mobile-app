@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 import { View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
@@ -11,6 +11,7 @@ import { steps } from '../../../utils/verification-steps'
 import Card from '../../../components/UI/Card'
 import Button from '../../../components/UI/Button'
 import { selectUser } from '../../../store/slices/authSlice'
+import Text from '@/components/utils/Text'
 
 export default function DocumentInstructionsScreen({ navigation }) {
   const { colors } = useTheme()

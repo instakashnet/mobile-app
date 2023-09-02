@@ -1,10 +1,11 @@
 import React from 'react'
 import { Alert, Image, View } from 'react-native'
-import { IconButton, Text, useTheme } from 'react-native-paper'
+import { IconButton, useTheme } from 'react-native-paper'
 
 import bankImages from '../../../data/bankImages'
 import { useDeleteAccountMutation } from '../../services/account'
 import Skeleton from '../UI/Skeleton'
+import Text from '../utils/Text'
 
 export default function AccountItem({ account, onSelect, isLoading }) {
   const { colors } = useTheme()

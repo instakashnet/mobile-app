@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Pressable, View } from 'react-native'
-import { Text } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
 import Button from '../../components/UI/Button'
@@ -14,6 +13,7 @@ import { recoverPasswordSchema } from '../../schemas/auth'
 import { useRecoverPasswordMutation } from '../../services/auth'
 import { showAlert } from '../../store/slices/alert'
 import { setToken } from '../../store/slices/authSlice'
+import Text from '@/components/utils/Text'
 
 export default function RecoverPasswordScreen({ navigation }) {
   const dispatch = useDispatch()

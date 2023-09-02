@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { Image, View } from 'react-native'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 
 import OrderInfoSection from '../../components/orders/OrderInfoSection'
 import Button from '../../components/UI/Button'
@@ -10,6 +10,7 @@ import StatusBadge from '../../components/UI/StatusBadge'
 import SafeArea from '../../components/utils/SafeArea'
 import { formatDate } from '../../helpers/formatters'
 import bankImages from '../../../data/bankImages'
+import Text from '@/components/utils/Text'
 
 export default function OrderDetailsScreen({ route, navigation }) {
   const order = route.params?.order

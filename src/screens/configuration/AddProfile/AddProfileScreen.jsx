@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 import Banner from '../../../components/UI/Banner'
 import Button from '../../../components/UI/Button'
@@ -10,6 +10,7 @@ import Helper from '../../../components/UI/Helper'
 import Input from '../../../components/UI/Input'
 import Screen from '../../../components/utils/Screen'
 import { useAddProfile } from './AddProfile.logic'
+import Text from '@/components/utils/Text'
 
 export default function AddProfileScreen() {
   const { colors } = useTheme()

@@ -1,10 +1,11 @@
 import React, { Fragment, useState } from 'react'
-import { List, Text } from 'react-native-paper'
+import { List } from 'react-native-paper'
 import { View } from 'react-native'
 
 import CompanyItem from './CompanyItem'
 import { useRemoveProfileMutation, useToggleFavProfileMutation } from '../../services/userData'
 import Skeleton from '../UI/Skeleton'
+import Text from '../utils/Text'
 
 export default function ProfilesList({ profiles = [], onSelect, loading }) {
   const [expanded, setExpanded] = useState(false)

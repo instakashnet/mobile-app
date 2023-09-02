@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Alert, ScrollView, View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import SelectAccount from '../../components/accounts/SelectAccount'
 import SelectAccountModal from '../../components/accounts/SelectAccountModal'
@@ -15,6 +14,7 @@ import { fundsOriginOptions } from '../../helpers/select-options'
 import { selectAccountsSchema } from '../../schemas/exchange'
 import { useCancelExchangeMutation, useContinueExchangeMutation } from '../../services/exchange'
 import { exchangeSteps } from '../../utils/exchange-steps'
+import Text from '@/components/utils/Text'
 
 export default function AccountsScreen({ navigation, route }) {
   const order = route?.params?.order

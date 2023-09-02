@@ -1,6 +1,5 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import Logo from '../../../../assets/images/svgs/Logo'
 import OnboardingSwiper from '../../../components/auth/OnboardingSwiper'
@@ -9,6 +8,7 @@ import Container from '../../../components/utils/Container'
 import Link from '../../../components/utils/Link'
 import SafeArea from '../../../components/utils/SafeArea'
 import { useOnboarding } from './Onboarding.logic'
+import Text from '@/components/utils/Text'
 
 export default function OnboardingScreen() {
   const { login, signUp } = useOnboarding()

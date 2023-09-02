@@ -1,6 +1,6 @@
 import { View, Image, useWindowDimensions } from 'react-native'
 import React, { useState } from 'react'
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -9,6 +9,7 @@ import Button from '../../../components/UI/Button'
 import { useUploadPhotoMutation } from '../../../services/user'
 import { selectUser, setUser } from '../../../store/slices/authSlice'
 import Screen from '@/components/utils/Screen'
+import Text from '@/components/utils/Text'
 
 export default function DocumentPreviewScreen({ route, navigation }) {
   const { width, height } = useWindowDimensions()

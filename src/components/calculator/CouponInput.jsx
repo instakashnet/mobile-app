@@ -1,13 +1,14 @@
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Pressable, View } from 'react-native'
-import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 import DiscountCouponIcon from '../../../assets/images/svgs/DiscountCouponIcon'
 import { useReferral } from '../../hooks/calculator/useReferral'
 import Input from '../UI/controlledInputs/Input'
 import Helper from '../UI/Helper'
 import DiscountsBanner from './DiscountsBanner'
+import Text from '../utils/Text'
 
 export default function CouponInput({ coupon, onAdd, onRemove, setValue, loading, profileType, exchangeLevel }) {
   const { colors } = useTheme()

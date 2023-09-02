@@ -1,12 +1,12 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import Container from '../../components/utils/Container'
 import SafeArea from '../../components/utils/SafeArea'
 import StepsBar from '../../components/utils/StepsBar'
 import OccupationForm from '../../components/verification/OccupationForm'
 import { steps } from '../../utils/verification-steps'
+import Text from '@/components/utils/Text'
 
 export default function AddressScreen() {
   return (

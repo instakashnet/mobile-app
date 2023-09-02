@@ -1,14 +1,15 @@
 import React from 'react'
-import { Text } from 'react-native-paper'
 import { View, ScrollView } from 'react-native'
-import Container from '../../components/utils/Container'
 import { useSelector } from 'react-redux'
+
+import Container from '../../components/utils/Container'
 import { selectUser } from '../../store/slices/authSlice'
 import CopyButton from '../../components/UI/CopyButton'
 import { useGetUserKashQuery } from '../../services/userData'
 import KashEarned from '../../components/user/KashEarned'
 import Table from '../../components/UI/Table'
 import { referrals } from '../../../mocks/referrals'
+import Text from '@/components/utils/Text'
 
 const columns = [
   { label: 'Usuario', attrs: [] },
