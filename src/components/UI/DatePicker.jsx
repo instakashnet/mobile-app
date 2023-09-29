@@ -1,5 +1,5 @@
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { View, Modal, TouchableOpacity, Platform } from 'react-native'
 import { Text, useTheme } from 'react-native-paper'
 
@@ -7,14 +7,17 @@ function DatePicker({ hidePicker, onChangeDate, show }) {
   const [date, setDate] = useState(new Date())
   const { colors } = useTheme()
 
-  const handleSelectDate = (_, selectedDate) => {
-    const currentDate = selectedDate || date
-    setDate(new Date(currentDate))
-    if (Platform.OS === 'android') {
-      onChangeDate(currentDate)
-      hidePicker()
-    }
-  }
+  const handleSelectDate = useCallback(
+    (_, selectedDate) => {
+      const currentDate = selectedDate || date
+      setDate(new Date(currentDate))
+      if (Platform.OS === 'android') {
+        onChangeDate(currentDate)
+        hidePicker()
+      }
+    },
+    [date, hidePicker, onChangeDate],
+  )
 
   const handleConfirm = () => {
     onChangeDate(date)
@@ -31,7 +34,7 @@ function DatePicker({ hidePicker, onChangeDate, show }) {
         onChange: handleSelectDate,
       })
     }
-  }, [show])
+  }, [show, date, handleSelectDate])
 
   return Platform.OS === 'ios' ? (
     <Modal visible={show} animationType="slide" transparent supportedOrientations={['portrait']} onRequestClose={hidePicker}>
