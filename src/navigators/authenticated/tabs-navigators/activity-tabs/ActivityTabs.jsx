@@ -1,8 +1,8 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { useTheme } from 'react-native-paper'
 
-import OrdersListView from '../components/orders/OrdersListView'
-import WithdrawsListView from '../components/orders/WithdrawsListView'
+import OrdersListView from '@/components/orders/OrdersListView'
+import WithdrawsListView from '@/components/orders/WithdrawsListView'
 
 const Tab = createMaterialTopTabNavigator()
 

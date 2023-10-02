@@ -28,12 +28,10 @@ export default function LoginForm() {
         keyboardType="email-address"
         autoCapitalize="none"
         autoComplete="username"
-        error={errors.email}
+        error={errors.email?.message}
       />
-      <Helper error={errors.email?.message} />
-      <PasswordInput control={control} name="password" label="contaseña" error={errors.password} />
-      <Helper error={errors.password?.message} />
-      <Pressable className="flex-row items-center top-[-6px]" onPress={toggleRemember}>
+      <PasswordInput containerClasses="mt-6" control={control} name="password" label="contaseña" error={errors.password?.message} />
+      <Pressable className="flex-row items-center mt-3" onPress={toggleRemember}>
         <Checkbox.Android status={rememberEmail} color="#0d8284" />
         <Text className="flex-wrap flex-1">Recordarme</Text>
       </Pressable>

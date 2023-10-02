@@ -5,22 +5,27 @@ import { View } from 'react-native'
 import { EmptyAccount } from '../../../assets/images/illustrations/empty-account'
 import Button from '../UI/Button'
 import Text from '../utils/Text'
+import { ACCOUNT_TYPES } from '@/constants/ACCOUNT_TYPES'
 
-export default function EmptyAccounts({ navigate }) {
+export default function EmptyAccounts({ onAdd, accType }) {
   return (
     <View className="items-center flex-1 justify-center p-6">
-      <EmptyAccount width={250} />
-      <Text variant="bodyLarge" className="mt-4 text-center">
-        No tienes cuentas agregadas. Agrega una cuenta en soles o en dólares para tus cambios.
-      </Text>
-      <View className="mt-4" />
-      <Button
-        onPress={() => navigate('AccountForm', { name: 'Agregar cuenta' })}
-        icon={() => <Ionicons size={25} color="#fff" name="add" />}>
-        Agregar cuenta
+      <View className="flex-1 items-center justify-center">
+        <EmptyAccount width={250} />
+        <Text variant="bodyLarge" className="mt-4 text-center">
+          No tienes cuentas agregadas.
+        </Text>
+        {accType === ACCOUNT_TYPES.TERCERO ? (
+          <Text variant="button" className="mt-2">
+            Las cuentas de tercero solo sirven para recibir el monto cambiado.
+          </Text>
+        ) : null}
+      </View>
+      <Button className="w-full" onPress={onAdd} icon={() => <Ionicons size={25} color="#fff" name="add" />}>
+        Agregar cuenta {accType}
       </Button>
       <View className="mt-4" />
-      <Text className="text-center">Puedes agregar hasta 20 cuentas propias o de tu(s) empresa(s).</Text>
+      <Text className="text-center">Puedes agregar hasta 20 cuentas entre personales y de terceros.</Text>
     </View>
   )
 }

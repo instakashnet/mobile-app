@@ -5,11 +5,11 @@ import { Image, TouchableOpacity, View } from 'react-native'
 import bankImages from '../../../data/bankImages'
 import Text from '../utils/Text'
 
-export default function SelectAccount({ name, accSelected, onPress }) {
+export default function SelectAccount({ accSelected, onPress }) {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => onPress(name)}
+      onPress={onPress}
       className="w-full flex-row items-center justify-between bg-white border-[1px] border-[#C2C2C2] rounded-lg p-2 px-3">
       {!accSelected ? (
         <Text className="text-gray-500">Selecciona una cuenta</Text>

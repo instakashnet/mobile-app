@@ -15,11 +15,13 @@ import { selectAccountsSchema } from '../../schemas/exchange'
 import { useCancelExchangeMutation, useContinueExchangeMutation } from '../../services/exchange'
 import { exchangeSteps } from '../../utils/exchange-steps'
 import Text from '@/components/utils/Text'
+import { ACCOUNT_TYPES } from '@/constants/ACCOUNT_TYPES'
 
 export default function AccountsScreen({ navigation, route }) {
   const order = route?.params?.order
   const [showList, setShowList] = useState(false)
-  const [accType, setAccType] = useState(null)
+  const [accInfo, setAccInfo] = useState(null)
+  const [accType, setAccType] = useState(ACCOUNT_TYPES.PERSONAL)
   const [accountsSelected, setAccountsSelected] = useState(null)
   const [cancelExchange, { isLoading: cancelProcessing }] = useCancelExchangeMutation()
   const [continueExchange, { isLoading: isProcessing }] = useContinueExchangeMutation()
@@ -41,17 +43,18 @@ export default function AccountsScreen({ navigation, route }) {
 
   const handleSelectAccount = useCallback(
     account => {
-      setValue(accType?.name, account?.id, { shouldValidate: true })
+      setValue(accInfo?.name, account?.id, { shouldValidate: true })
       setAccountsSelected(prev => ({
         ...prev,
-        [accType?.name]: account,
+        [accInfo?.name]: account,
       }))
     },
-    [accType, setValue],
+    [accInfo, setValue],
   )
 
-  const handleOpen = type => {
-    setAccType({ name: type, currencyId: type === 'account_from_id' ? order?.currencySentId : order?.currencyReceivedId })
+  const handleOpen = (name, type) => {
+    setAccInfo({ name, currencyId: name === 'account_from_id' ? order?.currencySentId : order?.currencyReceivedId })
+    setAccType(type)
     setShowList(true)
   }
 
@@ -88,13 +91,17 @@ export default function AccountsScreen({ navigation, route }) {
           </Text>
           <Text className="text-center">Debes seleccionar tu cuenta de origen y de destino para tu cambio.</Text>
           <View className="mt-7" />
-          <Text className="mb-2 ml-1">Desde que cuenta nos envías?</Text>
-          <SelectAccount name="account_from_id" accSelected={accountsSelected?.account_from_id} onPress={handleOpen} />
+          <Text className="mb-2 ml-1">¿Desde que cuenta nos envías?</Text>
+          <SelectAccount
+            accSelected={accountsSelected?.account_from_id}
+            onPress={() => handleOpen('account_from_id', ACCOUNT_TYPES.PERSONAL)}
+          />
           <Helper error={errors.account_from_id?.message} />
-          <Text className="mb-2 ml-1">En que cuenta recibes?</Text>
-          <SelectAccount name="account_to_id" accSelected={accountsSelected?.account_to_id} onPress={handleOpen} />
+          <View className="mt-4" />
+          <Text className="mb-2 ml-1">¿En que cuenta recibes?</Text>
+          <SelectAccount accSelected={accountsSelected?.account_to_id} onPress={() => handleOpen('account_to_id', null)} />
           <Helper error={errors.account_to_id?.message} />
-          <Button variant="secondary" className="w-full" onPress={() => navigation.navigate('AddAccount')}>
+          <Button variant="secondary" className="w-full mt-6" onPress={() => navigation.navigate('AddAccount')}>
             Agregar cuenta
           </Button>
           <View className="mt-6" />
@@ -116,10 +123,11 @@ export default function AccountsScreen({ navigation, route }) {
           </Button>
         </View>
         <SelectAccountModal
-          currencyId={accType?.currencyId}
+          currencyId={accInfo?.currencyId}
           onClose={() => setShowList(false)}
           onSelect={handleSelectAccount}
           isVisible={showList}
+          accType={accType}
         />
       </Container>
     </ScrollView>
