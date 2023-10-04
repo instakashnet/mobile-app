@@ -21,7 +21,7 @@ export default function SelectAccount({ accSelected, onPress }) {
               {accSelected?.cci || accSelected?.accNumber}
             </Text>
             <Text className="text-gray-500" variant="caption" numberOfLines={1}>
-              {accSelected?.alias}
+              {accSelected?.alias} <Text className="text-gray-700">{accSelected?.isThird && '• Cuenta tercero'}</Text>
             </Text>
           </View>
         </View>

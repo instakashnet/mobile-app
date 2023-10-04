@@ -42,5 +42,6 @@ export function formatAccounts(accounts = []) {
     alias: account.alias,
     joint: account.joint,
     jointValues: account.jointAccount,
+    isThird: Boolean(account.thirdParty),
   }))
 }

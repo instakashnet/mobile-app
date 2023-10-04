@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { formatDate } from '../helpers/formatters'
 import { useLazyGetUserWithdrawalsQuery } from '../services/userData'
+import { useFocusEffect } from '@react-navigation/native'
 
 export function useWithdrawals(limit = 0) {
   const [getWithdrawals, { isFetching }] = useLazyGetUserWithdrawalsQuery()
@@ -35,9 +36,11 @@ export function useWithdrawals(limit = 0) {
     [getWithdrawals],
   )
 
-  useEffect(() => {
-    getAndFormatWithdrawals(limit)
-  }, [getAndFormatWithdrawals, limit])
+  useFocusEffect(
+    useCallback(() => {
+      getAndFormatWithdrawals(limit)
+    }, [getAndFormatWithdrawals, limit]),
+  )
 
   return { withdrawals, getAndFormatWithdrawals, isLoading: isFetching }
 }
