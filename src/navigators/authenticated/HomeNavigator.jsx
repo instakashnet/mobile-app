@@ -1,6 +1,5 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useTheme } from 'react-native-paper'
 
 import HomeScreen from '@/screens/home/HomeScreen'
 import OrderDetailsScreen from '@/screens/activity/OrderDetailsScreen'
@@ -11,14 +10,11 @@ import WithdrawKashScreen from '@/screens/home/WithdrawKashScreen'
 const Stack = createNativeStackNavigator()
 
 export default function HomeNavigator() {
-  const { colors } = useTheme()
-
   return (
     <Stack.Navigator
       initialRouteName="Inicio"
       screenOptions={{
         header: props => <TitleHeader {...props} />,
-        contentStyle: { backgroundColor: colors.white300 },
       }}>
       <Stack.Screen name="HomeScreen" options={{ header: props => <MainHeader {...props} /> }} component={HomeScreen} />
       <Stack.Screen name="ReferralScreen" options={{ title: 'Refiere y gana' }} component={ReferralScreen} />

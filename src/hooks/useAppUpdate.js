@@ -11,14 +11,16 @@ export function useAppUpdate() {
   const [updateType, setUpdateType] = useState(null)
 
   const checkForUpdates = useCallback(async () => {
+    if (__DEV__) return
+
     try {
       if (isUpdateAvailable) {
         setIsUpdateAvailable(false)
         return
       }
 
-      // const update = await Updates.checkForUpdateAsync()
-      if (!true) {
+      const update = await Updates.checkForUpdateAsync()
+      if (update) {
         await Updates.fetchUpdateAsync()
         setUpdateType('minor')
         setIsUpdateAvailable(true)
@@ -31,7 +33,7 @@ export function useAppUpdate() {
     } catch (error) {
       console.error('Failed to check for updates:', error)
     }
-  }, [])
+  }, [isUpdateAvailable])
 
   useEffect(() => {
     checkForUpdates()

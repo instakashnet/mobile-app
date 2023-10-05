@@ -1,3 +1,4 @@
+import { formatAccounts } from '@/helpers/formatters'
 import { baseApi, ACCOUNT_ROUTE } from '../api/api'
 
 export const accountApi = baseApi.injectEndpoints({
@@ -13,29 +14,12 @@ export const accountApi = baseApi.injectEndpoints({
     getAccounts: builder.query({
       query: type => ACCOUNT_ROUTE + `/v1/client/accounts?type=${type}`,
       transformResponse: response => {
-        const formattedBanks = response.accounts?.map(account => ({
-          id: account.id,
-          accNumber: account.accountNumber,
-          cci: account.cci,
-          bank: {
-            name: account.bank?.name,
-            isDirect: account.bank?.active,
-            id: account.bank?.id,
-          },
-          accType: account.accType,
-          currency: {
-            symbol: account.currency?.Symbol,
-            name: account.currency?.name,
-            id: account.currency?.id,
-          },
-          alias: account.alias,
-          joint: account.joint,
-          jointValues: account.jointAccount,
-        }))
+        const personalAccounts = formatAccounts(response.personalAccounts)
+        const thirdAccounts = formatAccounts(response.thirdAccounts)
 
-        return formattedBanks
+        return { personal: personalAccounts, tercero: thirdAccounts }
       },
-      providesTags: (result, error, arg) => (result ? [...result.map(({ id }) => ({ type: 'Accounts', id })), 'Accounts'] : ['Accounts']),
+      providesTags: ['Accounts'],
     }),
     addAccount: builder.mutation({
       query: values => ({

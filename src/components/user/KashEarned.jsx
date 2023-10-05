@@ -27,7 +27,7 @@ export default function KashEarned({ kashInfo, loading = false, canWithdraw, onP
           <Text>${Number(kashInfo?.kash)?.toFixed(2)}</Text>
         </View>
       </View>
-      <Button variant="secondary" buttonColor="#f1f1f1" onPress={onPress}>
+      <Button className="mt-4" variant="secondary" buttonColor="#f1f1f1" onPress={onPress}>
         {canWithdraw ? 'Retirar' : 'Ver más'}
       </Button>
     </Card>

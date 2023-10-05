@@ -1,14 +1,14 @@
 import { ScrollView, View } from 'react-native'
 import React from 'react'
 
-import Container from '../../components/utils/Container'
-import UserSavings from '../../components/user/UserSavings'
+import Container from '@/components/utils/Container'
+import UserSavings from '@/components/user/UserSavings'
 import { useGetUserExchangeDataQuery } from '../../services/userData'
-import ActivityTabs from '../../navigators/ActivityTabs'
-import OrdersChart from '../../components/user/OrdersChart'
+import ActivityTabs from '@/navigators/authenticated/tabs-navigators/activity-tabs/ActivityTabs'
+import OrdersChart from '@/components/user/OrdersChart'
 
 export default function ActivityScreen() {
-  const { data: exchangeData = {}, isLoading } = useGetUserExchangeDataQuery()
+  const { data: exchangeData = {} } = useGetUserExchangeDataQuery()
 
   return (
     <ScrollView>

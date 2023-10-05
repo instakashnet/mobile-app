@@ -11,15 +11,16 @@ import Link from '../../components/utils/Link'
 import { useOrders } from '../../hooks/useOrders'
 import { useGetUserKashQuery } from '../../services/userData'
 import Text from '@/components/utils/Text'
+import Screen from '@/components/utils/Screen'
 
 export default function HomeScreen({ navigation }) {
   const { orders = [], isLoading: ordersLoading } = useOrders(3)
   const { data = {}, isLoading } = useGetUserKashQuery()
 
   return (
-    <ScrollView>
+    <>
       <UserLevel />
-      <Container>
+      <Screen>
         <Text variant="button" className="mb-2">
           Refiere y gana
         </Text>
@@ -50,7 +51,7 @@ export default function HomeScreen({ navigation }) {
             <Text className="text-center">No has realizado ningún cambio.</Text>
           )}
         </Card>
-      </Container>
-    </ScrollView>
+      </Screen>
+    </>
   )
 }

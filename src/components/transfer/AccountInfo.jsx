@@ -12,7 +12,7 @@ export default function AccountInfo({ bank, currency, account }) {
   const { colors } = useTheme()
 
   return (
-    <Card classes={['flex-row', 'items-center', 'justify-between', 'px-2']}>
+    <Card cardClasses="flex-row items-center justify-between px-2">
       <Image source={bankImages[bank?.toLowerCase()]?.image} className="w-[70px] h-6" resizeMode="contain" />
       <View className="flex-row items-center">
         <View className="items-end mr-2">

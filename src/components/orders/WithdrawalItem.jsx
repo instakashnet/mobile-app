@@ -6,8 +6,6 @@ import StatusBadge from '../UI/StatusBadge'
 import Text from '../utils/Text'
 
 function WithdrawalItem({ withdrawal, onSelect, last }) {
-  console.log(withdrawal)
-
   return (
     <TouchableOpacity
       activeOpacity={!onSelect ? 1 : 0.7}

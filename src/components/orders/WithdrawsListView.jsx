@@ -16,7 +16,7 @@ export default function WithdrawsListView({ navigation }) {
         <>
           {withdrawals.map((withdrawal, idx) => (
             <WithdrawalItem
-              key={withdrawal.id}
+              key={idx}
               withdrawal={withdrawal}
               last={idx + 1 >= withdrawal.length}
               onSelect={() => navigation.navigate('WithdrawalDetails', { withdrawal })}

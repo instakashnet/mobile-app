@@ -19,7 +19,7 @@ export default function OrdersListView({ navigation }) {
         <>
           {orders.map((order, idx) => (
             <OrderItem
-              key={order.id}
+              key={idx}
               order={order}
               last={idx + 1 >= orders.length}
               onSelect={() => navigation.navigate('OrderDetails', { order })}

@@ -11,7 +11,7 @@ export default function AddProfileBtn({ companies = 0, onAdd }) {
 
   return (
     <TouchableOpacity activeOpacity={0.7} onPress={onAdd}>
-      <Card classes={['flex-row', 'items-center', 'justify-between']}>
+      <Card cardClasses="flex-row items-center justify-between">
         <View className="flex-row items-center gap-x-3 ml-1">
           <CompanyProfileIcon width={50} />
           <View>
