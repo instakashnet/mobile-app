@@ -39,7 +39,7 @@ function EmailVoucherInfo({ order, onComplete, onPressBack }) {
       <Text className="text-center">
         Envianos tu comprobante de pago <Text variant="button">desde la APP de tu banco SCOTIABANK.</Text>
       </Text>
-      <Card classes={['my-4', 'py-6', 'flex-row', 'items-center', 'justify-between']}>
+      <Card cardClasses="my-4 py-6 flex-row items-center justify-between">
         <Text variant="titleSmall">pagos@instakash.net</Text>
         <CopyButton textToCopy="pagos@instakash.net" icon={<Ionicons name="copy-outline" color={colors.primary700} size={16} />} />
       </Card>

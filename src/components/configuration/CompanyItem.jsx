@@ -12,7 +12,7 @@ export default function CompanyItem({ profile = {}, border, onToggleFav, onSelec
 
   return (
     <Pressable activeOpacity={!onSelect ? 1 : 0.7} onPress={() => (onSelect ? onSelect(profile) : null)}>
-      <Card classes={['flex-row', 'items-center', 'justify-between', !border ? 'border-0' : '']}>
+      <Card cardClasses={`flex-row items-center justify-between ${!border ? 'border-0' : ''}`}>
         <View className="flex-row items-center justify-center gap-x-2">
           <CompanyProfileIcon width={50} />
           <Text numberOfLines={1}>{profile?.razonSocial}</Text>

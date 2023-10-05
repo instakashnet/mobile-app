@@ -1,14 +1,16 @@
 import { Feather } from '@expo/vector-icons'
 import React, { useMemo } from 'react'
 import { Controller } from 'react-hook-form'
-import { StyleSheet } from 'react-native'
-import { useTheme } from 'react-native-paper'
 import RNPickerSelect from 'react-native-picker-select'
+import { StyleSheet, View } from 'react-native'
+import { useTheme } from 'react-native-paper'
 
-export default function Select({ label, options = [], name, error, control, onSelect }) {
+import Helper from './Helper'
+
+export default function Select({ label, options = [], name, error, control, onSelect, containerClasses = '' }) {
   const { colors } = useTheme()
 
-  const selectStyles = useMemo(() => styles(error, colors), [error, colors])
+  const selectedStyles = useMemo(() => styles(error, colors), [error, colors])
 
   const handleSelect = (value, onChange) => {
     onSelect(value)
@@ -16,24 +18,27 @@ export default function Select({ label, options = [], name, error, control, onSe
   }
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field: { value, onChange } }) => (
-        <RNPickerSelect
-          onValueChange={value => (onSelect ? handleSelect(value, onChange) : onChange(value))}
-          placeholder={{
-            label,
-            color: '#444',
-          }}
-          items={options}
-          value={value}
-          style={selectStyles}
-          Icon={() => <Feather name="chevron-down" size={24} color="black" style={{ position: 'absolute', top: 12, right: 10 }} />}
-          useNativeAndroidPickerStyle={false}
-        />
-      )}
-    />
+    <View className={`w-full ${containerClasses}`}>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field: { value, onChange } }) => (
+          <RNPickerSelect
+            onValueChange={value => (onSelect ? handleSelect(value, onChange) : onChange(value))}
+            placeholder={{
+              label,
+              color: '#444',
+            }}
+            items={options}
+            value={value}
+            style={selectedStyles}
+            Icon={() => <Feather name="chevron-down" size={24} color="black" style={{ position: 'absolute', top: 12, right: 10 }} />}
+            useNativeAndroidPickerStyle={false}
+          />
+        )}
+      />
+      <Helper error={error} />
+    </View>
   )
 }
 

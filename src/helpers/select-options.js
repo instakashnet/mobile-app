@@ -2,6 +2,7 @@ export const documentOptions = [
   { label: 'DNI', value: 'DNI' },
   { label: 'CE', value: 'CE' },
   { label: 'PTP', value: 'PTP' },
+  { label: 'RUC', value: 'RUC' },
   { label: 'Pasaporte', value: 'Pasaporte' },
 ]
 

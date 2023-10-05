@@ -22,3 +22,26 @@ export function formatTimeTo12Hour(time) {
   const formattedTime = hours + ':' + (minutes < 10 ? '0' : '') + minutes + period
   return formattedTime
 }
+
+export function formatAccounts(accounts = []) {
+  return accounts.map(account => ({
+    id: account.id,
+    accNumber: account.accountNumber,
+    cci: account.cci,
+    bank: {
+      name: account.bank?.name,
+      isDirect: account.bank?.active,
+      id: account.bank?.id,
+    },
+    accType: account.accType,
+    currency: {
+      symbol: account.currency?.Symbol,
+      name: account.currency?.name,
+      id: account.currency?.id,
+    },
+    alias: account.alias,
+    joint: account.joint,
+    jointValues: account.jointAccount,
+    isThird: Boolean(account.thirdParty),
+  }))
+}

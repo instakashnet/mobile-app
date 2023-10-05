@@ -25,11 +25,11 @@ export default function TransferInfo({ order }) {
       <View className="mt-2" />
       <AccountInfo account={order?.accountFromRaw} bank={order?.bankFromName} currency={currencyName} />
       <View className="mt-2" />
-      <Card>
+      <Card cardClasses="flex-row items-center justify-between">
         <Text className="mb-1" variant="button">
           Instakash SAC
         </Text>
-        <Text>RUC - 20605285105</Text>
+        <Text>RUC 20605285105</Text>
       </Card>
     </>
   )

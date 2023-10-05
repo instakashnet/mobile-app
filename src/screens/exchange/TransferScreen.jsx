@@ -24,8 +24,6 @@ export default function TransferScreen({ navigation, route }) {
   const { timerId, countdown, completeHandler } = useCountdown(timeLeft)
 
   const handleCancelExchange = async () => {
-    console.log(order)
-
     try {
       await cancelExchange({ orderId: order?.id, cancelType: 'order' }).unwrap()
       resetNavigate(navigation, 'Calculator')

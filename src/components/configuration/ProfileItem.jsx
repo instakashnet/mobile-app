@@ -25,7 +25,7 @@ export default function ProfileItem({ profile = {}, onSelect, loading = true }) 
 
   return (
     <Pressable activeOpacity={!onSelect ? 1 : 0.7} onPress={() => (onSelect ? onSelect(profile) : null)}>
-      <Card classes={['flex-row', 'items-center', 'justify-between']}>
+      <Card cardClasses="flex-row items-center justify-between">
         <View className="flex-row items-center justify-center gap-x-2">
           <Icon width={50} />
           <View className="w-4/6">

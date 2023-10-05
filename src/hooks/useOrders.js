@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
 
 import { formatAmount, formatDate } from '../helpers/formatters'
 import { useLazyGetUserOrdersQuery } from '../services/userData'
@@ -39,9 +40,11 @@ export function useOrders(limit = 5) {
     [getOrders],
   )
 
-  useEffect(() => {
-    getuserOrders(limit)
-  }, [limit, getuserOrders])
+  useFocusEffect(
+    useCallback(() => {
+      getuserOrders(limit)
+    }, [limit, getuserOrders]),
+  )
 
   return { orders: mappedOrders, getuserOrders, isLoading: isFetching }
 }

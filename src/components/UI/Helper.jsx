@@ -4,13 +4,12 @@ import { HelperText, useTheme } from 'react-native-paper'
 export default function Helper({ error, helper }) {
   const { colors, fonts } = useTheme()
 
-  return (
+  return error || helper ? (
     <HelperText
-      type={Boolean(error) ? 'error' : 'info'}
-      className='mt-[2px]'
-      style={{ color: Boolean(error) ? colors.error : colors.gray700, fontFamily: fonts.bodyLarge.fontFamily, lineHeight: 16 }}
-    >
+      type={error ? 'error' : 'info'}
+      className="!m-0"
+      style={{ color: error ? colors.error : colors.gray700, fontFamily: fonts.bodyLarge.fontFamily }}>
       {error || helper}
     </HelperText>
-  )
+  ) : null
 }
