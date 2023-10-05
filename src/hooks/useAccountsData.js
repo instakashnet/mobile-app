@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useLazyGetBanksQuery, useLazyGetCurrenciesQuery } from '../services/account'
-import { setBanks, setCurrencies } from '../store/slices/app-data'
 
-export function useAccountsData() {
+import { useLazyGetBanksQuery, useLazyGetCurrenciesQuery } from '../services/account'
+import { setBanks, setCurrencies } from '@/store/slices/appData'
+
+export function useAccountsData(signedIn = false) {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const [getBanks] = useLazyGetBanksQuery()
@@ -11,6 +12,8 @@ export function useAccountsData() {
 
   useEffect(() => {
     const getAppData = async () => {
+      setLoading(true)
+
       try {
         const [banks, currencies] = await Promise.all([await getBanks().unwrap(), await getCurrencies().unwrap()])
 
@@ -18,11 +21,13 @@ export function useAccountsData() {
         dispatch(setBanks(banks))
       } catch (error) {
         console.log(error)
+      } finally {
+        setLoading(false)
       }
     }
 
-    getAppData()
-  }, [])
+    if (signedIn) getAppData()
+  }, [dispatch, getBanks, getCurrencies, signedIn])
 
   return { loading }
 }

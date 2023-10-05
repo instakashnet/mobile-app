@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Alert, ScrollView, View } from 'react-native'
+import { Menu } from 'react-native-paper'
 
 import SelectAccount from '../../components/accounts/SelectAccount'
 import SelectAccountModal from '../../components/accounts/SelectAccountModal'
@@ -20,6 +21,7 @@ import { ACCOUNT_TYPES } from '@/constants/ACCOUNT_TYPES'
 export default function AccountsScreen({ navigation, route }) {
   const order = route?.params?.order
   const [showList, setShowList] = useState(false)
+  const [menuVisible, setMenuVisible] = useState(false)
   const [accInfo, setAccInfo] = useState(null)
   const [accType, setAccType] = useState(ACCOUNT_TYPES.PERSONAL)
   const [accountsSelected, setAccountsSelected] = useState(null)
@@ -81,6 +83,12 @@ export default function AccountsScreen({ navigation, route }) {
     }
   }
 
+  const handleAddAccount = type => {
+    setMenuVisible(false)
+    const screenName = type === ACCOUNT_TYPES.PERSONAL ? 'AddPersonalAccount' : 'AddThirdPartyAccount'
+    navigation.navigate(screenName)
+  }
+
   return (
     <ScrollView>
       <Container>
@@ -101,9 +109,19 @@ export default function AccountsScreen({ navigation, route }) {
           <Text className="mb-2 ml-1">¿En que cuenta recibes?</Text>
           <SelectAccount accSelected={accountsSelected?.account_to_id} onPress={() => handleOpen('account_to_id', null)} />
           <Helper error={errors.account_to_id?.message} />
-          <Button variant="secondary" className="w-full mt-6" onPress={() => navigation.navigate('AddAccount')}>
-            Agregar cuenta
-          </Button>
+          <Menu
+            visible={menuVisible}
+            contentStyle={{ backgroundColor: 'white' }}
+            anchorPosition="bottom"
+            onDismiss={() => setMenuVisible(false)}
+            anchor={
+              <Button variant="secondary" className="w-full mt-6" onPress={() => setMenuVisible(true)}>
+                Agregar cuenta
+              </Button>
+            }>
+            <Menu.Item style={{ width: '100%' }} onPress={() => handleAddAccount(ACCOUNT_TYPES.PERSONAL)} title="Cuenta personal" />
+            <Menu.Item onPress={() => handleAddAccount(ACCOUNT_TYPES.TERCERO)} title="Cuenta de tercero" />
+          </Menu>
           <View className="mt-6" />
           <Select
             control={control}

@@ -9,7 +9,7 @@ export default function AccountsList({ title, accounts = [], isLoading = false }
   const navigation = useNavigation()
   const handlePress = () => setExpanded(prev => !prev)
   const handleSelect = account => {
-    navigation.navigate('AccountForm', { account, name: 'Editar cuenta' })
+    navigation.navigate('EditAccount', { account })
   }
 
   if (isLoading)

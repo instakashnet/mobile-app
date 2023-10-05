@@ -20,5 +20,4 @@ export const addAccountFormFields = {
   lastNameJoint: '',
   razonSocial: '',
   thirdPartyAccType: 'natural',
-  name: '',
 }

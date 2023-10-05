@@ -12,6 +12,7 @@ import Card from '@/components/UI/Card'
 import MancomunadaInputs from '@/components/accounts/MancomunadaInputs'
 import { colors } from '@/theme/colors'
 import { PROFILE_TYPES } from '@/constants/PROFILE_TYPES'
+import Banner from '@/components/UI/Banner'
 
 function AddThirdPArtyAccountScreen() {
   const {
@@ -32,6 +33,10 @@ function AddThirdPArtyAccountScreen() {
 
   return (
     <Screen>
+      <View className="mt-4" />
+      <Banner type="info">
+        <Text>Las cuentas a tercero solo sirven para recibir el monto a cambiar.</Text>
+      </Banner>
       <Select
         containerClasses="mt-6"
         options={banksOptions}

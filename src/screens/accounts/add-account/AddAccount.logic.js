@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import Toast from 'react-native-toast-message'
 
 import { getBanksOptions, getCurrenciesOptions } from '@/helpers/select-options'
 import { addAccountSchema } from '@/schemas/accounts'
@@ -57,11 +58,16 @@ export function AddAccountLogic(accType = 'personal') {
     const accountValues = {
       ...values,
       accType: values?.accType === 'ahorros' ? 'savings' : 'checking',
-      lastNameJoint: values.joint ? values.fatherSurname + ' ' + values.motherSurname : '',
+      name: values.isThird ? `${values.firstName} ${values.lastName}` : '',
     }
 
     try {
       await addAccount(accountValues).unwrap()
+      Toast.show({
+        type: 'success',
+        text1: 'Cuenta agregada',
+        text2: 'La cuenta ha sido agregada exitosamente.',
+      })
       return goBack()
     } catch (error) {
       console.error(error)
