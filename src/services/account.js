@@ -14,10 +14,9 @@ export const accountApi = baseApi.injectEndpoints({
     getAccounts: builder.query({
       query: type => ACCOUNT_ROUTE + `/v1/client/accounts?type=${type}`,
       transformResponse: response => {
-        const personalAccounts = formatAccounts(response.personalAccounts)
-        const thirdAccounts = formatAccounts(response.thirdAccounts)
+        const accounts = formatAccounts(response.accounts)
 
-        return { personal: personalAccounts, tercero: thirdAccounts }
+        return accounts
       },
       providesTags: ['Accounts'],
     }),
