@@ -23,8 +23,8 @@ export default function OnboardingScreen() {
         <View className="mt-auto w-full">
           <Button onPress={signUp}>Registrate</Button>
 
-          <View className="flex-row items-center justify-center gap-2 mt-6">
-            <Text>¿Ya tienes una cuenta?</Text>
+          <View className="items-center justify-center gap-1 mt-4">
+            <Text>¿Ya tienes cuenta con nosotros?</Text>
             <Pressable onPress={login}>
               <Link>Ingresa aquí</Link>
             </Pressable>

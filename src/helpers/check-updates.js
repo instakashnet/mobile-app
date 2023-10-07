@@ -17,7 +17,7 @@ export async function checkUpdates() {
 
       Alert.alert(
         'Actualización realizada',
-        'La aplicación ha sido actualizada correctamente, reinicie la aplicación para aplicar los cambios.',
+        'La aplicación se ha actualizado: Por favor, reinicie la aplicación para aplicar los cambios.',
         [{ text: 'Reiniciar', onPress: () => Updates.reloadAsync() }],
       )
     }
