@@ -26,7 +26,7 @@ export default function OnboardingScreen() {
           <View className="flex-row items-center justify-center gap-2 mt-6">
             <Text>¿Ya tienes una cuenta?</Text>
             <Pressable onPress={login}>
-              <Link>Ingresa</Link>
+              <Link>Ingresa aquí</Link>
             </Pressable>
           </View>
         </View>

@@ -1,11 +1,11 @@
 import { useRefresh } from '@/hooks/useRefresh'
 import LoadingScreen from '@/screens/LoadingScreen'
 import MainNavigator from '@/navigators/MainNavigator'
-import { useAppUpdate } from './hooks/useAppUpdate'
+import { useAppVersion } from './hooks/updates/useAppVersion'
 import UpdateModal from './components/modals/UpdateModal'
 
 function Main({ onLayout }) {
-  const { updateType, handleUpdate, handleCancelUpdate, isUpdateAvailable } = useAppUpdate()
+  const { handleUpdate, handleCancelUpdate, isNewVersion } = useAppVersion()
   const { isSessionLoading } = useRefresh()
 
   if (isSessionLoading) return <LoadingScreen />
@@ -13,13 +13,7 @@ function Main({ onLayout }) {
   return (
     <>
       <MainNavigator onLayout={onLayout} />
-      <UpdateModal
-        isAvailable={isUpdateAvailable}
-        onUpdate={handleUpdate}
-        onCancel={handleCancelUpdate}
-        type={updateType}
-        title={updateType === 'minor' ? 'Actualización disponible' : 'Nueva versión disponible'}
-      />
+      <UpdateModal isAvailable={isNewVersion} onUpdate={handleUpdate} onCancel={handleCancelUpdate} />
     </>
   )
 }

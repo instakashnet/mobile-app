@@ -4,12 +4,13 @@ import { View } from 'react-native'
 import Button from '../UI/Button'
 import Text from '../utils/Text'
 
-function Modal({ title, children, actionButtons = [], visible, onDismiss }) {
+function Modal({ title, children, actionButtons = [], visible, onDismiss, dismissable }) {
   return (
     <Portal>
       <PaperModal
         visible={visible}
         onDismiss={onDismiss}
+        dismissable={dismissable}
         className="px-8"
         contentContainerStyle={{ borderRadius: 12, backgroundColor: '#fff', paddingHorizontal: 24, paddingVertical: 24 }}>
         <Text variant="title" className="text-center mb-2">
