@@ -7,6 +7,8 @@ export const tabsStyles = {
     marginHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: colors.gray100,
+    elevation: 0,
+    shadowOpacity: 0,
   },
   tabBarItemStyle: {
     width: 150,

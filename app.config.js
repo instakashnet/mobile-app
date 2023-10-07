@@ -8,7 +8,7 @@ module.exports = {
   slug: 'instakash-app',
   platforms: ['ios', 'android'],
   jsEngine: 'hermes',
-  version: '1.1.1',
+  version: '1.1.2',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   userInterfaceStyle: 'light',

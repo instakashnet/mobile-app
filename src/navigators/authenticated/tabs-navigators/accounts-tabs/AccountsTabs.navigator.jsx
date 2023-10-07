@@ -13,10 +13,6 @@ function AccountsTabs() {
     <Tab.Navigator
       screenOptions={{
         ...tabsStyles,
-        tabBarStyle: {
-          elevation: 0,
-          shadowOpacity: 0,
-        },
         tabBarLabel: ({ children, focused }) => {
           return <Text style={{ color: focused ? colors.white100 : colors.gray700 }}>{children}</Text>
         },

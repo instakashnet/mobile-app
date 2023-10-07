@@ -7,12 +7,8 @@ import { useGetAccountsQuery } from '../../services/account'
 import { ACCOUNT_TYPES } from '@/constants/ACCOUNT_TYPES'
 
 export default function SelectAccountList({ onSelect, currencyId, accType }) {
-  const { data: accounts = {} } = useGetAccountsQuery('users')
-  const accountsList = accounts?.personal
-    ? accType === ACCOUNT_TYPES.PERSONAL
-      ? accounts?.personal
-      : [...accounts?.personal, ...accounts?.tercero]
-    : []
+  const { data: accounts = [] } = useGetAccountsQuery('users')
+  const accountsList = accType === ACCOUNT_TYPES.PERSONAL ? accounts.filter(acc => !acc.isThird) : accounts
 
   return (
     <FlatList
