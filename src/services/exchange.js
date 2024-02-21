@@ -5,7 +5,7 @@ const exchangeApi = baseApi.injectEndpoints({
     getRates: builder.query({
       query: () => EXCHANGE_ROUTE + '/v1/client/rates',
       transformResponse: result => {
-        return { buy: Number(result[0]?.buy || 0), sell: Number(result[0]?.sell || 0), id: result[0]?.id }
+        return { buy: Number(result?.buy || 0), sell: Number(result?.sell || 0), id: result?.id }
       },
       keepUnusedDataFor: 0.0001,
     }),

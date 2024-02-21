@@ -1,9 +1,7 @@
 import 'expo-dev-client'
 import 'react-native-gesture-handler'
 
-import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
-import { useCallback } from 'react'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { Provider } from 'react-redux'
 
@@ -21,15 +19,11 @@ export default function App() {
   useTrackingTransparency()
   const appIsReady = useCachedResources()
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) await SplashScreen.hideAsync()
-  }, [appIsReady])
-
   return (
     appIsReady && (
       <Provider store={store}>
         <PaperProvider theme={theme}>
-          <Main onLayout={onLayoutRootView} />
+          <Main />
           <Toast />
         </PaperProvider>
         <StatusBar style="auto" />
