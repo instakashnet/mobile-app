@@ -6,7 +6,7 @@ import UpdateModal from './components/modals/UpdateModal'
 import { useAppStateChange } from './hooks/useAppStateChange'
 import { checkUpdates } from './helpers/check-updates'
 
-function Main({ onLayout }) {
+function Main() {
   const { handleUpdate, handleCancelUpdate, isNewVersion } = useAppVersion()
   useAppStateChange(checkUpdates)
   const { isSessionLoading } = useRefresh()
@@ -15,7 +15,7 @@ function Main({ onLayout }) {
 
   return (
     <>
-      <MainNavigator onLayout={onLayout} />
+      <MainNavigator />
       <UpdateModal isAvailable={isNewVersion} onUpdate={handleUpdate} onCancel={handleCancelUpdate} />
     </>
   )
