@@ -12,6 +12,7 @@ import store from './src/store'
 import { theme } from './src/theme'
 import Main from '@/Main'
 import { useCachedResources } from '@/hooks/useCachedResources'
+import UpdateModal from '@/components/modals/UpdateModal'
 
 if (!__DEV__) initSentry()
 
@@ -25,6 +26,7 @@ export default function App() {
         <PaperProvider theme={theme}>
           <Main />
           <Toast />
+          <UpdateModal />
         </PaperProvider>
         <StatusBar style="auto" />
       </Provider>

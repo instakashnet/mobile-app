@@ -1,7 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native'
 import * as SplashScreen from 'expo-splash-screen'
 
-import ScheduleModal from '@/components/modals/ScheduleModal'
 import DrawerNavigator from './DrawerNavigator'
 import AuthNavigator from './unauthenticated/AuthNavigator'
 import { useMainNavigatorLogic } from './MainNavigator.logic'
@@ -18,14 +17,7 @@ export default function MainNavigator() {
       onReady={() => {
         SplashScreen.hideAsync()
       }}>
-      {!isSignedIn ? (
-        <AuthNavigator />
-      ) : (
-        <>
-          <DrawerNavigator />
-          <ScheduleModal />
-        </>
-      )}
+      {!isSignedIn ? <AuthNavigator /> : <DrawerNavigator />}
     </NavigationContainer>
   )
 }

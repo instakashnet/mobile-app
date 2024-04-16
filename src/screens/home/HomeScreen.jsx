@@ -1,17 +1,17 @@
 import React from 'react'
-import { Pressable, ScrollView, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 
 import OrderItemLoader from '../../components/orders/ItemLoader'
 import OrderItem from '../../components/orders/OrderItem'
 import Card from '../../components/UI/Card'
 import KashEarned from '../../components/user/KashEarned'
 import UserLevel from '../../components/user/UserLevel'
-import Container from '../../components/utils/Container'
 import Link from '../../components/utils/Link'
 import { useOrders } from '../../hooks/useOrders'
 import { useGetUserKashQuery } from '../../services/userData'
 import Text from '@/components/utils/Text'
 import Screen from '@/components/utils/Screen'
+import ScheduleModal from '@/components/modals/ScheduleModal'
 
 export default function HomeScreen({ navigation }) {
   const { orders = [], isLoading: ordersLoading } = useOrders(3)
@@ -52,6 +52,7 @@ export default function HomeScreen({ navigation }) {
           )}
         </Card>
       </Screen>
+      <ScheduleModal />
     </>
   )
 }
