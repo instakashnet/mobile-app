@@ -11,7 +11,7 @@ const exchangeApi = baseApi.injectEndpoints({
     }),
     getSchedule: builder.query({
       query: () => EXCHANGE_ROUTE + '/v1/client/schedules',
-      keepUnusedDataFor: 60,
+      keepUnusedDataFor: 0.0001,
     }),
     getLastOrder: builder.query({
       query: () => EXCHANGE_ROUTE + '/v1/client/order/last-order',
