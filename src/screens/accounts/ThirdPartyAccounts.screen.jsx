@@ -10,10 +10,10 @@ import AccountsList from '@/components/accounts/AccountsList'
 import EmptyAccounts from '@/components/accounts/EmptyAccounts'
 
 function ThirdPartyAccountsScreen({ navigation }) {
-  const { data: accounts, isFetching } = useGetAccountsQuery('users')
-  const allAccounts = accounts?.personal && accounts?.tercero ? [...accounts.personal, ...accounts.tercero] : []
-  const dollarAccounts = useMemo(() => accounts?.tercero?.filter(acc => acc.currency.id === 1), [accounts])
-  const solesAccounts = useMemo(() => accounts?.tercero?.filter(acc => acc.currency.id === 2), [accounts])
+  const { data: accounts = [], isFetching } = useGetAccountsQuery('users')
+  const thirdPartyAccounts = accounts.filter(acc => acc.isThird)
+  const dollarAccounts = useMemo(() => thirdPartyAccounts.filter(acc => acc.currency.id === 1), [thirdPartyAccounts])
+  const solesAccounts = useMemo(() => thirdPartyAccounts.filter(acc => acc.currency.id === 2), [thirdPartyAccounts])
 
   const handleAddAccount = () => navigation.navigate('AddThirdPartyAccount')
 
@@ -26,7 +26,7 @@ function ThirdPartyAccountsScreen({ navigation }) {
 
   return (
     <Screen>
-      {allAccounts <= 0 ? (
+      {thirdPartyAccounts <= 0 ? (
         <EmptyAccounts onAdd={handleAddAccount} accType="tercero" />
       ) : (
         <>
@@ -36,7 +36,7 @@ function ThirdPartyAccountsScreen({ navigation }) {
             <AccountsList isLoading={isFetching} title="Cuentas en dólares $" accounts={dollarAccounts} />
           </List.Section>
           <View className="mt-10" />
-          {allAccounts.length < 20 && (
+          {accounts.length < 20 && (
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={handleAddAccount}
