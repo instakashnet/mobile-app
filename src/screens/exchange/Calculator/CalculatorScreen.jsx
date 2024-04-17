@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { useSelector } from 'react-redux'
 
 import { RATES_TIME } from '../../../../data/exchange'
@@ -18,6 +18,7 @@ import { useCountdown } from '../../../hooks/useCountdown'
 import { selectUser } from '../../../store/slices/authSlice'
 import { useCalculatorLogic } from './Calculator.logic'
 import Text from '@/components/utils/Text'
+import Screen from '@/components/utils/Screen'
 
 export default function CalculatorScreen({ navigation }) {
   const user = useSelector(selectUser)
@@ -47,7 +48,7 @@ export default function CalculatorScreen({ navigation }) {
   const handleChangeProfile = () => navigation.replace('SelectProfile')
 
   return (
-    <ScrollView keyboardDismissMode="on-drag">
+    <Screen>
       <Container>
         <ChangeProfileBtn onPress={handleChangeProfile} />
         <Card classes={['py-4']}>
@@ -80,6 +81,6 @@ export default function CalculatorScreen({ navigation }) {
           Comenzar cambio
         </Button>
       </Container>
-    </ScrollView>
+    </Screen>
   )
 }
