@@ -6,7 +6,7 @@ import SafeArea from './SafeArea'
 function Screen({ children, containerClasses = '' }) {
   return (
     <SafeArea>
-      <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
+      <KeyboardAwareScrollView keyboardDismissMode="on-drag" contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
         <Container classes={containerClasses}>{children}</Container>
       </KeyboardAwareScrollView>
     </SafeArea>
