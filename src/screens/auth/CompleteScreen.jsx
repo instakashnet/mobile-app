@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 
 import CompleteForm from '../../components/auth/CompleteForm'
 import Button from '../../components/UI/Button'
@@ -9,7 +10,9 @@ export default function CompleteScreen({ navigation }) {
   return (
     <Screen>
       <Text variant="titleLarge">Completa tu perfil</Text>
-      <CompleteForm />
+      <View className="mt-6">
+        <CompleteForm />
+      </View>
       <Button variant="secondary" className="mt-4" onPress={() => navigation.replace('Login')}>
         Volver al inicio
       </Button>

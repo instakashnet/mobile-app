@@ -20,10 +20,10 @@ export default function CompleteForm() {
   } = useCompleteForm()
 
   return (
-    <View className="mt-6">
+    <View className="gap-y-2">
       <Input label="Nombre(s)" error={errors.first_name} name="first_name" control={control} />
       <Helper error={errors.first_name?.message} />
-      <View className="mt-1" />
+      <View className="mt-4" />
       <Input label="Apellido(s)" error={errors.last_name} name="last_name" control={control} />
       <Helper error={errors.last_name?.message} />
       <View className="mt-1" />

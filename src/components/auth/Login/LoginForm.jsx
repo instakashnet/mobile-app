@@ -3,7 +3,6 @@ import { Pressable, View } from 'react-native'
 import { Checkbox } from 'react-native-paper'
 
 import Button from '../../UI/Button'
-import Helper from '../../UI/Helper'
 import Input from '../../UI/Input'
 import PasswordInput from '../../UI/PasswordInput'
 import { useLogin } from './Login.logic'
